@@ -423,9 +423,10 @@
   };
 
   function reorder() {
-    var order = state.sort === 'name'
-      ? originalOrder.slice()
-      : originalOrder.slice().sort(SORTS[state.sort] || SORTS.name);
+    var order = originalOrder.slice().sort(SORTS[state.sort] || SORTS.name);
+    /* 並びが変わらないなら、要素を動かさない（余計な再描画を避ける） */
+    var same = order.every(function (el, i) { return list.children[i] === el; });
+    if (same) return;
     var frag = document.createDocumentFragment();
     order.forEach(function (el) { frag.appendChild(el); });
     list.appendChild(frag);

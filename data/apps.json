@@ -3,17 +3,8 @@
  "generatedAt": "2026-08-18",
  "items": [
   {
-   "repo": "Class_tweet",
-   "name": "Class_tweet",
-   "kind": "app",
-   "slug": "class-tweet",
-   "category": "gakkyu",
-   "publishedAt": "2026-02-20",
-   "updatedAt": "2026-08-17"
-  },
-  {
    "repo": "Digital-Newspaper",
-   "name": "Digital-Newspaper",
+   "name": "デジタルクラス新聞社",
    "kind": "app",
    "slug": "digital-newspaper",
    "category": "seisaku",
@@ -22,7 +13,7 @@
   },
   {
    "repo": "DigitalCloset",
-   "name": "DigitalCloset",
+   "name": "デジタルワードローブ",
    "kind": "app",
    "slug": "digitalcloset",
    "category": "other",
@@ -31,7 +22,7 @@
   },
   {
    "repo": "Digital_textbook",
-   "name": "Digital_textbook",
+   "name": "デジタル教科書メーカー",
    "kind": "app",
    "slug": "digital-textbook",
    "category": "koumu",
@@ -40,7 +31,7 @@
   },
   {
    "repo": "Gamification",
-   "name": "Gamification",
+   "name": "まなびクエスト",
    "kind": "app",
    "slug": "gamification",
    "category": "tankyu",
@@ -49,7 +40,7 @@
   },
   {
    "repo": "Gmail_cleaner",
-   "name": "Gmail_cleaner",
+   "name": "Gmail自動削除ツール",
    "kind": "app",
    "slug": "gmail-cleaner",
    "category": "koumu",
@@ -58,7 +49,7 @@
   },
   {
    "repo": "Gobblet",
-   "name": "Gobblet",
+   "name": "パクパクゴブレット",
    "kind": "app",
    "slug": "gobblet",
    "category": "game",
@@ -67,7 +58,7 @@
   },
   {
    "repo": "Hagetaka-game",
-   "name": "Hagetaka-game",
+   "name": "ハゲタカのえじき",
    "kind": "app",
    "slug": "hagetaka-game",
    "category": "game",
@@ -76,7 +67,7 @@
   },
   {
    "repo": "Haiku-meeting",
-   "name": "Haiku-meeting",
+   "name": "GIGA句会プラザ",
    "kind": "app",
    "slug": "haiku-meeting",
    "category": "kokugo",
@@ -85,7 +76,7 @@
   },
   {
    "repo": "Homework_barcordreader",
-   "name": "Homework_barcordreader",
+   "name": "宿題ポスト",
    "kind": "app",
    "slug": "homework-barcordreader",
    "category": "gakkyu",
@@ -94,7 +85,7 @@
   },
   {
    "repo": "Ice_slide-puzzle",
-   "name": "Ice_slide-puzzle",
+   "name": "南極スライダー",
    "kind": "app",
    "slug": "ice-slide-puzzle",
    "category": "game",
@@ -103,7 +94,7 @@
   },
   {
    "repo": "JIDOSHA_ZUKAN",
-   "name": "JIDOSHA_ZUKAN",
+   "name": "じどう車ずかん",
    "kind": "app",
    "slug": "jidosha-zukan",
    "category": "tankyu",
@@ -112,7 +103,7 @@
   },
   {
    "repo": "KAKE_Master",
-   "name": "KAKE_Master",
+   "name": "九九カード",
    "kind": "app",
    "slug": "kake-master",
    "category": "sansu",
@@ -121,7 +112,7 @@
   },
   {
    "repo": "KANJI_Town",
-   "name": "KANJI_Town",
+   "name": "マイ漢字タウン",
    "kind": "app",
    "slug": "kanji-town",
    "category": "kokugo",
@@ -130,7 +121,7 @@
   },
   {
    "repo": "KEISAN-BLOCK",
-   "name": "KEISAN-BLOCK",
+   "name": "さんすうブロック",
    "kind": "app",
    "slug": "keisan-block",
    "category": "sansu",
@@ -139,7 +130,7 @@
   },
   {
    "repo": "Keisan-Card",
-   "name": "Keisan-Card",
+   "name": "けいさんカード",
    "kind": "app",
    "slug": "keisan-card",
    "category": "sansu",
@@ -148,7 +139,7 @@
   },
   {
    "repo": "MIRAI-Compass",
-   "name": "MIRAI-Compass",
+   "name": "みらいコンパス",
    "kind": "app",
    "slug": "mirai-compass",
    "category": "tankyu",
@@ -157,7 +148,7 @@
   },
   {
    "repo": "Moral_note",
-   "name": "Moral_note",
+   "name": "こころスコープ",
    "kind": "app",
    "slug": "moral-note",
    "category": "tankyu",
@@ -166,7 +157,7 @@
   },
   {
    "repo": "Music-production_studio",
-   "name": "Music-production_studio",
+   "name": "音楽制作スタジオ",
    "kind": "app",
    "slug": "music-production-studio",
    "category": "seisaku",
@@ -175,7 +166,7 @@
   },
   {
    "repo": "NotebookSample_Generator",
-   "name": "NotebookSample_Generator",
+   "name": "ノート見本作成ツール PRO",
    "kind": "app",
    "slug": "notebooksample-generator",
    "category": "koumu",
@@ -184,7 +175,7 @@
   },
   {
    "repo": "Officefile_converter",
-   "name": "Officefile_converter",
+   "name": "Officeファイル一括変換ツール",
    "kind": "app",
    "slug": "officefile-converter",
    "category": "koumu",
@@ -193,7 +184,7 @@
   },
   {
    "repo": "online-100square-calculation",
-   "name": "online-100square-calculation",
+   "name": "100ます計算",
    "kind": "app",
    "slug": "online-100square-calculation",
    "category": "sansu",
@@ -202,7 +193,7 @@
   },
   {
    "repo": "online-manuscript-paper-lite",
-   "name": "online-manuscript-paper-lite",
+   "name": "オンライン原稿用紙 Lite",
    "kind": "app",
    "slug": "online-manuscript-paper-lite",
    "category": "kokugo",
@@ -211,7 +202,7 @@
   },
   {
    "repo": "online-manuscript-paper-pro",
-   "name": "online-manuscript-paper-pro",
+   "name": "オンライン原稿用紙 Pro",
    "kind": "app",
    "slug": "online-manuscript-paper-pro",
    "category": "kokugo",
@@ -220,7 +211,7 @@
   },
   {
    "repo": "Online-Publisher-pro",
-   "name": "Online-Publisher-pro",
+   "name": "オンライン出版社 Pro",
    "kind": "app",
    "slug": "online-publisher-pro",
    "category": "kokugo",
@@ -229,7 +220,7 @@
   },
   {
    "repo": "PhysicalEducation_note",
-   "name": "PhysicalEducation_note",
+   "name": "体育ノート",
    "kind": "app",
    "slug": "physicaleducation-note",
    "category": "tankyu",
@@ -238,7 +229,7 @@
   },
   {
    "repo": "Qalc",
-   "name": "Qalc",
+   "name": "Qalc（カルク）",
    "kind": "app",
    "slug": "qalc",
    "category": "sansu",
@@ -247,7 +238,7 @@
   },
   {
    "repo": "Quarto",
-   "name": "Quarto",
+   "name": "GIGAクアルト！",
    "kind": "app",
    "slug": "quarto",
    "category": "game",
@@ -256,7 +247,7 @@
   },
   {
    "repo": "Quoridor",
-   "name": "Quoridor",
+   "name": "カベカベ合戦！",
    "kind": "app",
    "slug": "quoridor",
    "category": "game",
@@ -265,7 +256,7 @@
   },
   {
    "repo": "Reflection_Journal",
-   "name": "Reflection_Journal",
+   "name": "ふりかえりジャーナル",
    "kind": "app",
    "slug": "reflection-journal",
    "category": "gakkyu",
@@ -274,7 +265,7 @@
   },
   {
    "repo": "Reversi",
-   "name": "Reversi",
+   "name": "リバーシ",
    "kind": "app",
    "slug": "reversi",
    "category": "game",
@@ -283,7 +274,7 @@
   },
   {
    "repo": "SchoolPlan_Editor",
-   "name": "SchoolPlan_Editor",
+   "name": "週案エディタ",
    "kind": "app",
    "slug": "schoolplan-editor",
    "category": "koumu",
@@ -292,7 +283,7 @@
   },
   {
    "repo": "Shapes_Canvas",
-   "name": "Shapes_Canvas",
+   "name": "図形キャンバス",
    "kind": "app",
    "slug": "shapes-canvas",
    "category": "sansu",
@@ -301,7 +292,7 @@
   },
   {
    "repo": "Shared-Folder-Sync",
-   "name": "Shared-Folder-Sync",
+   "name": "共有フォルダ同期くん",
    "kind": "app",
    "slug": "shared-folder-sync",
    "category": "koumu",
@@ -310,7 +301,7 @@
   },
   {
    "repo": "Shiritori_fighter",
-   "name": "Shiritori_fighter",
+   "name": "しりとりファイター",
    "kind": "app",
    "slug": "shiritori-fighter",
    "category": "game",
@@ -319,7 +310,7 @@
   },
   {
    "repo": "Slide_Guild",
-   "name": "Slide_Guild",
+   "name": "Slide Guild",
    "kind": "app",
    "slug": "slide-guild",
    "category": "koumu",
@@ -328,7 +319,7 @@
   },
   {
    "repo": "Townmap_Mikke",
-   "name": "Townmap_Mikke",
+   "name": "みっけ！",
    "kind": "app",
    "slug": "townmap-mikke",
    "category": "tankyu",
@@ -337,7 +328,7 @@
   },
   {
    "repo": "Treasure_Words",
-   "name": "Treasure_Words",
+   "name": "ことばのたからばこ",
    "kind": "app",
    "slug": "treasure-words",
    "category": "kokugo",
@@ -346,7 +337,7 @@
   },
   {
    "repo": "tsubomi-learning",
-   "name": "tsubomi-learning",
+   "name": "いろいろな つぼみと はな",
    "kind": "app",
    "slug": "tsubomi-learning",
    "category": "kokugo",
@@ -355,7 +346,7 @@
   },
   {
    "repo": "Typa",
-   "name": "Typa",
+   "name": "Typa（タイパ）",
    "kind": "app",
    "slug": "typa",
    "category": "tankyu",
@@ -364,7 +355,7 @@
   },
   {
    "repo": "Video-editing_studio",
-   "name": "Video-editing_studio",
+   "name": "映像制作スタジオ",
    "kind": "app",
    "slug": "video-editing-studio",
    "category": "seisaku",
@@ -373,7 +364,7 @@
   },
   {
    "repo": "Werewolf",
-   "name": "Werewolf",
+   "name": "人狼ゲーム",
    "kind": "app",
    "slug": "werewolf",
    "category": "game",
@@ -382,7 +373,7 @@
   },
   {
    "repo": "word_basket",
-   "name": "word_basket",
+   "name": "みんなでしりとり！ワードバスケット",
    "kind": "app",
    "slug": "word-basket",
    "category": "game",
@@ -391,7 +382,7 @@
   },
   {
    "repo": "XXX_automatic",
-   "name": "XXX_automatic",
+   "name": "投稿ランチャー",
    "kind": "app",
    "slug": "xxx-automatic",
    "category": "other",
@@ -400,7 +391,7 @@
   },
   {
    "repo": "app_launcher",
-   "name": "GIGA portal（app_launcher）",
+   "name": "GIGA portal",
    "kind": "tool",
    "slug": null,
    "category": null,
@@ -409,7 +400,7 @@
   },
   {
    "repo": "Blackboard_Timer",
-   "name": "どこでも時間タイマー（Blackboard_Timer）",
+   "name": "どこでも時間タイマー",
    "kind": "tool",
    "slug": null,
    "category": null,
@@ -418,7 +409,7 @@
   },
   {
    "repo": "Screenshot-PDF",
-   "name": "ぱしゃぱしゃ連続PDFメーカー（Screenshot-PDF）",
+   "name": "ぱしゃぱしゃ連続PDFメーカー",
    "kind": "tool",
    "slug": null,
    "category": null,
@@ -427,7 +418,7 @@
   },
   {
    "repo": "Linker-Clipper",
-   "name": "Linker-Clipper",
+   "name": "学習サイトリンク集",
    "kind": "tool",
    "slug": "linker-clipper",
    "category": null,
@@ -436,7 +427,7 @@
   },
   {
    "repo": "Google-Data-Transfer",
-   "name": "Google-Data-Transfer",
+   "name": "Google Data Transfer",
    "kind": "tool",
    "slug": null,
    "category": null,

@@ -65,7 +65,12 @@ async function refresh(items) {
     try {
       const res = await load(url);
       if (!res.ok) {
-        console.warn(`  取得できず ${item.repo}: HTTP ${res.status}`);
+        if (res.status === 404) {
+          console.warn(`  ${item.repo} が見つからない（削除された？）。`
+            + 'data/apps.json と index.html から外す必要がある。');
+        } else {
+          console.warn(`  取得できず ${item.repo}: HTTP ${res.status}`);
+        }
         failed++;
         continue;
       }
