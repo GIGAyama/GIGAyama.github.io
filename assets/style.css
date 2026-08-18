@@ -429,16 +429,12 @@
     pointer-events: none;
   }
 
-  .hero__grid {
+  .hero__inner {
+    max-inline-size: 820px;
+    margin-inline: auto;
+    text-align: center;
     display: grid;
-    gap: clamp(28px, 5vw, 56px);
-    align-items: center;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
-  }
-  @media (max-width: 900px) {
-    .hero__grid { grid-template-columns: minmax(0, 1fr); }
-    .hero__art { max-inline-size: 470px; inline-size: 100%; }
-    .mock { margin-inline: 0; }
+    justify-items: center;
   }
 
   .hero__badge {
@@ -465,7 +461,7 @@
   }
 
   .hero__title {
-    font-size: clamp(1.85rem, 1.25rem + 2.4vw, 2.9rem);
+    font-size: clamp(1.85rem, 1.15rem + 2.9vw, 3.15rem);
     line-height: 1.32;
     letter-spacing: -.02em;
     margin-bottom: var(--s-5);
@@ -491,13 +487,15 @@
   .hero__lead {
     font-size: clamp(1.02rem, .98rem + .32vw, 1.15rem);
     color: var(--ink-2);
-    max-width: 34em;
+    max-inline-size: 36em;
     margin-bottom: var(--s-6);
+    text-wrap: balance;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--s-3);
     margin-bottom: var(--s-7);
   }
@@ -546,7 +544,8 @@
     gap: var(--s-4);
     padding-block-start: var(--s-5);
     border-block-start: 1px solid var(--line);
-    max-inline-size: 520px;
+    inline-size: min(100%, 560px);
+    text-align: center;
   }
   @media (max-width: 420px) {
     .stats { gap: var(--s-3); }
@@ -570,153 +569,6 @@
   }
   .stats dd .unit { font-size: .55em; font-weight: 700; color: var(--ink-3); margin-inline-start: 2px; }
   .stats > div { display: grid; gap: 2px; }
-
-  /* ---------- ヒーローの図 ----------
-     一覧の見た目をそのまま縮めたもの。カードと同じ部品・同じ配色を使う。 */
-  .hero__art { position: relative; }
-  .hero__art::before {
-    content: "";
-    position: absolute;
-    inset: 4% -4% -8% -4%;
-    z-index: -1;
-    border-radius: 50%;
-    background: radial-gradient(closest-side,
-      color-mix(in srgb, var(--brand) 13%, transparent), transparent 72%);
-    filter: blur(30px);
-  }
-
-  .mock {
-    border: 1px solid var(--line-strong);
-    border-radius: var(--r-lg);
-    background: var(--surface);
-    box-shadow: 0 28px 60px -30px rgb(16 23 34 / .35), 0 4px 12px -6px rgb(16 23 34 / .12);
-    overflow: hidden;
-    max-inline-size: 470px;
-    margin-inline-start: auto;
-    user-select: none;
-  }
-  :root[data-theme="dark"] .mock,
-  :root:not([data-theme="light"]) .mock {
-    box-shadow: 0 28px 60px -30px rgb(0 0 0 / .8), 0 4px 12px -6px rgb(0 0 0 / .5);
-  }
-
-  .mock__bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 14px;
-    background: var(--surface-2);
-    border-block-end: 1px solid var(--line);
-  }
-  .mock__dots { display: flex; gap: 6px; }
-  .mock__dots i {
-    inline-size: 9px;
-    block-size: 9px;
-    border-radius: 50%;
-    background: var(--line-strong);
-  }
-  .mock__url {
-    flex: 1;
-    text-align: center;
-    font-size: .6875rem;
-    font-weight: 600;
-    letter-spacing: .02em;
-    color: var(--ink-3);
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--r-pill);
-    padding: 3px 12px;
-    margin-inline-end: 33px;
-  }
-
-  .mock__body { padding: 16px; display: grid; gap: 12px; }
-
-  .mock__search {
-    font-size: .75rem;
-    color: var(--ink-3);
-    background: var(--bg);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--r-pill);
-    padding: 8px 14px 8px 32px;
-    position: relative;
-  }
-  .mock__search::before {
-    content: "";
-    position: absolute;
-    inset-block-start: 50%;
-    inset-inline-start: 14px;
-    inline-size: 10px;
-    block-size: 10px;
-    translate: 0 -60%;
-    border: 1.6px solid var(--ink-3);
-    border-radius: 50%;
-    box-shadow: 4px 4px 0 -2.6px var(--ink-3);
-  }
-
-  .mock__chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .mock__chips span {
-    font-size: .625rem;
-    font-weight: 700;
-    color: var(--ink-3);
-    border: 1px solid var(--line);
-    border-radius: var(--r-pill);
-    padding: 4px 10px;
-    background: var(--bg);
-  }
-  .mock__chips .is-on {
-    background: var(--brand);
-    border-color: var(--brand);
-    color: var(--brand-contrast);
-  }
-
-  .mock__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .mock__card {
-    display: grid;
-    gap: 7px;
-    justify-items: start;
-    padding: 12px;
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    background: var(--bg);
-  }
-  .mock__tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: .5625rem;
-    font-weight: 700;
-    color: var(--ink-3);
-    letter-spacing: .02em;
-  }
-  .mock__tag::before {
-    content: "";
-    inline-size: 6px;
-    block-size: 6px;
-    border-radius: 50%;
-    background: var(--cat);
-  }
-  .mock__name {
-    font-size: .6875rem;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-  }
-  .mock__line {
-    inline-size: 100%;
-    block-size: 4px;
-    border-radius: 2px;
-    background: var(--line);
-  }
-  .mock__line.is-short { inline-size: 62%; }
-
-  @media (max-width: 900px) {
-    .mock { margin-inline: auto; }
-  }
 
   /* ---------- 特徴の3点 ---------- */
   .pillars {
@@ -863,20 +715,92 @@
   }
 
   .card {
+    position: relative;
     container-type: inline-size;
     display: flex;
     flex-direction: column;
-    gap: var(--s-3);
-    padding: var(--s-5);
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
     box-shadow: var(--shadow-1);
+    overflow: hidden;
     content-visibility: auto;
-    contain-intrinsic-size: auto 260px;
+    contain-intrinsic-size: auto 460px;
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
                 translate var(--dur) var(--ease);
   }
+  .card--plain { contain-intrinsic-size: auto 240px; }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    padding: var(--s-5);
+    flex: 1;
+  }
+
+  /* ---------- カードのサムネイル ----------
+     各アプリのリポジトリにある実際の画面を、16:10 に切って載せている。 */
+  .card__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--surface-2);
+    border-block-end: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .card__media img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: scale var(--dur) var(--ease);
+  }
+  .card:hover .card__media img { scale: 1.025; }
+  @media (prefers-reduced-motion: reduce) {
+    .card:hover .card__media img { scale: 1; }
+  }
+
+  /* 画面写真はどれも明るいので、暗いテーマではわずかに落として目を刺さないようにする */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .card__media img { filter: brightness(.9); }
+  }
+  :root[data-theme="dark"] .card__media img { filter: brightness(.9); }
+  :root[data-theme="dark"] .card:hover .card__media img,
+  :root:not([data-theme="light"]) .card:hover .card__media img { filter: none; }
+  /* 明るい画面が続くので、下端だけわずかに落として文字と切り分ける */
+  .card__media::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 28%;
+    background: linear-gradient(to bottom, transparent,
+      color-mix(in srgb, var(--ink) 7%, transparent));
+    pointer-events: none;
+  }
+
+  /* 画面の画像がまだ無いもの。カテゴリの色で頭文字を置く */
+  .card__media--tile {
+    display: grid;
+    place-items: center;
+    background-color: var(--surface-2);
+    background-image:
+      radial-gradient(circle,
+        color-mix(in srgb, var(--cat) 22%, transparent) 1px, transparent 1.2px),
+      radial-gradient(120% 120% at 28% 8%,
+        color-mix(in srgb, var(--cat) 16%, transparent), transparent 64%);
+    background-size: 15px 15px, auto;
+  }
+  .card__media--tile::before {
+    content: attr(data-initial);
+    font-size: clamp(3rem, 24cqi, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.045em;
+    color: color-mix(in srgb, var(--cat) 55%, var(--ink-3));
+    opacity: .5;
+  }
+  .card__media--tile::after { content: none; }
   .card:hover {
     border-color: color-mix(in srgb, var(--brand) 40%, var(--line));
     box-shadow: var(--shadow-2);
@@ -884,6 +808,7 @@
   }
   .card:has(.card__title a:focus-visible) {
     border-color: var(--brand);
+    box-shadow: var(--shadow-2);
   }
 
   .card__top {
@@ -930,7 +855,6 @@
     inset: 0;
     border-radius: inherit;
   }
-  .card { position: relative; }
   .card__title a:hover { color: var(--brand); }
 
   .card__desc {
@@ -1160,7 +1084,7 @@
     --accent: #000; --link: #000; --link-visited: #000;
     --shadow-1: none; --shadow-2: none;
   }
-  .site-header, .finder, .to-top, .hero__art, .theme-toggle,
+  .site-header, .finder, .to-top, .theme-toggle,
   .hero__actions, .empty-state { display: none !important; }
   .hero::before, .hero::after { display: none; }
   body { font-size: 10pt; line-height: 1.6; }
@@ -1174,6 +1098,8 @@
     box-shadow: none;
     content-visibility: visible;
   }
+  .card__media { display: none; }
+  .card__body { padding: 0; }
   .card__foot a::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
   .section { padding-block: 12px; }
 }
