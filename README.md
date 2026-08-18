@@ -33,6 +33,7 @@ assets/
   favicon.svg         ファビコン
   apple-touch-icon.png / icon-512.png
   og.png              OGP 画像（1200×630）
+  thumbs/<サブドメイン>.webp   カードのサムネイル（640×400、WebP）
 ```
 
 ビルドの手順はありません。npm も不要です。HTML・CSS・JavaScript をそのまま配信します。
@@ -42,17 +43,31 @@ assets/
 `index.html` の該当箇所を直接編集します。
 
 1. **Web アプリ** … `<ul class="cards" id="app-list">` の中に `<li class="card">` を追加します。
-   既存のカードをコピーし、次の 4 か所を書き換えてください。
+   既存のカードをコピーし、次の 5 か所を書き換えてください。
    - `data-cat` … カテゴリの id（`kokugo` / `sansu` / `tankyu` / `gakkyu` / `koumu` /
      `seisaku` / `game` / `other`）
    - `data-name` と `data-keywords` … 検索に使う語。漢字の語は、ひらがなの読みも足しておくと
      児童が探しやすくなります。
    - `style="--cat:…"` と `<span class="tag">` … カテゴリの色と表示名
    - リンク（アプリ本体・プライバシーポリシー・利用規約・GitHub）
+   - サムネイル … `assets/thumbs/<サブドメイン>.webp` を置き、`<div class="card__media">`
+     の中の `<img src>` をそこへ向けます。画像がまだ無いときは
+     `<div class="card__media card__media--tile" data-initial="頭文字"></div>`
+     に置き換えると、カテゴリ色のタイルが描かれます。
 2. **カテゴリの件数** … 絞り込みボタン（`.chip`）の `<span class="count">` と、
    見出し・ヒーローの本数を合わせて直します。
 3. **Chrome 拡張機能など** … `#tools` の中のカードを同じ要領で編集します。
 4. 最後に、フッターの「最終更新」の `<time datetime="…">` を更新します。
+
+## サムネイルについて
+
+各カードの画像は、**そのアプリのリポジトリにある実際の画面**です。
+多くのリポジトリは `docs/note/images/` に note 記事用のスクリーンショットを持っているので、
+そこから 1 枚を選び、16:10 に切って 640×400 の WebP に変換して `assets/thumbs/` に置いています。
+縦に長い全ページキャプチャは、余白ばかりの帯を避けて中身の詰まった部分を選んでいます。
+
+画像を差し替えるときは、640×400 の WebP を同じファイル名で置き換えてください。
+1 枚あたり 10〜20KB、33 枚あわせて 460KB ほどです（`loading="lazy"` で遅らせて読み込みます）。
 
 ## 設計の方針
 

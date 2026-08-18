@@ -61,7 +61,11 @@
       "@id": "https://giga-school.com/#person",
       "name": "GIGAyama",
       "email": "basstar.1102@gmail.com",
-      "url": "https://github.com/GIGAyama"
+      "url": "https://github.com/GIGAyama",
+      "sameAs": [
+        "https://github.com/GIGAyama",
+        "https://note.com/cute_borage86"
+      ]
     },
     {
       "@type": "ItemList",
@@ -761,6 +765,8 @@
             "url": "https://tsubomi-learning.giga-school.com/",
             "operatingSystem": "Web ブラウザ",
             "inLanguage": "ja",
+            "applicationCategory": "EducationalApplication",
+            "description": "国語「つぼみ」の学習用に、いろいろな植物のつぼみと花を見比べられる図鑑アプリ。",
             "offers": {
               "@type": "Offer",
               "price": "0",
@@ -849,6 +855,7 @@
             "url": "https://xxx-automatic.giga-school.com/",
             "operatingSystem": "Web ブラウザ",
             "inLanguage": "ja",
+            "description": "公開しているアプリを題材に、X と note へ出す投稿の文章・画像・ハッシュタグ・URL をまとめて用意する、作者の発信用ツール。出すかどうかの判断だけが手元に残ります。",
             "offers": {
               "@type": "Offer",
               "price": "0",
@@ -899,44 +906,22 @@
 
     <!-- ============ ヒーロー ============ -->
     <section class="hero">
-      <div class="wrap hero__grid">
-        <div>
-          <p class="hero__badge"><span class="dot"></span>小学校教員による個人開発</p>
-          <h1 class="hero__title"><span class="np">授業と校務で</span><span class="np">つくった道具を、</span><span class="np accent">そのまま公開</span><span class="np">しています。</span></h1>
-          <p class="hero__lead">
-            日々の授業や学級の仕事で「これがあれば」と思ったものを形にした Web アプリです。
-            ブラウザで開けばそのまま動き、費用はかかりません。ソースコードもすべて公開しています。
-          </p>
-          <div class="hero__actions">
-            <a class="btn btn--primary" href="#apps">アプリを探す<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-            <a class="btn btn--ghost" href="https://github.com/GIGAyama" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>GitHub を見る</a>
-          </div>
-          <dl class="stats">
-            <div><dt>公開中のアプリ</dt><dd>44<span class="unit">本</span></dd></div>
-            <div><dt>拡張機能・ツール</dt><dd>7<span class="unit">本</span></dd></div>
-            <div><dt>利用料金</dt><dd>0<span class="unit">円</span></dd></div>
-          </dl>
+      <div class="wrap hero__inner">
+        <p class="hero__badge"><span class="dot"></span>小学校教員による個人開発</p>
+        <h1 class="hero__title"><span class="np">授業と校務で</span><span class="np">つくった道具を、</span><span class="np accent">そのまま公開</span><span class="np">しています。</span></h1>
+        <p class="hero__lead">
+          日々の授業や学級の仕事で「これがあれば」と思ったものを形にした Web アプリです。
+          ブラウザで開けばそのまま動き、費用はかかりません。ソースコードもすべて公開しています。
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#apps">アプリを探す<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+          <a class="btn btn--ghost" href="https://github.com/GIGAyama" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>GitHub を見る</a>
         </div>
-        <div class="hero__art" aria-hidden="false">
-          <div class="mock" aria-hidden="true">
-          <div class="mock__bar">
-            <span class="mock__dots"><i></i><i></i><i></i></span>
-            <span class="mock__url">giga-school.com</span>
-          </div>
-          <div class="mock__body">
-            <div class="mock__search">アプリを検索</div>
-            <div class="mock__chips">
-              <span class="is-on">すべて</span><span>国語・言葉</span><span>算数</span><span>校務</span>
-            </div>
-            <div class="mock__grid">
-              <div class="mock__card"><span class="mock__tag" style="--cat:#c96a2e">国語・言葉</span><span class="mock__name">Treasure_Words</span><span class="mock__line"></span><span class="mock__line is-short"></span></div>
-              <div class="mock__card"><span class="mock__tag" style="--cat:#3b82d6">算数</span><span class="mock__name">Qalc</span><span class="mock__line"></span><span class="mock__line is-short"></span></div>
-              <div class="mock__card"><span class="mock__tag" style="--cat:#9a63c9">学級経営</span><span class="mock__name">Reflection_Journal</span><span class="mock__line"></span><span class="mock__line is-short"></span></div>
-              <div class="mock__card"><span class="mock__tag" style="--cat:#4a9e5c">ゲーム・対戦</span><span class="mock__name">Werewolf</span><span class="mock__line"></span><span class="mock__line is-short"></span></div>
-            </div>
-          </div>
-        </div>
-        </div>
+        <dl class="stats">
+          <div><dt>公開中のアプリ</dt><dd>44<span class="unit">本</span></dd></div>
+          <div><dt>拡張機能・ツール</dt><dd>7<span class="unit">本</span></dd></div>
+          <div><dt>利用料金</dt><dd>0<span class="unit">円</span></dd></div>
+        </dl>
       </div>
     </section>
 
@@ -985,590 +970,722 @@
           </div>
           <div class="chips" role="group" aria-label="カテゴリで絞り込む">
           <button type="button" class="chip" data-cat="all" aria-pressed="true">すべて<span class="count">44</span></button>
-          <button type="button" class="chip" data-cat="kokugo" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>国語・言葉<span class="count">6</span></button>
+          <button type="button" class="chip" data-cat="kokugo" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>国語・言葉<span class="count">7</span></button>
           <button type="button" class="chip" data-cat="sansu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>算数<span class="count">6</span></button>
           <button type="button" class="chip" data-cat="tankyu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>学習・探究<span class="count">7</span></button>
           <button type="button" class="chip" data-cat="gakkyu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>学級経営<span class="count">3</span></button>
           <button type="button" class="chip" data-cat="koumu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>授業づくり・校務<span class="count">7</span></button>
           <button type="button" class="chip" data-cat="seisaku" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>表現・制作<span class="count">3</span></button>
           <button type="button" class="chip" data-cat="game" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>ゲーム・対戦<span class="count">9</span></button>
-          <button type="button" class="chip" data-cat="other" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>そのほか<span class="count">3</span></button>
+          <button type="button" class="chip" data-cat="other" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>そのほか<span class="count">2</span></button>
           </div>
           <p class="finder__status" data-status role="status" aria-live="polite">44 件すべてを表示しています</p>
         </div>
 
         <ul class="cards" id="app-list">
         <li class="card" data-cat="gakkyu" data-name="Class_tweet" data-keywords="SNS つぶやき 交流 GAS 学級経営 こうりゅう" style="--cat:#9a63c9">
-          <div class="card__top">
-            <span class="tag">学級経営</span>
+          <div class="card__media card__media--tile" data-initial="C"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学級経営</span>
+            </div>
+            <h3 class="card__title"><a href="https://class-tweet.giga-school.com/">Class_tweet</a></h3>
+            <p class="card__desc">クラスの中だけで使える学校向けのSNS。Google Apps Script 上で動き、GIGAスクール構想の標準仕様（v2.1）に沿って設計しています。</p>
+            <p class="card__foot">
+              <a href="https://class-tweet.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://class-tweet.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Class_tweet" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://class-tweet.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://class-tweet.giga-school.com/">Class_tweet</a></h3>
-          <p class="card__desc">クラスの中だけで使える学校向けのSNS。Google Apps Script 上で動き、GIGAスクール構想の標準仕様（v2.1）に沿って設計しています。</p>
-          <p class="card__foot">
-            <a href="https://class-tweet.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://class-tweet.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Class_tweet" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://class-tweet.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="seisaku" data-name="Digital-Newspaper" data-keywords="新聞 記事 レイアウト 学級新聞 表現・制作 しんぶん きじ がっきゅうしんぶん" style="--cat:#cd5a86">
-          <div class="card__top">
-            <span class="tag">表現・制作</span>
+          <div class="card__media"><img src="/assets/thumbs/digital-newspaper.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">表現・制作</span>
+            </div>
+            <h3 class="card__title"><a href="https://digital-newspaper.giga-school.com/">Digital-Newspaper</a></h3>
+            <p class="card__desc">スプレッドシートをデータベースとして、集めた記事を新聞紙面のように配置できる「デジタルクラス新聞社」。学級新聞づくりに使えます。</p>
+            <p class="card__foot">
+              <a href="https://digital-newspaper.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://digital-newspaper.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Digital-Newspaper" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://digital-newspaper.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://digital-newspaper.giga-school.com/">Digital-Newspaper</a></h3>
-          <p class="card__desc">スプレッドシートをデータベースとして、集めた記事を新聞紙面のように配置できる「デジタルクラス新聞社」。学級新聞づくりに使えます。</p>
-          <p class="card__foot">
-            <a href="https://digital-newspaper.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://digital-newspaper.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Digital-Newspaper" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://digital-newspaper.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="other" data-name="DigitalCloset" data-keywords="服 ワードローブ ファッション AI Gemini そのほか けんさく ふく" style="--cat:#8b93a1">
-          <div class="card__top">
-            <span class="tag">そのほか</span>
+          <div class="card__media"><img src="/assets/thumbs/digitalcloset.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">そのほか</span>
+            </div>
+            <h3 class="card__title"><a href="https://digitalcloset.giga-school.com/">DigitalCloset</a></h3>
+            <p class="card__desc">手持ちの服を登録して管理するデジタルワードローブ。Gemini API によるコーディネート提案や、街角スナップからの逆引き検索を備えます。データは IndexedDB に保存し、端末内で完結します。</p>
+            <p class="card__foot">
+              <a href="https://digitalcloset.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://digitalcloset.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/DigitalCloset" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://digitalcloset.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://digitalcloset.giga-school.com/">DigitalCloset</a></h3>
-          <p class="card__desc">手持ちの服を登録して管理するデジタルワードローブ。Gemini API によるコーディネート提案や、街角スナップからの逆引き検索を備えます。データは IndexedDB に保存し、端末内で完結します。</p>
-          <p class="card__foot">
-            <a href="https://digitalcloset.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://digitalcloset.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/DigitalCloset" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://digitalcloset.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="koumu" data-name="Digital_textbook" data-keywords="PDF 教科書 プリント 書き込み QR WebRTC 授業づくり・校務 きょうかしょ" style="--cat:#5b7f9e">
-          <div class="card__top">
-            <span class="tag">授業づくり・校務</span>
+          <div class="card__media"><img src="/assets/thumbs/digital-textbook.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">授業づくり・校務</span>
+            </div>
+            <h3 class="card__title"><a href="https://digital-textbook.giga-school.com/">Digital_textbook</a></h3>
+            <p class="card__desc">PDF を読み込んで書き込める、デジタル教科書・プリント作成アプリ。教育用のスタンプやツールをそろえ、WebRTC（P2P）で URL や QR コードから児童生徒の端末へ直接データを渡せます。</p>
+            <p class="card__foot">
+              <a href="https://digital-textbook.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://digital-textbook.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Digital_textbook" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://digital-textbook.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://digital-textbook.giga-school.com/">Digital_textbook</a></h3>
-          <p class="card__desc">PDF を読み込んで書き込める、デジタル教科書・プリント作成アプリ。教育用のスタンプやツールをそろえ、WebRTC（P2P）で URL や QR コードから児童生徒の端末へ直接データを渡せます。</p>
-          <p class="card__foot">
-            <a href="https://digital-textbook.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://digital-textbook.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Digital_textbook" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://digital-textbook.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="tankyu" data-name="Gamification" data-keywords="ゲーミフィケーション 得点 記録 GAS 学習・探究 たんきゅう がくしゅう きろく とくてん" style="--cat:#1d9c9c">
-          <div class="card__top">
-            <span class="tag">学習・探究</span>
+          <div class="card__media"><img src="/assets/thumbs/gamification.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学習・探究</span>
+            </div>
+            <h3 class="card__title"><a href="https://gamification.giga-school.com/">Gamification</a></h3>
+            <p class="card__desc">学習の記録にゲームの要素を取り入れるアプリ。スプレッドシートに紐づく Google Apps Script として動きます。</p>
+            <p class="card__foot">
+              <a href="https://gamification.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://gamification.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Gamification" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://gamification.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://gamification.giga-school.com/">Gamification</a></h3>
-          <p class="card__desc">学習の記録にゲームの要素を取り入れるアプリ。スプレッドシートに紐づく Google Apps Script として動きます。</p>
-          <p class="card__foot">
-            <a href="https://gamification.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://gamification.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Gamification" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://gamification.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="koumu" data-name="Gmail_cleaner" data-keywords="メール 整理 削除 Gmail 授業づくり・校務 さくじょ せいり" style="--cat:#5b7f9e">
-          <div class="card__top">
-            <span class="tag">授業づくり・校務</span>
+          <div class="card__media card__media--tile" data-initial="G"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">授業づくり・校務</span>
+            </div>
+            <h3 class="card__title"><a href="https://gmail-cleaner.giga-school.com/">Gmail_cleaner</a></h3>
+            <p class="card__desc">期間を指定して Gmail のメールをまとめて削除するアプリ。手動での実行と自動実行に対応しています。</p>
+            <p class="card__foot">
+              <a href="https://gmail-cleaner.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://gmail-cleaner.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Gmail_cleaner" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://gmail-cleaner.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://gmail-cleaner.giga-school.com/">Gmail_cleaner</a></h3>
-          <p class="card__desc">期間を指定して Gmail のメールをまとめて削除するアプリ。手動での実行と自動実行に対応しています。</p>
-          <p class="card__foot">
-            <a href="https://gmail-cleaner.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://gmail-cleaner.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Gmail_cleaner" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://gmail-cleaner.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Gobblet" data-keywords="ボードゲーム 対戦 三目並べ ゲーム・対戦 たいせん" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/gobblet.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://gobblet.giga-school.com/">Gobblet</a></h3>
+            <p class="card__desc">3×3 のマスで駒を重ねながら三目並べを競う、ボードゲーム「ゴブレット」風のアプリ。Google Apps Script で動きます。</p>
+            <p class="card__foot">
+              <a href="https://gobblet.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://gobblet.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Gobblet" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://gobblet.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://gobblet.giga-school.com/">Gobblet</a></h3>
-          <p class="card__desc">3×3 のマスで駒を重ねながら三目並べを競う、ボードゲーム「ゴブレット」風のアプリ。Google Apps Script で動きます。</p>
-          <p class="card__foot">
-            <a href="https://gobblet.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://gobblet.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Gobblet" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://gobblet.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Hagetaka-game" data-keywords="カードゲーム 心理戦 対戦 オンライン ゲーム・対戦 たいせん" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/hagetaka-game.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://hagetaka-game.giga-school.com/">Hagetaka-game</a></h3>
+            <p class="card__desc">カードゲーム『ハゲタカのえじき』のオンライン対戦版。あいことばでマッチングでき、CPU との対戦もできます。React と Firebase で構築しています。</p>
+            <p class="card__foot">
+              <a href="https://hagetaka-game.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://hagetaka-game.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Hagetaka-game" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://hagetaka-game.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://hagetaka-game.giga-school.com/">Hagetaka-game</a></h3>
-          <p class="card__desc">カードゲーム『ハゲタカのえじき』のオンライン対戦版。あいことばでマッチングでき、CPU との対戦もできます。React と Firebase で構築しています。</p>
-          <p class="card__foot">
-            <a href="https://hagetaka-game.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://hagetaka-game.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Hagetaka-game" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://hagetaka-game.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="kokugo" data-name="Haiku-meeting" data-keywords="俳句 句会 ふりかえり 短詩 国語・言葉 ことば はいく くかい こくご" style="--cat:#c96a2e">
-          <div class="card__top">
-            <span class="tag">国語・言葉</span>
+          <div class="card__media"><img src="/assets/thumbs/haiku-meeting.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">国語・言葉</span>
+            </div>
+            <h3 class="card__title"><a href="https://haiku-meeting.giga-school.com/">Haiku-meeting</a></h3>
+            <p class="card__desc">俳句を持ち寄って読み合う句会（振り返り）のプラットフォーム。Google Apps Script のエディタに貼り付けると、データベースが自動で用意されます。React と Tailwind CSS で構築。</p>
+            <p class="card__foot">
+              <a href="https://haiku-meeting.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://haiku-meeting.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Haiku-meeting" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://haiku-meeting.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://haiku-meeting.giga-school.com/">Haiku-meeting</a></h3>
-          <p class="card__desc">俳句を持ち寄って読み合う句会（振り返り）のプラットフォーム。Google Apps Script のエディタに貼り付けると、データベースが自動で用意されます。React と Tailwind CSS で構築。</p>
-          <p class="card__foot">
-            <a href="https://haiku-meeting.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://haiku-meeting.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Haiku-meeting" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://haiku-meeting.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="gakkyu" data-name="Homework_barcordreader" data-keywords="宿題 提出 健康観察 バーコード 出欠 学級経営 しゅくだい ていしゅつ けんこうかんさつ しゅっけつ きろく" style="--cat:#9a63c9">
-          <div class="card__top">
-            <span class="tag">学級経営</span>
+          <div class="card__media"><img src="/assets/thumbs/homework-barcordreader.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学級経営</span>
+            </div>
+            <h3 class="card__title"><a href="https://homework-barcordreader.giga-school.com/">Homework_barcordreader</a></h3>
+            <p class="card__desc">バーコードを読み取るだけで宿題の提出チェックができるアプリ。あわせて健康観察（きもちメーター）も記録できます。Google Apps Script と React で構築。</p>
+            <p class="card__foot">
+              <a href="https://homework-barcordreader.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://homework-barcordreader.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Homework_barcordreader" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://homework-barcordreader.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://homework-barcordreader.giga-school.com/">Homework_barcordreader</a></h3>
-          <p class="card__desc">バーコードを読み取るだけで宿題の提出チェックができるアプリ。あわせて健康観察（きもちメーター）も記録できます。Google Apps Script と React で構築。</p>
-          <p class="card__foot">
-            <a href="https://homework-barcordreader.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://homework-barcordreader.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Homework_barcordreader" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://homework-barcordreader.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Ice_slide-puzzle" data-keywords="パズル 対戦 スワイプ ゲーム・対戦 たいせん" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/ice-slide-puzzle.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://ice-slide-puzzle.giga-school.com/">Ice_slide-puzzle</a></h3>
+            <p class="card__desc">スワイプで駒を滑らせて競う 2 人対戦ボードゲーム「南極スライダー」。ブラウザですぐに遊べます。</p>
+            <p class="card__foot">
+              <a href="https://ice-slide-puzzle.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://ice-slide-puzzle.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Ice_slide-puzzle" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://ice-slide-puzzle.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://ice-slide-puzzle.giga-school.com/">Ice_slide-puzzle</a></h3>
-          <p class="card__desc">スワイプで駒を滑らせて競う 2 人対戦ボードゲーム「南極スライダー」。ブラウザですぐに遊べます。</p>
-          <p class="card__foot">
-            <a href="https://ice-slide-puzzle.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://ice-slide-puzzle.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Ice_slide-puzzle" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://ice-slide-puzzle.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="tankyu" data-name="JIDOSHA_ZUKAN" data-keywords="自動車 図鑑 生活科 くらし 学習・探究 たんきゅう じどうしゃ ずかん がくしゅう" style="--cat:#1d9c9c">
-          <div class="card__top">
-            <span class="tag">学習・探究</span>
+          <div class="card__media"><img src="/assets/thumbs/jidosha-zukan.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学習・探究</span>
+            </div>
+            <h3 class="card__title"><a href="https://jidosha-zukan.giga-school.com/">JIDOSHA_ZUKAN</a></h3>
+            <p class="card__desc">はたらく自動車を調べられる図鑑アプリ。</p>
+            <p class="card__foot">
+              <a href="https://jidosha-zukan.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://jidosha-zukan.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/JIDOSHA_ZUKAN" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://jidosha-zukan.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://jidosha-zukan.giga-school.com/">JIDOSHA_ZUKAN</a></h3>
-          <p class="card__desc">はたらく自動車を調べられる図鑑アプリ。</p>
-          <p class="card__foot">
-            <a href="https://jidosha-zukan.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://jidosha-zukan.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/JIDOSHA_ZUKAN" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://jidosha-zukan.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="sansu" data-name="KAKE_Master" data-keywords="かけ算 九九 計算カード 算数 けいさん くく さんすう" style="--cat:#3b82d6">
-          <div class="card__top">
-            <span class="tag">算数</span>
+          <div class="card__media"><img src="/assets/thumbs/kake-master.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">算数</span>
+            </div>
+            <h3 class="card__title"><a href="https://kake-master.giga-school.com/">KAKE_Master</a></h3>
+            <p class="card__desc">かけ算の計算カードをブラウザで練習できるアプリ。</p>
+            <p class="card__foot">
+              <a href="https://kake-master.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://kake-master.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/KAKE_Master" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://kake-master.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://kake-master.giga-school.com/">KAKE_Master</a></h3>
-          <p class="card__desc">かけ算の計算カードをブラウザで練習できるアプリ。</p>
-          <p class="card__foot">
-            <a href="https://kake-master.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://kake-master.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/KAKE_Master" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://kake-master.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="kokugo" data-name="KANJI_Town" data-keywords="漢字 語彙 ゲーム 国語・言葉 かんじ ごい ことば こくご がくしゅう" style="--cat:#c96a2e">
-          <div class="card__top">
-            <span class="tag">国語・言葉</span>
+          <div class="card__media"><img src="/assets/thumbs/kanji-town.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">国語・言葉</span>
+            </div>
+            <h3 class="card__title"><a href="https://kanji-town.giga-school.com/">KANJI_Town</a></h3>
+            <p class="card__desc">漢字を遊びながら練習できる学習ゲーム。</p>
+            <p class="card__foot">
+              <a href="https://kanji-town.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://kanji-town.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/KANJI_Town" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://kanji-town.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://kanji-town.giga-school.com/">KANJI_Town</a></h3>
-          <p class="card__desc">漢字を遊びながら練習できる学習ゲーム。</p>
-          <p class="card__foot">
-            <a href="https://kanji-town.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://kanji-town.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/KANJI_Town" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://kanji-town.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="sansu" data-name="KEISAN-BLOCK" data-keywords="たし算 ひき算 繰り上がり 繰り下がり さくらんぼ計算 ブロック 算数 けいさん さんすう がくしゅう" style="--cat:#3b82d6">
-          <div class="card__top">
-            <span class="tag">算数</span>
+          <div class="card__media"><img src="/assets/thumbs/keisan-block.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">算数</span>
+            </div>
+            <h3 class="card__title"><a href="https://keisan-block.giga-school.com/">KEISAN-BLOCK</a></h3>
+            <p class="card__desc">繰り上がり・繰り下がりのある計算を、算数ブロックとさくらんぼ計算で目に見える形にして考えられる学習アプリ。</p>
+            <p class="card__foot">
+              <a href="https://keisan-block.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://keisan-block.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/KEISAN-BLOCK" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://keisan-block.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://keisan-block.giga-school.com/">KEISAN-BLOCK</a></h3>
-          <p class="card__desc">繰り上がり・繰り下がりのある計算を、算数ブロックとさくらんぼ計算で目に見える形にして考えられる学習アプリ。</p>
-          <p class="card__foot">
-            <a href="https://keisan-block.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://keisan-block.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/KEISAN-BLOCK" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://keisan-block.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="sansu" data-name="Keisan-Card" data-keywords="計算カード 反復 たし算 ひき算 算数 けいさん さんすう がくしゅう はんぷく" style="--cat:#3b82d6">
-          <div class="card__top">
-            <span class="tag">算数</span>
+          <div class="card__media"><img src="/assets/thumbs/keisan-card.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">算数</span>
+            </div>
+            <h3 class="card__title"><a href="https://keisan-card.giga-school.com/">Keisan-Card</a></h3>
+            <p class="card__desc">計算カードをブラウザで練習できる学習アプリ。</p>
+            <p class="card__foot">
+              <a href="https://keisan-card.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://keisan-card.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Keisan-Card" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://keisan-card.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://keisan-card.giga-school.com/">Keisan-Card</a></h3>
-          <p class="card__desc">計算カードをブラウザで練習できる学習アプリ。</p>
-          <p class="card__foot">
-            <a href="https://keisan-card.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://keisan-card.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Keisan-Card" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://keisan-card.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="tankyu" data-name="MIRAI-Compass" data-keywords="自由進度学習 個別最適 計画 進度 学習・探究 たんきゅう がくしゅう きろく じゆうしんどがくしゅう こべつさいてき けいかく しんど" style="--cat:#1d9c9c">
-          <div class="card__top">
-            <span class="tag">学習・探究</span>
+          <div class="card__media"><img src="/assets/thumbs/mirai-compass.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学習・探究</span>
+            </div>
+            <h3 class="card__title"><a href="https://mirai-compass.giga-school.com/">MIRAI-Compass</a></h3>
+            <p class="card__desc">自由進度学習の計画づくりと進み具合の記録を支える、Google Apps Script のウェブアプリ。</p>
+            <p class="card__foot">
+              <a href="https://mirai-compass.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://mirai-compass.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/MIRAI-Compass" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://mirai-compass.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://mirai-compass.giga-school.com/">MIRAI-Compass</a></h3>
-          <p class="card__desc">自由進度学習の計画づくりと進み具合の記録を支える、Google Apps Script のウェブアプリ。</p>
-          <p class="card__foot">
-            <a href="https://mirai-compass.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://mirai-compass.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/MIRAI-Compass" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://mirai-compass.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="tankyu" data-name="Moral_note" data-keywords="道徳 心 ノート 学習・探究 どうとく たんきゅう がくしゅう" style="--cat:#1d9c9c">
-          <div class="card__top">
-            <span class="tag">学習・探究</span>
+          <div class="card__media card__media--tile" data-initial="M"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学習・探究</span>
+            </div>
+            <h3 class="card__title"><a href="https://moral-note.giga-school.com/">Moral_note</a></h3>
+            <p class="card__desc">道徳の授業で考えたことを書きとめるためのアプリ。</p>
+            <p class="card__foot">
+              <a href="https://moral-note.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://moral-note.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Moral_note" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://moral-note.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://moral-note.giga-school.com/">Moral_note</a></h3>
-          <p class="card__desc">道徳の授業で考えたことを書きとめるためのアプリ。</p>
-          <p class="card__foot">
-            <a href="https://moral-note.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://moral-note.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Moral_note" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://moral-note.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="seisaku" data-name="Music-production_studio" data-keywords="音楽 作曲 DAW MP3 ルビ 表現・制作 おんがく さっきょく おと" style="--cat:#cd5a86">
-          <div class="card__top">
-            <span class="tag">表現・制作</span>
+          <div class="card__media card__media--tile" data-initial="M"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">表現・制作</span>
+            </div>
+            <h3 class="card__title"><a href="https://music-production-studio.giga-school.com/">Music-production_studio</a></h3>
+            <p class="card__desc">ブラウザで動く子ども向けの音楽制作アプリ（DAW）。ふりがな付きの画面、MP3 の書き出し、自動保存、生成 AI との連携に対応します。</p>
+            <p class="card__foot">
+              <a href="https://music-production-studio.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://music-production-studio.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Music-production_studio" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://music-production-studio.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://music-production-studio.giga-school.com/">Music-production_studio</a></h3>
-          <p class="card__desc">ブラウザで動く子ども向けの音楽制作アプリ（DAW）。ふりがな付きの画面、MP3 の書き出し、自動保存、生成 AI との連携に対応します。</p>
-          <p class="card__foot">
-            <a href="https://music-production-studio.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://music-production-studio.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Music-production_studio" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://music-production-studio.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="koumu" data-name="NotebookSample_Generator" data-keywords="ノート 見本 板書 授業づくり・校務 みほん ばんしょ ほん" style="--cat:#5b7f9e">
-          <div class="card__top">
-            <span class="tag">授業づくり・校務</span>
+          <div class="card__media"><img src="/assets/thumbs/notebooksample-generator.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">授業づくり・校務</span>
+            </div>
+            <h3 class="card__title"><a href="https://notebooksample-generator.giga-school.com/">NotebookSample_Generator</a></h3>
+            <p class="card__desc">ノートの見本を作成できるアプリ。</p>
+            <p class="card__foot">
+              <a href="https://notebooksample-generator.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://notebooksample-generator.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/NotebookSample_Generator" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://notebooksample-generator.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://notebooksample-generator.giga-school.com/">NotebookSample_Generator</a></h3>
-          <p class="card__desc">ノートの見本を作成できるアプリ。</p>
-          <p class="card__foot">
-            <a href="https://notebooksample-generator.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://notebooksample-generator.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/NotebookSample_Generator" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://notebooksample-generator.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="koumu" data-name="Officefile_converter" data-keywords="ドライブ 変換 Office Word Excel PowerPoint 授業づくり・校務 へんかん" style="--cat:#5b7f9e">
-          <div class="card__top">
-            <span class="tag">授業づくり・校務</span>
+          <div class="card__media card__media--tile" data-initial="O"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">授業づくり・校務</span>
+            </div>
+            <h3 class="card__title"><a href="https://officefile-converter.giga-school.com/">Officefile_converter</a></h3>
+            <p class="card__desc">指定した Google ドライブのフォルダにある Microsoft Office 形式のファイルを、Google 形式へまとめて変換します。</p>
+            <p class="card__foot">
+              <a href="https://officefile-converter.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://officefile-converter.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Officefile_converter" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://officefile-converter.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://officefile-converter.giga-school.com/">Officefile_converter</a></h3>
-          <p class="card__desc">指定した Google ドライブのフォルダにある Microsoft Office 形式のファイルを、Google 形式へまとめて変換します。</p>
-          <p class="card__foot">
-            <a href="https://officefile-converter.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://officefile-converter.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Officefile_converter" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://officefile-converter.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="sansu" data-name="online-100square-calculation" data-keywords="100マス計算 百ます 手書き 採点 記録 算数 けいさん さんすう がくしゅう きろく ひゃくます てがき さいてん" style="--cat:#3b82d6">
-          <div class="card__top">
-            <span class="tag">算数</span>
+          <div class="card__media"><img src="/assets/thumbs/online-100square-calculation.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">算数</span>
+            </div>
+            <h3 class="card__title"><a href="https://online-100square-calculation.giga-school.com/">online-100square-calculation</a></h3>
+            <p class="card__desc">100 マス計算をブラウザで解ける学習アプリ。手書き入力の認識、自動採点、学習記録に対応し、Chromebook や iPad での利用に合わせて調整しています。</p>
+            <p class="card__foot">
+              <a href="https://online-100square-calculation.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://online-100square-calculation.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/online-100square-calculation" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://online-100square-calculation.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://online-100square-calculation.giga-school.com/">online-100square-calculation</a></h3>
-          <p class="card__desc">100 マス計算をブラウザで解ける学習アプリ。手書き入力の認識、自動採点、学習記録に対応し、Chromebook や iPad での利用に合わせて調整しています。</p>
-          <p class="card__foot">
-            <a href="https://online-100square-calculation.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://online-100square-calculation.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/online-100square-calculation" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://online-100square-calculation.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="kokugo" data-name="online-manuscript-paper-lite" data-keywords="作文 原稿用紙 縦書き 印刷 国語・言葉 さくぶん げんこうようし たてがき ことば こくご いんさつ" style="--cat:#c96a2e">
-          <div class="card__top">
-            <span class="tag">国語・言葉</span>
+          <div class="card__media"><img src="/assets/thumbs/online-manuscript-paper-lite.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">国語・言葉</span>
+            </div>
+            <h3 class="card__title"><a href="https://online-manuscript-paper-lite.giga-school.com/">online-manuscript-paper-lite</a></h3>
+            <p class="card__desc">登録もサーバーも要らない、縦書きの原稿用紙アプリ。作文の入力、.txt での保存、印刷、自動バックアップがブラウザだけで完結します。</p>
+            <p class="card__foot">
+              <a href="https://online-manuscript-paper-lite.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://online-manuscript-paper-lite.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/online-manuscript-paper-lite" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://online-manuscript-paper-lite.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://online-manuscript-paper-lite.giga-school.com/">online-manuscript-paper-lite</a></h3>
-          <p class="card__desc">登録もサーバーも要らない、縦書きの原稿用紙アプリ。作文の入力、.txt での保存、印刷、自動バックアップがブラウザだけで完結します。</p>
-          <p class="card__foot">
-            <a href="https://online-manuscript-paper-lite.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://online-manuscript-paper-lite.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/online-manuscript-paper-lite" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://online-manuscript-paper-lite.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="kokugo" data-name="online-manuscript-paper-pro" data-keywords="作文 原稿用紙 添削 AI 国語・言葉 さくぶん げんこうようし てんさく ことば こくご" style="--cat:#c96a2e">
-          <div class="card__top">
-            <span class="tag">国語・言葉</span>
+          <div class="card__media"><img src="/assets/thumbs/online-manuscript-paper-pro.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">国語・言葉</span>
+            </div>
+            <h3 class="card__title"><a href="https://online-manuscript-paper-pro.giga-school.com/">online-manuscript-paper-pro</a></h3>
+            <p class="card__desc">AI 添削の機能を備えたオンライン原稿用紙。Google Apps Script と React で構築しています。</p>
+            <p class="card__foot">
+              <a href="https://online-manuscript-paper-pro.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://online-manuscript-paper-pro.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/online-manuscript-paper-pro" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://online-manuscript-paper-pro.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://online-manuscript-paper-pro.giga-school.com/">online-manuscript-paper-pro</a></h3>
-          <p class="card__desc">AI 添削の機能を備えたオンライン原稿用紙。Google Apps Script と React で構築しています。</p>
-          <p class="card__foot">
-            <a href="https://online-manuscript-paper-pro.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://online-manuscript-paper-pro.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/online-manuscript-paper-pro" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://online-manuscript-paper-pro.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="kokugo" data-name="Online-Publisher-pro" data-keywords="作文 物語 製本 出版 添削 エディタ 国語・言葉 さくぶん げんこうようし てんさく ものがたり せいほん しゅっぱん ことば こくご ほん" style="--cat:#c96a2e">
-          <div class="card__top">
-            <span class="tag">国語・言葉</span>
+          <div class="card__media"><img src="/assets/thumbs/online-publisher-pro.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">国語・言葉</span>
+            </div>
+            <h3 class="card__title"><a href="https://online-publisher-pro.giga-school.com/">Online-Publisher-pro</a></h3>
+            <p class="card__desc">物語や作文を書くためのエディタ。原稿用紙表示と製本プレビューに対応し、教員向けに Gemini API を使った添削の補助を備えます。Google Apps Script と React で構築。</p>
+            <p class="card__foot">
+              <a href="https://online-publisher-pro.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://online-publisher-pro.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Online-Publisher-pro" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://online-publisher-pro.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://online-publisher-pro.giga-school.com/">Online-Publisher-pro</a></h3>
-          <p class="card__desc">物語や作文を書くためのエディタ。原稿用紙表示と製本プレビューに対応し、教員向けに Gemini API を使った添削の補助を備えます。Google Apps Script と React で構築。</p>
-          <p class="card__foot">
-            <a href="https://online-publisher-pro.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://online-publisher-pro.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Online-Publisher-pro" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://online-publisher-pro.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="tankyu" data-name="PhysicalEducation_note" data-keywords="体育 運動 ノート 記録 学習・探究 たいいく たんきゅう がくしゅう きろく" style="--cat:#1d9c9c">
-          <div class="card__top">
-            <span class="tag">学習・探究</span>
+          <div class="card__media card__media--tile" data-initial="P"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学習・探究</span>
+            </div>
+            <h3 class="card__title"><a href="https://physicaleducation-note.giga-school.com/">PhysicalEducation_note</a></h3>
+            <p class="card__desc">体育の学習を記録するためのノートアプリ。</p>
+            <p class="card__foot">
+              <a href="https://physicaleducation-note.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://physicaleducation-note.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/PhysicalEducation_note" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://physicaleducation-note.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://physicaleducation-note.giga-school.com/">PhysicalEducation_note</a></h3>
-          <p class="card__desc">体育の学習を記録するためのノートアプリ。</p>
-          <p class="card__foot">
-            <a href="https://physicaleducation-note.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://physicaleducation-note.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/PhysicalEducation_note" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://physicaleducation-note.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="sansu" data-name="Qalc" data-keywords="計算 マルチプレイ 一斉授業 対戦 算数 けいさん さんすう たいせん がくしゅう いっせいじゅぎょう" style="--cat:#3b82d6">
-          <div class="card__top">
-            <span class="tag">算数</span>
+          <div class="card__media"><img src="/assets/thumbs/qalc.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">算数</span>
+            </div>
+            <h3 class="card__title"><a href="https://qalc.giga-school.com/">Qalc</a></h3>
+            <p class="card__desc">算数の計算を遊びながら練習できる学習アプリ。ひとりでの学習にも、教室での一斉利用にも使えます。</p>
+            <p class="card__foot">
+              <a href="https://qalc.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://qalc.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Qalc" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://qalc.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://qalc.giga-school.com/">Qalc</a></h3>
-          <p class="card__desc">算数の計算を遊びながら練習できる学習アプリ。ひとりでの学習にも、教室での一斉利用にも使えます。</p>
-          <p class="card__foot">
-            <a href="https://qalc.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://qalc.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Qalc" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://qalc.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Quarto" data-keywords="ボードゲーム 対戦 思考 ゲーム・対戦 たいせん しこう" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/quarto.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://quarto.giga-school.com/">Quarto</a></h3>
+            <p class="card__desc">2 人対戦のボードゲーム「クアルト」をデジタル化したアプリ。Google Apps Script で動きます。</p>
+            <p class="card__foot">
+              <a href="https://quarto.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://quarto.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Quarto" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://quarto.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://quarto.giga-school.com/">Quarto</a></h3>
-          <p class="card__desc">2 人対戦のボードゲーム「クアルト」をデジタル化したアプリ。Google Apps Script で動きます。</p>
-          <p class="card__foot">
-            <a href="https://quarto.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://quarto.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Quarto" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://quarto.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Quoridor" data-keywords="ボードゲーム 対戦 迷路 戦略 ゲーム・対戦 たいせん めいろ せんりゃく" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/quoridor.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://quoridor.giga-school.com/">Quoridor</a></h3>
+            <p class="card__desc">2 人で壁を置き合いながらゴールを目指す、ボードゲーム「コリドール」のブラウザ版。</p>
+            <p class="card__foot">
+              <a href="https://quoridor.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://quoridor.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Quoridor" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://quoridor.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://quoridor.giga-school.com/">Quoridor</a></h3>
-          <p class="card__desc">2 人で壁を置き合いながらゴールを目指す、ボードゲーム「コリドール」のブラウザ版。</p>
-          <p class="card__foot">
-            <a href="https://quoridor.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://quoridor.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Quoridor" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://quoridor.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="gakkyu" data-name="Reflection_Journal" data-keywords="ふりかえり ジャーナル 日記 心 可視化 学級経営 きろく にっき かしか" style="--cat:#9a63c9">
-          <div class="card__top">
-            <span class="tag">学級経営</span>
+          <div class="card__media"><img src="/assets/thumbs/reflection-journal.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学級経営</span>
+            </div>
+            <h3 class="card__title"><a href="https://reflection-journal.giga-school.com/">Reflection_Journal</a></h3>
+            <p class="card__desc">日々のふりかえりを記録するジャーナルアプリ。児童の状態を可視化し、Gemini による下書きで先生のフィードバックを支えます。Google Apps Script と React で構築。</p>
+            <p class="card__foot">
+              <a href="https://reflection-journal.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://reflection-journal.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Reflection_Journal" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://reflection-journal.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://reflection-journal.giga-school.com/">Reflection_Journal</a></h3>
-          <p class="card__desc">日々のふりかえりを記録するジャーナルアプリ。児童の状態を可視化し、Gemini による下書きで先生のフィードバックを支えます。Google Apps Script と React で構築。</p>
-          <p class="card__foot">
-            <a href="https://reflection-journal.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://reflection-journal.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Reflection_Journal" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://reflection-journal.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Reversi" data-keywords="オセロ リバーシ 対戦 ボードゲーム ゲーム・対戦 せいり たいせん" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/reversi.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://reversi.giga-school.com/">Reversi</a></h3>
+            <p class="card__desc">小学生向けに操作を整理したリバーシ（オセロ）。HTML・CSS・JavaScript だけで動き、Chromebook でも扱えます。</p>
+            <p class="card__foot">
+              <a href="https://reversi.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://reversi.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Reversi" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://reversi.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://reversi.giga-school.com/">Reversi</a></h3>
-          <p class="card__desc">小学生向けに操作を整理したリバーシ（オセロ）。HTML・CSS・JavaScript だけで動き、Chromebook でも扱えます。</p>
-          <p class="card__foot">
-            <a href="https://reversi.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://reversi.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Reversi" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://reversi.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="koumu" data-name="SchoolPlan_Editor" data-keywords="週案 指導計画 時間割 授業づくり・校務 へんしゅう しゅうあん じかんわり しどうけいかく けいかく" style="--cat:#5b7f9e">
-          <div class="card__top">
-            <span class="tag">授業づくり・校務</span>
+          <div class="card__media"><img src="/assets/thumbs/schoolplan-editor.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">授業づくり・校務</span>
+            </div>
+            <h3 class="card__title"><a href="https://schoolplan-editor.giga-school.com/">SchoolPlan_Editor</a></h3>
+            <p class="card__desc">小学校向けの週案を作成・編集できるアプリ。</p>
+            <p class="card__foot">
+              <a href="https://schoolplan-editor.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://schoolplan-editor.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/SchoolPlan_Editor" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://schoolplan-editor.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://schoolplan-editor.giga-school.com/">SchoolPlan_Editor</a></h3>
-          <p class="card__desc">小学校向けの週案を作成・編集できるアプリ。</p>
-          <p class="card__foot">
-            <a href="https://schoolplan-editor.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://schoolplan-editor.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/SchoolPlan_Editor" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://schoolplan-editor.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="sansu" data-name="Shapes_Canvas" data-keywords="図形 敷き詰め 方眼 定規 分度器 算数 ずけい ほうがん じょうぎ ぶんどき さんすう へんしゅう がくしゅう" style="--cat:#3b82d6">
-          <div class="card__top">
-            <span class="tag">算数</span>
+          <div class="card__media card__media--tile" data-initial="S"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">算数</span>
+            </div>
+            <h3 class="card__title"><a href="https://shapes-canvas.giga-school.com/">Shapes_Canvas</a></h3>
+            <p class="card__desc">算数の「図形・敷き詰め」を扱う学習アプリ。方眼へのスナップ、定規・分度器、頂点の編集に対応した単一ファイル構成です。</p>
+            <p class="card__foot">
+              <a href="https://shapes-canvas.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://shapes-canvas.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Shapes_Canvas" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://shapes-canvas.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://shapes-canvas.giga-school.com/">Shapes_Canvas</a></h3>
-          <p class="card__desc">算数の「図形・敷き詰め」を扱う学習アプリ。方眼へのスナップ、定規・分度器、頂点の編集に対応した単一ファイル構成です。</p>
-          <p class="card__foot">
-            <a href="https://shapes-canvas.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://shapes-canvas.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Shapes_Canvas" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://shapes-canvas.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="koumu" data-name="Shared-Folder-Sync" data-keywords="ドライブ 同期 フォルダ 配布 授業づくり・校務 どうき はいふ" style="--cat:#5b7f9e">
-          <div class="card__top">
-            <span class="tag">授業づくり・校務</span>
+          <div class="card__media card__media--tile" data-initial="S"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">授業づくり・校務</span>
+            </div>
+            <h3 class="card__title"><a href="https://shared-folder-sync.giga-school.com/">Shared-Folder-Sync</a></h3>
+            <p class="card__desc">Google ドライブの親フォルダで作成・更新したデータを、子フォルダへ同期する Google Apps Script のアプリ。</p>
+            <p class="card__foot">
+              <a href="https://shared-folder-sync.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://shared-folder-sync.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Shared-Folder-Sync" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://shared-folder-sync.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://shared-folder-sync.giga-school.com/">Shared-Folder-Sync</a></h3>
-          <p class="card__desc">Google ドライブの親フォルダで作成・更新したデータを、子フォルダへ同期する Google Apps Script のアプリ。</p>
-          <p class="card__foot">
-            <a href="https://shared-folder-sync.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://shared-folder-sync.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Shared-Folder-Sync" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://shared-folder-sync.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Shiritori_fighter" data-keywords="しりとり 言葉 対戦 ゲーム・対戦 ことば たいせん" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/shiritori-fighter.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://shiritori-fighter.giga-school.com/">Shiritori_fighter</a></h3>
+            <p class="card__desc">テレビ番組の企画「しりとりファイター」をもとにした、しりとりの対戦アプリ。</p>
+            <p class="card__foot">
+              <a href="https://shiritori-fighter.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://shiritori-fighter.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Shiritori_fighter" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://shiritori-fighter.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://shiritori-fighter.giga-school.com/">Shiritori_fighter</a></h3>
-          <p class="card__desc">テレビ番組の企画「しりとりファイター」をもとにした、しりとりの対戦アプリ。</p>
-          <p class="card__foot">
-            <a href="https://shiritori-fighter.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://shiritori-fighter.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Shiritori_fighter" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://shiritori-fighter.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="koumu" data-name="Slide_Guild" data-keywords="スライド サイドバー 教材 授業づくり・校務 がくしゅう きょうざい" style="--cat:#5b7f9e">
-          <div class="card__top">
-            <span class="tag">授業づくり・校務</span>
+          <div class="card__media card__media--tile" data-initial="S"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">授業づくり・校務</span>
+            </div>
+            <h3 class="card__title"><a href="https://slide-guild.giga-school.com/">Slide_Guild</a></h3>
+            <p class="card__desc">スライドを使った学習を進めるためのサイドバーアプリ。</p>
+            <p class="card__foot">
+              <a href="https://slide-guild.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://slide-guild.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Slide_Guild" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://slide-guild.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://slide-guild.giga-school.com/">Slide_Guild</a></h3>
-          <p class="card__desc">スライドを使った学習を進めるためのサイドバーアプリ。</p>
-          <p class="card__foot">
-            <a href="https://slide-guild.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://slide-guild.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Slide_Guild" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://slide-guild.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="tankyu" data-name="Townmap_Mikke" data-keywords="まち探検 地図 探究 協働 社会科 学習・探究 ちず たんきゅう しゃかい がくしゅう きょうどう" style="--cat:#1d9c9c">
-          <div class="card__top">
-            <span class="tag">学習・探究</span>
+          <div class="card__media"><img src="/assets/thumbs/townmap-mikke.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学習・探究</span>
+            </div>
+            <h3 class="card__title"><a href="https://townmap-mikke.giga-school.com/">Townmap_Mikke</a></h3>
+            <p class="card__desc">地図の上に見つけたものを書き込んで共有する、協働学習向けのアプリ。なぞって範囲を選ぶツールや、Gemini によるポートフォリオの自動生成を備えます。Google Apps Script と React で構築。</p>
+            <p class="card__foot">
+              <a href="https://townmap-mikke.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://townmap-mikke.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Townmap_Mikke" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://townmap-mikke.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://townmap-mikke.giga-school.com/">Townmap_Mikke</a></h3>
-          <p class="card__desc">地図の上に見つけたものを書き込んで共有する、協働学習向けのアプリ。なぞって範囲を選ぶツールや、Gemini によるポートフォリオの自動生成を備えます。Google Apps Script と React で構築。</p>
-          <p class="card__foot">
-            <a href="https://townmap-mikke.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://townmap-mikke.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Townmap_Mikke" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://townmap-mikke.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="kokugo" data-name="Treasure_Words" data-keywords="語彙 言葉集め 宝箱 国語・言葉 ごい ことば こくご" style="--cat:#c96a2e">
-          <div class="card__top">
-            <span class="tag">国語・言葉</span>
+          <div class="card__media card__media--tile" data-initial="T"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">国語・言葉</span>
+            </div>
+            <h3 class="card__title"><a href="https://treasure-words.giga-school.com/">Treasure_Words</a></h3>
+            <p class="card__desc">見つけた言葉を集めてためておける「言葉の宝箱」。</p>
+            <p class="card__foot">
+              <a href="https://treasure-words.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://treasure-words.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Treasure_Words" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://treasure-words.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://treasure-words.giga-school.com/">Treasure_Words</a></h3>
-          <p class="card__desc">見つけた言葉を集めてためておける「言葉の宝箱」。</p>
-          <p class="card__foot">
-            <a href="https://treasure-words.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://treasure-words.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Treasure_Words" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://treasure-words.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
-        <li class="card" data-cat="other" data-name="tsubomi-learning" data-keywords="つぼみ そのほか " style="--cat:#8b93a1">
-          <div class="card__top">
-            <span class="tag">そのほか</span>
+        <li class="card" data-cat="kokugo" data-name="tsubomi-learning" data-keywords="つぼみ 花 植物 図鑑 観察 光村 こくご 国語・言葉 ことば こくご ずかん がくしゅう" style="--cat:#c96a2e">
+          <div class="card__media"><img src="/assets/thumbs/tsubomi-learning.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">国語・言葉</span>
+            </div>
+            <h3 class="card__title"><a href="https://tsubomi-learning.giga-school.com/">tsubomi-learning</a></h3>
+            <p class="card__desc">国語「つぼみ」の学習用に、いろいろな植物のつぼみと花を見比べられる図鑑アプリ。</p>
+            <p class="card__foot">
+              <a href="https://tsubomi-learning.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://tsubomi-learning.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/tsubomi-learning" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://tsubomi-learning.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://tsubomi-learning.giga-school.com/">tsubomi-learning</a></h3>
-          <p class="card__desc" data-empty="true">説明を準備中です。</p>
-          <p class="card__foot">
-            <a href="https://tsubomi-learning.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://tsubomi-learning.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/tsubomi-learning" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://tsubomi-learning.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="tankyu" data-name="Typa" data-keywords="タイピング キーボード 入力 学習・探究 たんきゅう がくしゅう" style="--cat:#1d9c9c">
-          <div class="card__top">
-            <span class="tag">学習・探究</span>
+          <div class="card__media"><img src="/assets/thumbs/typa.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">学習・探究</span>
+            </div>
+            <h3 class="card__title"><a href="https://typa.giga-school.com/">Typa</a></h3>
+            <p class="card__desc">タイピングを練習できるアプリ。</p>
+            <p class="card__foot">
+              <a href="https://typa.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://typa.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Typa" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://typa.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://typa.giga-school.com/">Typa</a></h3>
-          <p class="card__desc">タイピングを練習できるアプリ。</p>
-          <p class="card__foot">
-            <a href="https://typa.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://typa.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Typa" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://typa.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="seisaku" data-name="Video-editing_studio" data-keywords="動画 編集 映像 表現・制作 どうが へんしゅう えいぞう" style="--cat:#cd5a86">
-          <div class="card__top">
-            <span class="tag">表現・制作</span>
+          <div class="card__media card__media--tile" data-initial="V"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">表現・制作</span>
+            </div>
+            <h3 class="card__title"><a href="https://video-editing-studio.giga-school.com/">Video-editing_studio</a></h3>
+            <p class="card__desc">ブラウザで動く動画編集アプリ。</p>
+            <p class="card__foot">
+              <a href="https://video-editing-studio.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://video-editing-studio.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Video-editing_studio" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://video-editing-studio.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://video-editing-studio.giga-school.com/">Video-editing_studio</a></h3>
-          <p class="card__desc">ブラウザで動く動画編集アプリ。</p>
-          <p class="card__foot">
-            <a href="https://video-editing-studio.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://video-editing-studio.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Video-editing_studio" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://video-editing-studio.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="Werewolf" data-keywords="人狼 対戦 パーティ ゲーム・対戦 せいり じんろう たいせん" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/werewolf.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://werewolf.giga-school.com/">Werewolf</a></h3>
+            <p class="card__desc">1 台の端末をみんなで回して遊ぶ人狼ゲーム。小学生向けに進行と表示を整理し、ブラウザだけで動きます。</p>
+            <p class="card__foot">
+              <a href="https://werewolf.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://werewolf.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/Werewolf" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://werewolf.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://werewolf.giga-school.com/">Werewolf</a></h3>
-          <p class="card__desc">1 台の端末をみんなで回して遊ぶ人狼ゲーム。小学生向けに進行と表示を整理し、ブラウザだけで動きます。</p>
-          <p class="card__foot">
-            <a href="https://werewolf.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://werewolf.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/Werewolf" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://werewolf.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         <li class="card" data-cat="game" data-name="word_basket" data-keywords="ワードバスケット しりとり カードゲーム 言葉 ゲーム・対戦 ことば たいせん" style="--cat:#4a9e5c">
-          <div class="card__top">
-            <span class="tag">ゲーム・対戦</span>
+          <div class="card__media"><img src="/assets/thumbs/word-basket.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">ゲーム・対戦</span>
+            </div>
+            <h3 class="card__title"><a href="https://word-basket.giga-school.com/">word_basket</a></h3>
+            <p class="card__desc">しりとりのカードゲーム「ワードバスケット」のアプリ版。2〜6 人で遊べます。</p>
+            <p class="card__foot">
+              <a href="https://word-basket.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://word-basket.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/word_basket" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://word-basket.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://word-basket.giga-school.com/">word_basket</a></h3>
-          <p class="card__desc">しりとりのカードゲーム「ワードバスケット」のアプリ版。2〜6 人で遊べます。</p>
-          <p class="card__foot">
-            <a href="https://word-basket.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://word-basket.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/word_basket" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://word-basket.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
-        <li class="card" data-cat="other" data-name="XXX_automatic" data-keywords=" そのほか " style="--cat:#8b93a1">
-          <div class="card__top">
-            <span class="tag">そのほか</span>
+        <li class="card" data-cat="other" data-name="XXX_automatic" data-keywords="投稿 SNS X note 発信 自動 ランチャー そのほか " style="--cat:#8b93a1">
+          <div class="card__media"><img src="/assets/thumbs/xxx-automatic.webp" alt="" width="640" height="400" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <div class="card__top">
+              <span class="tag">そのほか</span>
+            </div>
+            <h3 class="card__title"><a href="https://xxx-automatic.giga-school.com/">XXX_automatic</a></h3>
+            <p class="card__desc">公開しているアプリを題材に、X と note へ出す投稿の文章・画像・ハッシュタグ・URL をまとめて用意する、作者の発信用ツール。出すかどうかの判断だけが手元に残ります。</p>
+            <p class="card__foot">
+              <a href="https://xxx-automatic.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
+              <a href="https://xxx-automatic.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
+              <a href="https://github.com/GIGAyama/XXX_automatic" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
+              <a class="card__open" href="https://xxx-automatic.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+            </p>
           </div>
-          <h3 class="card__title"><a href="https://xxx-automatic.giga-school.com/">XXX_automatic</a></h3>
-          <p class="card__desc" data-empty="true">説明を準備中です。</p>
-          <p class="card__foot">
-            <a href="https://xxx-automatic.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a>
-            <a href="https://xxx-automatic.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a>
-            <a href="https://github.com/GIGAyama/XXX_automatic" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a>
-            <a class="card__open" href="https://xxx-automatic.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
-          </p>
         </li>
         </ul>
 
@@ -1591,47 +1708,61 @@
           </p>
         </div>
         <ul class="cards">
-        <li class="card" style="--cat:#8b93a1">
-          <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
-          <h3 class="card__title"><a href="https://github.com/GIGAyama/app_launcher" rel="noopener">GIGA portal（app_launcher）</a></h3>
-          <p class="card__desc">よく使うアプリやサイトをまとめて開けるランチャー。タブの迷子を防ぐ切り替え、並べ替え、設定の書き出し・読み込みができます。</p>
-          <p class="card__foot"><a href="https://github.com/GIGAyama/app_launcher" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/app_launcher" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+        <li class="card card--plain" style="--cat:#8b93a1">
+          <div class="card__body">
+            <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
+            <h3 class="card__title"><a href="https://github.com/GIGAyama/app_launcher" rel="noopener">GIGA portal（app_launcher）</a></h3>
+            <p class="card__desc">よく使うアプリやサイトをまとめて開けるランチャー。タブの迷子を防ぐ切り替え、並べ替え、設定の書き出し・読み込みができます。</p>
+            <p class="card__foot"><a href="https://github.com/GIGAyama/app_launcher" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/app_launcher" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+          </div>
         </li>
-        <li class="card" style="--cat:#8b93a1">
-          <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
-          <h3 class="card__title"><a href="https://github.com/GIGAyama/Blackboard_Timer" rel="noopener">どこでも時間タイマー（Blackboard_Timer）</a></h3>
-          <p class="card__desc">どのページでも、つねに最前面に出せるタイマー。カウントダウン／カウントアップ、時間の調整、ピクチャーインピクチャーに対応します。</p>
-          <p class="card__foot"><a href="https://github.com/GIGAyama/Blackboard_Timer" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Blackboard_Timer" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+        <li class="card card--plain" style="--cat:#8b93a1">
+          <div class="card__body">
+            <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
+            <h3 class="card__title"><a href="https://github.com/GIGAyama/Blackboard_Timer" rel="noopener">どこでも時間タイマー（Blackboard_Timer）</a></h3>
+            <p class="card__desc">どのページでも、つねに最前面に出せるタイマー。カウントダウン／カウントアップ、時間の調整、ピクチャーインピクチャーに対応します。</p>
+            <p class="card__foot"><a href="https://github.com/GIGAyama/Blackboard_Timer" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Blackboard_Timer" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+          </div>
         </li>
-        <li class="card" style="--cat:#8b93a1">
-          <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
-          <h3 class="card__title"><a href="https://github.com/GIGAyama/Screenshot-PDF" rel="noopener">ぱしゃぱしゃ連続PDFメーカー（Screenshot-PDF）</a></h3>
-          <p class="card__desc">自動でページをめくりながらスクリーンショットを連続で撮り、1 つの PDF にまとめます。Web 教材をオフラインで見られるようにするためのものです。</p>
-          <p class="card__foot"><a href="https://github.com/GIGAyama/Screenshot-PDF" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Screenshot-PDF" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+        <li class="card card--plain" style="--cat:#8b93a1">
+          <div class="card__body">
+            <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
+            <h3 class="card__title"><a href="https://github.com/GIGAyama/Screenshot-PDF" rel="noopener">ぱしゃぱしゃ連続PDFメーカー（Screenshot-PDF）</a></h3>
+            <p class="card__desc">自動でページをめくりながらスクリーンショットを連続で撮り、1 つの PDF にまとめます。Web 教材をオフラインで見られるようにするためのものです。</p>
+            <p class="card__foot"><a href="https://github.com/GIGAyama/Screenshot-PDF" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Screenshot-PDF" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+          </div>
         </li>
-        <li class="card" style="--cat:#8b93a1">
-          <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
-          <h3 class="card__title"><a href="https://linker-clipper.giga-school.com/">Linker-Clipper</a></h3>
-          <p class="card__desc">開いているサイトのリンクを集めるための拡張機能。</p>
-          <p class="card__foot"><a href="https://linker-clipper.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a><a href="https://linker-clipper.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a><a href="https://github.com/GIGAyama/Linker-Clipper" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://linker-clipper.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a></p>
+        <li class="card card--plain" style="--cat:#8b93a1">
+          <div class="card__body">
+            <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
+            <h3 class="card__title"><a href="https://linker-clipper.giga-school.com/">Linker-Clipper</a></h3>
+            <p class="card__desc">開いているサイトのリンクを集めるための拡張機能。</p>
+            <p class="card__foot"><a href="https://linker-clipper.giga-school.com/privacy.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>プライバシー</a><a href="https://linker-clipper.giga-school.com/terms.html"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>利用規約</a><a href="https://github.com/GIGAyama/Linker-Clipper" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://linker-clipper.giga-school.com/">開く<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a></p>
+          </div>
         </li>
-        <li class="card" style="--cat:#8b93a1">
-          <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
-          <h3 class="card__title"><a href="https://github.com/GIGAyama/Google-Data-Transfer" rel="noopener">Google-Data-Transfer</a></h3>
-          <p class="card__desc">Google ドキュメント・スプレッドシート・スライドやドライブ上のファイルを、別のアカウントへまとめて複製・移行します。拡張機能と Google Apps Script を組み合わせて動きます。</p>
-          <p class="card__foot"><a href="https://github.com/GIGAyama/Google-Data-Transfer" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Google-Data-Transfer" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+        <li class="card card--plain" style="--cat:#8b93a1">
+          <div class="card__body">
+            <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
+            <h3 class="card__title"><a href="https://github.com/GIGAyama/Google-Data-Transfer" rel="noopener">Google-Data-Transfer</a></h3>
+            <p class="card__desc">Google ドキュメント・スプレッドシート・スライドやドライブ上のファイルを、別のアカウントへまとめて複製・移行します。拡張機能と Google Apps Script を組み合わせて動きます。</p>
+            <p class="card__foot"><a href="https://github.com/GIGAyama/Google-Data-Transfer" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Google-Data-Transfer" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+          </div>
         </li>
-        <li class="card" style="--cat:#8b93a1">
-          <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
-          <h3 class="card__title"><a href="https://github.com/GIGAyama/Gem" rel="noopener">Gem</a></h3>
-          <p class="card__desc" data-empty="true">説明を準備中です。</p>
-          <p class="card__foot"><a href="https://github.com/GIGAyama/Gem" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Gem" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+        <li class="card card--plain" style="--cat:#8b93a1">
+          <div class="card__body">
+            <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
+            <h3 class="card__title"><a href="https://github.com/GIGAyama/Gem" rel="noopener">Gem</a></h3>
+            <p class="card__desc">アプリづくりや教材づくりに使っている、生成 AI 向けの指示文（プロンプト）を置いてある作業用リポジトリです。</p>
+            <p class="card__foot"><a href="https://github.com/GIGAyama/Gem" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/Gem" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+          </div>
         </li>
-        <li class="card" style="--cat:#8b93a1">
-          <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
-          <h3 class="card__title"><a href="https://github.com/GIGAyama/my-antigravity-skills" rel="noopener">my-antigravity-skills</a></h3>
-          <p class="card__desc">Google Antigravity の SKILL を置いている作業用リポジトリです。</p>
-          <p class="card__foot"><a href="https://github.com/GIGAyama/my-antigravity-skills" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/my-antigravity-skills" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+        <li class="card card--plain" style="--cat:#8b93a1">
+          <div class="card__body">
+            <div class="card__top"><span class="tag">拡張機能・ツール</span></div>
+            <h3 class="card__title"><a href="https://github.com/GIGAyama/my-antigravity-skills" rel="noopener">my-antigravity-skills</a></h3>
+            <p class="card__desc">Google Antigravity の SKILL を置いている作業用リポジトリです。</p>
+            <p class="card__foot"><a href="https://github.com/GIGAyama/my-antigravity-skills" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>コード</a><a class="card__open" href="https://github.com/GIGAyama/my-antigravity-skills" rel="noopener">GitHub<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+          </div>
         </li>
         </ul>
       </div>
@@ -1688,6 +1819,10 @@
               <dt>GitHub</dt>
               <dd><a href="https://github.com/GIGAyama" rel="noopener">github.com/GIGAyama</a></dd>
             </div>
+            <div class="contact__row">
+              <dt>note</dt>
+              <dd><a href="https://note.com/cute_borage86" rel="noopener">note.com/cute_borage86</a></dd>
+            </div>
           </dl>
         </div>
       </div>
@@ -1707,6 +1842,7 @@
         <a href="#about">このサイトについて</a>
         <a href="#contact">お問い合わせ</a>
         <a href="https://github.com/GIGAyama" rel="noopener">GitHub</a>
+        <a href="https://note.com/cute_borage86" rel="noopener">note</a>
       </nav>
     </div>
   </footer>
