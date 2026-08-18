@@ -1,0 +1,16 @@
+{
+  "name": "GIGA school｜学校で使える Web アプリ",
+  "short_name": "GIGA school",
+  "description": "小学校の教員がつくった、学校で使える Web アプリの一覧です。",
+  "lang": "ja",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f4a94",
+  "icons": [
+    { "src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

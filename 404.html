@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ページが見つかりません｜GIGA school</title>
+  <meta name="description" content="お探しのページは見つかりませんでした。GIGA school のトップページからアプリを探せます。">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .notfound { display: grid; place-items: center; min-block-size: 78vh; text-align: center; }
+    .notfound__code {
+      font-size: clamp(3.4rem, 2rem + 8vw, 6rem);
+      font-weight: 800; line-height: 1; letter-spacing: -.04em;
+      color: var(--brand); margin-bottom: var(--s-4);
+      font-variant-numeric: tabular-nums;
+    }
+    .notfound__body { max-width: 46ch; }
+    .notfound__body p { color: var(--ink-2); margin-block: var(--s-3) var(--s-6); }
+    .notfound .hero__actions { justify-content: center; margin-bottom: 0; }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap notfound">
+    <div class="notfound__body">
+      <p class="notfound__code">404</p>
+      <h1 class="section__title">ページが見つかりません</h1>
+      <p>
+        アドレスが変わったか、削除された可能性があります。
+        各アプリは <code>アプリ名.giga-school.com</code> のアドレスで公開しています。
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/#apps">アプリの一覧を見る</a>
+        <a class="btn btn--ghost" href="/">トップページへ</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>
