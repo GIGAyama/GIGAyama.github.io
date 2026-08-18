@@ -8,7 +8,7 @@
 
 ## 役割
 
-1. **公開中のアプリへの入口**（Web アプリ 44 本、Chrome 拡張機能・ツール 7 本）
+1. **公開中のアプリへの入口**（Web アプリ 43 本、Chrome 拡張機能・ツール 7 本）
 2. **サイトの所有権確認**
    Google Search Console の HTML ファイル確認用ファイルをルートに置いています。
    OAuth 同意画面（Google Auth Platform）の審査では、ホームページ URL のオリジンについて
@@ -47,6 +47,14 @@ tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」
 
 `index.html` の該当箇所を直接編集します。
 
+> [!NOTE]
+> **カードに出す名前は、リポジトリ名ではなくアプリの正式名称です。**
+> （例：`SchoolPlan_Editor` → 「週案エディタ」）
+> 出どころは各リポジトリの `<title>` ／ manifest の `name` ／ README の見出し ／
+> Google Apps Script の `APP_NAME` です。リポジトリ名でも検索できるよう、
+> `data-keywords` の末尾にリポジトリ名を入れてあります。
+> 並び順は、この表示名を日本語の照合順（`localeCompare(…, 'ja')`）で並べたものです。
+
 1. **Web アプリ** … `<ul class="cards" id="app-list">` の中に `<li class="card">` を追加します。
    既存のカードをコピーし、次の 5 か所を書き換えてください。
    - `data-cat` … カテゴリの id（`kokugo` / `sansu` / `tankyu` / `gakkyu` / `koumu` /
@@ -55,24 +63,41 @@ tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」
      児童が探しやすくなります。
    - `style="--cat:…"` と `<span class="tag">` … カテゴリの色と表示名
    - リンク（アプリ本体・プライバシーポリシー・利用規約・GitHub）
-   - サムネイル … `assets/thumbs/<サブドメイン>.webp` を置き、`<div class="card__media">`
-     の中の `<img src>` をそこへ向けます。画像がまだ無いときは
+   - サムネイル … `assets/thumbs/<サブドメイン>-1.webp` 〜 `-6.webp` を置き、
+     `<div class="card__media" data-shots="6">` の中の `<img>` をそこへ向けます。
+     画像がまだ無いときは
      `<div class="card__media card__media--tile" data-initial="頭文字"></div>`
      に置き換えると、カテゴリ色のタイルが描かれます。
 2. **カテゴリの件数** … 絞り込みボタン（`.chip`）の `<span class="count">` と、
    見出し・ヒーローの本数を合わせて直します。
 3. **Chrome 拡張機能など** … `#tools` の中のカードを同じ要領で編集します。
-4. 最後に、フッターの「最終更新」の `<time datetime="…">` を更新します。
+4. `data/apps.json` にも 1 行足します（`repo` / `name` / `kind` / `slug` / `category`）。
+   日付は `node tools/sync-updates.mjs --fetch` で埋まります。
+
+### アプリを取り下げるとき
+
+リポジトリを消した場合は、次の 4 か所から外してください。外し忘れると、
+カードのリンクが 404 になったり、件数が合わなくなったりします。
+
+1. `index.html` の該当する `<li class="card">`
+2. `index.html` の先頭にある構造化データ（`application/ld+json`）の該当項目と `numberOfItems`
+3. 本数の表記（ヒーローの「◯本」、見出しの「公開中のアプリ（◯本）」、
+   絞り込みボタンの件数、`<meta name="description">` と `og:description`）
+4. `data/apps.json` の該当項目
+
+`assets/thumbs/<サブドメイン>-*.webp` も不要なら消します。
+毎朝のワークフローは、消えたリポジトリを見つけると
+「見つからない（削除された？）」と記録に残しますが、自動では外しません。
 
 ## サムネイルについて
 
 各カードの画像は、**そのアプリのリポジトリにある実際の画面**です。
 多くのリポジトリは `docs/note/images/` に note 記事用のスクリーンショットを持っているので、
-そこから 1 枚を選び、16:10 に切って 640×400 の WebP に変換して `assets/thumbs/` に置いています。
+そこから選んで 16:10 に切り、640×400 の WebP にして `assets/thumbs/` に置いています。
 縦に長い全ページキャプチャは、余白ばかりの帯を避けて中身の詰まった部分を選んでいます。
 
-画像を差し替えるときは、640×400 の WebP を同じファイル名で置き換えてください。
-1 枚あたり 10〜20KB、33 枚あわせて 460KB ほどです（`loading="lazy"` で遅らせて読み込みます）。
+いまは 33 アプリ × 最大 6 枚、合わせて 194 枚・2.4MB です
+（1 枚あたり平均 12KB。必要になってから読み込みます）。
 
 ### カードの中で切り替わる画面写真
 
@@ -143,7 +168,7 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
 
 - **依存ライブラリなし。** 外部の CSS・JavaScript・Web フォント・画像を読み込みません。
   読み込みが速く、外部サービスに閲覧の記録が渡りません。
-- **JavaScript が無くても読める。** 51 本のカードはすべて HTML に書いてあります。
+- **JavaScript が無くても読める。** 50 本のカードはすべて HTML に書いてあります。
   JavaScript は検索・絞り込み・テーマ切り替えだけを担い、無効なときはそれらを表示しません。
 - **配色は明暗どちらでも AA 以上。** 本文と背景の組み合わせは、コントラスト比 4.5:1 を上回る値を
   選んでいます。OS の設定に追従し、ヘッダーのボタンで切り替えもできます。
