@@ -724,33 +724,35 @@
     border-radius: var(--r-lg);
     box-shadow: var(--shadow-1);
     overflow: hidden;
-    content-visibility: auto;
-    contain-intrinsic-size: auto 460px;
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
                 translate var(--dur) var(--ease);
   }
-  .card--plain { contain-intrinsic-size: auto 240px; }
 
   .card__body {
     display: flex;
     flex-direction: column;
     gap: var(--s-3);
     padding: var(--s-5);
-    flex: 1;
+    flex: 1 1 auto;             /* 高さの余りはこちらで受ける */
+    min-block-size: 0;
   }
 
   /* ---------- カードのサムネイル ----------
      各アプリのリポジトリにある実際の画面を、16:10 に切って載せている。 */
   .card__media {
     position: relative;
+    flex: none;                 /* 伸ばさない・縮めない */
     aspect-ratio: 16 / 10;
     background: var(--surface-2);
     border-block-end: 1px solid var(--line);
     overflow: hidden;
   }
   .card__media img {
+    position: absolute;         /* 枠の高さを確実に決めるため、流し込みから外す */
+    inset: 0;
     inline-size: 100%;
     block-size: 100%;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top center;
     transition: scale var(--dur) var(--ease);
@@ -1096,7 +1098,6 @@
     border-radius: 0;
     padding: 8px 0;
     box-shadow: none;
-    content-visibility: visible;
   }
   .card__media { display: none; }
   .card__body { padding: 0; }
