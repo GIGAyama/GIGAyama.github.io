@@ -227,7 +227,8 @@
   }
 
   .section { padding-block: clamp(48px, 8vw, 96px); }
-  .hero + .section { padding-block-start: clamp(28px, 4vw, 48px); }
+  .hero + .section,
+  .strip + .section { padding-block-start: clamp(24px, 3vw, 40px); }
   .section--sunken { background: var(--bg-sunken); }
 
   .section__head { margin-bottom: var(--s-6); }
@@ -309,7 +310,16 @@
     align-items: center;
     gap: var(--s-4);
     min-block-size: 66px;
+    transition: min-block-size var(--dur) var(--ease);
   }
+  /* スクロールすると、ほんの少しだけ背を低くする */
+  .site-header[data-stuck="true"] .site-header__inner { min-block-size: 56px; }
+  .brand__sub {
+    transition: max-block-size var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    overflow: hidden;
+    max-block-size: 1.4em;
+  }
+  .site-header[data-stuck="true"] .brand__sub { max-block-size: 0; opacity: 0; }
 
   .brand {
     display: inline-flex;
@@ -526,7 +536,7 @@
   .btn:visited { color: var(--btn-fg); }
   .btn svg { inline-size: 17px; block-size: 17px; flex: none; }
   .btn:hover { translate: 0 -1px; box-shadow: var(--shadow-2); }
-  .btn:active { translate: 0 0; }
+  .btn:active { translate: 0 1px; box-shadow: none; transition-duration: 80ms; }
 
   .btn--primary {
     --btn-bg: var(--brand);
@@ -570,19 +580,79 @@
   .stats dd .unit { font-size: .55em; font-weight: 700; color: var(--ink-3); margin-inline-start: 2px; }
   .stats > div { display: grid; gap: 2px; }
 
-  /* ---------- 特徴の3点 ---------- */
+  /* ---------- 流れる帯 ----------
+     下の一覧に載せているアプリの画面を、ゆっくり横に流す。
+     動かすのは transform だけなので、配置の計算も描き直しも起きない。 */
+  .strip {
+    --strip-height: clamp(104px, 13vw, 148px);
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--s-2) clamp(24px, 4vw, 44px);
+    /* 両端をそっと消して、切れ目を目立たなくする */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .strip__track {
+    display: flex;
+    inline-size: max-content;
+    gap: var(--s-3);
+    animation: strip-scroll 78s linear infinite;
+    will-change: transform;
+  }
+  /* 半分ぶん動かすと、複製した後半が元の位置にぴたりと重なる */
+  @keyframes strip-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(calc(-50% - var(--s-3) / 2), 0, 0); }
+  }
+
+  .strip:hover .strip__track,
+  .strip:focus-within .strip__track { animation-play-state: paused; }
+
+  .strip img {
+    block-size: var(--strip-height);
+    inline-size: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface-2);
+    flex: none;
+  }
+  :root[data-theme="dark"] .strip img { filter: brightness(.9); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .strip img { filter: brightness(.9); }
+  }
+
+  /* 動きを減らす設定では、流さずに並べたまま見せる */
+  @media (prefers-reduced-motion: reduce) {
+    .strip__track { animation: none; }
+  }
+
+  /* ---------- 特徴の3点 ----------
+     枠線のある箱を並べると、上の帯と合わせて重く見える。
+     区切り線だけで 3 つに割る。 */
   .pillars {
     display: grid;
-    gap: var(--s-4);
-    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-block: 1px solid var(--line);
   }
   .pillar {
     display: grid;
     gap: var(--s-2);
-    padding: var(--s-5);
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
+    align-content: start;
+    padding: clamp(24px, 3vw, 36px) clamp(20px, 2.6vw, 32px);
+  }
+  .pillar + .pillar { border-inline-start: 1px solid var(--line); }
+
+  @media (max-width: 860px) {
+    .pillars { grid-template-columns: minmax(0, 1fr); }
+    .pillar + .pillar {
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--line);
+    }
   }
   .pillar__icon {
     inline-size: 40px;
@@ -679,9 +749,10 @@
     cursor: pointer;
     white-space: nowrap;
     transition: color var(--dur) var(--ease), background var(--dur) var(--ease),
-                border-color var(--dur) var(--ease);
+                border-color var(--dur) var(--ease), translate var(--dur) var(--ease);
   }
   .chip:hover { border-color: var(--line-strong); color: var(--ink); }
+  .chip:active { translate: 0 1px; transition-duration: 80ms; }
   .chip .count {
     font-size: .75rem;
     font-variant-numeric: tabular-nums;
@@ -695,11 +766,53 @@
   }
   .chip[aria-pressed="true"] .count { color: color-mix(in srgb, var(--brand-contrast) 78%, transparent); }
 
-  .finder__status {
+  .finder__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-4);
     margin-block-start: var(--s-3);
+  }
+  .finder__status {
     font-size: .8125rem;
     color: var(--ink-3);
     font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- 並び替え ---------- */
+  .sorter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: .8125rem;
+    color: var(--ink-3);
+  }
+  .sorter label { font-weight: 600; white-space: nowrap; }
+  .sorter select {
+    appearance: none;
+    padding: 6px 30px 6px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-pill);
+    background-color: var(--surface);
+    /* 下向きの小さな山。画像を足さずに描く */
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%, currentColor 58%, transparent 58%),
+      linear-gradient(-45deg, transparent 50%, currentColor 50%, currentColor 58%, transparent 58%);
+    background-position: right 16px center, right 11px center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    color: var(--ink);
+    font-size: .8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .sorter select:hover { border-color: var(--brand); }
+  .sorter select:focus-visible {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
   }
 
   /* JavaScript が無い環境では、動かない操作部品を出さない */
@@ -728,6 +841,22 @@
                 translate var(--dur) var(--ease);
   }
 
+  /* カード上端に、カテゴリの色の線を左から伸ばす */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    block-size: 2px;
+    z-index: 2;
+    background: var(--cat, var(--brand));
+    scale: 0 1;
+    transform-origin: left center;
+    transition: scale .28s var(--ease);
+  }
+  .card:hover::before,
+  .card:focus-within::before { scale: 1 1; }
+
   .card__body {
     display: flex;
     flex-direction: column;
@@ -755,9 +884,41 @@
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top center;
-    transition: scale var(--dur) var(--ease);
+    opacity: 0;
+    transition: scale var(--dur) var(--ease), opacity .5s var(--ease);
   }
-  .card:hover .card__media img { scale: 1.025; }
+  /* 表示中の 1 枚。JavaScript が無い場合も 1 枚目には最初から付いている */
+  .card__media img.is-on { opacity: 1; }
+
+  /* 何枚目を見ているかの小さな目印。JavaScript が組み立てる */
+  .card__dots {
+    position: absolute;
+    z-index: 2;
+    inset-block-end: 8px;
+    inset-inline-end: 10px;
+    display: flex;
+    gap: 4px;
+    padding: 4px 6px;
+    border-radius: var(--r-pill);
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    opacity: 0;
+    transition: opacity var(--dur) var(--ease);
+    pointer-events: none;
+  }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .card__dots { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  }
+  .card:hover .card__dots,
+  .card:focus-within .card__dots { opacity: 1; }
+  .card__dots i {
+    inline-size: 5px;
+    block-size: 5px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ink) 30%, transparent);
+    transition: background var(--dur) var(--ease);
+  }
+  .card__dots i.is-on { background: var(--cat, var(--brand)); }
+  .card:hover .card__media img { scale: 1.04; }
   @media (prefers-reduced-motion: reduce) {
     .card:hover .card__media img { scale: 1; }
   }
@@ -806,11 +967,28 @@
   .card:hover {
     border-color: color-mix(in srgb, var(--brand) 40%, var(--line));
     box-shadow: var(--shadow-2);
-    translate: 0 -2px;
+    translate: 0 -3px;
+  }
+  .card:active {
+    translate: 0 0;
+    box-shadow: var(--shadow-1);
+    transition-duration: 80ms;
   }
   .card:has(.card__title a:focus-visible) {
     border-color: var(--brand);
     box-shadow: var(--shadow-2);
+  }
+
+  /* 指で触る画面では、ホバーの見た目を残さない（押した反応だけ返す） */
+  @media (hover: none) {
+    .card:hover {
+      border-color: var(--line);
+      box-shadow: var(--shadow-1);
+      translate: 0 0;
+    }
+    .card:hover::before { scale: 0 1; }
+    .card:hover .card__media img { scale: 1; }
+    .card:active { background: var(--surface-2); }
   }
 
   .card__top {
@@ -902,23 +1080,63 @@
     color: var(--brand) !important;
     text-decoration: none;
   }
+  /* ---------- 共有ボタン ----------
+     画像の右上に重ねる。マウスを乗せたときに出て、
+     指で触る画面では最初から見えている。 */
+  .card__share {
+    position: absolute;
+    z-index: 3;
+    inset-block-start: 10px;
+    inset-inline-end: 10px;
+    inline-size: 30px;
+    block-size: 30px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    color: var(--ink-2);
+    cursor: pointer;
+    opacity: 0;
+    transition: color var(--dur) var(--ease), background var(--dur) var(--ease),
+                opacity var(--dur) var(--ease), translate var(--dur) var(--ease);
+  }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .card__share { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  }
+  .card__share svg { inline-size: 15px; block-size: 15px; }
+  .card:hover .card__share,
+  .card:focus-within .card__share,
+  .card__share:focus-visible { opacity: 1; }
+  .card__share:hover { color: var(--brand); background: var(--surface); }
+  .card__share:active { translate: 0 1px; transition-duration: 80ms; }
+  @media (hover: none) {
+    .card__share { opacity: 1; }
+  }
+
+  .card__open svg { transition: translate var(--dur) var(--ease); }
+  .card:hover .card__open svg { translate: 3px 0; }
+  @media (hover: none) {
+    .card:hover .card__open svg { translate: 0 0; }
+  }
 
   /* 絞り込みで消えたカード */
   .card[hidden] { display: none; }
 
-  /* スクロールに合わせて静かに現れる（対応ブラウザのみ） */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .card, .pillar {
-        animation: card-in linear both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 42%;
-      }
-      @keyframes card-in {
-        from { opacity: 0; translate: 0 14px; }
-        to   { opacity: 1; translate: 0 0; }
-      }
-    }
+  /* ---------- スクロールに合わせて静かに現れる ----------
+     隠すのは JavaScript が動いたときだけ（.js-reveal が付く）。
+     読み込まれなかった場合や途中で失敗した場合は、何も隠れない。 */
+  .js-reveal [data-reveal="pending"] {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  .js-reveal [data-reveal] {
+    transition: opacity .45s var(--ease), translate .45s var(--ease);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js-reveal [data-reveal="in"] {
+    opacity: 1;
+    translate: 0 0;
   }
 
   /* ---------- 該当なし ---------- */
@@ -933,6 +1151,93 @@
   .empty-state p { margin: 0 0 var(--s-4); }
   .cards:has(> .card:not([hidden])) + .empty-state { display: none; }
   .cards:not(:has(> .card:not([hidden]))) + .empty-state { display: block; }
+
+  /* ---------- 更新情報 ---------- */
+  .updates__note {
+    max-width: var(--measure-text);
+    margin-block-end: var(--s-6);
+    font-size: .9375rem;
+    color: var(--ink-2);
+  }
+  .updates__note time { font-weight: 700; color: var(--ink); }
+
+  .updates {
+    display: grid;
+    gap: clamp(24px, 4vw, 56px);
+    grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  }
+  .updates__title {
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--ink-3);
+    padding-block-end: var(--s-3);
+    border-block-end: 1px solid var(--line-strong);
+    margin-block-end: var(--s-2);
+  }
+
+  .timeline { display: grid; }
+  .timeline__row {
+    display: grid;
+    grid-template-columns: 5.5em minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: var(--s-3);
+    padding-block: 11px;
+    border-block-end: 1px solid var(--line);
+  }
+  .timeline__row:last-child { border-block-end: 0; }
+
+  .timeline__date {
+    font-size: .8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-3);
+    white-space: nowrap;
+    position: relative;
+    padding-inline-start: 14px;
+  }
+  .timeline__date::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: .45em;
+    inline-size: 7px;
+    block-size: 7px;
+    border-radius: 50%;
+    background: var(--cat, var(--brand));
+  }
+
+  .timeline__name {
+    font-weight: 700;
+    font-size: .9375rem;
+    color: var(--ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .timeline__name:visited { color: var(--ink); }
+  .timeline__name:hover { color: var(--brand); text-decoration: underline; }
+
+  .timeline__tag {
+    font-size: .6875rem;
+    font-weight: 700;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  /* 同じ日にまとめて手を入れたぶんは、1 行に並べる */
+  .timeline__row--group { grid-template-columns: 5.5em minmax(0, 1fr); }
+  .timeline__names { font-size: .875rem; line-height: 1.9; }
+  .timeline__names .timeline__name { font-size: inherit; font-weight: 600; }
+  .timeline__sep { color: var(--ink-3); margin-inline: 2px; }
+  .timeline__more {
+    color: var(--ink-3);
+    font-size: .8125rem;
+    margin-inline-start: 6px;
+    white-space: nowrap;
+  }
+  @media (max-width: 420px) {
+    .timeline__row { grid-template-columns: 5.5em minmax(0, 1fr); }
+    .timeline__tag { grid-column: 2; font-size: .625rem; }
+  }
 
   /* ---------- 情報ボックス ---------- */
   .prose { max-width: var(--measure-text); }
@@ -1087,7 +1392,9 @@
     --shadow-1: none; --shadow-2: none;
   }
   .site-header, .finder, .to-top, .theme-toggle,
-  .hero__actions, .empty-state { display: none !important; }
+  .hero__actions, .empty-state, .strip { display: none !important; }
+  /* 印刷では出現待ちの状態を残さない */
+  .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
   .hero::before, .hero::after { display: none; }
   body { font-size: 10pt; line-height: 1.6; }
   .cards { display: block; }
