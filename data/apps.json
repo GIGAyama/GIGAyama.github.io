@@ -1,0 +1,465 @@
+{
+ "_comment": "publishedAt は最初のコミット日、updatedAt は最後に push された日。tools/sync-updates.mjs が GitHub から取り直して書き換える。",
+ "generatedAt": "2026-08-18",
+ "items": [
+  {
+   "repo": "Class_tweet",
+   "name": "Class_tweet",
+   "kind": "app",
+   "slug": "class-tweet",
+   "category": "gakkyu",
+   "publishedAt": "2026-02-20",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Digital-Newspaper",
+   "name": "Digital-Newspaper",
+   "kind": "app",
+   "slug": "digital-newspaper",
+   "category": "seisaku",
+   "publishedAt": "2026-01-23",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "DigitalCloset",
+   "name": "DigitalCloset",
+   "kind": "app",
+   "slug": "digitalcloset",
+   "category": "other",
+   "publishedAt": "2025-10-09",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Digital_textbook",
+   "name": "Digital_textbook",
+   "kind": "app",
+   "slug": "digital-textbook",
+   "category": "koumu",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Gamification",
+   "name": "Gamification",
+   "kind": "app",
+   "slug": "gamification",
+   "category": "tankyu",
+   "publishedAt": "2026-02-21",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Gmail_cleaner",
+   "name": "Gmail_cleaner",
+   "kind": "app",
+   "slug": "gmail-cleaner",
+   "category": "koumu",
+   "publishedAt": "2025-10-14",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Gobblet",
+   "name": "Gobblet",
+   "kind": "app",
+   "slug": "gobblet",
+   "category": "game",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Hagetaka-game",
+   "name": "Hagetaka-game",
+   "kind": "app",
+   "slug": "hagetaka-game",
+   "category": "game",
+   "publishedAt": "2026-03-02",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Haiku-meeting",
+   "name": "Haiku-meeting",
+   "kind": "app",
+   "slug": "haiku-meeting",
+   "category": "kokugo",
+   "publishedAt": "2025-10-11",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Homework_barcordreader",
+   "name": "Homework_barcordreader",
+   "kind": "app",
+   "slug": "homework-barcordreader",
+   "category": "gakkyu",
+   "publishedAt": "2026-03-05",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Ice_slide-puzzle",
+   "name": "Ice_slide-puzzle",
+   "kind": "app",
+   "slug": "ice-slide-puzzle",
+   "category": "game",
+   "publishedAt": "2026-03-01",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "JIDOSHA_ZUKAN",
+   "name": "JIDOSHA_ZUKAN",
+   "kind": "app",
+   "slug": "jidosha-zukan",
+   "category": "tankyu",
+   "publishedAt": "2026-08-10",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "KAKE_Master",
+   "name": "KAKE_Master",
+   "kind": "app",
+   "slug": "kake-master",
+   "category": "sansu",
+   "publishedAt": "2026-07-23",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "KANJI_Town",
+   "name": "KANJI_Town",
+   "kind": "app",
+   "slug": "kanji-town",
+   "category": "kokugo",
+   "publishedAt": "2026-03-16",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "KEISAN-BLOCK",
+   "name": "KEISAN-BLOCK",
+   "kind": "app",
+   "slug": "keisan-block",
+   "category": "sansu",
+   "publishedAt": "2026-07-24",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Keisan-Card",
+   "name": "Keisan-Card",
+   "kind": "app",
+   "slug": "keisan-card",
+   "category": "sansu",
+   "publishedAt": "2026-06-12",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "MIRAI-Compass",
+   "name": "MIRAI-Compass",
+   "kind": "app",
+   "slug": "mirai-compass",
+   "category": "tankyu",
+   "publishedAt": "2026-01-29",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Moral_note",
+   "name": "Moral_note",
+   "kind": "app",
+   "slug": "moral-note",
+   "category": "tankyu",
+   "publishedAt": "2026-02-15",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Music-production_studio",
+   "name": "Music-production_studio",
+   "kind": "app",
+   "slug": "music-production-studio",
+   "category": "seisaku",
+   "publishedAt": "2026-03-12",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "NotebookSample_Generator",
+   "name": "NotebookSample_Generator",
+   "kind": "app",
+   "slug": "notebooksample-generator",
+   "category": "koumu",
+   "publishedAt": "2026-03-29",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Officefile_converter",
+   "name": "Officefile_converter",
+   "kind": "app",
+   "slug": "officefile-converter",
+   "category": "koumu",
+   "publishedAt": "2025-10-14",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "online-100square-calculation",
+   "name": "online-100square-calculation",
+   "kind": "app",
+   "slug": "online-100square-calculation",
+   "category": "sansu",
+   "publishedAt": "2025-10-16",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "online-manuscript-paper-lite",
+   "name": "online-manuscript-paper-lite",
+   "kind": "app",
+   "slug": "online-manuscript-paper-lite",
+   "category": "kokugo",
+   "publishedAt": "2026-02-07",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "online-manuscript-paper-pro",
+   "name": "online-manuscript-paper-pro",
+   "kind": "app",
+   "slug": "online-manuscript-paper-pro",
+   "category": "kokugo",
+   "publishedAt": "2026-02-08",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Online-Publisher-pro",
+   "name": "Online-Publisher-pro",
+   "kind": "app",
+   "slug": "online-publisher-pro",
+   "category": "kokugo",
+   "publishedAt": "2026-03-07",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "PhysicalEducation_note",
+   "name": "PhysicalEducation_note",
+   "kind": "app",
+   "slug": "physicaleducation-note",
+   "category": "tankyu",
+   "publishedAt": "2026-02-21",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Qalc",
+   "name": "Qalc",
+   "kind": "app",
+   "slug": "qalc",
+   "category": "sansu",
+   "publishedAt": "2026-03-11",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Quarto",
+   "name": "Quarto",
+   "kind": "app",
+   "slug": "quarto",
+   "category": "game",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Quoridor",
+   "name": "Quoridor",
+   "kind": "app",
+   "slug": "quoridor",
+   "category": "game",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Reflection_Journal",
+   "name": "Reflection_Journal",
+   "kind": "app",
+   "slug": "reflection-journal",
+   "category": "gakkyu",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Reversi",
+   "name": "Reversi",
+   "kind": "app",
+   "slug": "reversi",
+   "category": "game",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "SchoolPlan_Editor",
+   "name": "SchoolPlan_Editor",
+   "kind": "app",
+   "slug": "schoolplan-editor",
+   "category": "koumu",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Shapes_Canvas",
+   "name": "Shapes_Canvas",
+   "kind": "app",
+   "slug": "shapes-canvas",
+   "category": "sansu",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Shared-Folder-Sync",
+   "name": "Shared-Folder-Sync",
+   "kind": "app",
+   "slug": "shared-folder-sync",
+   "category": "koumu",
+   "publishedAt": "2026-02-01",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Shiritori_fighter",
+   "name": "Shiritori_fighter",
+   "kind": "app",
+   "slug": "shiritori-fighter",
+   "category": "game",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Slide_Guild",
+   "name": "Slide_Guild",
+   "kind": "app",
+   "slug": "slide-guild",
+   "category": "koumu",
+   "publishedAt": "2026-02-17",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Townmap_Mikke",
+   "name": "Townmap_Mikke",
+   "kind": "app",
+   "slug": "townmap-mikke",
+   "category": "tankyu",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Treasure_Words",
+   "name": "Treasure_Words",
+   "kind": "app",
+   "slug": "treasure-words",
+   "category": "kokugo",
+   "publishedAt": "2026-08-01",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "tsubomi-learning",
+   "name": "tsubomi-learning",
+   "kind": "app",
+   "slug": "tsubomi-learning",
+   "category": "kokugo",
+   "publishedAt": "2026-06-01",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Typa",
+   "name": "Typa",
+   "kind": "app",
+   "slug": "typa",
+   "category": "tankyu",
+   "publishedAt": "2026-07-29",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Video-editing_studio",
+   "name": "Video-editing_studio",
+   "kind": "app",
+   "slug": "video-editing-studio",
+   "category": "seisaku",
+   "publishedAt": "2026-03-12",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Werewolf",
+   "name": "Werewolf",
+   "kind": "app",
+   "slug": "werewolf",
+   "category": "game",
+   "publishedAt": "2025-10-11",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "word_basket",
+   "name": "word_basket",
+   "kind": "app",
+   "slug": "word-basket",
+   "category": "game",
+   "publishedAt": "2025-10-13",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "XXX_automatic",
+   "name": "XXX_automatic",
+   "kind": "app",
+   "slug": "xxx-automatic",
+   "category": "other",
+   "publishedAt": "2026-08-07",
+   "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "app_launcher",
+   "name": "GIGA portal（app_launcher）",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "publishedAt": "2026-02-24",
+   "updatedAt": "2026-08-08"
+  },
+  {
+   "repo": "Blackboard_Timer",
+   "name": "どこでも時間タイマー（Blackboard_Timer）",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "publishedAt": "2026-02-24",
+   "updatedAt": "2026-02-24"
+  },
+  {
+   "repo": "Screenshot-PDF",
+   "name": "ぱしゃぱしゃ連続PDFメーカー（Screenshot-PDF）",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "publishedAt": "2026-03-27",
+   "updatedAt": "2026-03-27"
+  },
+  {
+   "repo": "Linker-Clipper",
+   "name": "Linker-Clipper",
+   "kind": "tool",
+   "slug": "linker-clipper",
+   "category": null,
+   "publishedAt": "2026-03-25",
+   "updatedAt": "2026-08-18"
+  },
+  {
+   "repo": "Google-Data-Transfer",
+   "name": "Google-Data-Transfer",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "publishedAt": "2026-02-24",
+   "updatedAt": "2026-08-09"
+  },
+  {
+   "repo": "Gem",
+   "name": "Gem",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "publishedAt": "2026-02-28",
+   "updatedAt": "2026-02-28"
+  },
+  {
+   "repo": "my-antigravity-skills",
+   "name": "my-antigravity-skills",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "publishedAt": "2026-02-13",
+   "updatedAt": "2026-02-21"
+  }
+ ]
+}

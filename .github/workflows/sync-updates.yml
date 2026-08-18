@@ -1,0 +1,44 @@
+name: 更新情報を書き直す
+
+# 各アプリのリポジトリを GitHub API で見に行き、公開日と最終更新日を data/apps.json に取り込んで、
+# index.html の「更新情報」の節（updates:start 〜 updates:end）を組み直す。
+# 変更があったときだけコミットする。
+
+on:
+  schedule:
+    - cron: '17 21 * * *'      # UTC 21:17 ＝ 日本時間 朝 6:17
+  workflow_dispatch:            # 手で実行することもできる
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-updates
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 日付を取り直して index.html を組み直す
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/sync-updates.mjs --fetch
+
+      - name: 変わっていたらコミットする
+        run: |
+          if git diff --quiet -- data/apps.json index.html sitemap.xml; then
+            echo "変更なし。コミットしない。"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/apps.json index.html sitemap.xml
+          git commit -m "chore: 更新情報を書き直す（自動）"
+          git push
