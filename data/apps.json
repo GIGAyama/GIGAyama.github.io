@@ -1,6 +1,6 @@
 {
  "_comment": "publishedAt は最初のコミット日、updatedAt は最後に push された日。tools/sync-updates.mjs が GitHub から取り直して書き換える。",
- "generatedAt": "2026-08-18",
+ "generatedAt": "2026-08-19",
  "items": [
   {
    "repo": "Digital-Newspaper",
@@ -27,7 +27,7 @@
    "slug": "digital-textbook",
    "category": "koumu",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-19"
   },
   {
    "repo": "Gamification",
@@ -36,7 +36,7 @@
    "slug": "gamification",
    "category": "tankyu",
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-19"
   },
   {
    "repo": "Gmail_cleaner",
@@ -45,7 +45,7 @@
    "slug": "gmail-cleaner",
    "category": "koumu",
    "publishedAt": "2025-10-14",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-19"
   },
   {
    "repo": "Gobblet",
@@ -279,7 +279,7 @@
    "slug": "schoolplan-editor",
    "category": "koumu",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-19"
   },
   {
    "repo": "Shapes_Canvas",
