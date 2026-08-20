@@ -19,6 +19,48 @@
       } catch (e) {}
     })();
   </script>
+  <script>
+    /*
+     * 旧アドレスからの受け皿。
+     *
+     * 各アプリはもともと gigayama.github.io/<リポジトリ名>/ で公開していた。
+     * いまは <アプリ名>.giga-school.com へ移したが、古いブックマークや
+     * 配布済みのプリント・QRコードは今も /<リポジトリ名>/ を指している。
+     * それがここへ落ちてきたときに、正しいサブドメインへ送り直す。
+     *
+     * 対応表は data/apps.json（各アプリの repo と slug）をそのまま使う。
+     * ここに一覧を書き写すと、アプリが増えたときに片方だけ古くなるため。
+     * 読めなかった場合は、ふつうの 404 をそのまま見せる。
+     */
+    (function () {
+      var seg = location.pathname.split('/').filter(Boolean);
+      if (seg.length === 0) return;
+
+      var first = seg[0];
+      // 転送先に使えるのは、この形の slug だけ（開いたリダイレクトにしない）
+      var SAFE_SLUG = /^[a-z0-9][a-z0-9-]*$/;
+
+      fetch('/data/apps.json', { cache: 'no-cache' })
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (data) {
+          if (!data || !Array.isArray(data.items)) return;
+          var hit = data.items.filter(function (item) {
+            return item.repo && item.slug &&
+              item.repo.toLowerCase() === first.toLowerCase();
+          })[0];
+          if (!hit || !SAFE_SLUG.test(hit.slug)) return;
+
+          // /<リポジトリ名>/ より後ろはそのまま引き継ぐ
+          var rest = seg.slice(1).join('/');
+          var tail = location.pathname.endsWith('/') && rest ? '/' : '';
+          location.replace(
+            'https://' + hit.slug + '.giga-school.com/' +
+            rest + tail + location.search + location.hash
+          );
+        })
+        .catch(function () { /* ふつうの 404 を見せる */ });
+    })();
+  </script>
   <style>
     .notfound { display: grid; place-items: center; min-block-size: 78vh; text-align: center; }
     .notfound__code {

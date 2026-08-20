@@ -31,6 +31,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/sync-updates.mjs --fetch
 
+      # data/apps.json は 404.html の転送先の元になっている。
+      # 取り込みで slug が壊れると、旧アドレスの受け皿が黙って効かなくなるので、
+      # コミットする前にここで確かめる。
+      - name: 旧アドレスの受け皿が壊れていないか
+        run: node tools/check-404-redirect.mjs
+
       - name: 変わっていたらコミットする
         run: |
           if git diff --quiet -- data/apps.json index.html sitemap.xml; then
