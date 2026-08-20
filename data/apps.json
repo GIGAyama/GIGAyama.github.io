@@ -48,15 +48,6 @@
    "updatedAt": "2026-08-17"
   },
   {
-   "repo": "Hagetaka-game",
-   "name": "ハゲタカのえじき",
-   "kind": "app",
-   "slug": "hagetaka-game",
-   "category": "game",
-   "publishedAt": "2026-03-02",
-   "updatedAt": "2026-08-17"
-  },
-  {
    "repo": "Haiku-meeting",
    "name": "GIGA句会プラザ",
    "kind": "app",
