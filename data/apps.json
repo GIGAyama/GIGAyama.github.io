@@ -1,6 +1,6 @@
 {
  "_comment": "publishedAt は最初のコミット日、updatedAt は最後に push された日。tools/sync-updates.mjs が GitHub から取り直して書き換える。",
- "generatedAt": "2026-08-19",
+ "generatedAt": "2026-08-20",
  "items": [
   {
    "repo": "Digital-Newspaper",
@@ -9,7 +9,7 @@
    "slug": "digital-newspaper",
    "category": "seisaku",
    "publishedAt": "2026-01-23",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "DigitalCloset",
@@ -18,7 +18,7 @@
    "slug": "digitalcloset",
    "category": "other",
    "publishedAt": "2025-10-09",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Digital_textbook",
@@ -27,7 +27,7 @@
    "slug": "digital-textbook",
    "category": "koumu",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-19"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Gamification",
@@ -36,7 +36,7 @@
    "slug": "gamification",
    "category": "tankyu",
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-08-19"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Gobblet",
@@ -45,7 +45,7 @@
    "slug": "gobblet",
    "category": "game",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Haiku-meeting",
@@ -54,7 +54,7 @@
    "slug": "haiku-meeting",
    "category": "kokugo",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Homework_barcordreader",
@@ -63,7 +63,7 @@
    "slug": "homework-barcordreader",
    "category": "gakkyu",
    "publishedAt": "2026-03-05",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Ice_slide-puzzle",
@@ -72,7 +72,7 @@
    "slug": "ice-slide-puzzle",
    "category": "game",
    "publishedAt": "2026-03-01",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "JIDOSHA_ZUKAN",
@@ -81,7 +81,7 @@
    "slug": "jidosha-zukan",
    "category": "tankyu",
    "publishedAt": "2026-08-10",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "KAKE_Master",
@@ -90,7 +90,7 @@
    "slug": "kake-master",
    "category": "sansu",
    "publishedAt": "2026-07-23",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "KANA_Master",
@@ -99,7 +99,7 @@
    "slug": "kana-master",
    "category": "kokugo",
    "publishedAt": "2026-03-02",
-   "updatedAt": "2026-08-10"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "KANJI_Town",
@@ -108,7 +108,7 @@
    "slug": "kanji-town",
    "category": "kokugo",
    "publishedAt": "2026-03-16",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "KEISAN-BLOCK",
@@ -117,7 +117,7 @@
    "slug": "keisan-block",
    "category": "sansu",
    "publishedAt": "2026-07-24",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Keisan-Card",
@@ -126,7 +126,7 @@
    "slug": "keisan-card",
    "category": "sansu",
    "publishedAt": "2026-06-12",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "MIRAI-Compass",
@@ -135,7 +135,7 @@
    "slug": "mirai-compass",
    "category": "tankyu",
    "publishedAt": "2026-01-29",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Moral_note",
@@ -144,7 +144,7 @@
    "slug": "moral-note",
    "category": "tankyu",
    "publishedAt": "2026-02-15",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Music-production_studio",
@@ -153,7 +153,7 @@
    "slug": "music-production-studio",
    "category": "seisaku",
    "publishedAt": "2026-03-12",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "NotebookSample_Generator",
@@ -162,7 +162,7 @@
    "slug": "notebooksample-generator",
    "category": "koumu",
    "publishedAt": "2026-03-29",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "online-100square-calculation",
@@ -171,7 +171,7 @@
    "slug": "online-100square-calculation",
    "category": "sansu",
    "publishedAt": "2025-10-16",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "online-manuscript-paper-lite",
@@ -180,7 +180,7 @@
    "slug": "online-manuscript-paper-lite",
    "category": "kokugo",
    "publishedAt": "2026-02-07",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "online-manuscript-paper-pro",
@@ -189,7 +189,7 @@
    "slug": "online-manuscript-paper-pro",
    "category": "kokugo",
    "publishedAt": "2026-02-08",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Online-Publisher-pro",
@@ -198,7 +198,7 @@
    "slug": "online-publisher-pro",
    "category": "kokugo",
    "publishedAt": "2026-03-07",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "PhysicalEducation_note",
@@ -207,7 +207,7 @@
    "slug": "physicaleducation-note",
    "category": "tankyu",
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Qalc",
@@ -216,7 +216,7 @@
    "slug": "qalc",
    "category": "sansu",
    "publishedAt": "2026-03-11",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Quarto",
@@ -225,7 +225,7 @@
    "slug": "quarto",
    "category": "game",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Quoridor",
@@ -234,7 +234,7 @@
    "slug": "quoridor",
    "category": "game",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Reading-Books",
@@ -252,7 +252,7 @@
    "slug": "reflection-journal",
    "category": "gakkyu",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Reversi",
@@ -261,7 +261,7 @@
    "slug": "reversi",
    "category": "game",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "SchoolPlan_Editor",
@@ -270,7 +270,7 @@
    "slug": "schoolplan-editor",
    "category": "koumu",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-19"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Shared-Folder-Sync",
@@ -279,7 +279,7 @@
    "slug": "shared-folder-sync",
    "category": "koumu",
    "publishedAt": "2026-02-01",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Shiritori_fighter",
@@ -288,7 +288,7 @@
    "slug": "shiritori-fighter",
    "category": "game",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Townmap_Mikke",
@@ -297,7 +297,7 @@
    "slug": "townmap-mikke",
    "category": "tankyu",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "tsubomi-learning",
@@ -306,7 +306,7 @@
    "slug": "tsubomi-learning",
    "category": "kokugo",
    "publishedAt": "2026-06-01",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Typa",
@@ -315,7 +315,7 @@
    "slug": "typa",
    "category": "tankyu",
    "publishedAt": "2026-07-29",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Werewolf",
@@ -324,7 +324,7 @@
    "slug": "werewolf",
    "category": "game",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "word_basket",
@@ -333,7 +333,7 @@
    "slug": "word-basket",
    "category": "game",
    "publishedAt": "2025-10-13",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "XXX_automatic",
@@ -342,7 +342,7 @@
    "slug": "xxx-automatic",
    "category": "other",
    "publishedAt": "2026-08-07",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "app_launcher",
@@ -351,7 +351,7 @@
    "slug": null,
    "category": null,
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-08-08"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Blackboard_Timer",
@@ -360,7 +360,7 @@
    "slug": null,
    "category": null,
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-02-24"
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Linker-Clipper",
@@ -369,7 +369,7 @@
    "slug": "linker-clipper",
    "category": null,
    "publishedAt": "2026-03-25",
-   "updatedAt": "2026-08-17"
+   "updatedAt": "2026-08-20"
   }
  ]
 }
