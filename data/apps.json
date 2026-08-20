@@ -48,15 +48,6 @@
    "updatedAt": "2026-08-17"
   },
   {
-   "repo": "Hagetaka-game",
-   "name": "ハゲタカのえじき",
-   "kind": "app",
-   "slug": "hagetaka-game",
-   "category": "game",
-   "publishedAt": "2026-03-02",
-   "updatedAt": "2026-08-17"
-  },
-  {
    "repo": "Haiku-meeting",
    "name": "GIGA句会プラザ",
    "kind": "app",
@@ -100,6 +91,15 @@
    "category": "sansu",
    "publishedAt": "2026-07-23",
    "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "KANA_Master",
+   "name": "ひらがなカタカナかきかたマスター",
+   "kind": "app",
+   "slug": "kana-master",
+   "category": "kokugo",
+   "publishedAt": "2026-03-02",
+   "updatedAt": "2026-08-10"
   },
   {
    "repo": "KANJI_Town",
@@ -235,6 +235,15 @@
    "category": "game",
    "publishedAt": "2025-10-10",
    "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Reading-Books",
+   "name": "どくしょちょきんばこ",
+   "kind": "app",
+   "slug": "reading-books",
+   "category": "kokugo",
+   "publishedAt": "2026-02-01",
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Reflection_Journal",
