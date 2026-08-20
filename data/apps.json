@@ -93,6 +93,15 @@
    "updatedAt": "2026-08-17"
   },
   {
+   "repo": "KANA_Master",
+   "name": "ひらがなカタカナかきかたマスター",
+   "kind": "app",
+   "slug": "kana-master",
+   "category": "kokugo",
+   "publishedAt": "2026-03-02",
+   "updatedAt": "2026-08-10"
+  },
+  {
    "repo": "KANJI_Town",
    "name": "マイ漢字タウン",
    "kind": "app",
@@ -226,6 +235,15 @@
    "category": "game",
    "publishedAt": "2025-10-10",
    "updatedAt": "2026-08-17"
+  },
+  {
+   "repo": "Reading-Books",
+   "name": "どくしょちょきんばこ",
+   "kind": "app",
+   "slug": "reading-books",
+   "category": "kokugo",
+   "publishedAt": "2026-02-01",
+   "updatedAt": "2026-08-20"
   },
   {
    "repo": "Reflection_Journal",
