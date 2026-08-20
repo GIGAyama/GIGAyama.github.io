@@ -39,15 +39,6 @@
    "updatedAt": "2026-08-19"
   },
   {
-   "repo": "Gmail_cleaner",
-   "name": "Gmail自動削除ツール",
-   "kind": "app",
-   "slug": "gmail-cleaner",
-   "category": "koumu",
-   "publishedAt": "2025-10-14",
-   "updatedAt": "2026-08-19"
-  },
-  {
    "repo": "Gobblet",
    "name": "パクパクゴブレット",
    "kind": "app",
@@ -174,15 +165,6 @@
    "updatedAt": "2026-08-17"
   },
   {
-   "repo": "Officefile_converter",
-   "name": "Officeファイル一括変換ツール",
-   "kind": "app",
-   "slug": "officefile-converter",
-   "category": "koumu",
-   "publishedAt": "2025-10-14",
-   "updatedAt": "2026-08-17"
-  },
-  {
    "repo": "online-100square-calculation",
    "name": "100ます計算",
    "kind": "app",
@@ -282,15 +264,6 @@
    "updatedAt": "2026-08-19"
   },
   {
-   "repo": "Shapes_Canvas",
-   "name": "図形キャンバス",
-   "kind": "app",
-   "slug": "shapes-canvas",
-   "category": "sansu",
-   "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-17"
-  },
-  {
    "repo": "Shared-Folder-Sync",
    "name": "共有フォルダ同期くん",
    "kind": "app",
@@ -309,30 +282,12 @@
    "updatedAt": "2026-08-17"
   },
   {
-   "repo": "Slide_Guild",
-   "name": "Slide Guild",
-   "kind": "app",
-   "slug": "slide-guild",
-   "category": "koumu",
-   "publishedAt": "2026-02-17",
-   "updatedAt": "2026-08-17"
-  },
-  {
    "repo": "Townmap_Mikke",
    "name": "みっけ！",
    "kind": "app",
    "slug": "townmap-mikke",
    "category": "tankyu",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-17"
-  },
-  {
-   "repo": "Treasure_Words",
-   "name": "ことばのたからばこ",
-   "kind": "app",
-   "slug": "treasure-words",
-   "category": "kokugo",
-   "publishedAt": "2026-08-01",
    "updatedAt": "2026-08-17"
   },
   {
@@ -351,15 +306,6 @@
    "slug": "typa",
    "category": "tankyu",
    "publishedAt": "2026-07-29",
-   "updatedAt": "2026-08-17"
-  },
-  {
-   "repo": "Video-editing_studio",
-   "name": "映像制作スタジオ",
-   "kind": "app",
-   "slug": "video-editing-studio",
-   "category": "seisaku",
-   "publishedAt": "2026-03-12",
    "updatedAt": "2026-08-17"
   },
   {
@@ -408,15 +354,6 @@
    "updatedAt": "2026-02-24"
   },
   {
-   "repo": "Screenshot-PDF",
-   "name": "ぱしゃぱしゃ連続PDFメーカー",
-   "kind": "tool",
-   "slug": null,
-   "category": null,
-   "publishedAt": "2026-03-27",
-   "updatedAt": "2026-03-26"
-  },
-  {
    "repo": "Linker-Clipper",
    "name": "学習サイトリンク集",
    "kind": "tool",
@@ -424,33 +361,6 @@
    "category": null,
    "publishedAt": "2026-03-25",
    "updatedAt": "2026-08-17"
-  },
-  {
-   "repo": "Google-Data-Transfer",
-   "name": "Google Data Transfer",
-   "kind": "tool",
-   "slug": null,
-   "category": null,
-   "publishedAt": "2026-02-24",
-   "updatedAt": "2026-08-09"
-  },
-  {
-   "repo": "Gem",
-   "name": "Gem",
-   "kind": "tool",
-   "slug": null,
-   "category": null,
-   "publishedAt": "2026-02-28",
-   "updatedAt": "2026-02-28"
-  },
-  {
-   "repo": "my-antigravity-skills",
-   "name": "my-antigravity-skills",
-   "kind": "tool",
-   "slug": null,
-   "category": null,
-   "publishedAt": "2026-02-13",
-   "updatedAt": "2026-02-21"
   }
  ]
 }
