@@ -15,6 +15,7 @@ const ROOT = new URL('..', import.meta.url);
 const DATA = new URL('data/apps.json', ROOT);
 const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
+const ARTICLES = new URL('data/articles.json', ROOT);
 
 const NEW_LIMIT = 8;      // 「新しく公開したアプリ」に並べる数
 const UPDATED_LIMIT = 6;  // 「最近手を入れたもの」に並べる日付の数
@@ -183,8 +184,11 @@ ${updRows}
  *
  * lastmod は各リポジトリの最終 push 日（updatedAt）。slug のないものは
  * 公開先が GitHub 側なので、ここには載せない。
+ *
+ * 紹介ページ（/apps/<slug>/）も載せる。一覧は tools/build-articles.mjs が
+ * data/articles.json に書き出す。まだ無いときは、アプリの行だけで組む。
  */
-function sitemap(data) {
+function sitemap(data, articles = []) {
   const url = (loc, lastmod, changefreq, priority) =>
     `  <url>
     <loc>${loc}</loc>
@@ -194,6 +198,15 @@ function sitemap(data) {
   </url>`;
 
   const entries = [url('https://giga-school.com/', data.generatedAt, 'weekly', '1.0')];
+
+  /* 紹介ページ。アプリ本体より先に置く。中身のある文章はこちらにある */
+  articles
+    .filter((a) => a.slug && a.updatedAt)
+    .slice()
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .forEach((a) => {
+      entries.push(url(`https://giga-school.com/apps/${a.slug}/`, a.updatedAt, 'monthly', '0.9'));
+    });
 
   data.items
     .filter((i) => i.slug && i.updatedAt)
@@ -242,7 +255,13 @@ const main = async () => {
 
   await writeFile(DATA, JSON.stringify(data, null, 1) + '\n');
   await writeFile(PAGE, html);
-  await writeFile(MAP, sitemap(data));
+  /* 紹介ページの一覧。まだ作っていなければ、無いものとして進む */
+  let articles = [];
+  try {
+    articles = JSON.parse(await readFile(ARTICLES, 'utf8')).items ?? [];
+  } catch (e) { /* data/articles.json が無い。アプリの行だけで組む */ }
+
+  await writeFile(MAP, sitemap(data, articles));
   console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本 / ${data.generatedAt} 時点`);
 };
 

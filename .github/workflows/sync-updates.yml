@@ -31,6 +31,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/sync-updates.mjs --fetch
 
+      # 各アプリのリポジトリにある note 記事を取ってきて、
+      # giga-school.com/apps/<slug>/ の紹介ページとして書き出す。
+      # 日付を先に取り直しておくのは、ページに出す「最終更新」に使うため。
+      - name: アプリの紹介ページを組み直す
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/build-articles.mjs
+
+      # sitemap は data/articles.json を見て紹介ページの行を足す。
+      # その articles.json をいま書き替えたので、もう一度組み直す。
+      # ここは GitHub を見に行かないので、すぐ終わる。
+      - name: サイトマップに紹介ページを入れる
+        run: node tools/sync-updates.mjs
+
       # data/apps.json は 404.html の転送先の元になっている。
       # 取り込みで slug が壊れると、旧アドレスの受け皿が黙って効かなくなるので、
       # コミットする前にここで確かめる。
@@ -39,12 +53,13 @@ jobs:
 
       - name: 変わっていたらコミットする
         run: |
-          if git diff --quiet -- data/apps.json index.html sitemap.xml; then
+          if git diff --quiet -- data/apps.json data/articles.json index.html sitemap.xml apps/ \
+             && [ -z "$(git status --porcelain -- apps/)" ]; then
             echo "変更なし。コミットしない。"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/apps.json index.html sitemap.xml
+          git add data/apps.json data/articles.json index.html sitemap.xml apps/
           git commit -m "chore: 更新情報を書き直す（自動）"
           git push
