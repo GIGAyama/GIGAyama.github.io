@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-20",
+ "generatedAt": "2026-08-21",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -26,7 +26,7 @@
    "images": 23,
    "imageHost": "raw",
    "charCount": 8059,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "digitalcloset",
@@ -39,7 +39,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 6094,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "gamification",
@@ -52,7 +52,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 7082,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "gobblet",
@@ -65,7 +65,7 @@
    "images": 22,
    "imageHost": "subdomain",
    "charCount": 6166,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "haiku-meeting",
@@ -78,7 +78,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6069,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "homework-barcordreader",
@@ -91,7 +91,7 @@
    "images": 25,
    "imageHost": "raw",
    "charCount": 5442,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "ice-slide-puzzle",
@@ -104,7 +104,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 6004,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "kake-master",
@@ -117,7 +117,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5839,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "kana-master",
@@ -130,7 +130,7 @@
    "images": 28,
    "imageHost": "subdomain",
    "charCount": 7049,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "kanji-town",
@@ -143,7 +143,7 @@
    "images": 16,
    "imageHost": "raw",
    "charCount": 6664,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "keisan-block",
@@ -156,7 +156,7 @@
    "images": 26,
    "imageHost": "subdomain",
    "charCount": 6249,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "keisan-card",
@@ -169,7 +169,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6464,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "mirai-compass",
@@ -182,7 +182,7 @@
    "images": 27,
    "imageHost": "subdomain",
    "charCount": 6301,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "notebooksample-generator",
@@ -195,7 +195,7 @@
    "images": 20,
    "imageHost": "raw",
    "charCount": 6511,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "online-100square-calculation",
@@ -208,7 +208,7 @@
    "images": 19,
    "imageHost": "raw",
    "charCount": 6059,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "online-manuscript-paper-lite",
@@ -221,7 +221,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 5792,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "online-manuscript-paper-pro",
@@ -234,7 +234,7 @@
    "images": 29,
    "imageHost": "subdomain",
    "charCount": 5467,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "online-publisher-pro",
@@ -247,7 +247,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6283,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "qalc",
@@ -260,7 +260,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 6465,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "quarto",
@@ -273,7 +273,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6052,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "quoridor",
@@ -286,7 +286,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 5461,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "reading-books",
@@ -299,7 +299,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 5949,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "reflection-journal",
@@ -312,7 +312,7 @@
    "images": 23,
    "imageHost": "subdomain",
    "charCount": 5638,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "reversi",
@@ -325,7 +325,7 @@
    "images": 22,
    "imageHost": "raw",
    "charCount": 5697,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "schoolplan-editor",
@@ -338,7 +338,7 @@
    "images": 23,
    "imageHost": "subdomain",
    "charCount": 7414,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "townmap-mikke",
@@ -351,7 +351,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5980,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "typa",
@@ -364,7 +364,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 6056,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "werewolf",
@@ -377,7 +377,7 @@
    "images": 25,
    "imageHost": "raw",
    "charCount": 5743,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "word-basket",
@@ -390,7 +390,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 5718,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   },
   {
    "slug": "xxx-automatic",
@@ -403,7 +403,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 7341,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-21"
   }
  ]
 }
