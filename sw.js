@@ -20,6 +20,7 @@ const SHELL_FILES = [
   '/404.html',
   '/assets/style.css',
   '/assets/app.js',
+  '/assets/article.js',
   '/assets/favicon.svg',
   '/assets/logo.svg',
   '/site.webmanifest',

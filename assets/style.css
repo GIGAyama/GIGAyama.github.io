@@ -1239,10 +1239,41 @@
     .timeline__tag { grid-column: 2; font-size: .625rem; }
   }
 
-  /* 紹介ページへのリンク。プライバシーや利用規約と並ぶが、
-     読んでほしいのはこちらなので、色だけ本文と同じ濃さにする。
-     貼り直しは tools/build-articles.mjs の linkCards が受け持つ。 */
-  .card__foot .card__note { color: var(--link); font-weight: 600; }
+  /* 紹介ページへのボタン。
+     はじめは card__foot の中に、プライバシーや利用規約と同じ大きさの
+     文字リンクとして置いていたが、それでは埋もれて気づかれない。
+     カード全体は「開く」への当たり判定になっているので、
+     こちらは z-index を上げて、その上に乗せる。
+     貼り直しは tools/lib/article-page.mjs の linkCards が受け持つ。 */
+  .card__actions { margin: 0; }
+  .card__note {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+    padding-block: 11px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface-2);
+    color: var(--link);
+    font-weight: 700;
+    font-size: .875rem;
+    text-decoration: none;
+    transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease),
+                translate var(--dur) var(--ease);
+  }
+  .card__note:visited { color: var(--link); }
+  .card__note svg { inline-size: 16px; block-size: 16px; opacity: 1; }
+  .card__note:hover {
+    background: var(--brand-soft);
+    border-color: var(--brand);
+  }
+  .card__note:active { translate: 0 1px; transition-duration: 80ms; }
+  @media (hover: none) {
+    .card__note:hover { background: var(--surface-2); border-color: var(--line); }
+  }
 
   /* ---------- パンくず ----------
      紹介ページだけで使う。トップは 1 枚なので要らない。 */
@@ -1373,6 +1404,78 @@
   /* 画面が低いときは、上限が小さくなりすぎないようにする */
   @media (max-height: 560px) {
     .prose__fig img { max-block-size: 380px; }
+  }
+
+  /* 押したら大きく見られるようにする。JavaScript が無いときは画像が開く */
+  .prose__zoom {
+    display: block;
+    cursor: zoom-in;
+    border-radius: var(--r-md);
+  }
+  .prose__zoom:hover img { border-color: var(--line-strong); }
+
+  .lightbox {
+    inline-size: min(96vw, 920px);
+    max-inline-size: none;
+    block-size: min(94vh, 100%);
+    max-block-size: none;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    color: var(--ink);
+    overflow: hidden;
+  }
+  .lightbox::backdrop { background: rgb(8 12 20 / .72); }
+
+  /* ⚠️ 画像は縮めない。57% が縦長なので、画面に収める大きさにすると
+     幅が 330px ほどになり、本文の中で見るのと変わらなくなる。
+     元の大きさまでで幅いっぱいに出し、縦は流して読ませる。 */
+  .lightbox__inner {
+    block-size: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: var(--s-5);
+    text-align: center;
+  }
+  .lightbox__img {
+    inline-size: auto;
+    max-inline-size: 100%;
+    block-size: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface-2);
+  }
+  .lightbox__caption {
+    max-width: var(--measure-text);
+    margin: var(--s-4) auto 0;
+    font-size: .875rem;
+    line-height: 1.8;
+    color: var(--ink-2);
+  }
+  .lightbox__caption[hidden] { display: none; }
+
+  .lightbox__close {
+    position: absolute;
+    inset-block-start: var(--s-3);
+    inset-inline-end: var(--s-3);
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink-2);
+    cursor: pointer;
+    box-shadow: var(--shadow-1);
+  }
+  .lightbox__close svg { inline-size: 20px; block-size: 20px; }
+  .lightbox__close:hover { background: var(--surface-2); color: var(--ink); }
+
+  @media (max-width: 640px) {
+    .lightbox { inline-size: 100vw; block-size: 100vh; border-radius: 0; }
+    .lightbox__inner { padding: var(--s-3); }
   }
 
   .article__end {
