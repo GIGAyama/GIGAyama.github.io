@@ -117,7 +117,9 @@ async function fetchArticle(repo) {
 const main = async () => {
   const dry = process.argv.includes('--dry-run');
   const data = JSON.parse(await readFile(DATA, 'utf8'));
-  const apps = data.items.filter((a) => a.slug && a.publishedAt && a.updatedAt);
+  /* hidden は載せない。すでに作ってある紹介ページは、下の後始末で消える。 */
+  const apps = data.items.filter((a) =>
+    a.hidden !== true && a.slug && a.publishedAt && a.updatedAt);
 
   const built = [];
   let missing = 0;
@@ -194,9 +196,11 @@ const main = async () => {
     /* 前回あって今回消えた紹介ページを残さない。
        記事を取り下げたのにページだけ生き続けると、サイトマップと食い違う。 */
     const keep = new Set(built.map((b) => b.slug));
-    for (const app of apps) {
-      if (keep.has(app.slug)) continue;
-      await rm(new URL(`${app.slug}/`, APPS_DIR), { recursive: true, force: true });
+    /* apps ではなく data.items 全部を見る。hidden を立てた直後は apps から
+       外れているので、apps だけを見ると、前に作ったページが消し残る。 */
+    for (const item of data.items) {
+      if (!item.slug || keep.has(item.slug)) continue;
+      await rm(new URL(`${item.slug}/`, APPS_DIR), { recursive: true, force: true });
     }
     await writeFile(INDEX, JSON.stringify({
       _comment: 'tools/build-articles.mjs が書き出す。手で書き足さない。',

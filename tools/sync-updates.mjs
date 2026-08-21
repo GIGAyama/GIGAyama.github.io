@@ -17,6 +17,18 @@ const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
 
+/**
+ * サイトに載せるものか。
+ *
+ * data/apps.json は 2 つの役目を持っている。サイトに載せる一覧と、
+ * 旧アドレス（gigayama.github.io/<リポジトリ名>/）の転送表である。
+ * 載せたくないものを一覧から消すと、配布済みの QR コードやプリントからの
+ * 転送も一緒に壊れる。だから消さずに hidden を立てて、載せる側だけで外す。
+ *
+ * 転送は tools/check-404-redirect.mjs のとおり、hidden でも効かせたままにする。
+ */
+const shown = (item) => item.hidden !== true;
+
 const NEW_LIMIT = 8;      // 「新しく公開したアプリ」に並べる数
 const UPDATED_LIMIT = 6;  // 「最近手を入れたもの」に並べる日付の数
 
@@ -124,7 +136,7 @@ function groupRow(iso, list) {
 }
 
 function render(data) {
-  const items = data.items.filter((i) => i.publishedAt && i.updatedAt);
+  const items = data.items.filter((i) => shown(i) && i.publishedAt && i.updatedAt);
   const apps = items.filter((i) => i.kind === 'app');
   const tools = items.filter((i) => i.kind === 'tool');
 
@@ -209,7 +221,7 @@ function sitemap(data, articles = []) {
     });
 
   data.items
-    .filter((i) => i.slug && i.updatedAt)
+    .filter((i) => shown(i) && i.slug && i.updatedAt)
     .sort((a, b) => a.slug.localeCompare(b.slug))
     .forEach((i) => {
       entries.push(url(`https://${i.slug}.giga-school.com/`, i.updatedAt, 'monthly',
@@ -237,7 +249,9 @@ const main = async () => {
   const data = JSON.parse(await readFile(DATA, 'utf8'));
 
   if (process.argv.includes('--fetch')) {
-    await refresh(data.items);
+    /* hidden のものは見に行かない。取り下げたリポジトリが読めなくても、
+       毎朝おなじ警告が出続けるだけで、直しようがないため。 */
+    await refresh(data.items.filter(shown));
     data.generatedAt = new Date().toISOString().slice(0, 10);
   }
 
@@ -245,8 +259,8 @@ const main = async () => {
   html = replaceBlock(html, 'updates', render(data));
 
   /* 本数と最終更新日も、数え直した値に合わせる */
-  const apps = data.items.filter((i) => i.kind === 'app').length;
-  const tools = data.items.filter((i) => i.kind === 'tool').length;
+  const apps = data.items.filter((i) => shown(i) && i.kind === 'app').length;
+  const tools = data.items.filter((i) => shown(i) && i.kind === 'tool').length;
   html = html
     .replace(/(<dt>公開中のアプリ<\/dt><dd>)\d+/, `$1${apps}`)
     .replace(/(<dt>拡張機能・ツール<\/dt><dd>)\d+/, `$1${tools}`)
