@@ -14,6 +14,7 @@ const OWNER = 'GIGAyama';
 const ROOT = new URL('..', import.meta.url);
 const DATA = new URL('data/apps.json', ROOT);
 const PAGE = new URL('index.html', ROOT);
+const MAP = new URL('sitemap.xml', ROOT);
 
 const NEW_LIMIT = 8;      // 「新しく公開したアプリ」に並べる数
 const UPDATED_LIMIT = 6;  // 「最近手を入れたもの」に並べる日付の数
@@ -168,6 +169,48 @@ ${updRows}
       </div>`;
 }
 
+/**
+ * sitemap.xml を組み立てる。
+ *
+ * トップページのほかに、各アプリのサブドメイン（<slug>.giga-school.com）も載せる。
+ * アプリは 1 本ずつ別のホストなので、トップページを見ただけでは Google が
+ * すべてを追い切れない。ここに並べておくと取りこぼしが減る。
+ *
+ * 別ホストの URL を 1 つのサイトマップに書けるのは、Search Console で
+ * giga-school.com を「ドメイン プロパティ」として登録し、サブドメインまで
+ * 所有権が確認できている場合。URL プレフィックスのプロパティしかないと、
+ * サブドメインの行は無視される。
+ *
+ * lastmod は各リポジトリの最終 push 日（updatedAt）。slug のないものは
+ * 公開先が GitHub 側なので、ここには載せない。
+ */
+function sitemap(data) {
+  const url = (loc, lastmod, changefreq, priority) =>
+    `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+
+  const entries = [url('https://giga-school.com/', data.generatedAt, 'weekly', '1.0')];
+
+  data.items
+    .filter((i) => i.slug && i.updatedAt)
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .forEach((i) => {
+      entries.push(url(`https://${i.slug}.giga-school.com/`, i.updatedAt, 'monthly',
+        i.kind === 'app' ? '0.8' : '0.6'));
+    });
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<!-- tools/sync-updates.mjs が data/apps.json から書き出す。手で書き足さない。 -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${entries.join('\n')}
+</urlset>
+`;
+}
+
 /** index.html の印（marker）で囲まれた部分だけを差し替える。 */
 function replaceBlock(html, name, body) {
   const start = `<!-- ${name}:start -->`;
@@ -197,14 +240,9 @@ const main = async () => {
     .replace(/(最終更新：<time datetime=")[\d-]+(">)[^<]+/,
       `$1${data.generatedAt}$2${jpDate(data.generatedAt)}`);
 
-  /* sitemap の日付も合わせておく */
-  const MAP = new URL('sitemap.xml', ROOT);
-  const map = (await readFile(MAP, 'utf8'))
-    .replace(/<lastmod>[\d-]+<\/lastmod>/, `<lastmod>${data.generatedAt}</lastmod>`);
-
   await writeFile(DATA, JSON.stringify(data, null, 1) + '\n');
   await writeFile(PAGE, html);
-  await writeFile(MAP, map);
+  await writeFile(MAP, sitemap(data));
   console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本 / ${data.generatedAt} 時点`);
 };
 
