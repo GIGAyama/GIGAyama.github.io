@@ -22,9 +22,13 @@
  *     "distDir": "dist",
  *     "maxBytes": 1048576,
  *     "precache": ["index.html", "offline.html", "manifest.webmanifest",
- *                  "install-hook.js", "assets/", "icons/icon-192.png", "icons/icon-512.png"]
+ *                  "install-hook.js", "assets/", "icons/icon-192.png", "icons/icon-512.png"],
+ *     "assetsFromIndexHtml": false
  *   }
  *   precache の項目は、"/" で終わればディレクトリ前方一致、それ以外は完全一致。
+ *   assetsFromIndexHtml を true にすると、"assets/" を丸ごと入れるかわりに
+ *   dist/index.html が参照している JS/CSS だけを先読みに入れる。
+ *   遅延読みこみの塊やフォントを持つアプリ向け（先読みが重いと初回表示が止まる）。
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -63,6 +67,28 @@ const wanted = all.filter((p) => {
   if (rel === 'sw.js') return false; // 自分自身は入れない
   return matches(rel);
 });
+
+// index.html が直接読む本体の JS/CSS だけを拾うモード。
+// 初回訪問では <script>/<link> は Service Worker より先に読み込まれ、
+// fetch を通らず runtime キャッシュに入らない。先読みに入れないと
+// 「圏外で開くとまっ白」になる。一方で遅延読みこみの塊まで入れると
+// 40人同時の校内 Wi-Fi で初回表示が止まるので、参照されているものに絞る。
+if (config.assetsFromIndexHtml) {
+  const html = readFileSync(join(DIST, 'index.html'), 'utf8');
+  const refs = [...html.matchAll(/(?:src|href)="\.\/(assets\/[^"]+\.(?:js|css))"/g)].map((m) => m[1]);
+  if (refs.length === 0) {
+    console.error('[build-sw] ❌ dist/index.html から本体の JS/CSS を見つけられませんでした。');
+    process.exit(1);
+  }
+  for (const rel of new Set(refs)) {
+    const p = join(DIST, rel);
+    if (!existsSync(p)) {
+      console.error(`[build-sw] ❌ dist/index.html が参照する ${rel} が dist にありません。`);
+      process.exit(1);
+    }
+    if (!wanted.includes(p)) wanted.push(p);
+  }
+}
 
 const urls = ['./', ...wanted.map((p) => './' + relative(DIST, p).split('\\').join('/'))];
 
