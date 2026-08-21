@@ -20,7 +20,10 @@ import { runGigaChecks } from './lib/giga-v5-checks.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const cfgPath = join(ROOT, 'quality.config.json');
-const config = existsSync(cfgPath) ? JSON.parse(readFileSync(cfgPath, 'utf8')) : {};
+const all = existsSync(cfgPath) ? JSON.parse(readFileSync(cfgPath, 'utf8')) : {};
+// 既存の quality.config.json はリポジトリ独自のゲートも読む。キー名の衝突を
+// 避けるため、正本ゲートの設定は "standard" キーの下に置く（無ければ全体を使う）
+const config = all.standard ?? all;
 
 const results = runGigaChecks(ROOT, config);
 let failed = 0;
