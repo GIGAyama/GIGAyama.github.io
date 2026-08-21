@@ -1,0 +1,29 @@
+# standards/（正本）自身の検査。
+# 正本が壊れると、ドリフト検知を通じて全リポジトリへ壊れたまま配られるため、
+# 各リポジトリのゲートより先に、ここで正本そのものを検査する。
+name: standards-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 正本の品質ゲート自身のテスト
+        run: node --test standards/lib/*.test.mjs
+      - name: 正本の構文検査
+        run: |
+          for f in standards/lib/*.mjs standards/sw/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js; do
+            node --check "$f"
+          done

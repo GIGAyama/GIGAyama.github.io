@@ -1,0 +1,333 @@
+/**
+ * 【正本】品質ゲート（giga-v5-checks.mjs）自身のテスト。
+ *
+ * なぜ要るか：
+ *   「0件でした」だけでは、検査が動いているのか何も見ていないのか区別できない。
+ *   わざと壊した木を作って、ちゃんと拾えることを確かめる。
+ *   逆に、正しく書いてあるものを誤って拾わないことも確かめる
+ *   （実際、コメントの文言・@supports のフォールバック・"install" の
+ *   ダブルクォート・ハンドラの並び順で誤検知/見逃しが起きた）。
+ *
+ * 実リポジトリを壊す自己テスト（各リポジトリの --self-test）とは役割が違う。
+ * こちらは**検査器そのもの**を、リポジトリに依存しない合成ツリーで検査する。
+ */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import test from 'node:test';
+import { runGigaChecks, stripComments } from './giga-v5-checks.mjs';
+
+/** 完全不透明の最小 PNG（colorType 2 = RGB、α なし） */
+function opaquePng() {
+  // pngHasAlpha は署名と 25 バイト目の colorType だけを見る
+  const b = Buffer.alloc(40);
+  b.writeUInt32BE(0x89504e47, 0);
+  b[25] = 2;
+  return b;
+}
+/** α チャンネルつきの体裁の PNG（colorType 6。IDAT が読めないときは安全側=透明あり） */
+function alphaPng() {
+  const b = Buffer.alloc(40);
+  b.writeUInt32BE(0x89504e47, 0);
+  b[25] = 6;
+  return b;
+}
+
+function makeTree(files) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'giga-v5-'));
+  for (const [rel, content] of Object.entries(files)) {
+    const abs = path.join(dir, rel);
+    fs.mkdirSync(path.dirname(abs), { recursive: true });
+    fs.writeFileSync(abs, content);
+  }
+  return dir;
+}
+
+const CONFIG = { repoName: 'Demo_App', sw: 'static' };
+
+function failures(files, config = {}) {
+  const dir = makeTree(files);
+  return runGigaChecks(dir, { ...CONFIG, ...config }).filter((r) => !r.ok);
+}
+const ids = (rs) => rs.map((r) => r.id);
+
+// 最低限そろっている木（これを基準に、1つずつ壊す）
+const OK_TREE = {
+  'LICENSE': 'MIT License\nCopyright (c) 2026 GIGA山\n',
+  '.gitignore': 'node_modules/\n.env\n',
+  '.github/dependabot.yml': 'version: 2\n',
+  '.github/workflows/ci.yml': 'on:\n  pull_request:\n  push:\n    branches: [main]\n',
+  'README.md': '# Demo', 'MANUAL.md': '# 手引き', 'AUDIT.md': '# 記録',
+  'CNAME': 'demo-app.giga-school.com\n',
+  'index.html': `<!DOCTYPE html><html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<script src="./install-hook.js"></script>
+</head><body>
+<img src="./icons/icon-192.png" width="64" height="64" alt="アイコン">
+<script src="./js/app.js"></script>
+</body></html>`,
+  'offline.html': '<!DOCTYPE html><html><body><p>つながっていません</p><a href="./">もういちどひらく</a></body></html>',
+  'install-hook.js': 'window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); window.deferredPrompt = e; });',
+  'manifest.webmanifest': JSON.stringify({
+    id: './', scope: './', start_url: './',
+    icons: [
+      { src: './icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { src: './icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: './icons/maskable-192.png', sizes: '192x192', type: 'image/png', purpose: 'maskable' },
+      { src: './icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    ],
+  }),
+  'icons/icon-192.png': opaquePng(),
+  'icons/icon-512.png': opaquePng(),
+  'icons/maskable-192.png': opaquePng(),
+  'icons/maskable-512.png': opaquePng(),
+  'icons/apple-touch-icon.png': opaquePng(),
+  'js/app.js': `// localStorage.clear() とコメントに書いても反応しないこと
+addEventListener('pagehide', () => save());
+function save() {}
+function askUpdate(reg) { reg.waiting.postMessage({ type: 'SKIP_WAITING' }); }
+let userAskedUpdate = false;
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+  if (!userAskedUpdate) return;
+  location.reload();
+});
+if (document.readyState === 'complete') navigator.serviceWorker.register('./sw.js');
+else addEventListener('load', () => { if (document.readyState === 'complete') navigator.serviceWorker.register('./sw.js'); });`,
+  'css/style.css': `#app { height: 100dvh; padding-bottom: env(safe-area-inset-bottom); }
+@supports not (height: 100dvh) { #app { height: 100vh; } }
+h1 { font-size: clamp(1.2rem, 4vw, 2rem); }
+p { font-size: clamp(1rem, 3vw, 1.4rem); }
+small { font-size: clamp(.8rem, 2vw, 1rem); }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+@media (forced-colors: active) { button { border: 1px solid ButtonText; } }`,
+  'sw.js': `const CACHE_PREFIX = 'demo-';
+const APP_VERSION = 'v1a2b3c4d'; /* __APP_VERSION__ */
+const PRECACHE_URLS = ['./', './index.html', './offline.html'];
+/* localStorage はさわらない、という注意書きに反応しないこと */
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE_PREFIX + APP_VERSION).then((c) => c.addAll(PRECACHE_URLS)));
+});
+self.addEventListener('activate', (e) => {
+  e.waitUntil(caches.keys().then((keys) => Promise.all(
+    keys.filter((k) => k.startsWith(CACHE_PREFIX)).map((k) => caches.delete(k)))));
+});
+self.addEventListener("message", (e) => { if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting(); });
+self.addEventListener('fetch', (e) => {
+  const url = new URL(e.request.url);
+  if (!url.pathname.startsWith('/')) return;
+});`,
+  'tools/build-sw.mjs': '// 正本 standards/sw/build-sw-static.mjs のコピー（テストでは中身は見ない）\n',
+};
+
+test('正しく書けている木では何も落ちない（誤検知していない）', () => {
+  assert.deepEqual(failures(OK_TREE), []);
+});
+
+// ---------------- 誤検知しないこと（過去に実際に踏んだもの） ----------------
+
+test('コメントの中の localStorage / localStorage.clear() を誤検知しない', () => {
+  // OK_TREE の js/app.js と sw.js に注意書きが入っている。上の 0 件で担保されるが、
+  // 個別にも見ておく（このケースだけ通って他が落ちる崩れ方を見分けるため）
+  const f = ids(failures(OK_TREE));
+  assert.ok(!f.includes('C_NO_LS_CLEAR'));
+  assert.ok(!f.includes('E_SW_NO_LOCALSTORAGE'));
+});
+
+test('@supports のフォールバックの 100vh を誤検知しない', () => {
+  assert.ok(!ids(failures(OK_TREE)).includes('D_DVH'));
+});
+
+test('message ハンドラの中の（正しい）skipWaiting を install のものと誤判定しない', () => {
+  // OK_TREE の sw.js は install → activate → message の順。並びを変えても通ること
+  const reordered = {
+    ...OK_TREE,
+    'sw.js': OK_TREE['sw.js'].replace(
+      /self\.addEventListener\("message"[\s\S]*?\}\);\n/, '')
+      .replace("self.addEventListener('install'",
+        `self.addEventListener("message", (e) => { if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting(); });\nself.addEventListener('install'`),
+  };
+  assert.ok(!ids(failures(reordered)).includes('E_SW_NO_SKIP_WAITING_ON_INSTALL'));
+});
+
+test('records-hub-client.js の pagehide はアプリ自身の確定保存と数えない', () => {
+  const tree = {
+    ...OK_TREE,
+    'js/app.js': OK_TREE['js/app.js'].replace("addEventListener('pagehide', () => save());\n", ''),
+    'js/records-hub-client.js': "window.addEventListener('pagehide', () => sync());",
+  };
+  assert.ok(ids(failures(tree)).includes('C_PAGEHIDE'));
+});
+
+test('許可した宛先（allowedRemoteScripts）は拾わない', () => {
+  const tree = {
+    ...OK_TREE,
+    'index.html': OK_TREE['index.html'].replace('</head>',
+      '<link href="https://fonts.googleapis.com/css2?family=X" rel="stylesheet"></head>'),
+  };
+  assert.ok(ids(failures(tree)).includes('B_NO_CDN_CODE'));
+  const allowed = failures(tree, { allowedRemoteScripts: ['^https://fonts\\.googleapis\\.com/'] });
+  assert.ok(!ids(allowed).includes('B_NO_CDN_CODE'));
+});
+
+test('相対パス（./）の manifest はどちらの配信でも拾わない', () => {
+  assert.ok(!ids(failures(OK_TREE)).includes('E_MANIFEST_ID'));
+});
+
+// ---------------- 壊したら拾うこと（1検査ずつ） ----------------
+
+const MUTATIONS = [
+  ['A_LICENSE', (t) => { delete t.LICENSE; }],
+  ['A_GITIGNORE', (t) => { t['.gitignore'] = 'dist/\n'; }],
+  ['A_DEPENDABOT', (t) => { delete t['.github/dependabot.yml']; }],
+  ['A_CI_ON_PR', (t) => { t['.github/workflows/ci.yml'] = 'on:\n  push:\n    branches: [main]\n'; }],
+  ['A_DOCS', (t) => { delete t['AUDIT.md']; }],
+  ['B_NO_CDN_CODE', (t) => {
+    t['index.html'] = t['index.html'].replace('</head>', '<script src="https://unpkg.com/x/x.js"></script></head>');
+  }],
+  ['B_NO_SECRETS', (t) => { t['js/app.js'] += '\nconst KEY = "AIzaSyA1234567890abcdefghijklmnopqrstuv";'; }],
+  ['B_CSP', (t) => { t['index.html'] = t['index.html'].replace(/<meta http-equiv="Content-Security-Policy"[^>]*>/, ''); }],
+  ['B_NO_INLINE_SCRIPT', (t) => { t['index.html'] = t['index.html'].replace('<body>', '<body><button onclick="go()">x</button>'); }],
+  ['C_NO_LS_CLEAR', (t) => { t['js/app.js'] += '\nfunction wipe() { localStorage.clear(); }'; }],
+  ['C_PAGEHIDE', (t) => { t['js/app.js'] = t['js/app.js'].replace("addEventListener('pagehide', () => save());\n", ''); }],
+  ['C_NO_POSTMESSAGE_STAR', (t) => { t['js/app.js'] += "\nparent.postMessage({ a: 1 }, '*');"; }],
+  ['D_VIEWPORT', (t) => {
+    t['index.html'] = t['index.html'].replace('viewport-fit=cover', 'viewport-fit=cover, user-scalable=no');
+  }],
+  ['D_DVH', (t) => { t['css/style.css'] += '\n.shell { height: 100vh; }'; }],
+  ['D_SAFE_AREA', (t) => { t['css/style.css'] = t['css/style.css'].replace(/env\(safe-area-inset-bottom\)/g, '0'); }],
+  ['D_FLUID_TYPE', (t) => { t['css/style.css'] = t['css/style.css'].replace(/clamp\([^)]*\)/g, '1rem'); }],
+  ['D_CANVAS_DPR', (t) => { t['js/app.js'] += "\nconst g = c.getContext('2d');"; }],
+  ['D_REDUCED_MOTION', (t) => {
+    t['css/style.css'] = t['css/style.css'].replace('animation-duration: .01ms', 'animation-duration: 0s');
+  }],
+  ['D_FORCED_COLORS', (t) => { t['css/style.css'] = t['css/style.css'].replace('forced-colors: active', 'x: y'); }],
+  ['D_RT_COLOR', (t) => { t['css/style.css'] += '\nrt { color: #666; }'; }],
+  ['F_LABEL_FOR_TABBABLE', (t) => {
+    t['index.html'] = t['index.html'].replace('<body>',
+      '<body><label for="pick">えらぶ</label><input type="file" id="pick" hidden>');
+  }],
+  ['E_MANIFEST_ID', (t) => {
+    // CNAME があるのに旧リポジトリ名の絶対パスのまま
+    const j = JSON.parse(t['manifest.webmanifest']);
+    j.id = j.scope = j.start_url = '/Demo_App/';
+    t['manifest.webmanifest'] = JSON.stringify(j);
+  }],
+  ['E_CNAME', (t) => { t.CNAME = '﻿demo-app.giga-school.com\n'; }],
+  ['E_STALE_REPO_PATH', (t) => { t['sw.js'] = t['sw.js'].replace("'./index.html'", "'/Demo_App/index.html'"); }],
+  ['E_ICONS', (t) => { t['icons/apple-touch-icon.png'] = alphaPng(); }],
+  ['E_INSTALL_HOOK', (t) => { t['index.html'] = t['index.html'].replace('<script src="./install-hook.js"></script>', ''); }],
+  ['E_SW_CACHE_SCOPE', (t) => {
+    t['sw.js'] = t['sw.js'].replace('keys.filter((k) => k.startsWith(CACHE_PREFIX)).map((k) => caches.delete(k))',
+      'keys.map((k) => caches.delete(k))');
+  }],
+  ['E_SW_NO_LOCALSTORAGE', (t) => { t['sw.js'] += "\nlocalStorage.setItem('x', '1');"; }],
+  // ⚠️ ダブルクォートの "install" で壊す。引用符の違いで見逃さないことも同時に確かめる
+  ['E_SW_NO_SKIP_WAITING_ON_INSTALL', (t) => {
+    t['sw.js'] = t['sw.js'].replace("self.addEventListener('install', (e) => {",
+      'self.addEventListener("install", (e) => {\n  self.skipWaiting();');
+  }],
+  ['E_SW_UPDATE_PROMPT', (t) => { t['js/app.js'] = t['js/app.js'].replace(/SKIP_WAITING/g, 'XXX'); }],
+  ['E_SW_REGISTER_READYSTATE', (t) => {
+    t['js/app.js'] = t['js/app.js'].replace(
+      "else addEventListener('load', () => { if (document.readyState === 'complete') navigator.serviceWorker.register('./sw.js'); });",
+      "addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));")
+      .replace("if (document.readyState === 'complete') navigator.serviceWorker.register('./sw.js');\n", '');
+  }],
+  ['E_SW_VERSION_GENERATED', (t) => {
+    t['sw.js'] = t['sw.js'].replace(" /* __APP_VERSION__ */", '');
+  }],
+  ['E_OFFLINE_HTML', (t) => { delete t['offline.html']; }],
+  ['E_SW_PRECACHE_OFFLINE', (t) => {
+    // 先読みから外し、fetch の逃げ道にだけ書く（全体検索だと見逃す形）
+    t['sw.js'] = t['sw.js'].replace(", './offline.html'", '')
+      + "\nself.addEventListener('fetch', (e) => { e.respondWith(fetch(e.request).catch(() => caches.match('./offline.html'))); });";
+  }],
+  ['E_MASKABLE_SAFE_ZONE', (t) => { t['icons/maskable-512.png'] = alphaPng(); }],
+  ['F_FILE_SIZE', (t) => { t['js/big.js'] = 'x\n'.repeat(5001); }],
+  ['F_IMG_DIMENSIONS', (t) => {
+    t['index.html'] = t['index.html'].replace('<img src="./icons/icon-192.png" width="64" height="64" alt="アイコン">',
+      '<img src="./icons/icon-192.png">');
+  }],
+];
+
+for (const [id, mutate] of MUTATIONS) {
+  test(`${id}: 壊したら拾う`, () => {
+    const tree = { ...OK_TREE };
+    mutate(tree);
+    assert.ok(ids(failures(tree)).includes(id), `${id} が反応しませんでした`);
+  });
+}
+
+test('F_IMG_SIZE: 大きすぎる画像を拾う', () => {
+  const tree = { ...OK_TREE, 'img/photo.png': Buffer.concat([opaquePng(), Buffer.alloc(200 * 1024)]) };
+  assert.ok(ids(failures(tree)).includes('F_IMG_SIZE'));
+});
+
+// ---------------- sw の型（config.sw）ごとのふるまい ----------------
+
+test('sw: "vite" は原本（public/sw.js）の dev マーカーを正とする', () => {
+  const tree = { ...OK_TREE };
+  delete tree['sw.js'];
+  tree['public/sw.js'] = OK_TREE['sw.js'].replace("const APP_VERSION = 'v1a2b3c4d';", "const APP_VERSION = 'dev';");
+  const f = ids(failures(tree, { sw: 'vite' }));
+  assert.ok(!f.includes('E_SW_VERSION_GENERATED'), 'vite の dev 原本を誤検知した');
+  assert.ok(!f.includes('E_SW_CACHE_SCOPE'));
+});
+
+test('sw: "static" は v0/dev のままだと拾う', () => {
+  const tree = { ...OK_TREE, 'sw.js': OK_TREE['sw.js'].replace("'v1a2b3c4d'", "'dev'") };
+  assert.ok(ids(failures(tree)).includes('E_SW_VERSION_GENERATED'));
+});
+
+test('sw: "workbox" は SW 原文の検査を理由つきで飛ばす', () => {
+  const tree = { ...OK_TREE };
+  delete tree['sw.js'];
+  delete tree['tools/build-sw.mjs'];
+  const rs = runGigaChecks(makeTree(tree), { ...CONFIG, sw: 'workbox', swSource: 'src/sw.js' });
+  const gen = rs.find((r) => r.id === 'E_SW_VERSION_GENERATED');
+  assert.equal(gen.ok, true);
+  assert.match(gen.title, /workbox/);
+});
+
+test('sw: "none" は SW 系をすべて飛ばし、SW が無くても落ちない', () => {
+  const tree = { ...OK_TREE };
+  delete tree['sw.js'];
+  delete tree['offline.html'];
+  delete tree['tools/build-sw.mjs'];
+  tree['js/app.js'] = "addEventListener('pagehide', () => save()); function save() {}";
+  const f = ids(failures(tree, { sw: 'none' }));
+  assert.ok(!f.some((id) => id.startsWith('E_SW') || id === 'E_OFFLINE_HTML'), `SW 系が落ちた: ${f}`);
+});
+
+// ---------------- skips（理由つきの明示的な免除） ----------------
+
+test('skips は理由が無いと受け付けない', () => {
+  const rs = runGigaChecks(makeTree(OK_TREE), { ...CONFIG, skips: [{ id: 'D_SAFE_AREA' }] });
+  assert.equal(rs.length, 1);
+  assert.equal(rs[0].ok, false);
+});
+
+test('skips に載せた検査は理由つきで飛ぶ', () => {
+  const tree = { ...OK_TREE };
+  tree['css/style.css'] = tree['css/style.css'].replace(/env\(safe-area-inset-bottom\)/g, '0');
+  const rs = runGigaChecks(makeTree(tree), { ...CONFIG, skips: [{ id: 'D_SAFE_AREA', reason: '全画面固定レイアウトではない' }] });
+  const r = rs.find((x) => x.id === 'D_SAFE_AREA');
+  assert.equal(r.ok, true);
+  assert.equal(r.skipped, true);
+  assert.match(r.title, /全画面固定レイアウトではない/);
+});
+
+// ---------------- stripComments ----------------
+
+test('stripComments はコメントだけを落とす', () => {
+  assert.match(stripComments('/* localStorage */ const a = 1;'), /const a = 1;/);
+  assert.doesNotMatch(stripComments('/* localStorage */ const a = 1;'), /localStorage/);
+  assert.doesNotMatch(stripComments('// localStorage\nconst b = 2;'), /localStorage/);
+  // URL の // を壊さない
+  assert.match(stripComments('const u = "https://example.com/x";'), /https:\/\/example\.com/);
+  // 文字列の中の /* は落とさない
+  assert.match(stripComments('const s = "/* keep me */";'), /keep me/);
+});
