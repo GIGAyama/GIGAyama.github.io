@@ -19,13 +19,21 @@
 > `google*.html` は Search Console の確認ファイルです。**削除すると所有権の確認が外れ、
 > OAuth 審査が差し戻される**ことがあります。移動・改名しないでください。
 
+> [!NOTE]
+> `sitemap.xml` には各アプリのサブドメインも並べています。別のホストの URL を
+> 1 つのサイトマップに書けるのは、Search Console で `giga-school.com` を
+> **ドメイン プロパティ**（DNS の TXT レコードで確認するもの）として登録し、
+> サブドメインまで所有権が確認できている場合です。`https://giga-school.com/` の
+> URL プレフィックス プロパティしかないと、サブドメインの行は無視されます。
+
 ## 構成
 
 ```
 index.html            トップページ（カードはすべて HTML に直接書いてある）
 404.html              見つからないページ
 site.webmanifest      PWA マニフェスト
-robots.txt / sitemap.xml
+robots.txt            クロールの許可と sitemap の在りか
+sitemap.xml           トップページと各アプリのサブドメイン（tools/sync-updates.mjs が書き出す）
 assets/
   style.css           スタイル（@layer で reset → tokens → base → layout → components → utilities）
   app.js              検索・カテゴリ絞り込み・テーマ切り替え
@@ -36,7 +44,7 @@ assets/
   thumbs/<サブドメイン>-1..6.webp   カードの中で切り替わる画面写真（640×400、WebP）
 sw.js                 オフラインでも開けるようにする仕組み（Service Worker）
 data/apps.json        掲載しているものの一覧と、公開日・最終更新日
-tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」を組み直す
+tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」と sitemap.xml を組み直す
 .github/workflows/sync-updates.yml  それを毎朝走らせる設定
 ```
 
