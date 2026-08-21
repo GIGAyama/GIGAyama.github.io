@@ -11,6 +11,7 @@
    "summary": "学級新聞を作ろう、と決めたところまではよかった。そのあとが大変だった。そんな覚えはありませんか。",
    "source": "docs/note/digital-newspaper-note-article.md",
    "images": 25,
+   "imageHost": "subdomain",
    "charCount": 5761,
    "updatedAt": "2026-08-20"
   },
@@ -23,6 +24,7 @@
    "summary": "印刷室でプリントを刷りながら、こんなふうに思ったことはありませんか。",
    "source": "docs/note/digital-textbook-note-article.md",
    "images": 23,
+   "imageHost": "raw",
    "charCount": 8059,
    "updatedAt": "2026-08-20"
   },
@@ -35,6 +37,7 @@
    "summary": "朝、クローゼットの前でしばらく動けなくなること、ありませんか。",
    "source": "docs/note/digital-closet-note-article.md",
    "images": 21,
+   "imageHost": "raw",
    "charCount": 6094,
    "updatedAt": "2026-08-20"
   },
@@ -47,6 +50,7 @@
    "summary": "宿題や課題を出したあと、だれが出していないかを名簿と見くらべながら数えている時間。あれ、けっこう長いのではないでしょうか。",
    "source": "docs/note/manabi-quest-note-article.md",
    "images": 25,
+   "imageHost": "subdomain",
    "charCount": 7082,
    "updatedAt": "2026-08-20"
   },
@@ -59,6 +63,7 @@
    "summary": "授業が思ったより早く終わって、あと5分だけ、ぽっかり時間が空いてしまう。雨で外に出られない休み時間、教室がだんだん騒がしくなってくる。朝の会がはじまるまで、早く来た子が手もちぶさたで待っている。…",
    "source": "docs/note/gobblet-note-article.md",
    "images": 22,
+   "imageHost": "subdomain",
    "charCount": 6166,
    "updatedAt": "2026-08-20"
   },
@@ -71,6 +76,7 @@
    "summary": "国語の俳句の授業で、こんなことになっていませんか。",
    "source": "docs/note/giga-kukai-plaza-note-article.md",
    "images": 24,
+   "imageHost": "subdomain",
    "charCount": 6069,
    "updatedAt": "2026-08-20"
   },
@@ -83,6 +89,7 @@
    "summary": "朝の会が始まるまでの十分間、教室でいちばん時間を取られているのは宿題の確認ではないでしょうか。名簿を片手に「音読カードは出した？」「自主学習をやってきた人」と声をかけて回り、返事のなかった子をもう一度さがしにいく。…",
    "source": "docs/note/shukudai-post-note-article.md",
    "images": 25,
+   "imageHost": "raw",
    "charCount": 5442,
    "updatedAt": "2026-08-20"
   },
@@ -95,6 +102,7 @@
    "summary": "授業が思ったより早く終わって、5分だけ手もちぶさたな時間ができてしまうこと、ありませんか。",
    "source": "docs/note/nankyoku-slider-note-article.md",
    "images": 18,
+   "imageHost": "subdomain",
    "charCount": 6004,
    "updatedAt": "2026-08-20"
   },
@@ -107,6 +115,7 @@
    "summary": "二学期、二年生の算数はかけ算九九に入ります。宿題に計算カードを出して、次の日に「なくしました」と言われたことはありませんか。輪ゴムが切れて机の中でばらばらになっていたり、家の人にめくってもらう約束が、…",
    "source": "docs/note/kuku-card-note-article.md",
    "images": 25,
+   "imageHost": "subdomain",
    "charCount": 5839,
    "updatedAt": "2026-08-20"
   },
@@ -119,6 +128,7 @@
    "summary": "1年生の ひらがなの ノートを 見ていて、こんな まちがいに 出あったことは ありませんか。",
    "source": "docs/note/kana-master-note-article.md",
    "images": 28,
+   "imageHost": "subdomain",
    "charCount": 7049,
    "updatedAt": "2026-08-20"
   },
@@ -131,6 +141,7 @@
    "summary": "漢字の丸付けをしていて、こんなふうに迷ったことはありませんか。",
    "source": "docs/note/kanji-town-note-article.md",
    "images": 16,
+   "imageHost": "raw",
    "charCount": 6664,
    "updatedAt": "2026-08-20"
   },
@@ -143,6 +154,7 @@
    "summary": "くりあがりのあるたし算。1年生が算数でつまずく、最初の大きな山ではないでしょうか。",
    "source": "docs/note/keisan-block-note-article.md",
    "images": 26,
+   "imageHost": "subdomain",
    "charCount": 6249,
    "updatedAt": "2026-08-20"
   },
@@ -155,6 +167,7 @@
    "summary": "1年生の計算カード、先生方はどうされていますか。",
    "source": "docs/note/keisan-card-note-article.md",
    "images": 17,
+   "imageHost": "subdomain",
    "charCount": 6464,
    "updatedAt": "2026-08-20"
   },
@@ -167,6 +180,7 @@
    "summary": "自由進度学習を、一度はやってみたいと思ったことはありませんか。",
    "source": "docs/note/mirai-compass-note-article.md",
    "images": 27,
+   "imageHost": "subdomain",
    "charCount": 6301,
    "updatedAt": "2026-08-20"
   },
@@ -179,6 +193,7 @@
    "summary": "明日の授業で使うノートの見本を、黒板の前でマスを数えながら書いたことはありませんか。",
    "source": "docs/note/notebook-sample-note-article.md",
    "images": 20,
+   "imageHost": "raw",
    "charCount": 6511,
    "updatedAt": "2026-08-20"
   },
@@ -191,6 +206,7 @@
    "summary": "100マス計算は、やれば力がつくと分かっているものの筆頭ではないでしょうか。朝の会の前の5分、算数のはじめの3分。毎日続けたい、と思って始めた先生は多いと思います。",
    "source": "docs/note/square100-note-article.md",
    "images": 19,
+   "imageHost": "raw",
    "charCount": 6059,
    "updatedAt": "2026-08-20"
   },
@@ -203,6 +219,7 @@
    "summary": "作文の時間、子どもたちが手を止めるのは、書くことが思いつかないときだけではありません。行の頭に「。」が来てしまった、かぎかっこの位置がずれた、一行まるごと書き直しになった。そういう理由で止まっている子が、…",
    "source": "docs/note/online-manuscript-paper-lite-note-article.md",
    "images": 18,
+   "imageHost": "subdomain",
    "charCount": 5792,
    "updatedAt": "2026-08-20"
   },
@@ -215,6 +232,7 @@
    "summary": "作文の授業でいちばん時間がかかるのは、書かせているあいだではなくて、集めたあとではないでしょうか。",
    "source": "docs/note/online-manuscript-paper-pro-note-article.md",
    "images": 29,
+   "imageHost": "subdomain",
    "charCount": 5467,
    "updatedAt": "2026-08-20"
   },
@@ -227,6 +245,7 @@
    "summary": "作文の時間のあと、こんなことになっていませんか。",
    "source": "docs/note/online-publisher-pro-note-article.md",
    "images": 24,
+   "imageHost": "subdomain",
    "charCount": 6283,
    "updatedAt": "2026-08-20"
   },
@@ -239,6 +258,7 @@
    "summary": "計算練習の時間になると、教室はだいたい三つに分かれませんか。",
    "source": "docs/note/qalc-note-article.md",
    "images": 21,
+   "imageHost": "raw",
    "charCount": 6465,
    "updatedAt": "2026-08-20"
   },
@@ -251,6 +271,7 @@
    "summary": "テストやプリントが早く終わった子に、「読書していてね」と言うしかない5分。 雨の日の休み時間、教室でもてあましてしまう時間。 次の準備をしているあいだ、手持ちぶさたにさせてしまう数分間。 そういう時間に、…",
    "source": "docs/note/quarto-note-article.md",
    "images": 17,
+   "imageHost": "subdomain",
    "charCount": 6052,
    "updatedAt": "2026-08-20"
   },
@@ -263,6 +284,7 @@
    "summary": "雨の日の休み時間、教室にボードゲームを出してみたものの、ルールの説明だけで10分が過ぎてしまった、ということはありませんか。ようやく始まったと思ったら、今度は「それ反則だよ」「いや、いいんだよ」の言い合いが始まって、…",
    "source": "docs/note/kabekabe-note-article.md",
    "images": 21,
+   "imageHost": "raw",
    "charCount": 5461,
    "updatedAt": "2026-08-20"
   },
@@ -275,6 +297,7 @@
    "summary": "読書の記録カード、学期のおわりに集めて数えるのが大変ではありませんか。",
    "source": "docs/note/reading-books-note-article.md",
    "images": 20,
+   "imageHost": "subdomain",
    "charCount": 5949,
    "updatedAt": "2026-08-20"
   },
@@ -287,6 +310,7 @@
    "summary": "一日の終わりに、ふりかえりを書かせる。 やってみると、思っていたよりむずかしくないでしょうか。",
    "source": "docs/note/reflection-journal-note-article.md",
    "images": 23,
+   "imageHost": "subdomain",
    "charCount": 5638,
    "updatedAt": "2026-08-20"
   },
@@ -299,6 +323,7 @@
    "summary": "休み時間の教室を見わたすと、子どもたちがそれぞれの端末に向かって、ばらばらに画面をのぞきこんでいる。そんな時間が増えていませんか。",
    "source": "docs/note/reversi-note-article.md",
    "images": 22,
+   "imageHost": "raw",
    "charCount": 5697,
    "updatedAt": "2026-08-20"
   },
@@ -311,6 +336,7 @@
    "summary": "日曜の夜にパソコンを開いて、来週の週案を書きはじめる。教科書を開いて単元名をたしかめ、固定時間割を写し、行事の変更にあわせて書き直す。ふと時計を見たら一時間が過ぎている。そんな夜を過ごしたことはありませんか。",
    "source": "docs/note/schoolplan-editor-note-article.md",
    "images": 23,
+   "imageHost": "subdomain",
    "charCount": 7414,
    "updatedAt": "2026-08-20"
   },
@@ -323,6 +349,7 @@
    "summary": "町たんけんから帰ってきた子どもたちのワークシートを、放課後にひとりぶんずつめくりながら、もったいないな、と思ったことはありませんか。",
    "source": "docs/note/mikke-note-article.md",
    "images": 25,
+   "imageHost": "subdomain",
    "charCount": 5980,
    "updatedAt": "2026-08-20"
   },
@@ -335,6 +362,7 @@
    "summary": "「タイピングの練習をさせたいのに、始まるまでが長い」と感じたことはありませんか。",
    "source": "docs/note/typa-note-article.md",
    "images": 25,
+   "imageHost": "subdomain",
    "charCount": 6056,
    "updatedAt": "2026-08-20"
   },
@@ -347,6 +375,7 @@
    "summary": "「話し合いの学習」と聞くと、少し身構えてしまうことはありませんか。テーマを決めて、グループを分けて、司会を立てて、時間を計る。準備にそれなりの手間がかかるわりに、いざ始めてみると数人だけが話していて、…",
    "source": "docs/note/werewolf-note-article.md",
    "images": 25,
+   "imageHost": "raw",
    "charCount": 5743,
    "updatedAt": "2026-08-20"
   },
@@ -359,6 +388,7 @@
    "summary": "雨の日の昼休み、学級レクの残り10分、行事のあとにぽっかり空いた時間。何かひとつ、教室のみんなで遊べるものがほしいと思うことはありませんか。",
    "source": "docs/note/word-basket-note-article.md",
    "images": 21,
+   "imageHost": "raw",
    "charCount": 5718,
    "updatedAt": "2026-08-20"
   },
@@ -371,6 +401,7 @@
    "summary": "授業で使うものを自分で作ってみたけれど、それを他の先生に知らせるところで止まっている、ということはありませんか。せっかく形になったのに、伝える相手が同じ学年の先生だけで終わってしまう。学年が変われば忘れられてしまう。…",
    "source": "docs/note/xxx-automatic-note-article.md",
    "images": 20,
+   "imageHost": "subdomain",
    "charCount": 7341,
    "updatedAt": "2026-08-20"
   }

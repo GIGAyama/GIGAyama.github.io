@@ -1346,28 +1346,33 @@
   }
   .prose--article blockquote p + p { margin-block-start: var(--s-3); }
 
-  /* 画面写真。幅は本文より広く取り、細部が見えるようにする */
-  .prose__fig {
-    margin-inline: calc(var(--s-5) * -1);
-    margin-block: var(--s-6);
-  }
+  /* 画面写真。
+     ⚠️ 高さで頭を打たせる。717 枚のうち 57% が縦長（860×1860 など、
+        スマホの画面写真）で、幅いっぱいに出すと縦が 1200px を超える。
+        1 本に 20〜28 枚あるので、そのままでは画面が画像で埋まって文章が読めない。
+        幅ではなく高さを上限にすると、横長も縦長も同じ収まりになる。 */
+  .prose__fig { margin-block: var(--s-6); }
   .prose__fig img {
-    inline-size: 100%;
+    display: block;
+    margin-inline: auto;
+    inline-size: auto;
     block-size: auto;
+    max-inline-size: 100%;
+    max-block-size: min(58vh, 560px);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
     background: var(--surface-2);
   }
   .prose__fig figcaption {
     margin-block-start: var(--s-3);
-    margin-inline: var(--s-5);
     font-size: .875rem;
     line-height: 1.8;
     color: var(--ink-3);
+    text-align: center;
   }
-  @media (max-width: 640px) {
-    .prose__fig { margin-inline: 0; }
-    .prose__fig figcaption { margin-inline: 0; }
+  /* 画面が低いときは、上限が小さくなりすぎないようにする */
+  @media (max-height: 560px) {
+    .prose__fig img { max-block-size: 380px; }
   }
 
   .article__end {
