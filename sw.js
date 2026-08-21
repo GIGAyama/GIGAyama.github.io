@@ -1,13 +1,20 @@
 /* =============================================================
    giga-school.com — オフラインでも開けるようにする
 
-   ・HTML は「まずネットワーク、だめなら控え」。中身が古いまま残らない。
-   ・CSS・JS・画像は「まず控え、裏で取り直す」。二度目からは速い。
+   ・HTML と CSS・JS は「まずネットワーク、だめなら控え」。
+   ・画像は「まず控え、裏で取り直す」。数が多く、同じ名前なら中身も変わらない。
+
+   ⚠️ CSS・JS を「まず控え」にしてはいけない。
+      以前そうしていたところ、更新した直後の 1 回目に
+      「新しい HTML ＋ 古い CSS」の組み合わせが出て、画面が壊れた。
+      実際、カードの紹介ボタンが押せずアプリが開く不具合になった
+      （ボタンを前面に出す指定が古い CSS に無く、カード全体のリンクが上に来た）。
+      HTML と一緒に変わるものは、HTML と同じ配り方にする。
    ・サムネイルは数が多いので、控えの数に上限を設ける。
    ・別のドメイン（各アプリ）へは一切手を出さない。
    ============================================================= */
 
-const VERSION = 'v2';
+const VERSION = 'v3';
 const SHELL = `giga-school-shell-${VERSION}`;   // 骨組み（毎回使うもの）
 const PAGES = `giga-school-pages-${VERSION}`;   // 開いたページ。アドレスごとに持つ
 const RUNTIME = `giga-school-media-${VERSION}`; // 画像など、使った分だけためるもの
@@ -88,18 +95,30 @@ self.addEventListener('fetch', (event) => {
   const isShell = SHELL_FILES.includes(url.pathname);
   if (!isMedia && !isShell) return;
 
-  /* まず控え、裏で取り直す */
+  /* 画像：まず控え、裏で取り直す */
+  if (isMedia) {
+    event.respondWith((async () => {
+      const cache = await caches.open(RUNTIME);
+      const hit = await cache.match(req);
+      const network = fetch(req).then((res) => {
+        if (res && res.ok) { cache.put(req, res.clone()); trim(RUNTIME, MEDIA_LIMIT); }
+        return res;
+      }).catch(() => null);
+      return hit || (await network) || new Response('', { status: 504 });
+    })());
+    return;
+  }
+
+  /* CSS・JS：まずネットワーク。HTML と一緒に変わるものなので、
+     古い控えを先に返すと、新しい HTML と食い違って画面が壊れる */
   event.respondWith((async () => {
-    const cacheName = isMedia ? RUNTIME : SHELL;
-    const cache = await caches.open(cacheName);
-    const hit = await cache.match(req);
-    const network = fetch(req).then((res) => {
-      if (res && res.ok) {
-        cache.put(req, res.clone());
-        if (isMedia) trim(RUNTIME, MEDIA_LIMIT);
-      }
-      return res;
-    }).catch(() => null);
-    return hit || (await network) || new Response('', { status: 504 });
+    const cache = await caches.open(SHELL);
+    try {
+      const fresh = await fetch(req);
+      if (fresh && fresh.ok) cache.put(req, fresh.clone());
+      return fresh;
+    } catch (e) {
+      return (await cache.match(req)) || new Response('', { status: 504 });
+    }
   })());
 });

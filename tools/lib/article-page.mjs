@@ -223,10 +223,12 @@ export function linkCards(html, slugs) {
       .replace(/\s*<a class="card__note"[\s\S]*?<\/a>/g, '');
     if (!slug || !slugs.has(slug)) return out;
 
+    /* 文字は span で包む。ボタンの中は「絵・文字・矢印」の 3 つで、
+       文字の両側に余白を寄せて中央に置き、矢印だけを右端に逃がす。 */
     const link = '<p class="card__actions">'
       + `<a class="card__note" href="/apps/${slug}/">`
       + '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>'
-      + 'しょうかいを読む</a></p>';
+      + '<span>しょうかいを読む</span></a></p>';
 
     /* card__foot の手前に、独立した行として置く。
        プライバシーや利用規約と同じ大きさの文字リンクにすると埋もれる。 */

@@ -63,12 +63,31 @@ ok(target('/Gamification/manabi-portal/', '?app=x', '#y')
    === 'https://gamification.giga-school.com/manabi-portal/?app=x#y',
    '?app=x#y が引き継がれる', target('/Gamification/manabi-portal/', '?app=x', '#y'));
 
-console.log('\n■ 一覧そのものの形');
+/* hidden のものも数に入れる。サイトには載せないが、転送は効かせたままにする。
+   配布済みの QR コードやプリントは、隠したあとも同じアドレスを指しているため。 */
+console.log('\n■ 一覧そのものの形（隠したものも転送表には残す）');
 const slugged = data.items.filter((i) => i.slug);
 ok(slugged.length > 0, `slug のあるアプリが ${slugged.length} 件ある`);
 ok(slugged.every((i) => SAFE_SLUG.test(i.slug)), 'すべての slug が転送に使える形');
 ok(new Set(slugged.map((i) => i.repo.toLowerCase())).size === slugged.length,
    'repo 名が重複していない（重複すると行き先が定まらない）');
+
+/* hidden を立てたら、カードも手で外す。
+   カードは index.html に直接書いてあり、サムネイルやキーワードも入っている。
+   機械が削ると、戻すときに書き直すことになる。だから外すのは手作業のままにして、
+   外し忘れだけをここで拾う。忘れたままだと、死んだリンクがトップに残る。 */
+console.log('\n■ 隠したアプリが、トップページに残っていない');
+const hidden = data.items.filter((i) => i.hidden === true);
+if (hidden.length === 0) {
+  console.log('  ok   隠しているアプリは無い');
+} else {
+  const page = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  for (const item of hidden) {
+    const card = item.slug && page.includes(`href="https://${item.slug}.giga-school.com/"`);
+    ok(!card, `${item.name} のカードが外れている`,
+       'index.html にまだカードがある。手で外すこと');
+  }
+}
 
 console.log(failed === 0 ? '\n✅ すべて通りました' : `\n❌ ${failed} 件 通りませんでした`);
 process.exit(failed === 0 ? 0 : 1);
