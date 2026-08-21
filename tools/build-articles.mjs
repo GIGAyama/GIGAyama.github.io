@@ -24,14 +24,19 @@
  * このリポジトリに入れると clone も配信も重くなる。
  *
  * 画像はアプリのリポジトリに置いたまま、そのアプリのサブドメインから読む。
- * GitHub Pages はリポジトリの中身をそのまま配るので、すでにそこで公開されている。
- * raw.githubusercontent.com は使わない。あれは配信用ではなく、
- * 検索から人が来るページの画像置き場にすると、回数の上限に当たる。
+ * GitHub Pages はリポジトリの中身をそのまま配るので、たいていはそこで公開されている。
  *
- * ⚠️ 画像の URL は、そのリポジトリの Pages がどこを配っているかで変わる。
- *    docs/CNAME があれば docs/ が配信元なので  /note/images/…
- *    ルートに CNAME があればリポジトリ全体が配信元なので /docs/note/images/…
- *    ここを取り違えると、ページの画像が 1 枚も出ない。実際に見て確かめること。
+ * ── ただし「たいてい」であって、いつもではない ──────────────
+ *
+ * Vite で dist/ を組んで、その dist/ だけを配っているアプリが 11 本ある。
+ * こちらは docs/note/images/ が配信物に入らないので、サブドメインからは読めない。
+ * ビルドに画像を足す手もあるが、あれらのリポジトリは dist の大きさを
+ * 品質ゲートで見張っているので、数 MB の画面写真を入れると今度はそこで止まる。
+ *
+ * そこで、URL を組み立てたら実際に 1 枚たたいて確かめる。
+ * 届かなければ raw.githubusercontent.com に切り替える。
+ * 推測で決めると、配信の形が変わったときに黙って画像が消える。
+ * 確かめて決めておけば、直したその翌朝から自動で戻る。
  */
 
 import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
@@ -77,6 +82,16 @@ async function servesFromDocs(repo) {
   return res.status === 200;
 }
 
+/** その URL が実際に返ってくるか。画像 1 枚で配信の形を見分ける。 */
+async function reachable(url) {
+  try {
+    const res = await fetch(url, { method: 'HEAD', redirect: 'follow' });
+    return res.ok;
+  } catch (e) {
+    return false;   // つながらないときは「届かない」側に倒す
+  }
+}
+
 /**
  * 記事 1 本を取ってくる。無ければ null。
  * @returns {{path: string, markdown: string} | null}
@@ -119,16 +134,31 @@ const main = async () => {
     }
     if (!got) { missing++; continue; }
 
-    const docsIsRoot = await servesFromDocs(app.repo);
     /* 記事は docs/note/ にあり、画像は docs/note/images/ を相対で指している。
        配信元が docs/ なら note/ から、リポジトリ全体なら docs/note/ から見える。 */
-    const base = `https://${app.slug}.giga-school.com/${docsIsRoot ? 'note' : 'docs/note'}`;
-    const imageUrl = (target) =>
+    const docsIsRoot = await servesFromDocs(app.repo);
+    const dir = got.path.replace(/\/[^/]*$/, '');                 // docs/note
+    const resolve = (target) => `${dir}/${String(target).replace(/^\.\//, '')}`;
+
+    const under = (prefix) => (target) =>
       /^[a-z][a-z0-9+.-]*:/i.test(target)          // すでに絶対 URL のものは触らない
         ? target
-        : `${base}/${String(target).replace(/^\.\//, '')}`;
+        : prefix(resolve(target));
 
-    const article = renderArticle(got.markdown, { imageUrl });
+    /* まずは自分のドメインで組む。読み手にとってはこちらが本筋 */
+    const onSubdomain = under((path) =>
+      `https://${app.slug}.giga-school.com/${docsIsRoot ? path.replace(/^docs\//, '') : path}`);
+    /* 届かなかったときの逃げ道。HEAD は既定のブランチを指す */
+    const onRaw = under((path) => `https://raw.githubusercontent.com/${OWNER}/${app.repo}/HEAD/${path}`);
+
+    let article = renderArticle(got.markdown, { imageUrl: onSubdomain });
+    let imageHost = 'subdomain';
+    const first = article.images[0]?.src;
+    if (first && !(await reachable(first))) {
+      article = renderArticle(got.markdown, { imageUrl: onRaw });
+      imageHost = 'raw';
+      console.warn(`  画像はサブドメインから読めない ${app.repo} → raw に切り替えた`);
+    }
     if (!article.title || article.charCount < 1200) {
       console.warn(`  中身が足りない ${app.repo}（題:${article.title ? 'あり' : 'なし'} / ${article.charCount}字）`);
       failed++;
@@ -151,10 +181,11 @@ const main = async () => {
       summary: summaryOf(article.lead),
       source: got.path,
       images: article.images.length,
+      imageHost,
       charCount: article.charCount,
       updatedAt: app.updatedAt,
     });
-    console.log(`  ✅ ${app.name}（${article.charCount}字 / 画像 ${article.images.length}枚）`);
+    console.log(`  ✅ ${app.name}（${article.charCount}字 / 画像 ${article.images.length}枚 / ${imageHost}）`);
   }
 
   built.sort((a, b) => a.slug.localeCompare(b.slug));
