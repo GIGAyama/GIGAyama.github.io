@@ -402,6 +402,33 @@ test('正規表現リテラルの中の引用符で状態がずれても、後�
   assert.ok(!ids(failures(tree)).includes('C_NO_LS_CLEAR'));
 });
 
+test('単一 HTML 型（<style> にスタイルを書く）でも CSS 系の検査が中身を見る', () => {
+  // 実際に ice_slide-puzzle が css/ を持たず index.html の <style> に書いていた
+  const tree = { ...OK_TREE };
+  const css = tree['css/style.css'];
+  delete tree['css/style.css'];
+  tree['index.html'] = tree['index.html'].replace('</head>', `<style>${css}</style></head>`);
+  const f = ids(failures(tree));
+  for (const id of ['D_SAFE_AREA', 'D_FLUID_TYPE', 'D_REDUCED_MOTION', 'D_FORCED_COLORS']) {
+    assert.ok(!f.includes(id), `${id} が <style> の中身を見ていない`);
+  }
+});
+
+test('行き先リンク（<a href="https://…">）は CDN 読み込みと数えない', () => {
+  // 実際に ice_slide-puzzle のフッターの giga-school.com リンクを誤検知した
+  const tree = {
+    ...OK_TREE,
+    'index.html': OK_TREE['index.html'].replace('<body>',
+      '<body><footer><a href="https://giga-school.com/">GIGA school</a></footer>'),
+  };
+  assert.ok(!ids(failures(tree)).includes('B_NO_CDN_CODE'));
+});
+
+test('JS からの動的な読み込み（script.src = https）は拾う', () => {
+  const tree = { ...OK_TREE, 'js/app.js': OK_TREE['js/app.js'] + "\nconst s = document.createElement('script'); s.src = 'https://evil.example/x.js';" };
+  assert.ok(ids(failures(tree)).includes('B_NO_CDN_CODE'));
+});
+
 // ---------------- stripComments ----------------
 
 test('stripComments はコメントだけを落とす', () => {
