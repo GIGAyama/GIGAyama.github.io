@@ -33,7 +33,8 @@ index.html            トップページ（カードはすべて HTML に直接�
 404.html              見つからないページ
 site.webmanifest      PWA マニフェスト
 robots.txt            クロールの許可と sitemap の在りか
-sitemap.xml           トップページと各アプリのサブドメイン（tools/sync-updates.mjs が書き出す）
+sitemap.xml           トップページ・紹介ページ・各アプリのサブドメイン（tools/sync-updates.mjs が書き出す）
+apps/<slug>/          アプリの紹介ページ（tools/build-articles.mjs が書き出す）
 assets/
   style.css           スタイル（@layer で reset → tokens → base → layout → components → utilities）
   app.js              検索・カテゴリ絞り込み・テーマ切り替え
@@ -44,12 +45,31 @@ assets/
   thumbs/<サブドメイン>-1..6.webp   カードの中で切り替わる画面写真（640×400、WebP）
 sw.js                 オフラインでも開けるようにする仕組み（Service Worker）
 data/apps.json        掲載しているものの一覧と、公開日・最終更新日
+data/articles.json    紹介ページの一覧（tools/build-articles.mjs が書き出す）
 tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」と sitemap.xml を組み直す
+tools/build-articles.mjs  各アプリの note 記事から紹介ページを組み直す
+tools/lib/            上の 2 つが使う部品（Markdown の変換・ページの雛形）
 .github/workflows/sync-updates.yml  それを毎朝走らせる設定
 ```
 
 **閲覧する側にビルドは要りません。** HTML・CSS・JavaScript をそのまま配信します。
-`tools/` は「更新情報」を書き直すためだけのもので、GitHub Actions が動かします。
+`tools/` は「更新情報」と紹介ページを書き直すためだけのもので、GitHub Actions が動かします。
+
+## アプリの紹介ページ
+
+各アプリのリポジトリの `docs/note/*-note-article.md` に置いてある記事を、
+`giga-school.com/apps/<slug>/` のページとして毎朝組み直しています。
+
+- **記事は書きかえません。** 見出しと画像の位置をそのまま HTML にするだけです
+- **画像は取り込みません。** 31 本ぶんで 717 枚・約 170MB あります。
+  アプリのリポジトリに置いたまま、そのアプリのサブドメインから読みます
+- カードの「しょうかい」リンクは `tools/build-articles.mjs` が貼り直します。
+  手で書き足すと、アプリが増えたときに片方だけ古くなるためです
+
+> [!IMPORTANT]
+> 画像の URL は、そのリポジトリの Pages がどこを配っているかで変わります。
+> `docs/CNAME` があれば `/note/images/…`、ルートに `CNAME` があれば `/docs/note/images/…` です。
+> 取り違えるとページの画像が 1 枚も出ないので、増やしたときは実際に開いて確かめてください。
 
 ## アプリを追加・変更するとき
 

@@ -7,9 +7,11 @@
    ・別のドメイン（各アプリ）へは一切手を出さない。
    ============================================================= */
 
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL = `giga-school-shell-${VERSION}`;   // 骨組み（毎回使うもの）
+const PAGES = `giga-school-pages-${VERSION}`;   // 開いたページ。アドレスごとに持つ
 const RUNTIME = `giga-school-media-${VERSION}`; // 画像など、使った分だけためるもの
+const PAGE_LIMIT = 40;                          // ためこむページの上限（紹介ページ 31 本＋余裕）
 const MEDIA_LIMIT = 140;                        // ためこむ画像の上限
 
 const SHELL_FILES = [
@@ -36,7 +38,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     await Promise.all(keys
-      .filter((k) => k.startsWith('giga-school-') && k !== SHELL && k !== RUNTIME)
+      .filter((k) => k.startsWith('giga-school-') && k !== SHELL && k !== PAGES && k !== RUNTIME)
       .map((k) => caches.delete(k)));
     await self.clients.claim();
   })());
@@ -57,16 +59,24 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;   // 各アプリのドメインには触らない
 
-  /* ページそのもの：まずネットワーク。つながらないときだけ控えを出す */
+  /* ページそのもの：まずネットワーク。つながらないときだけ控えを出す。
+     ⚠️ 控えは「開いたそのアドレス」で持つ。
+        以前はどのページを開いても /index.html として保存していた。
+        トップ 1 枚しかない間は同じことだったが、/apps/<slug>/ の紹介ページが
+        増えたあとは、記事を開いたあとのトップが記事に化ける。 */
   if (req.mode === 'navigate') {
     event.respondWith((async () => {
       try {
         const fresh = await fetch(req);
-        const cache = await caches.open(SHELL);
-        cache.put('/index.html', fresh.clone());
+        if (fresh && fresh.ok) {
+          const cache = await caches.open(PAGES);
+          cache.put(req, fresh.clone());
+          trim(PAGES, PAGE_LIMIT);
+        }
         return fresh;
       } catch (e) {
-        return (await caches.match(req)) || (await caches.match('/index.html'))
+        return (await caches.match(req))
+          || (await caches.match('/index.html'))
           || new Response('オフラインです', { status: 503, headers: { 'content-type': 'text/plain; charset=utf-8' } });
       }
     })());
