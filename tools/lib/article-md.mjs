@@ -173,9 +173,14 @@ export function renderArticle(markdown, { imageUrl }) {
         const src = imageUrl(b.target);
         const alt = b.alt || caption || '';
         images.push({ src, alt, caption });
+        /* 画像はリンクで包む。JavaScript があれば拡大して見せ、
+           無ければ画像そのものが開く。縦長の画面写真は、本文の中では
+           高さで頭を打たせてあるので、大きく見る道をどちらでも残しておく。 */
         out.push(
           '<figure class="prose__fig">'
+          + `<a class="prose__zoom" href="${esc(src)}">`
           + `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async">`
+          + '</a>'
           + (caption ? `<figcaption>${inline(caption)}</figcaption>` : '')
           + '</figure>');
         return;

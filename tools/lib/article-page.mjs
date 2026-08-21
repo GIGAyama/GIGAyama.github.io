@@ -143,6 +143,7 @@ export function articlePage({ app, article }) {
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/article.js" defer></script>
 ${THEME_SCRIPT}
 
   <script type="application/ld+json">
@@ -201,7 +202,7 @@ ${FOOTER}
  * それをしないのは、アプリが増えたときに片方だけ古くなるため。
  * 記事のある slug の一覧を渡して、毎回まるごと貼り直す。
  *
- * 目印は class="card__note"。これが付いたリンクだけを外して入れ直すので、
+ * 目印は class="card__actions"。この段落だけを外して入れ直すので、
  * 何度走らせても同じ形になる。
  */
 export function linkCards(html, slugs) {
@@ -213,19 +214,26 @@ export function linkCards(html, slugs) {
     const m = card.match(/class="card__open" href="https:\/\/([a-z0-9-]+)\.giga-school\.com\//);
     const slug = m?.[1];
 
-    // 以前に貼ったものを、まず外す
-    let out = card.replace(/\s*<a class="card__note"[\s\S]*?<\/a>/g, '');
+    /* 以前に貼ったものを、まず外す。
+       目印は card__note。かつては card__foot の中に、小さな文字リンクとして
+       直接置いていた。形を変えたときに古いほうを外し忘れると、
+       1 枚のカードに同じリンクが 2 つ並ぶ。両方の形を外す。 */
+    let out = card
+      .replace(/\s*<p class="card__actions">[\s\S]*?<\/p>/g, '')
+      .replace(/\s*<a class="card__note"[\s\S]*?<\/a>/g, '');
     if (!slug || !slugs.has(slug)) return out;
 
-    const link = `<a class="card__note" href="/apps/${slug}/">`
-      + '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>しょうかい</a>';
+    const link = '<p class="card__actions">'
+      + `<a class="card__note" href="/apps/${slug}/">`
+      + '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>'
+      + 'しょうかいを読む</a></p>';
 
-    // card__foot の先頭に置く。プライバシーや利用規約より先に読ませたい
+    /* card__foot の手前に、独立した行として置く。
+       プライバシーや利用規約と同じ大きさの文字リンクにすると埋もれる。 */
     const at = out.indexOf('<p class="card__foot">');
     if (at === -1) return out;
-    const insert = at + '<p class="card__foot">'.length;
     added++;
-    return out.slice(0, insert) + '\n              ' + link + out.slice(insert);
+    return out.slice(0, at) + link + '\n            ' + out.slice(at);
   });
 
   return { html: next, added };
