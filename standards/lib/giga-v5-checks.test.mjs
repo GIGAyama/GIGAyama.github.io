@@ -140,6 +140,24 @@ test('@supports のフォールバックの 100vh を誤検知しない', () => 
   assert.ok(!ids(failures(OK_TREE)).includes('D_DVH'));
 });
 
+test('カスケード上書き（min-height:100vh; の直後に 100dvh）を誤検知しない', () => {
+  // 実際に shiritori_fighter の css がこの形だった
+  const tree = {
+    ...OK_TREE,
+    'css/style.css': OK_TREE['css/style.css']
+      + '\n.app { min-height: 100vh; min-height: 100dvh; }',
+  };
+  assert.ok(!ids(failures(tree)).includes('D_DVH'));
+});
+
+test('start_url のクエリ（./?source=pwa）を誤検知しない', () => {
+  // 実際に keisan-card の manifest がこの形だった
+  const j = JSON.parse(OK_TREE['manifest.webmanifest']);
+  j.start_url = './?source=pwa';
+  const tree = { ...OK_TREE, 'manifest.webmanifest': JSON.stringify(j) };
+  assert.ok(!ids(failures(tree)).includes('E_MANIFEST_ID'));
+});
+
 test('@supports not (min-height: 100dvh) のフォールバックも誤検知しない', () => {
   // 実際に omp-lite の offline.html がこの形で、height 決め打ちの検査が誤検知した
   const tree = {
@@ -347,6 +365,41 @@ test('skips に載せた検査は理由つきで飛ぶ', () => {
   assert.equal(r.ok, true);
   assert.equal(r.skipped, true);
   assert.match(r.title, /全画面固定レイアウトではない/);
+});
+
+test('head で読む別名のスクリプト（pwa-early.js 等）が合図を受けていれば E_INSTALL_HOOK は通る', () => {
+  // 実際に reading-books が js/pwa-early.js という名前でこの形だった
+  const tree = {
+    ...OK_TREE,
+    'index.html': OK_TREE['index.html'].replace('<script src="./install-hook.js"></script>',
+      '<script src="js/pwa-early.js"></script>'),
+    'js/pwa-early.js': "window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); });",
+  };
+  assert.ok(!ids(failures(tree)).includes('E_INSTALL_HOOK'));
+});
+
+test('DOMContentLoaded 方式（readyState !== loading）の登録も E_SW_REGISTER_READYSTATE は通す', () => {
+  // 実際に reading-books がこの形だった
+  const tree = {
+    ...OK_TREE,
+    'js/app.js': OK_TREE['js/app.js'].replace(
+      /if \(document\.readyState === 'complete'\) navigator\.serviceWorker\.register\('\.\/sw\.js'\);\nelse addEventListener\('load', .*\n?/,
+      "function boot() { navigator.serviceWorker.register('./sw.js'); }\n"
+      + "if (document.readyState !== 'loading') boot(); else document.addEventListener('DOMContentLoaded', boot);\n"
+      + "addEventListener('load', () => {});\n"),
+  };
+  assert.ok(tree['js/app.js'].includes('DOMContentLoaded'), '置きかえが空振りした');
+  assert.ok(!ids(failures(tree)).includes('E_SW_REGISTER_READYSTATE'));
+});
+
+test('正規表現リテラルの中の引用符で状態がずれても、後続のコメントを見のがさない', () => {
+  // 実際に reading-books の app.js で、コメント内の localStorage.clear() を誤検知した
+  const tree = {
+    ...OK_TREE,
+    'js/app.js': OK_TREE['js/app.js']
+      + "\nconst re = /don't/;\n/* localStorage.clear() はつかわない、という注意書き */\n",
+  };
+  assert.ok(!ids(failures(tree)).includes('C_NO_LS_CLEAR'));
 });
 
 // ---------------- stripComments ----------------
