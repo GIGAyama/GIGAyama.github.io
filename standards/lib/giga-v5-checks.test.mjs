@@ -140,6 +140,35 @@ test('@supports のフォールバックの 100vh を誤検知しない', () => 
   assert.ok(!ids(failures(OK_TREE)).includes('D_DVH'));
 });
 
+test('@supports not (min-height: 100dvh) のフォールバックも誤検知しない', () => {
+  // 実際に omp-lite の offline.html がこの形で、height 決め打ちの検査が誤検知した
+  const tree = {
+    ...OK_TREE,
+    'css/style.css': OK_TREE['css/style.css']
+      + '\n@supports not (min-height: 100dvh) { body { min-height: 100vh; } }',
+  };
+  assert.ok(!ids(failures(tree)).includes('D_DVH'));
+});
+
+test('minify された controllerchange の見はり（!H||U|| 形）を誤検知しない', () => {
+  // 実際に omp-lite の js/app.js（minify 済み）がこの形だった
+  const minified = 'navigator.serviceWorker.addEventListener("controllerchange",()=>{!H||U||(U=!0,location.reload())});';
+  const replaced = OK_TREE['js/app.js'].replace(
+    /navigator\.serviceWorker\.addEventListener\('controllerchange'[\s\S]*?\}\);/, minified);
+  assert.ok(replaced.includes(minified) && !replaced.includes("'controllerchange'"), '置きかえが空振りした');
+  const tree = { ...OK_TREE, 'js/app.js': replaced };
+  assert.ok(!ids(failures(tree)).includes('E_SW_UPDATE_PROMPT'));
+});
+
+test('無条件の controllerchange reload は拾う', () => {
+  const minified = 'navigator.serviceWorker.addEventListener("controllerchange",()=>{location.reload()});';
+  const replaced = OK_TREE['js/app.js'].replace(
+    /navigator\.serviceWorker\.addEventListener\('controllerchange'[\s\S]*?\}\);/, minified);
+  assert.ok(!replaced.includes("'controllerchange'"), '置きかえが空振りした');
+  const tree = { ...OK_TREE, 'js/app.js': replaced };
+  assert.ok(ids(failures(tree)).includes('E_SW_UPDATE_PROMPT'));
+});
+
 test('message ハンドラの中の（正しい）skipWaiting を install のものと誤判定しない', () => {
   // OK_TREE の sw.js は install → activate → message の順。並びを変えても通ること
   const reordered = {

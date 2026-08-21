@@ -283,10 +283,11 @@ export const CHECKS = [
       for (const rel of [...cssFiles(root, cfg), ...cfg.htmlFiles]) {
         const s = read(root, rel);
         if (!s) continue;
-        // ⚠️ 前方も見る。@supports not (height: 100dvh) の中の 100vh は正しいひかえ
+        // ⚠️ 前方も見る。@supports not (height: 100dvh) の中の 100vh は正しいひかえ。
+        //    min-height / max-height で書くリポジトリもあるので、height の変種を受ける
         const css = s.replace(/\/\*[\s\S]*?\*\//g, '');
         const guards = [];
-        const re = /@supports\s+not\s*\(\s*height\s*:\s*100dvh\s*\)\s*\{/g;
+        const re = /@supports\s+not\s*\(\s*(?:min-|max-)?height\s*:\s*100dvh\s*\)\s*\{/g;
         let g;
         while ((g = re.exec(css))) {
           // 対応する } までをひかえの区間とする
@@ -616,10 +617,15 @@ export const CHECKS = [
       const bad = [];
       if (!/SKIP_WAITING/.test(js)) bad.push('画面から SKIP_WAITING をおくっていません（更新のおしらせがありません）');
       if (/addEventListener\(\s*['"]controllerchange['"]/.test(js)) {
-        // 押したかどうかの見はりが無いと、初回訪問がかならず1回リロードされる
+        // 押したかどうかの見はりが無いと、初回訪問がかならず1回リロードされる。
+        // 見はりの形は if (!asked) return; のほか、minify 後は
+        // !H||U||(U=!0,location.reload()) のような短絡式にもなる。
         const seg = js.slice(js.indexOf('controllerchange'), js.indexOf('controllerchange') + 400);
+        const guarded = /if\s*\(\s*![\w$]+/.test(seg)
+          || /![\w$]+\s*\|\|/.test(seg)
+          || /[\w$]+\s*&&[^;\n]*location\s*\.\s*reload/.test(seg);
         if (!/location\s*\.\s*reload/.test(seg)) { /* reload しないなら問題なし */ }
-        else if (!/if\s*\(\s*!\w+/.test(seg)) bad.push('controllerchange で無条件に reload しています（初回訪問が1回リロードされます）');
+        else if (!guarded) bad.push('controllerchange で無条件に reload しています（初回訪問が1回リロードされます）');
       }
       return { ok: bad.length === 0, detail: bad };
     },
