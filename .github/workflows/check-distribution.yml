@@ -1,0 +1,43 @@
+# 正本を直したのに配っていない配布先を見つける。
+#
+# 各リポジトリのずれ検知（standards/check-drift.mjs）は、そのリポジトリに
+# push があったときにしか走らない。正本だけを直した日は配布先では何も起きず、
+# 古いコピーが緑のまま残る。2026-08-22 にそれで10本の main を同時に赤くした。
+# ここは逆向きに、正本を持つ側から配布先を覗きにいく。
+#
+# ⚠️ pull_request では走らせない。
+#    配布先のずれ検知はポータルの main を見るので、正本が main に入るまで
+#    配る PR は作れない。つまり「正本を直した PR」の時点では、配布先が
+#    古いのが正しい状態になる。ここで赤くしても直しようがない。
+#    main が赤いのは、配り終えるまでのやり残しの一覧として読む。
+name: 配布のとりのこし
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '47 22 * * *'      # UTC 22:47 ＝ 日本時間 朝 7:47
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-distribution
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 台帳と突き合わせの仕組み自体のテスト
+        run: node --test tools/check-distribution.test.mjs
+      - name: 配布先が正本と一致しているか
+        env:
+          # リポジトリ一覧を取るのに使う。無いと GitHub の側で強く絞られる。
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/check-distribution.mjs
