@@ -1407,6 +1407,101 @@
     margin-block-start: var(--s-5);
   }
 
+  /* ---------- 記事の終わりの「ほかの紹介」 ----------
+     31 本の記事が互いにリンクしていなかったので足したもの。
+     本文を読み終えた位置に置くため、区切り線で本文と切り離す。 */
+  .article-more {
+    max-inline-size: var(--measure-text);
+    margin-block-start: var(--s-8);
+    padding-block-start: var(--s-6);
+    border-block-start: 1px solid var(--line);
+  }
+  .article-more__title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-block-end: var(--s-4);
+  }
+  .more-list {
+    display: grid;
+    gap: var(--s-3);
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+  .more-item > a {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    block-size: 100%;
+    padding: var(--s-3);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  }
+  .more-item > a:hover {
+    border-color: var(--line-strong);
+    background: var(--surface-2);
+    text-decoration: none;
+  }
+  .more-item img {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+  }
+  /* カテゴリの色は、カードの .tag と同じ見え方にそろえる */
+  .more-item__tag {
+    justify-self: start;
+    font-size: .6875rem;
+    font-weight: 700;
+    color: var(--cat, var(--ink-3));
+  }
+  .more-item__title {
+    font-size: .8125rem;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .more-item > a:hover .more-item__title { color: var(--brand); }
+
+  /* 前後の記事 */
+  .more-nav {
+    display: grid;
+    gap: var(--s-2);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    margin-block-start: var(--s-4);
+  }
+  .more-nav a {
+    display: grid;
+    gap: 2px;
+    padding: var(--s-3);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: .875rem;
+    font-weight: 700;
+  }
+  .more-nav a:hover { border-color: var(--line-strong); color: var(--brand); text-decoration: none; }
+  .more-nav a span { font-size: .6875rem; font-weight: 600; color: var(--ink-3); }
+  .more-nav__next { text-align: end; }
+  .more-all {
+    margin-block-start: var(--s-4);
+    font-size: .8125rem;
+  }
+  :root[data-theme="dark"] .more-item img { filter: brightness(.9); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .more-item img { filter: brightness(.9); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .more-item > a, .more-nav a { transition: none; }
+  }
+
   /* ---------- 紹介ページの一覧（/apps/） ----------
      カードのように並べず、1 本 1 行にする。ここへ来る人は
      すでに読むと決めているので、題と書き出しが読めるほうがよい。 */
@@ -1801,7 +1896,7 @@
   }
   .site-header, .finder, .to-top, .theme-toggle,
   .hero__actions, .empty-state, .strip,
-  .card__acts, .toast { display: none !important; }
+  .card__acts, .toast, .article-more { display: none !important; }
   /* 印刷では出現待ちの状態を残さない */
   .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
   .hero::before, .hero::after { display: none; }
