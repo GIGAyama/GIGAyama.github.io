@@ -11,7 +11,7 @@
  * ===================================================================== */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { canonicalIndex, findLookalikes, unregistered } from './check-drift.mjs';
+import { NORMALIZERS, canonicalIndex, findLookalikes, unregistered } from './check-drift.mjs';
 
 /** メモリ上の疑似ファイル木から readdir / statSync を作る */
 function fakeFs(tree) {
@@ -133,4 +133,42 @@ test('全部宣言してあれば何も残らない', () => {
     unregistered(found, ['scripts/gas-deploy.mjs'], ['scripts/lib/giga-v5-checks.mjs']),
     []
   );
+});
+
+/* ── normalize ────────────────────────────────────────────────────────
+ * 「1行だけ変えてよい」を機械で言い切るための仕組み。ここが広すぎると
+ * 正本を直しても届かなくなり、狭すぎると毎回ずれとして出る。
+ * どちらも「ドリフト検知が通ったから揃っている」という判断を壊す。
+ * ================================================================== */
+
+const HTML = (name, src) => `<!DOCTYPE html>
+<title>学習ログの受け渡し口｜${name}</title>
+<p>このページは、${name}の学習記録を集計ページへ受け渡すためのものです。</p>
+<p><a href="./">← ${name}に もどる</a></p>
+<script type="module" src="${src}"></script>`;
+
+test('app-name: アプリ名の違いだけなら同じものとして扱う', () => {
+  const canonical = NORMALIZERS['app-name'](HTML('__APP_NAME__', './records-export.js'));
+  const local = NORMALIZERS['app-name'](HTML('九九カード', './records-export.js'));
+  assert.equal(local, canonical);
+});
+
+test('app-name: 名前の入る場所しか潰さない（文言を書き替えたらずれとして出る）', () => {
+  const canonical = NORMALIZERS['app-name'](HTML('__APP_NAME__', './records-export.js'));
+  // 「学習記録」を別の言い方に書き替えたコピー
+  const reworded = NORMALIZERS['app-name'](
+    HTML('九九カード', './records-export.js').replace('の学習記録を', 'のべんきょうのきろくを'));
+  assert.notEqual(reworded, canonical);
+});
+
+test('records-export-import: <script src> の置き場の違いを許す', () => {
+  const canonical = NORMALIZERS['records-export-import'](HTML('x', './records-export.js'));
+  const local = NORMALIZERS['records-export-import'](HTML('x', './js/records-export.js'));
+  assert.equal(local, canonical);
+});
+
+test('records-export-import: 別のファイルを読みこんでいたら、ずれとして出る', () => {
+  const canonical = NORMALIZERS['records-export-import'](HTML('x', './records-export.js'));
+  const other = NORMALIZERS['records-export-import'](HTML('x', './records-hub-client.js'));
+  assert.notEqual(other, canonical);
 });

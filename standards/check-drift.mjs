@@ -39,14 +39,25 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const NORMALIZERS = {
+export const NORMALIZERS = {
   // APP_ID の定義行と、テストデータ内の appId 値を許す
   'app-id': (s) => s
     .replace(/(APP_ID\s*=\s*)['"][^'"]*['"]/g, "$1'__APP_ID__'")
     .replace(/(appId:\s*)['"][^'"]*['"]/g, "$1'__APP_ID__'"),
-  // records-export.js の置き場（js/ か public/ か）の違いを許す
+  // records-export.js の置き場（js/ か public/ か）の違いを許す。
+  // テストの import と、records-export.html の <script src> の両方に効く。
   'records-export-import': (s) => s
-    .replace(/from\s+['"][^'"]*records-export\.js['"]/g, "from '__RECORDS_EXPORT_PATH__'"),
+    .replace(/from\s+['"][^'"]*records-export\.js['"]/g, "from '__RECORDS_EXPORT_PATH__'")
+    .replace(/src=['"][^'"]*records-export\.js['"]/g, "src='__RECORDS_EXPORT_PATH__'"),
+  // records-export.html に出るアプリの表示名を許す。
+  //
+  // 名前の入る場所だけを潰す。文言そのものは照合に残すので、たとえば
+  // 「学習記録」を別の言い方に書き替えたら、そこはちゃんとずれとして出る。
+  // 見出しごと '.*' で消してしまうと、正本の文言を直しても届かなくなる。
+  'app-name': (s) => s
+    .replace(/(<title>学習ログの受け渡し口｜)[^<]*(<\/title>)/g, '$1__APP_NAME__$2')
+    .replace(/(このページは、)[^、]*?(の学習記録を)/g, '$1__APP_NAME__$2')
+    .replace(/(← )[^<]*?(に もどる)/g, '$1__APP_NAME__$2'),
 };
 
 /** 走査から外す置き場。生成物と取り寄せたものは「コピー」ではない */
