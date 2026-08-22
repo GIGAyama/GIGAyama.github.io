@@ -24,6 +24,8 @@ jobs:
         run: node --test standards/lib/*.test.mjs
       - name: 正本の GAS モジュールのテスト
         run: node --test standards/gas/*.test.mjs
+      - name: ドリフト検知そのもののテスト
+        run: node --test standards/check-drift.test.mjs
       - name: 正本のブラウザ側モジュールのテスト
         run: node --test standards/web/*.test.mjs
       # 配る前にここで読めることを確かめる。壊れた YAML を配ると、
