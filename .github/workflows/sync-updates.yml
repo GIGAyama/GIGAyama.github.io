@@ -39,11 +39,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/build-articles.mjs
 
-      # sitemap は data/articles.json を見て紹介ページの行を足す。
+      # sitemap と /apps/ の一覧は data/articles.json を見て組む。
       # その articles.json をいま書き替えたので、もう一度組み直す。
       # ここは GitHub を見に行かないので、すぐ終わる。
-      - name: サイトマップに紹介ページを入れる
+      - name: サイトマップと紹介ページの一覧を組み直す
         run: node tools/sync-updates.mjs
+
+      # 「こんなときに」のタイルと、カードの data-scenes / data-slug は
+      # どちらも index.html に手で書いてある。片方だけ直すと、押しても
+      # 0 件のタイルが残る。押して何も出ないのがいちばん困るので、ここで止める。
+      - name: 「こんなときに」の割り当てが食い違っていないか
+        run: node tools/check-scenes.mjs
 
       # data/apps.json は 404.html の転送先の元になっている。
       # 取り込みで slug が壊れると、旧アドレスの受け皿が黙って効かなくなるので、
