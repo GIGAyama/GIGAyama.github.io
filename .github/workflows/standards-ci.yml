@@ -39,6 +39,10 @@ jobs:
         run: node standards/lib/check-secrets.mjs
       # 配る前にここで読めることを確かめる。壊れた YAML を配ると、
       # 配布先では「ワークフローが登録されない」形で静かに失敗する。
+      # 配布のとりのこし検査は台帳（tools/distribution.json）を読む。
+      # 台帳が壊れると「配る先が0本」でも緑になりうるので、ここで見ておく。
+      - name: 配布の台帳と突き合わせの仕組みのテスト
+        run: node --test tools/check-distribution.test.mjs
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
