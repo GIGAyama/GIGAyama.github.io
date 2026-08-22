@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-21",
+ "generatedAt": "2026-08-22",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -13,7 +13,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5761,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "digital-textbook",
@@ -39,7 +39,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 6094,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "gamification",
@@ -52,7 +52,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 7082,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "gobblet",
@@ -65,7 +65,7 @@
    "images": 22,
    "imageHost": "subdomain",
    "charCount": 6166,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "haiku-meeting",
@@ -78,7 +78,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6069,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "homework-barcordreader",
@@ -91,7 +91,7 @@
    "images": 25,
    "imageHost": "raw",
    "charCount": 5442,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "ice-slide-puzzle",
@@ -104,7 +104,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 6004,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "kake-master",
@@ -117,7 +117,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5839,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "kana-master",
@@ -130,7 +130,7 @@
    "images": 28,
    "imageHost": "subdomain",
    "charCount": 7049,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "kanji-town",
@@ -156,7 +156,7 @@
    "images": 26,
    "imageHost": "subdomain",
    "charCount": 6249,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "keisan-card",
@@ -169,7 +169,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6464,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "mirai-compass",
@@ -182,7 +182,7 @@
    "images": 27,
    "imageHost": "subdomain",
    "charCount": 6301,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "notebooksample-generator",
@@ -208,7 +208,7 @@
    "images": 19,
    "imageHost": "raw",
    "charCount": 6059,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "online-manuscript-paper-lite",
@@ -247,7 +247,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6283,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "qalc",
@@ -273,7 +273,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6052,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "quoridor",
@@ -299,7 +299,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 5949,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "reflection-journal",
@@ -312,7 +312,7 @@
    "images": 23,
    "imageHost": "subdomain",
    "charCount": 5638,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "reversi",
@@ -338,7 +338,7 @@
    "images": 23,
    "imageHost": "subdomain",
    "charCount": 7414,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "townmap-mikke",
@@ -351,7 +351,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5980,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "typa",
@@ -364,7 +364,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 6056,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "werewolf",
@@ -377,7 +377,7 @@
    "images": 25,
    "imageHost": "raw",
    "charCount": 5743,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "word-basket",
