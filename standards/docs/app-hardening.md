@@ -136,7 +136,8 @@ digitalcloset は `scripts/lib/giga-v5-checks.mjs`（304 行のフォーク）�
 
 ベースラインはリポジトリごとに違います。**作業前に 1 回走らせて出力を控え、作業後に失敗件数が増えていないことを確認する。もともと落ちている分は直さず、PR 本文に列挙して次の入口として残す。**
 
-実測（現在の typa。全 38 件中 4 件が失敗、しかも exit は 0）:
+実測（現在の typa。全 38 件中 4 件が失敗。self-test 自体は exit 1 を返すが、
+**typa の ci.yml は self-test を呼んでいない**ので、この 4 件は誰にも見えていない）:
 
 ```
 ❌ D_SAFE_AREA / D_FLUID_TYPE / D_FORCED_COLORS / E_SW_REGISTER_READYSTATE

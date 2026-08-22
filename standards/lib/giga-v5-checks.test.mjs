@@ -414,6 +414,67 @@ test('単一 HTML 型（<style> にスタイルを書く）でも CSS 系の検�
   }
 });
 
+test('offline.html の <style> を、アプリ本体の対応とみなさない', () => {
+  // typa の self-test が D_SAFE_AREA / D_FLUID_TYPE / D_FORCED_COLORS を
+  // 「こわしたのに 通りました」と報告し続けていた形。
+  // offline.html は圏外のときだけ出る小さな一枚で、そこに
+  // env(safe-area-inset) や clamp() や forced-colors が入っていると、
+  // 本体 CSS から全部消しても検査が緑のままになっていた。
+  const tree = { ...OK_TREE };
+  const css = tree['css/style.css'];
+  tree['css/style.css'] = '/* 本体のスタイルは空にする */';
+  // OK_TREE の offline.html には <head> が無いので、<body> の頭に差し込む
+  tree['offline.html'] = tree['offline.html'].replace('<body>', `<body><style>${css}</style>`);
+  assert.ok(tree['offline.html'].includes('<style>'), '差し込みが空振りした');
+  const f = ids(failures(tree));
+  for (const id of ['D_SAFE_AREA', 'D_FLUID_TYPE', 'D_REDUCED_MOTION', 'D_FORCED_COLORS']) {
+    assert.ok(f.includes(id), `${id} が offline.html の <style> を身代わりにしている`);
+  }
+});
+
+test('index.html の <style> は、これまでどおりアプリ本体として数える', () => {
+  // 上の除外は offline.html だけ。単一 HTML 型のアプリを巻き添えにしない
+  const tree = { ...OK_TREE };
+  const css = tree['css/style.css'];
+  delete tree['css/style.css'];
+  tree['index.html'] = tree['index.html'].replace('</head>', `<style>${css}</style></head>`);
+  const f = ids(failures(tree));
+  for (const id of ['D_SAFE_AREA', 'D_FLUID_TYPE', 'D_REDUCED_MOTION', 'D_FORCED_COLORS']) {
+    assert.ok(!f.includes(id), `${id} が index.html の <style> を見ていない`);
+  }
+});
+
+test('登録から遠い readyState は身代わりにならない', () => {
+  // typa の js/app.js には SW と関係のない
+  //   if (document.readyState === 'loading') …DOMContentLoaded…
+  // が別の場所にあり、登録の手前のガードを消してもそれが身代わりになって
+  // 検査が通っていた。
+  const tree = {
+    ...OK_TREE,
+    'js/app.js': [
+      "if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);",
+      // 埋め草はコメントではなく実コードにする。stripComments が先に走るので、
+      // コメントで離しても距離は縮まってしまう
+      "const filler = '" + 'x'.repeat(400) + "';",
+      "addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });",
+    ].join('\n'),
+  };
+  assert.ok(ids(failures(tree)).includes('E_SW_REGISTER_READYSTATE'),
+    '登録から 400 文字はなれた readyState を身代わりにしている');
+});
+
+test('登録の手前にガードがあれば通す', () => {
+  const tree = {
+    ...OK_TREE,
+    'js/app.js': [
+      "function boot() { navigator.serviceWorker.register('./sw.js'); }",
+      "if (document.readyState === 'complete') boot();",
+      "else addEventListener('load', boot);",
+    ].join('\n'),
+  };
+  assert.ok(!ids(failures(tree)).includes('E_SW_REGISTER_READYSTATE'));
+});
+
 test('行き先リンク（<a href="https://…">）は CDN 読み込みと数えない', () => {
   // 実際に ice_slide-puzzle のフッターの giga-school.com リンクを誤検知した
   const tree = {
