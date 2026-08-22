@@ -182,11 +182,15 @@ function main() {
 
   if (drifted.length || (strict && strays.length)) process.exit(1);
 
-  if (entries.length === 0 && strays.length === 0) {
-    console.log('[drift] 正本のコピーは見つかりませんでした（対応表も同名ファイルも無し）');
-  } else if (entries.length > 0) {
-    const declared = unmanagedList.length ? `、別物として宣言 ${unmanagedList.length} 件` : '';
+  const declared = unmanagedList.length ? `、別物として宣言 ${unmanagedList.length} 件` : '';
+  if (entries.length > 0) {
     console.log(`✅ 正本と一致しています（${entries.length} ファイル${declared}）`);
+  } else if (unmanagedList.length > 0) {
+    // 照合するものは無いが、別物を持っていることは宣言してある。
+    // 「コピーは見つかりませんでした」と言うと事実と食い違う。
+    console.log(`[drift] 照合するコピーはありません（別物として宣言 ${unmanagedList.length} 件）`);
+  } else if (strays.length === 0) {
+    console.log('[drift] 正本のコピーは見つかりませんでした（対応表も同名ファイルも無し）');
   }
 }
 
