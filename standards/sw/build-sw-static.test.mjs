@@ -43,6 +43,14 @@ test("'/' も同じくディレクトリそのもの（独自ドメイン直下�
   assert.deepEqual(got.map((x) => x.file), ['index.html', 'index.html', 'assets/app.js']);
 });
 
+test('下の階層のディレクトリ指定も index.html に解く', () => {
+  // gamification の SHELL_ASSETS が './manabi-portal/' を持っている。
+  // 末尾の '/' を取りこぼすと readFileSync がディレクトリを読んで EISDIR で落ちる
+  const got = shellFilesOf(SW(['./', './manabi-portal/', './records-hub.html']), '.', 'PRECACHE_URLS');
+  assert.deepEqual(got.map((x) => x.file),
+    ['index.html', 'manabi-portal/index.html', 'records-hub.html']);
+});
+
 test('baseDir の下に置いているリポジトリでも解ける', () => {
   const got = shellFilesOf(SW(['./', './offline.html']), 'docs', 'PRECACHE_URLS');
   assert.deepEqual(got.map((x) => x.file), ['docs/index.html', 'docs/offline.html']);
