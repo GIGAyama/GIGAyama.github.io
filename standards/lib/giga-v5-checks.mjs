@@ -995,7 +995,8 @@ function rgbaHasTransparency(buf) {
     i += 12 + len;
   }
   let raw;
-  try { raw = zlib.inflateSync(idat); } catch (e) { return true; }
+  // 読めないときは安全側（透明あり）に倒す。例外の中身は使わないので受けない
+  try { raw = zlib.inflateSync(idat); } catch { return true; }
   const stride = w * ch;
   const out = Buffer.alloc(h * stride);
   let pos = 0;
