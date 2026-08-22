@@ -22,8 +22,14 @@ jobs:
           node-version: 20
       - name: 正本の品質ゲート自身のテスト
         run: node --test standards/lib/*.test.mjs
+      - name: 正本の GAS モジュールのテスト
+        run: node --test standards/gas/*.test.mjs
       - name: 正本の構文検査
         run: |
           for f in standards/lib/*.mjs standards/sw/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js; do
             node --check "$f"
+          done
+          # .gs は Node が拡張子を知らないので、写してから見る
+          for f in standards/gas/*.gs; do
+            cp "$f" "/tmp/$(basename "$f").js" && node --check "/tmp/$(basename "$f").js"
           done
