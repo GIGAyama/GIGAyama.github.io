@@ -34,7 +34,11 @@ function load(responses) {
         calls.push({ url, options });
         const r = queue.shift();
         if (!r) throw new Error('テストの応答が足りません');
-        return { getResponseCode: () => r.code, getContentText: () => r.body };
+        return {
+          getResponseCode: () => r.code,
+          getContentText: () => r.body,
+          getHeaders: () => r.headers || {},
+        };
       },
       fetchAll(requests) {
         calls.push({ batch: requests.length });
@@ -178,4 +182,102 @@ test('callAll は chunkSize ごとに小分けする', () => {
   const { G, calls } = load(Array.from({ length: 5 }, () => ({ code: 200, body: okBody('x') })));
   G.callAll(Array.from({ length: 5 }, () => REQ), { chunkSize: 2 });
   assert.deepEqual(calls.map((c) => c.batch), [2, 2, 1]);
+});
+
+// ---------------- Retry-After（schoolplan_editor から取り込んだ作法）----------------
+
+test('Retry-After があれば、こちらの決め打ちより優先する', () => {
+  // サーバが「3秒待って」と言っているのに 1秒で投げ直すと、また弾かれるだけ。
+  const { G, sleeps } = load([
+    { code: 429, body: '', headers: { 'Retry-After': '3' } },
+    { code: 200, body: okBody('ok') },
+  ]);
+  assert.equal(G.call(REQ), 'ok');
+  assert.deepEqual(sleeps, [3000]);
+});
+
+test('Retry-After は小文字の綴りでも読む', () => {
+  const { G, sleeps } = load([
+    { code: 503, body: '', headers: { 'retry-after': '2' } },
+    { code: 200, body: okBody('ok') },
+  ]);
+  G.call(REQ);
+  assert.deepEqual(sleeps, [2000]);
+});
+
+test('Retry-After が長すぎるときは頭打ちにする', () => {
+  // GAS の実行は6分で切られる。素直に120秒待つと処理ごと落ちて、待った意味が無くなる。
+  const { G, sleeps } = load([
+    { code: 429, body: '', headers: { 'Retry-After': '120' } },
+    { code: 200, body: okBody('ok') },
+  ]);
+  G.call(REQ);
+  assert.deepEqual(sleeps, [16000]);
+});
+
+test('Retry-After が数値でなければ指数バックオフに戻る', () => {
+  const { G, sleeps } = load([
+    { code: 429, body: '', headers: { 'Retry-After': 'Wed, 21 Oct 2026 07:28:00 GMT' } },
+    { code: 200, body: okBody('ok') },
+  ]);
+  G.call(REQ);
+  assert.deepEqual(sleeps, [1000]);
+});
+
+test('最後の失敗のあとは待たない（待っても投げ直さないため）', () => {
+  const { G, sleeps } = load([
+    { code: 429, body: '' },
+    { code: 429, body: '' },
+    { code: 429, body: '' },
+  ]);
+  assert.throws(() => G.call(REQ), /AI_BUSY/);
+  assert.equal(sleeps.length, 2, '3回目の失敗のあとにも待っている');
+});
+
+// ---------------- callRaw（組み立て済み payload を渡す入口）----------------
+
+test('callRaw は応答 JSON をそのまま返す', () => {
+  const { G } = load([{ code: 200, body: okBody('なかみ') }]);
+  const json = G.callRaw({ apiKey: 'k', payload: { contents: [] } });
+  assert.equal(plain(json).candidates[0].content.parts[0].text, 'なかみ');
+});
+
+test('callRaw は渡した payload をそのまま送る', () => {
+  const { G, calls } = load([{ code: 200, body: okBody('x') }]);
+  const payload = { contents: [{ parts: [{ text: 'じぶんで組み立てた' }] }], generationConfig: { temperature: 0.1 } };
+  G.callRaw({ apiKey: 'k', payload: payload });
+  assert.deepEqual(JSON.parse(calls[0].options.payload), payload);
+});
+
+test('callRaw は url を指定できる（モデル名を自前で組む場合）', () => {
+  const { G, calls } = load([{ code: 200, body: okBody('x') }]);
+  G.callRaw({ apiKey: 'k', payload: {}, url: 'https://example.test/v1/models/foo:generateContent' });
+  assert.equal(calls[0].url, 'https://example.test/v1/models/foo:generateContent');
+});
+
+test('callRaw は本文が空でも例外にしない（判断は呼び出し側に任せる）', () => {
+  // call() は空を弾くが、callRaw は生の応答を扱いたい呼び出し向けなので素通しする。
+  const { G } = load([{ code: 200, body: JSON.stringify({ candidates: [] }) }]);
+  assert.deepEqual(plain(G.callRaw({ apiKey: 'k', payload: {} })), { candidates: [] });
+});
+
+test('callRaw も再試行する', () => {
+  const { G, calls } = load([
+    { code: 503, body: '' },
+    { code: 200, body: okBody('ok') },
+  ]);
+  G.callRaw({ apiKey: 'k', payload: {} });
+  assert.equal(calls.length, 2);
+});
+
+test('log を渡すと再試行の理由を書き出す', () => {
+  const lines = [];
+  const { G } = load([
+    { code: 429, body: '' },
+    { code: 200, body: okBody('ok') },
+  ]);
+  G.callRaw({ apiKey: 'k', payload: {}, log: (m) => lines.push(m), logLabel: '週案の生成' });
+  assert.equal(lines.length, 1);
+  assert.match(lines[0], /週案の生成/);
+  assert.match(lines[0], /429/);
 });
