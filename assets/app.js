@@ -315,18 +315,20 @@
     return ok;
   }
 
-  function copyLink(url) {
+  function copyLink(text, what) {
+    var ok = (what || 'リンク') + 'をコピーしました';
+    var ng = 'コピーできませんでした：' + text;
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(function () {
-        toast('リンクをコピーしました');
+      navigator.clipboard.writeText(text).then(function () {
+        toast(ok);
       }).catch(function () {
-        if (copyByTextarea(url)) toast('リンクをコピーしました');
-        else toast('コピーできませんでした：' + url, 8000);
+        if (copyByTextarea(text)) toast(ok);
+        else toast(ng, 8000);
       });
       return;
     }
-    if (copyByTextarea(url)) toast('リンクをコピーしました');
-    else toast('コピーできませんでした：' + url, 8000);
+    if (copyByTextarea(text)) toast(ok);
+    else toast(ng, 8000);
   }
 
   /* ---------------------------------------------------------
@@ -341,7 +343,9 @@
     var copyBtn = e.target.closest('[data-copy]');
     if (copyBtn) {
       e.preventDefault();
-      copyLink(copyBtn.dataset.url);
+      /* カードは data-url を、掲載用の資料は data-copy に文字を持たせている。
+         知らせの文言も、何をコピーしたかに合わせる */
+      copyLink(copyBtn.dataset.copy || copyBtn.dataset.url, copyBtn.dataset.copyLabel);
       return;
     }
 

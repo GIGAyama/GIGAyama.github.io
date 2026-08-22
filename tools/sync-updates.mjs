@@ -12,6 +12,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 
 import { CATEGORY_LABEL, CATEGORY_COLOR } from './lib/categories.mjs';
 import { articleIndexPage } from './lib/article-page.mjs';
+import { pressPage } from './lib/press-page.mjs';
 
 const OWNER = 'GIGAyama';
 const ROOT = new URL('..', import.meta.url);
@@ -20,6 +21,7 @@ const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
 const APPS_INDEX = new URL('apps/index.html', ROOT);
+const PRESS = new URL('press/index.html', ROOT);
 const FEED = new URL('feed.xml', ROOT);
 
 /**
@@ -299,6 +301,8 @@ function sitemap(data, articles = []) {
     /* フィードも載せておく。更新の速いページとしてクローラに拾わせる */
     entries.push(url('https://giga-school.com/feed.xml', data.generatedAt, 'daily', '0.5'));
   }
+  /* 掲載用の資料。めったに変わらないが、媒体の担当者に見つけてほしい */
+  entries.push(url('https://giga-school.com/press/', data.generatedAt, 'monthly', '0.4'));
 
   /* 紹介ページ。アプリ本体より先に置く。中身のある文章はこちらにある */
   articles
@@ -377,6 +381,11 @@ const main = async () => {
       generatedAt: data.generatedAt,
     }));
   }
+
+  /* 掲載用の資料（/press/）。数字を手で書くと、ここだけ古くなって
+     媒体に古い本数が載ることになる。毎回組み直す。 */
+  await mkdir(new URL('press/', ROOT), { recursive: true });
+  await writeFile(PRESS, pressPage({ apps: data.items, articles, generatedAt: data.generatedAt }));
 
   console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本`
     + ` / 紹介 ${articles.length} 本 / ${data.generatedAt} 時点`);

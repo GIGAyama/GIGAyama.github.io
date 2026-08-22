@@ -36,6 +36,7 @@ robots.txt            クロールの許可と sitemap の在りか
 sitemap.xml           トップページ・紹介ページ・各アプリのサブドメイン（tools/sync-updates.mjs が書き出す）
 feed.xml              更新を追うための Atom フィード（tools/sync-updates.mjs が書き出す）
 apps/index.html       紹介ページの一覧（tools/sync-updates.mjs が書き出す）
+press/index.html      掲載用の資料（tools/sync-updates.mjs が書き出す）
 apps/<slug>/          アプリの紹介ページ（tools/build-articles.mjs が書き出す）
 assets/
   style.css           スタイル（@layer で reset → tokens → base → layout → components → utilities）
@@ -269,6 +270,20 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
 - アプリを増やしたときは、`index.html` にカードを足したあと `data/apps.json` にも 1 行足して
   ください（`--fetch` で日付は埋まります）。
 
+## 掲載用の資料（/press/）
+
+媒体やディレクトリの担当者に向けた素材を `press/index.html` にまとめています。
+`tools/sync-updates.mjs` が書き出すので、**手で直しても次の実行で消えます。**
+
+載せているもの：そのまま使える紹介文（一行・短め・本文の 3 種、コピーのボタン付き）、
+数字と基本情報、ロゴと画面写真のダウンロード、使ってよい範囲、よくいただく質問、連絡先。
+
+- **本数は `data/apps.json` と `data/articles.json` から数え直します。** 手で書くと
+  ここだけ古くなり、媒体に古い数字が載ることになります
+- 紹介文の長さ（◯字）も自動で数えます。枠に入るかの判断に使ってもらうためです
+- コピーのボタンは `assets/app.js` の `[data-copy]` をそのまま使っています。
+  `data-copy` に文字を、`data-copy-label` に知らせの文言を入れます
+
 ## 更新のフィード
 
 `feed.xml`（Atom）を `tools/sync-updates.mjs` が書き出します。**手で直しても次の実行で消えます。**
@@ -324,6 +339,22 @@ X と note は続けるかどうかが本人次第ですが、フィードは置
   ページ本体は毎回ネットワークを先に見るので、内容が古いまま残りません。
   もし表示がおかしくなったら、`sw.js` の先頭にある `VERSION` の値を変えてください。
   古い控えを全部捨てて作り直します。
+
+## ライセンス
+
+プログラムと文章・画像で、**適用されるライセンスが違います。**
+
+| | 対象 | 扱い |
+|---|---|---|
+| プログラム | `assets/*.css` `assets/*.js` `sw.js` `tools/` `standards/` | [MIT](LICENSE) |
+| 文章・画像 | 紹介記事の本文（`apps/<slug>/`）・画面写真（`assets/thumbs/`）・ブランド素材 | 著作権は作者に帰属。[LICENSE-CONTENT.md](LICENSE-CONTENT.md) |
+
+引用は出典を示していただければ自由です。全文転載だけご相談ください。
+くわしくは [LICENSE-CONTENT.md](LICENSE-CONTENT.md) にあります。
+
+> [!NOTE]
+> `LICENSE` は MIT の原文のままにしてあります（GitHub にライセンスを正しく認識させるため）。
+> 適用範囲は `LICENSE-CONTENT.md` とこの節で示しています。
 
 ## GitHub Pages の設定
 
