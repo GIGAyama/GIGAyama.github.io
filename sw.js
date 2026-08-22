@@ -14,7 +14,7 @@
    ・別のドメイン（各アプリ）へは一切手を出さない。
    ============================================================= */
 
-const VERSION = 'v3';
+const VERSION = 'v4';
 const SHELL = `giga-school-shell-${VERSION}`;   // 骨組み（毎回使うもの）
 const PAGES = `giga-school-pages-${VERSION}`;   // 開いたページ。アドレスごとに持つ
 const RUNTIME = `giga-school-media-${VERSION}`; // 画像など、使った分だけためるもの

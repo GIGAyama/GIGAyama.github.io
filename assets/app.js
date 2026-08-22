@@ -272,13 +272,80 @@
   }
 
   /* ---------------------------------------------------------
+     押した結果を短く伝える
+
+     ページ全体で 1 つだけ持つ。読み上げにも届くよう role="status" にする。
+     --------------------------------------------------------- */
+  var toastEl = null;
+  var toastTimer = null;
+
+  function toast(message, hold) {
+    if (!toastEl) {
+      toastEl = document.createElement('p');
+      toastEl.className = 'toast';
+      toastEl.setAttribute('role', 'status');
+      toastEl.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = message;
+    toastEl.dataset.visible = 'true';
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () {
+      toastEl.dataset.visible = 'false';
+    }, hold || 2200);
+  }
+
+  /* ---------------------------------------------------------
+     カードのリンクをコピー
+
+     学級だよりや Classroom に貼るときは、共有画面よりコピーが早い。
+     クリップボードは https でないと使えないことがあるので、
+     古いやり方（選んで写す）まで順に降りる。
+     --------------------------------------------------------- */
+  function copyByTextarea(text) {
+    var box = document.createElement('textarea');
+    box.value = text;
+    box.setAttribute('readonly', '');
+    box.style.cssText = 'position:fixed;top:-1000px;opacity:0;';
+    document.body.appendChild(box);
+    box.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(box);
+    return ok;
+  }
+
+  function copyLink(url) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () {
+        toast('リンクをコピーしました');
+      }).catch(function () {
+        if (copyByTextarea(url)) toast('リンクをコピーしました');
+        else toast('コピーできませんでした：' + url, 8000);
+      });
+      return;
+    }
+    if (copyByTextarea(url)) toast('リンクをコピーしました');
+    else toast('コピーできませんでした：' + url, 8000);
+  }
+
+  /* ---------------------------------------------------------
      カードの共有
 
      端末に共有の仕組みがあればそれを開き、無ければ X の投稿画面を開く。
      どちらも利用者が押したときだけ動き、勝手に外へ送るものはない。
      --------------------------------------------------------- */
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest ? e.target.closest('[data-share]') : null;
+    if (!e.target.closest) return;
+
+    var copyBtn = e.target.closest('[data-copy]');
+    if (copyBtn) {
+      e.preventDefault();
+      copyLink(copyBtn.dataset.url);
+      return;
+    }
+
+    var btn = e.target.closest('[data-share]');
     if (!btn) return;
     e.preventDefault();
     var url = btn.dataset.url;
@@ -308,6 +375,10 @@
   var chips = Array.prototype.slice.call(finder.querySelectorAll('.chip'));
   var status = finder.querySelector('[data-status]');
   var resetBtn = document.querySelector('[data-reset]');
+  var sceneNow = finder.querySelector('[data-scene-now]');
+  var sceneLabel = finder.querySelector('[data-scene-label]');
+  var sceneTiles = Array.prototype.slice.call(document.querySelectorAll('[data-scene]'));
+  var forgetBtn = finder.querySelector('[data-forget]');
 
   /* ---------- かな → ローマ字 ----------
      「sakubun」でも作文が引けるようにする。ヘボン式と訓令式で綴りが割れる音
@@ -382,6 +453,8 @@
     return {
       el: card,
       cat: card.dataset.cat || '',
+      /* 場面は文字列一致ではなく、カードに書いた割り当て（data-scenes）で決める */
+      scenes: (card.dataset.scenes || '').split(/\s+/).filter(Boolean),
       text: base + ' ' + romajiOf(base)
     };
   });
@@ -398,10 +471,61 @@
       .trim();
   }
 
-  var state = { q: '', cat: 'all', sort: 'name' };
+  var state = { q: '', cat: 'all', scene: 'all', sort: 'name' };
+
+  /* 場面の id → 見出し。タイルの文字をそのまま使う（2 か所に書かないため） */
+  var SCENE_LABEL = {};
+  sceneTiles.forEach(function (tile) {
+    var name = tile.querySelector('.scene__name');
+    SCENE_LABEL[tile.dataset.scene] = name ? name.textContent : tile.dataset.scene;
+  });
 
   var canAnimateMove = typeof Element !== 'undefined' &&
     typeof Element.prototype.animate === 'function';
+
+  /* ---------- 最近開いたもの ----------
+     「開く」を押したアプリを端末の中だけに覚えておき、並び替えの選択肢にする。
+     外へは何も送らない。保存できない設定でも、選択肢が出ないだけで他は動く。 */
+  var RECENT_KEY = 'giga-school:recent';
+  var RECENT_LIMIT = 8;
+  var recentRank = {};
+
+  function recentList() {
+    try {
+      var list = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+      return Object.prototype.toString.call(list) === '[object Array]' ? list : [];
+    } catch (e) { return []; }
+  }
+
+  /* 記録があるときだけ、並び順の選択肢と「記録を消す」を出す */
+  function refreshRecent() {
+    var list = recentList();
+    recentRank = {};
+    list.forEach(function (slug, i) { recentRank[slug] = i; });
+    var recentOption = sortSelect && sortSelect.querySelector('[data-recent]');
+    if (recentOption) recentOption.hidden = list.length === 0;
+    if (forgetBtn) forgetBtn.hidden = list.length === 0;
+    return list.length > 0;
+  }
+
+  function remember(slug) {
+    if (!slug) return;
+    var list = recentList().filter(function (s) { return s !== slug; });
+    list.unshift(slug);
+    try {
+      localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_LIMIT)));
+    } catch (e) { /* 保存できなくても動く */ }
+  }
+
+  /* アプリを開いたときに控える。カード全体が題のリンクになっているので、
+     どこを押しても同じところを通る。 */
+  list.addEventListener('click', function (e) {
+    if (!e.target.closest) return;
+    var link = e.target.closest('.card__title a, .card__open');
+    if (!link) return;
+    var card = e.target.closest('.card');
+    if (card) remember(card.dataset.slug);
+  });
 
   /* ---------- 並び替え ----------
      もとの並び（名前順）を控えておき、そこから組み替える。 */
@@ -419,6 +543,15 @@
     updated: function (a, b) {
       return (b.dataset.updated || '').localeCompare(a.dataset.updated || '')
         || SORTS.name(a, b);
+    },
+    /* 記録に無いものは後ろへ。記録どうしは新しく開いた順 */
+    recent: function (a, b) {
+      var ra = recentRank[a.dataset.slug];
+      var rb = recentRank[b.dataset.slug];
+      if (ra === undefined && rb === undefined) return SORTS.name(a, b);
+      if (ra === undefined) return 1;
+      if (rb === undefined) return -1;
+      return ra - rb;
     }
   };
 
@@ -470,8 +603,9 @@
 
     index.forEach(function (item) {
       var okCat = state.cat === 'all' || item.cat === state.cat;
+      var okScene = state.scene === 'all' || item.scenes.indexOf(state.scene) !== -1;
       var okText = terms.every(function (t) { return item.text.indexOf(t) !== -1; });
-      var visible = okCat && okText;
+      var visible = okCat && okScene && okText;
       item.el.hidden = !visible;
       if (visible) shown++;
     });
@@ -488,6 +622,14 @@
 
     if (animate) playMove(before);
 
+    if (sceneNow) {
+      sceneNow.hidden = state.scene === 'all';
+      if (sceneLabel) sceneLabel.textContent = SCENE_LABEL[state.scene] || '';
+    }
+    sceneTiles.forEach(function (tile) {
+      tile.dataset.on = String(tile.dataset.scene === state.scene);
+    });
+
     if (status) {
       status.textContent = shown === cards.length
         ? cards.length + ' 件すべてを表示しています'
@@ -500,6 +642,7 @@
     if (writeUrl) {
       var params = new URLSearchParams();
       if (state.cat !== 'all') params.set('cat', state.cat);
+      if (state.scene !== 'all') params.set('scene', state.scene);
       if (state.q) params.set('q', input ? input.value.trim() : state.q);
       if (state.sort !== 'name') params.set('sort', state.sort);
       var qs = params.toString();
@@ -547,10 +690,49 @@
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       if (input) input.value = '';
-      state = { q: '', cat: 'all', sort: state.sort };
+      state = { q: '', cat: 'all', scene: 'all', sort: state.sort };
       chips.forEach(function (c) {
         c.setAttribute('aria-pressed', String((c.dataset.cat || 'all') === 'all'));
       });
+      apply(true);
+    });
+  }
+
+  /* 場面タイル。リンクのままにしてあるので、JavaScript が動くときだけ
+     その場で絞り込む（ページを開き直さない）。 */
+  sceneTiles.forEach(function (tile) {
+    tile.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;   // 別タブで開く操作は邪魔しない
+      e.preventDefault();
+      var id = tile.dataset.scene;
+      state.scene = state.scene === id ? 'all' : id;                        // もう一度押すと外れる
+      apply(true);
+      var apps = document.getElementById('apps');
+      if (apps) {
+        apps.scrollIntoView({
+          behavior: reduceMotion.matches ? 'auto' : 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  var sceneClear = finder.querySelector('[data-scene-clear]');
+  if (sceneClear) {
+    sceneClear.addEventListener('click', function () {
+      state.scene = 'all';
+      apply(true);
+    });
+  }
+
+  if (forgetBtn) {
+    forgetBtn.addEventListener('click', function () {
+      try { localStorage.removeItem(RECENT_KEY); } catch (e) { /* 消せなくても続ける */ }
+      if (state.sort === 'recent') {
+        state.sort = 'name';
+        if (sortSelect) sortSelect.value = 'name';
+      }
+      refreshRecent();
       apply(true);
     });
   }
@@ -579,10 +761,17 @@
     var cat = params.get('cat');
     var q = params.get('q');
     var sort = params.get('sort');
+    var scene = params.get('scene');
+    if (scene && SCENE_LABEL[scene]) state.scene = scene;
     if (q && input) { input.value = q; state.q = normalize(q); }
     if (sort && SORTS[sort]) {
       state.sort = sort;
       if (sortSelect) sortSelect.value = sort;
+    }
+    /* 記録が無ければ「最近開いた順」は選べない。URL に書かれていても名前順に戻す */
+    if (!refreshRecent() && state.sort === 'recent') {
+      state.sort = 'name';
+      if (sortSelect) sortSelect.value = 'name';
     }
     if (cat && chips.some(function (c) { return c.dataset.cat === cat; })) {
       state.cat = cat;

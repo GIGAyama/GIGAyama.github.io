@@ -34,10 +34,11 @@ index.html            トップページ（カードはすべて HTML に直接�
 site.webmanifest      PWA マニフェスト
 robots.txt            クロールの許可と sitemap の在りか
 sitemap.xml           トップページ・紹介ページ・各アプリのサブドメイン（tools/sync-updates.mjs が書き出す）
+apps/index.html       紹介ページの一覧（tools/sync-updates.mjs が書き出す）
 apps/<slug>/          アプリの紹介ページ（tools/build-articles.mjs が書き出す）
 assets/
   style.css           スタイル（@layer で reset → tokens → base → layout → components → utilities）
-  app.js              検索・カテゴリ絞り込み・テーマ切り替え
+  app.js              検索・カテゴリ絞り込み・場面の絞り込み・並び替え・テーマ切り替え
   logo.svg            ロゴマーク（配布用。ページ内では色を変えるため直接埋め込んでいる）
   favicon.svg         ファビコン
   apple-touch-icon.png / icon-512.png
@@ -46,9 +47,11 @@ assets/
 sw.js                 オフラインでも開けるようにする仕組み（Service Worker）
 data/apps.json        掲載しているものの一覧と、公開日・最終更新日
 data/articles.json    紹介ページの一覧（tools/build-articles.mjs が書き出す）
-tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」と sitemap.xml を組み直す
+tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」「紹介ページの一覧」「sitemap.xml」を組み直す
 tools/build-articles.mjs  各アプリの note 記事から紹介ページを組み直す
-tools/lib/            上の 2 つが使う部品（Markdown の変換・ページの雛形）
+tools/check-404-redirect.mjs  旧アドレスの受け皿が壊れていないか調べる
+tools/check-scenes.mjs  「こんなときに」の割り当てが食い違っていないか調べる
+tools/lib/            上のものが使う部品（Markdown の変換・ページの雛形・カテゴリの表）
 .github/workflows/sync-updates.yml  それを毎朝走らせる設定
 ```
 
@@ -90,6 +93,25 @@ HTML なので、機械が削ると戻すときに書き直すことになりま
 > さらに GitHub Pages は無料プランだと private リポジトリでは公開されないため、
 > アプリ自体が開けなくなります（すでに配った QR コードからも）。
 
+## 「こんなときに」（場面から探す）
+
+教科の名前が分からない人や、目的だけが決まっている人のための入口です。
+`#scenes` に 7 枚のタイルを並べ、押すと下の一覧が絞り込まれます。
+
+- 割り当ては**文字列の一致ではありません**。「早く終わった子」「家庭学習」といったことばは
+  カードの説明文にひとつも出てこないため、検索では 0 件になります。かわりに
+  各カードの `data-scenes`（空白区切り。ひとつのアプリが複数の場面に入ってよい）で決めています
+- タイルは `<a href="/?scene=…#apps">` のふつうのリンクです。JavaScript が動かないときでも
+  一覧までは届きます。動いているときは、その場で絞り込みます
+- 場面を足す・入れ替えるときは、**タイルとカードの両方**を直します。片方だけだと、
+  押しても 0 件のタイルが残ります
+
+```sh
+node tools/check-scenes.mjs   # 0 件のタイル・行き先の無い割り当て・data-slug の食い違いを見つける
+```
+
+毎朝のワークフローでも走ります。通らないとコミットしません。
+
 ## アプリの紹介ページ
 
 各アプリのリポジトリの `docs/note/*-note-article.md` に置いてある記事を、
@@ -100,6 +122,8 @@ HTML なので、機械が削ると戻すときに書き直すことになりま
   アプリのリポジトリに置いたまま、そのアプリのサブドメインから読みます
 - カードの「しょうかい」リンクは `tools/build-articles.mjs` が貼り直します。
   手で書き足すと、アプリが増えたときに片方だけ古くなるためです
+- 一覧（`giga-school.com/apps/`）は `tools/sync-updates.mjs` が `data/articles.json` と
+  `data/apps.json` から書き出します。**`apps/index.html` を手で直しても次の実行で消えます**
 
 > [!IMPORTANT]
 > 画像の URL は、そのリポジトリの Pages がどこを配っているかで変わります。
@@ -122,10 +146,15 @@ HTML なので、機械が削ると戻すときに書き直すことになりま
    既存のカードをコピーし、次の 5 か所を書き換えてください。
    - `data-cat` … カテゴリの id（`kokugo` / `sansu` / `tankyu` / `gakkyu` / `koumu` /
      `seisaku` / `game` / `other`）
+   - `data-slug` … サブドメインの名前。「最近開いた順」の記録に使うので、
+     カードの「開く」の行き先と必ずそろえます
+   - `data-scenes` … 「こんなときに」の割り当て（空白区切り。当てはまるものが無ければ書かない）。
+     `asobi` / `katei` / `kaku` / `shiraberu` / `furikaeri` / `hyougen` / `junbi`
    - `data-name` と `data-keywords` … 検索に使う語。漢字の語は、ひらがなの読みも足しておくと
      児童が探しやすくなります。
    - `style="--cat:…"` と `<span class="tag">` … カテゴリの色と表示名
-   - リンク（アプリ本体・プライバシーポリシー・利用規約・GitHub）
+   - リンク（アプリ本体・プライバシーポリシー・利用規約・GitHub）と、
+     コピー・共有ボタン（`.card__acts`）の `data-url` / `data-title`
    - サムネイル … `assets/thumbs/<サブドメイン>-1.webp` 〜 `-6.webp` を置き、
      `<div class="card__media" data-shots="6">` の中の `<img>` をそこへ向けます。
      画像がまだ無いときは
@@ -136,13 +165,15 @@ HTML なので、機械が削ると戻すときに書き直すことになりま
 3. **Chrome 拡張機能など** … `#tools` の中のカードを同じ要領で編集します。
 4. `data/apps.json` にも 1 行足します（`repo` / `name` / `kind` / `slug` / `category`）。
    日付は `node tools/sync-updates.mjs --fetch` で埋まります。
+5. `node tools/check-scenes.mjs` を走らせて、`data-slug` と `data-scenes` を確かめます。
 
 ### アプリを取り下げるとき
 
 リポジトリを消した場合は、次の 4 か所から外してください。外し忘れると、
 カードのリンクが 404 になったり、件数が合わなくなったりします。
 
-1. `index.html` の該当する `<li class="card">`
+1. `index.html` の該当する `<li class="card">`（場面の割り当ても一緒に消えます。
+   その場面のアプリが 0 本にならないか、`node tools/check-scenes.mjs` で確かめてください）
 2. `index.html` の先頭にある構造化データ（`application/ld+json`）の該当項目と `numberOfItems`
 3. 本数の表記（ヒーローの「◯本」、見出しの「公開中のアプリ（◯本）」、
    絞り込みボタンの件数、`<meta name="description">` と `og:description`）
@@ -226,6 +257,8 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
 - **カードの中で画面写真が切り替わる** … 画面に入っているカードだけ、約 3.4 秒ごとに
   静かに入れ替わります。マウスを乗せると 1.3 秒間隔になり、別のタブを見ているあいだは止まります。
 - **指で触る画面** … `@media (hover: none)` でホバーの見た目を切り、押したときの反応だけ残します。
+- **押した結果の知らせ** … 「リンクをコピーしました」を画面の下に 2.2 秒だけ出します。
+  ページ全体で 1 つしか持ちません。「動きを減らす」設定では、動かさずに出します。
 
 ## 設計の方針
 
@@ -237,7 +270,9 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
   選んでいます。OS の設定に追従し、ヘッダーのボタンで切り替えもできます。
 - **誇張しない。** 説明文は、そのアプリが実際にしていることだけを書きます。
 - **外へ送らない。** 共有ボタンは、押したときだけ端末の共有画面（または X の投稿画面）を開きます。
-  アクセス解析は入れていません。
+  隣の「リンクをコピー」は端末のクリップボードに写すだけです。
+  「最近開いた順」に使う記録（`giga-school:recent`。多くて 8 件）も端末の中だけに残り、
+  「開いた記録を消す」でいつでも消せます。アクセス解析は入れていません。
 - **オフラインでも開ける。** Service Worker（`sw.js`）がトップページと画像を控えておきます。
   ページ本体は毎回ネットワークを先に見るので、内容が古いまま残りません。
   もし表示がおかしくなったら、`sw.js` の先頭にある `VERSION` の値を変えてください。

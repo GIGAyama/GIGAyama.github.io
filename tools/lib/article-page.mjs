@@ -7,6 +7,7 @@
  */
 
 import { esc } from './article-md.mjs';
+import { CATEGORY_LABEL, CATEGORY_COLOR } from './categories.mjs';
 
 /** 記事の題につけてある連載名。ページでは見出しから外し、上に小さく添える。 */
 export const SERIES_RE = /^教室で使えるかもしれないもの作り\s*#\S*\s*/;
@@ -107,7 +108,7 @@ export function articlePage({ app, article }) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'GIGA school', item: `${SITE}/` },
-          { '@type': 'ListItem', position: 2, name: 'アプリ', item: `${SITE}/#apps` },
+          { '@type': 'ListItem', position: 2, name: 'しょうかい', item: `${SITE}/apps/` },
           { '@type': 'ListItem', position: 3, name: app.name, item: url },
         ],
       },
@@ -158,7 +159,7 @@ ${HEADER}
     <nav class="crumbs" aria-label="パンくず">
       <a href="/">トップ</a>
       <span aria-hidden="true">›</span>
-      <a href="/#apps">アプリ</a>
+      <a href="/apps/">しょうかい</a>
       <span aria-hidden="true">›</span>
       <span aria-current="page">${esc(app.name)}</span>
     </nav>
@@ -183,9 +184,156 @@ ${article.html}
       <p class="article__end-lead">${esc(app.name)} は、ブラウザだけで動く無償のアプリです。</p>
       <p class="article__actions">
         <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
-        <a class="btn btn--ghost" href="/#apps">ほかのアプリを見る</a>
+        <a class="btn btn--ghost" href="/apps/">ほかのしょうかいを読む</a>
       </p>
     </aside>
+  </main>
+
+${FOOTER}
+</body>
+
+</html>
+`;
+}
+
+/**
+ * 紹介ページの一覧（/apps/）を組み立てる。
+ *
+ * 記事ページと同じ骨組みを使う。中身は data/articles.json と data/apps.json の
+ * 突き合わせなので、手で書き足すところはない。
+ *
+ * @param {object} o
+ * @param {object[]} o.articles data/articles.json の items
+ * @param {object[]} o.apps     data/apps.json の items（hidden を含む）
+ * @param {string} o.generatedAt
+ * @returns {string} ページ 1 枚ぶんの HTML
+ */
+export function articleIndexPage({ articles, apps, generatedAt }) {
+  const url = `${SITE}/apps/`;
+  const byslug = new Map(apps.map((a) => [a.slug, a]));
+
+  /* 載せるのは、記事があって、かつサイトから外していないものだけ */
+  const items = articles
+    .filter((a) => a.slug && byslug.get(a.slug) && byslug.get(a.slug).hidden !== true)
+    .map((a) => ({ ...a, app: byslug.get(a.slug) }))
+    /* 新しく公開したものが上。同じ日なら名前順 */
+    .sort((x, y) => (y.app.publishedAt || '').localeCompare(x.app.publishedAt || '')
+      || String(x.name).localeCompare(String(y.name), 'ja'));
+
+  const title = `アプリのしょうかい（${items.length} 本）`;
+  const description = `小学校の教員がつくった Web アプリの、つくった理由と使い方をまとめた紹介記事 ${items.length} 本の一覧です。`;
+
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        '@id': `${url}#page`,
+        name: title,
+        description,
+        inLanguage: 'ja',
+        url,
+        isPartOf: { '@id': `${SITE}/#website` },
+        dateModified: generatedAt,
+        mainEntity: {
+          '@type': 'ItemList',
+          numberOfItems: items.length,
+          itemListElement: items.map((a, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: headlineOf(a.title),
+            url: `${SITE}/apps/${a.slug}/`,
+          })),
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'GIGA school', item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: 'しょうかい', item: url },
+        ],
+      },
+    ],
+  };
+
+  const rows = items.map((a) => {
+    const cat = a.app.category || 'other';
+    return `        <li class="article-item" style="--cat:${CATEGORY_COLOR[cat] || CATEGORY_COLOR.other}">
+          <a class="article-item__media" href="/apps/${a.slug}/" tabindex="-1" aria-hidden="true">
+            <img src="/assets/thumbs/${a.slug}-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+          </a>
+          <div class="article-item__body">
+            <p class="article-item__top">
+              <span class="tag">${esc(CATEGORY_LABEL[cat] || CATEGORY_LABEL.other)}</span>
+              <span class="article-item__app">${esc(a.name)}</span>
+            </p>
+            <h2 class="article-item__title"><a href="/apps/${a.slug}/">${esc(headlineOf(a.title))}</a></h2>
+            <p class="article-item__lead">${esc(a.summary)}</p>
+            <p class="article-item__meta">
+              <time datetime="${a.app.publishedAt}">${a.app.publishedAt.replace(/-/g, '/')}</time>
+              <span>公開</span>
+            </p>
+          </div>
+        </li>`;
+  }).join('\n');
+
+  return `<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>${esc(title)}｜GIGA school</title>
+  <meta name="description" content="${esc(description)}">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="${url}">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="${esc(title)}">
+  <meta property="og:description" content="${esc(description)}">
+  <meta property="og:url" content="${url}">
+  <meta property="og:image" content="${OG_FALLBACK}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+${THEME_SCRIPT}
+
+  <script type="application/ld+json">
+${JSON.stringify(ld, null, 2)}
+  </script>
+</head>
+
+<body>
+${HEADER}
+
+  <main class="wrap article">
+    <nav class="crumbs" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">しょうかい</span>
+    </nav>
+
+    <header class="article__head">
+      <h1 class="article__title">アプリのしょうかい</h1>
+      <p class="article__meta">
+        つくった理由と使い方をまとめた記事が ${items.length} 本あります。
+      </p>
+      <p class="article__actions">
+        <a class="btn btn--primary" href="/#apps">アプリの一覧を見る</a>
+      </p>
+    </header>
+
+    <ul class="article-list">
+${rows}
+    </ul>
   </main>
 
 ${FOOTER}

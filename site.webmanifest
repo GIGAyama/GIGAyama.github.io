@@ -12,5 +12,10 @@
     { "src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
     { "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
     { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "アプリを探す", "short_name": "探す", "description": "公開中の Web アプリの一覧を開く", "url": "/#apps" },
+    { "name": "しょうかいを読む", "short_name": "しょうかい", "description": "つくった理由と使い方の記事の一覧を開く", "url": "/apps/" },
+    { "name": "更新情報", "short_name": "更新", "description": "新しく公開したものと、最近手を入れたもの", "url": "/#updates" }
   ]
 }

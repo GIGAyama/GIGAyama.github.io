@@ -8,7 +8,10 @@
  * 依存パッケージはない。Node 20 以降の fetch をそのまま使う。
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+
+import { CATEGORY_LABEL, CATEGORY_COLOR } from './lib/categories.mjs';
+import { articleIndexPage } from './lib/article-page.mjs';
 
 const OWNER = 'GIGAyama';
 const ROOT = new URL('..', import.meta.url);
@@ -16,6 +19,7 @@ const DATA = new URL('data/apps.json', ROOT);
 const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
+const APPS_INDEX = new URL('apps/index.html', ROOT);
 
 /**
  * サイトに載せるものか。
@@ -31,15 +35,6 @@ const shown = (item) => item.hidden !== true;
 
 const NEW_LIMIT = 8;      // 「新しく公開したアプリ」に並べる数
 const UPDATED_LIMIT = 6;  // 「最近手を入れたもの」に並べる日付の数
-
-const CATEGORY_LABEL = {
-  kokugo: '国語・言葉', sansu: '算数', tankyu: '学習・探究', gakkyu: '学級経営',
-  koumu: '授業づくり・校務', seisaku: '表現・制作', game: 'ゲーム・対戦', other: 'そのほか',
-};
-const CATEGORY_COLOR = {
-  kokugo: '#c96a2e', sansu: '#3b82d6', tankyu: '#1d9c9c', gakkyu: '#9a63c9',
-  koumu: '#5b7f9e', seisaku: '#cd5a86', game: '#4a9e5c', other: '#8b93a1',
-};
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -211,6 +206,11 @@ function sitemap(data, articles = []) {
 
   const entries = [url('https://giga-school.com/', data.generatedAt, 'weekly', '1.0')];
 
+  /* 紹介ページの一覧。記事が増えるたびに変わる */
+  if (articles.length) {
+    entries.push(url('https://giga-school.com/apps/', data.generatedAt, 'weekly', '0.9'));
+  }
+
   /* 紹介ページ。アプリ本体より先に置く。中身のある文章はこちらにある */
   articles
     .filter((a) => a.slug && a.updatedAt)
@@ -276,7 +276,20 @@ const main = async () => {
   } catch (e) { /* data/articles.json が無い。アプリの行だけで組む */ }
 
   await writeFile(MAP, sitemap(data, articles));
-  console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本 / ${data.generatedAt} 時点`);
+
+  /* 紹介ページの一覧（/apps/）。記事が 1 本も無いときは作らない。
+     作ってしまうと、空のページがサイトマップと食い違う。 */
+  if (articles.length) {
+    await mkdir(new URL('apps/', ROOT), { recursive: true });
+    await writeFile(APPS_INDEX, articleIndexPage({
+      articles,
+      apps: data.items,
+      generatedAt: data.generatedAt,
+    }));
+  }
+
+  console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本`
+    + ` / しょうかい ${articles.length} 本 / ${data.generatedAt} 時点`);
 };
 
 await main();
