@@ -119,6 +119,15 @@ test('どちらにも無ければ未登録として報告する', () => {
   assert.deepEqual(unregistered(found, [], []), found);
 });
 
+test('照合するものが無くても、別物として宣言していれば「コピーが無い」とは言わない', () => {
+  // digitalcloset は 304 行のフォークを unmanaged に宣言している。
+  // files が空だからといって「正本のコピーは見つかりませんでした」と言うと、
+  // フォークを現に持っているという事実と食い違う。
+  // （この判断は check-drift.mjs の main() 側にあるので、ここでは
+  //   unregistered が空になること＝宣言が効くことを固定する）
+  assert.deepEqual(unregistered(found, [], found.map((f) => f.local)), []);
+});
+
 test('全部宣言してあれば何も残らない', () => {
   assert.deepEqual(
     unregistered(found, ['scripts/gas-deploy.mjs'], ['scripts/lib/giga-v5-checks.mjs']),
