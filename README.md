@@ -34,6 +34,7 @@ index.html            トップページ（カードはすべて HTML に直接�
 site.webmanifest      PWA マニフェスト
 robots.txt            クロールの許可と sitemap の在りか
 sitemap.xml           トップページ・紹介ページ・各アプリのサブドメイン（tools/sync-updates.mjs が書き出す）
+feed.xml              更新を追うための Atom フィード（tools/sync-updates.mjs が書き出す）
 apps/index.html       紹介ページの一覧（tools/sync-updates.mjs が書き出す）
 apps/<slug>/          アプリの紹介ページ（tools/build-articles.mjs が書き出す）
 assets/
@@ -243,6 +244,22 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
   Actions のページから手で実行することもできます。
 - アプリを増やしたときは、`index.html` にカードを足したあと `data/apps.json` にも 1 行足して
   ください（`--fetch` で日付は埋まります）。
+
+## 更新のフィード
+
+`feed.xml`（Atom）を `tools/sync-updates.mjs` が書き出します。**手で直しても次の実行で消えます。**
+
+一度アプリに辿り着いた人が、次に何が出たかを知る手段がサイトにありませんでした。
+X と note は続けるかどうかが本人次第ですが、フィードは置いておけば勝手に届きます。
+
+- 中身は**読むもの**に絞っています。紹介記事と、まだ記事の無い新しいアプリ。
+  「最近手を入れたもの」は入れません。細かい push が流れ続けるだけで、
+  購読している側にとっては報せる値打ちがないためです
+- 新しく公開した順に **20 件**まで
+- `<link rel="alternate" type="application/atom+xml">` をトップ・紹介ページ・
+  記事ページの `<head>` に入れてあります。フッターにも見えるリンクを置いています
+- 日付は `data/apps.json` の `YYYY-MM-DD` しか無いので、その日の始まり（日本時間）
+  として書いています。時刻まで正確である必要はありません
 
 ## 動きについて
 

@@ -51,6 +51,7 @@ const FOOTER = `  <footer class="site-footer">
         <a href="/#apps">アプリ</a>
         <a href="/#about">このサイトについて</a>
         <a href="/#contact">お問い合わせ</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
       </nav>
     </div>
   </footer>`;
@@ -131,6 +132,7 @@ export function articlePage({ app, article }) {
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+  <link rel="alternate" type="application/atom+xml" title="GIGA school の更新" href="/feed.xml">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="GIGA school">
@@ -293,6 +295,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+  <link rel="alternate" type="application/atom+xml" title="GIGA school の更新" href="/feed.xml">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GIGA school">
