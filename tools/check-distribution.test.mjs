@@ -36,12 +36,12 @@ test('同じリポジトリを2回書いたら気づく', () => {
 });
 
 test('台帳に無いリポジトリを見つける。ポータル自身は除く', () => {
-  const found = missingFromLedger(['typa', 'GIGAyama.github.io', 'newcomer'], ledger);
+  const found = missingFromLedger(['Typa', 'GIGAyama.github.io', 'newcomer'], ledger);
   assert.deepEqual(found, ['newcomer']);
 });
 
 test('除外に書いてあれば「台帳に無い」とは言わない', () => {
-  assert.deepEqual(missingFromLedger(['werewolf'], ledger), []);
+  assert.deepEqual(missingFromLedger(['Werewolf'], ledger), []);
 });
 
 test('台帳にあるのに GitHub に無いものを見つける', () => {
@@ -71,4 +71,15 @@ test('ls-remote が空を返したら投げる（空を「異常なし」と読�
 test('リポジトリ一覧が配列でなければ投げる（API のエラー本文を名前として扱わない）', () => {
   assert.throws(() => namesFromRepoPage({ message: 'Not Found' }), /配列ではありません/);
   assert.deepEqual(namesFromRepoPage([{ name: 'a' }, { name: 'b' }]), ['a', 'b']);
+});
+
+test('大文字小文字の違いは同じリポジトリとして扱う（GitHub がそうだから）', () => {
+  const led = { self: 'GIGAyama.github.io', targets: ['Typa'], excluded: [{ repo: 'Werewolf', reason: 'r' }] };
+  assert.deepEqual(missingFromLedger(['typa', 'werewolf', 'gigayama.github.io'], led), []);
+  assert.deepEqual(goneFromGitHub(['typa', 'werewolf'], led), []);
+});
+
+test('大文字小文字だけ違う2つを台帳に書いたら、2回書いたと言う', () => {
+  const problems = ledgerProblems({ owner: 'x', targets: ['Typa', 'typa'], excluded: [] });
+  assert.ok(problems.some((p) => p.includes('2回')), problems.join('\n'));
 });
