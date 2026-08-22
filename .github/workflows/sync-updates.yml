@@ -45,11 +45,11 @@ jobs:
       - name: サイトマップと紹介ページの一覧を組み直す
         run: node tools/sync-updates.mjs
 
-      # 「こんなときに」のタイルと、カードの data-scenes / data-slug は
-      # どちらも index.html に手で書いてある。片方だけ直すと、押しても
-      # 0 件のタイルが残る。押して何も出ないのがいちばん困るので、ここで止める。
-      - name: 「こんなときに」の割り当てが食い違っていないか
-        run: node tools/check-scenes.mjs
+      # カードの data-slug は「最近開いた順」の記録に使う。カードの「開く」の
+      # 行き先と食い違うと、押したのとは別のアプリを開いたことになり、
+      # その記録が端末に残り続ける。気づきにくいので、ここで止める。
+      - name: カードの data-slug が食い違っていないか
+        run: node tools/check-cards.mjs
 
       # data/apps.json は 404.html の転送先の元になっている。
       # 取り込みで slug が壊れると、旧アドレスの受け皿が黙って効かなくなるので、

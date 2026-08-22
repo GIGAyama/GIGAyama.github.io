@@ -38,7 +38,7 @@ apps/index.html       紹介ページの一覧（tools/sync-updates.mjs が書�
 apps/<slug>/          アプリの紹介ページ（tools/build-articles.mjs が書き出す）
 assets/
   style.css           スタイル（@layer で reset → tokens → base → layout → components → utilities）
-  app.js              検索・カテゴリ絞り込み・場面の絞り込み・並び替え・テーマ切り替え
+  app.js              検索・カテゴリ絞り込み・並び替え・テーマ切り替え
   logo.svg            ロゴマーク（配布用。ページ内では色を変えるため直接埋め込んでいる）
   favicon.svg         ファビコン
   apple-touch-icon.png / icon-512.png
@@ -50,7 +50,7 @@ data/articles.json    紹介ページの一覧（tools/build-articles.mjs が書
 tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」「紹介ページの一覧」「sitemap.xml」を組み直す
 tools/build-articles.mjs  各アプリの note 記事から紹介ページを組み直す
 tools/check-404-redirect.mjs  旧アドレスの受け皿が壊れていないか調べる
-tools/check-scenes.mjs  「こんなときに」の割り当てが食い違っていないか調べる
+tools/check-cards.mjs  カードの data-slug が「開く」の行き先と食い違っていないか調べる
 tools/lib/            上のものが使う部品（Markdown の変換・ページの雛形・カテゴリの表）
 .github/workflows/sync-updates.yml  それを毎朝走らせる設定
 ```
@@ -73,7 +73,7 @@ tools/lib/            上のものが使う部品（Markdown の変換・ペー�
 
 これで次の朝から、次のものから外れます。
 
-- 紹介ページ（`apps/<slug>/`）と、カードの「しょうかいを読む」
+- 紹介ページ（`apps/<slug>/`）と、カードの「紹介を読む」
 - `sitemap.xml`
 - トップページの「更新情報」と、「公開中のアプリ」の件数
 
@@ -93,25 +93,6 @@ HTML なので、機械が削ると戻すときに書き直すことになりま
 > さらに GitHub Pages は無料プランだと private リポジトリでは公開されないため、
 > アプリ自体が開けなくなります（すでに配った QR コードからも）。
 
-## 「こんなときに」（場面から探す）
-
-教科の名前が分からない人や、目的だけが決まっている人のための入口です。
-`#scenes` に 7 枚のタイルを並べ、押すと下の一覧が絞り込まれます。
-
-- 割り当ては**文字列の一致ではありません**。「早く終わった子」「家庭学習」といったことばは
-  カードの説明文にひとつも出てこないため、検索では 0 件になります。かわりに
-  各カードの `data-scenes`（空白区切り。ひとつのアプリが複数の場面に入ってよい）で決めています
-- タイルは `<a href="/?scene=…#apps">` のふつうのリンクです。JavaScript が動かないときでも
-  一覧までは届きます。動いているときは、その場で絞り込みます
-- 場面を足す・入れ替えるときは、**タイルとカードの両方**を直します。片方だけだと、
-  押しても 0 件のタイルが残ります
-
-```sh
-node tools/check-scenes.mjs   # 0 件のタイル・行き先の無い割り当て・data-slug の食い違いを見つける
-```
-
-毎朝のワークフローでも走ります。通らないとコミットしません。
-
 ## アプリの紹介ページ
 
 各アプリのリポジトリの `docs/note/*-note-article.md` に置いてある記事を、
@@ -120,7 +101,7 @@ node tools/check-scenes.mjs   # 0 件のタイル・行き先の無い割り当�
 - **記事は書きかえません。** 見出しと画像の位置をそのまま HTML にするだけです
 - **画像は取り込みません。** 31 本ぶんで 717 枚・約 170MB あります。
   アプリのリポジトリに置いたまま、そのアプリのサブドメインから読みます
-- カードの「しょうかい」リンクは `tools/build-articles.mjs` が貼り直します。
+- カードの「紹介」リンクは `tools/build-articles.mjs` が貼り直します。
   手で書き足すと、アプリが増えたときに片方だけ古くなるためです
 - 一覧（`giga-school.com/apps/`）は `tools/sync-updates.mjs` が `data/articles.json` と
   `data/apps.json` から書き出します。**`apps/index.html` を手で直しても次の実行で消えます**
@@ -148,8 +129,6 @@ node tools/check-scenes.mjs   # 0 件のタイル・行き先の無い割り当�
      `seisaku` / `game` / `other`）
    - `data-slug` … サブドメインの名前。「最近開いた順」の記録に使うので、
      カードの「開く」の行き先と必ずそろえます
-   - `data-scenes` … 「こんなときに」の割り当て（空白区切り。当てはまるものが無ければ書かない）。
-     `asobi` / `katei` / `kaku` / `shiraberu` / `furikaeri` / `hyougen` / `junbi`
    - `data-name` と `data-keywords` … 検索に使う語。漢字の語は、ひらがなの読みも足しておくと
      児童が探しやすくなります。
    - `style="--cat:…"` と `<span class="tag">` … カテゴリの色と表示名
@@ -165,15 +144,14 @@ node tools/check-scenes.mjs   # 0 件のタイル・行き先の無い割り当�
 3. **Chrome 拡張機能など** … `#tools` の中のカードを同じ要領で編集します。
 4. `data/apps.json` にも 1 行足します（`repo` / `name` / `kind` / `slug` / `category`）。
    日付は `node tools/sync-updates.mjs --fetch` で埋まります。
-5. `node tools/check-scenes.mjs` を走らせて、`data-slug` と `data-scenes` を確かめます。
+5. `node tools/check-cards.mjs` を走らせて、`data-slug` を確かめます。
 
 ### アプリを取り下げるとき
 
 リポジトリを消した場合は、次の 4 か所から外してください。外し忘れると、
 カードのリンクが 404 になったり、件数が合わなくなったりします。
 
-1. `index.html` の該当する `<li class="card">`（場面の割り当ても一緒に消えます。
-   その場面のアプリが 0 本にならないか、`node tools/check-scenes.mjs` で確かめてください）
+1. `index.html` の該当する `<li class="card">`
 2. `index.html` の先頭にある構造化データ（`application/ld+json`）の該当項目と `numberOfItems`
 3. 本数の表記（ヒーローの「◯本」、見出しの「公開中のアプリ（◯本）」、
    絞り込みボタンの件数、`<meta name="description">` と `og:description`）

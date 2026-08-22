@@ -375,9 +375,6 @@
   var chips = Array.prototype.slice.call(finder.querySelectorAll('.chip'));
   var status = finder.querySelector('[data-status]');
   var resetBtn = document.querySelector('[data-reset]');
-  var sceneNow = finder.querySelector('[data-scene-now]');
-  var sceneLabel = finder.querySelector('[data-scene-label]');
-  var sceneTiles = Array.prototype.slice.call(document.querySelectorAll('[data-scene]'));
   var forgetBtn = finder.querySelector('[data-forget]');
 
   /* ---------- かな → ローマ字 ----------
@@ -453,8 +450,6 @@
     return {
       el: card,
       cat: card.dataset.cat || '',
-      /* 場面は文字列一致ではなく、カードに書いた割り当て（data-scenes）で決める */
-      scenes: (card.dataset.scenes || '').split(/\s+/).filter(Boolean),
       text: base + ' ' + romajiOf(base)
     };
   });
@@ -471,14 +466,7 @@
       .trim();
   }
 
-  var state = { q: '', cat: 'all', scene: 'all', sort: 'name' };
-
-  /* 場面の id → 見出し。タイルの文字をそのまま使う（2 か所に書かないため） */
-  var SCENE_LABEL = {};
-  sceneTiles.forEach(function (tile) {
-    var name = tile.querySelector('.scene__name');
-    SCENE_LABEL[tile.dataset.scene] = name ? name.textContent : tile.dataset.scene;
-  });
+  var state = { q: '', cat: 'all', sort: 'name' };
 
   var canAnimateMove = typeof Element !== 'undefined' &&
     typeof Element.prototype.animate === 'function';
@@ -603,9 +591,8 @@
 
     index.forEach(function (item) {
       var okCat = state.cat === 'all' || item.cat === state.cat;
-      var okScene = state.scene === 'all' || item.scenes.indexOf(state.scene) !== -1;
       var okText = terms.every(function (t) { return item.text.indexOf(t) !== -1; });
-      var visible = okCat && okScene && okText;
+      var visible = okCat && okText;
       item.el.hidden = !visible;
       if (visible) shown++;
     });
@@ -622,14 +609,6 @@
 
     if (animate) playMove(before);
 
-    if (sceneNow) {
-      sceneNow.hidden = state.scene === 'all';
-      if (sceneLabel) sceneLabel.textContent = SCENE_LABEL[state.scene] || '';
-    }
-    sceneTiles.forEach(function (tile) {
-      tile.dataset.on = String(tile.dataset.scene === state.scene);
-    });
-
     if (status) {
       status.textContent = shown === cards.length
         ? cards.length + ' 件すべてを表示しています'
@@ -642,7 +621,6 @@
     if (writeUrl) {
       var params = new URLSearchParams();
       if (state.cat !== 'all') params.set('cat', state.cat);
-      if (state.scene !== 'all') params.set('scene', state.scene);
       if (state.q) params.set('q', input ? input.value.trim() : state.q);
       if (state.sort !== 'name') params.set('sort', state.sort);
       var qs = params.toString();
@@ -690,37 +668,10 @@
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       if (input) input.value = '';
-      state = { q: '', cat: 'all', scene: 'all', sort: state.sort };
+      state = { q: '', cat: 'all', sort: state.sort };
       chips.forEach(function (c) {
         c.setAttribute('aria-pressed', String((c.dataset.cat || 'all') === 'all'));
       });
-      apply(true);
-    });
-  }
-
-  /* 場面タイル。リンクのままにしてあるので、JavaScript が動くときだけ
-     その場で絞り込む（ページを開き直さない）。 */
-  sceneTiles.forEach(function (tile) {
-    tile.addEventListener('click', function (e) {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;   // 別タブで開く操作は邪魔しない
-      e.preventDefault();
-      var id = tile.dataset.scene;
-      state.scene = state.scene === id ? 'all' : id;                        // もう一度押すと外れる
-      apply(true);
-      var apps = document.getElementById('apps');
-      if (apps) {
-        apps.scrollIntoView({
-          behavior: reduceMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-
-  var sceneClear = finder.querySelector('[data-scene-clear]');
-  if (sceneClear) {
-    sceneClear.addEventListener('click', function () {
-      state.scene = 'all';
       apply(true);
     });
   }
@@ -761,8 +712,6 @@
     var cat = params.get('cat');
     var q = params.get('q');
     var sort = params.get('sort');
-    var scene = params.get('scene');
-    if (scene && SCENE_LABEL[scene]) state.scene = scene;
     if (q && input) { input.value = q; state.q = normalize(q); }
     if (sort && SORTS[sort]) {
       state.sort = sort;
