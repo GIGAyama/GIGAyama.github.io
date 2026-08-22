@@ -13,7 +13,7 @@ import { CATEGORY_LABEL, CATEGORY_COLOR } from './categories.mjs';
 export const SERIES_RE = /^教室で使えるかもしれないもの作り\s*#\S*\s*/;
 
 export const SITE = 'https://giga-school.com';
-const OG_FALLBACK = `${SITE}/assets/og.png`;
+export const OG_FALLBACK = `${SITE}/assets/og.png`;
 
 /** 題から連載名を外す。外れなければそのまま使う。 */
 export const headlineOf = (title) => String(title).replace(SERIES_RE, '').trim() || String(title).trim();
@@ -27,7 +27,7 @@ export function summaryOf(lead, limit = 110) {
   return (at > limit * 0.5 ? cut.slice(0, at + 1) : cut) + '…';
 }
 
-const HEADER = `  <header class="site-header">
+export const HEADER = `  <header class="site-header">
     <div class="wrap site-header__inner">
       <a class="brand" href="/" aria-label="GIGA school トップページ">
         <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -44,20 +44,21 @@ const HEADER = `  <header class="site-header">
     </div>
   </header>`;
 
-const FOOTER = `  <footer class="site-footer">
+export const FOOTER = `  <footer class="site-footer">
     <div class="wrap site-footer__inner">
       <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
       <nav class="site-footer__links" aria-label="フッター">
         <a href="/#apps">アプリ</a>
         <a href="/#about">このサイトについて</a>
         <a href="/#contact">お問い合わせ</a>
+        <a href="/press/">掲載用の資料</a>
         <a href="/feed.xml">更新を受け取る（RSS）</a>
       </nav>
     </div>
   </footer>`;
 
 /* 表示前にテーマを決め、切り替え時のちらつきを防ぐ。index.html・404.html と同じもの。 */
-const THEME_SCRIPT = `  <script>
+export const THEME_SCRIPT = `  <script>
     (function () {
       try {
         var t = localStorage.getItem('giga-school:theme');

@@ -1742,6 +1742,132 @@
   .article__end-lead { color: var(--ink-2); }
   .article__end .article__actions { margin-block-start: var(--s-4); }
 
+  /* ---------- 掲載用の資料（/press/） ----------
+     媒体の担当者が拾いに来るページ。読み物ではないので、
+     どこに何があるかが見て分かることを優先する。 */
+  .press-section {
+    max-inline-size: var(--measure-text);
+    margin-block-start: var(--s-7);
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--line);
+  }
+  .press-title { font-size: 1.0625rem; font-weight: 700; }
+  .press-lead {
+    font-size: .875rem;
+    color: var(--ink-2);
+    margin-block: var(--s-2) var(--s-4);
+  }
+
+  /* そのまま使える紹介文 */
+  .press-blurb {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    padding: var(--s-3) var(--s-4);
+  }
+  .press-blurb + .press-blurb { margin-block-start: var(--s-3); }
+  .press-blurb__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin: 0 0 var(--s-2);
+    font-size: .75rem;
+    color: var(--ink-3);
+  }
+  .press-blurb__head b { color: var(--ink); font-size: .8125rem; }
+  .press-blurb__head span { font-variant-numeric: tabular-nums; }
+  .press-copy {
+    margin-inline-start: auto;
+    padding: 4px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink-2);
+    font-size: .75rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .press-copy:hover { border-color: var(--brand); color: var(--brand); }
+  .press-copy:active { translate: 0 1px; }
+  .press-blurb__body {
+    margin: 0;
+    font-size: .9375rem;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+
+  /* 数字と基本情報 */
+  .press-facts {
+    display: grid;
+    gap: 0;
+    border-block-start: 1px solid var(--line);
+  }
+  .press-fact {
+    display: grid;
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+    gap: var(--s-3);
+    padding-block: 10px;
+    border-block-end: 1px solid var(--line);
+    font-size: .875rem;
+  }
+  .press-fact dt { color: var(--ink-3); }
+  .press-fact dd { margin: 0; color: var(--ink); }
+  @media (max-width: 520px) {
+    .press-fact { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  }
+
+  /* ロゴ・画面写真 */
+  .press-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin-block-end: var(--s-4);
+  }
+  .press-shots {
+    display: grid;
+    gap: var(--s-3);
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
+  .press-shots a {
+    display: grid;
+    gap: 6px;
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: .75rem;
+  }
+  .press-shots img {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface-2);
+  }
+  .press-shots a:hover { color: var(--brand); }
+  .press-shots a:hover img { border-color: var(--line-strong); }
+  :root[data-theme="dark"] .press-shots img { filter: brightness(.9); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .press-shots img { filter: brightness(.9); }
+  }
+
+  /* 使ってよい範囲・連絡先 */
+  .press-terms { font-size: .9375rem; line-height: 1.9; color: var(--ink-2); }
+  .press-terms b { color: var(--ink); }
+  .press-terms ul { margin: var(--s-2) 0 var(--s-3); padding-inline-start: 1.4em; }
+  .press-terms li { margin-block: 4px; }
+
+  /* よくいただく質問 */
+  .press-faq + .press-faq { margin-block-start: var(--s-4); }
+  .press-faq__q { margin: 0 0 4px; font-weight: 700; font-size: .9375rem; color: var(--ink); }
+  .press-faq__a { margin: 0; font-size: .875rem; line-height: 1.85; color: var(--ink-2); }
+
+  /* 紙にするときは、コピーのボタンとダウンロードの導線は要らない */
+  @media print {
+    .press-copy, .press-logos { display: none; }
+  }
+
   /* ---------- 情報ボックス ---------- */
   .prose { max-width: var(--measure-text); }
   .prose p + p { margin-block-start: var(--s-4); }
