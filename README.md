@@ -325,6 +325,22 @@ X と note は続けるかどうかが本人次第ですが、フィードは置
   もし表示がおかしくなったら、`sw.js` の先頭にある `VERSION` の値を変えてください。
   古い控えを全部捨てて作り直します。
 
+## ライセンス
+
+プログラムと文章・画像で、**適用されるライセンスが違います。**
+
+| | 対象 | 扱い |
+|---|---|---|
+| プログラム | `assets/*.css` `assets/*.js` `sw.js` `tools/` `standards/` | [MIT](LICENSE) |
+| 文章・画像 | 紹介記事の本文（`apps/<slug>/`）・画面写真（`assets/thumbs/`）・ブランド素材 | 著作権は作者に帰属。[LICENSE-CONTENT.md](LICENSE-CONTENT.md) |
+
+引用は出典を示していただければ自由です。全文転載だけご相談ください。
+くわしくは [LICENSE-CONTENT.md](LICENSE-CONTENT.md) にあります。
+
+> [!NOTE]
+> `LICENSE` は MIT の原文のままにしてあります（GitHub にライセンスを正しく認識させるため）。
+> 適用範囲は `LICENSE-CONTENT.md` とこの節で示しています。
+
 ## GitHub Pages の設定
 
 Settings > Pages で、Source を「Deploy from a branch」、Branch を `main` /
