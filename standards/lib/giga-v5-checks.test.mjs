@@ -501,3 +501,60 @@ test('stripComments はコメントだけを落とす', () => {
   // 文字列の中の /* は落とさない
   assert.match(stripComments('const s = "/* keep me */";'), /keep me/);
 });
+
+/* ── 配信の起点と、ソースの見つけ方 ────────────────────────────────
+ * どちらも「見ていないのに緑」「見なくていいものを見て赤」を左右する。
+ * 2026-08-22 に digitalcloset と ice_slide-puzzle で実際に両方が起きた。
+ * ================================================================= */
+
+test('siteRoot: Vite 型の public/ を配信の起点として見る', () => {
+  // offline.html もアイコンも public/ の中にあり、配信されたときだけ
+  // 直下に来る。siteRoot を見ないと「ありません」と誤検知する。
+  const vite = { ...OK_TREE };
+  for (const rel of Object.keys(vite)) {
+    if (rel === 'offline.html' || rel.startsWith('icons/') || rel === 'manifest.webmanifest') {
+      vite['public/' + rel] = vite[rel];
+      delete vite[rel];
+    }
+  }
+  const withRoot = ids(failures(vite, { siteRoot: 'public', manifest: 'public/manifest.webmanifest' }));
+  assert.equal(withRoot.includes('E_OFFLINE_HTML'), false);
+  assert.equal(withRoot.includes('E_MASKABLE_SAFE_ZONE'), false);
+});
+
+test('siteRoot: 既定は "." のまま（静的にコミットするアプリは変わらない）', () => {
+  assert.deepEqual(ids(failures(OK_TREE)), []);
+});
+
+test('jsDirs: .jsx も JavaScript として読む', () => {
+  // React で書いたアプリの本体は .jsx。'.js' だけを見ていたころは
+  // ここに何を書いても検査が反応しなかった。
+  const t = { ...OK_TREE, 'js/App.jsx': 'localStorage.clear();\n' };
+  assert.equal(ids(failures(t)).includes('C_NO_LS_CLEAR'), true);
+});
+
+test('jsDirs: 下の階層まで見る', () => {
+  const t = { ...OK_TREE, 'js/lib/deep.js': 'localStorage.clear();\n' };
+  assert.equal(ids(failures(t)).includes('C_NO_LS_CLEAR'), true);
+});
+
+test('jsDirs: vendor/ の同梱物は読まない（直せないものを数えても意味がない）', () => {
+  const t = { ...OK_TREE, 'js/vendor/thirdparty.min.js': 'localStorage.clear();\n' };
+  assert.equal(ids(failures(t)).includes('C_NO_LS_CLEAR'), false);
+});
+
+test('jsDirs: scripts/ と tools/ は読まない（ゲート自身を違反に数えない）', () => {
+  // jsDirs が ["."] のリポジトリでは、ここを外さないとゲート自身の
+  // 説明文（<img> や localStorage.clear()）を違反として数える。
+  const t = {
+    ...OK_TREE,
+    'scripts/lib/gate.mjs': 'localStorage.clear();\n',
+    'tools/build.mjs': 'localStorage.clear();\n',
+  };
+  assert.equal(ids(failures(t, { jsDirs: ['.'] })).includes('C_NO_LS_CLEAR'), false);
+});
+
+test('jsDirs: node_modules は読まない', () => {
+  const t = { ...OK_TREE, 'js/node_modules/pkg/index.js': 'localStorage.clear();\n' };
+  assert.equal(ids(failures(t)).includes('C_NO_LS_CLEAR'), false);
+});
