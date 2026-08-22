@@ -1,0 +1,7 @@
+{
+  "//": "ポータルは独自ドメイン直下に置く。先読み一覧の定数名は SHELL_FILES、版の定数名は VERSION。",
+  "swPath": "sw.js",
+  "baseDir": ".",
+  "versionConst": "VERSION",
+  "shellConst": "SHELL_FILES"
+}
