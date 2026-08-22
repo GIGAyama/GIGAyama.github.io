@@ -73,7 +73,7 @@ node tools/check-distribution.mjs            # 配布先ぜんぶと突き合わ
 node tools/check-distribution.mjs --skip-repo-list   # 手元で試すとき（台帳の抜けは見ない）
 ```
 
-配布先は `tools/distribution.json`（台帳）に書きます。
+配布先は `tools/distribution.json`（台帳）に GitHub 上の名前（`Typa` のように大文字小文字ごと）で書きます。照合は大文字小文字を区別しません。
 ここは各リポジトリへ配るものではないので、正本の外（`tools/`）に置いています。GIGAyama にあるリポジトリは
 `targets`（配る先）か `excluded`（配らない・**理由つき**）のどちらかに必ず載せます。
 どちらにも無いリポジトリが現れたら赤くします。

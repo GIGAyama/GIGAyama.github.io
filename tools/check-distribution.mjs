@@ -68,11 +68,20 @@ export function ledgerProblems(ledger) {
   const seen = new Set();
   for (const name of [...targets, ...excluded.map((e) => e?.repo)]) {
     if (typeof name !== 'string') continue;
-    if (seen.has(name)) problems.push(`${name}: 台帳に2回出てきます`);
-    seen.add(name);
+    // 大文字小文字だけ違う2つは、GitHub では同じリポジトリ
+    if (seen.has(key(name))) problems.push(`${name}: 台帳に2回出てきます`);
+    seen.add(key(name));
   }
   return problems;
 }
+
+/**
+ * リポジトリ名の照合用の鍵。
+ * GitHub のリポジトリ名は大文字小文字を区別しない（Typa でも typa でも同じ所に届く）。
+ * 台帳に typa と書き、API が Typa と返したのを「別のリポジトリ」と読んで、
+ * 43本ぜんぶを取りちがえたことがある（2026-08-22、この検査の初回）。
+ */
+const key = (name) => String(name).toLowerCase();
 
 /** GitHub にあるのに台帳に無いリポジトリ（＝誰も見ていないリポジトリ）。 */
 export function missingFromLedger(remoteNames, ledger) {
@@ -80,15 +89,15 @@ export function missingFromLedger(remoteNames, ledger) {
     ...(ledger.targets ?? []),
     ...(ledger.excluded ?? []).map((e) => e?.repo),
     ledger.self,
-  ]);
-  return remoteNames.filter((name) => !known.has(name));
+  ].filter((name) => typeof name === 'string').map(key));
+  return remoteNames.filter((name) => !known.has(key(name)));
 }
 
 /** 台帳にあるのに GitHub に無いリポジトリ（消したか、名前を変えたか）。 */
 export function goneFromGitHub(remoteNames, ledger) {
-  const remote = new Set(remoteNames);
+  const remote = new Set(remoteNames.map(key));
   return [...(ledger.targets ?? []), ...(ledger.excluded ?? []).map((e) => e?.repo)]
-    .filter((name) => typeof name === 'string' && !remote.has(name));
+    .filter((name) => typeof name === 'string' && !remote.has(key(name)));
 }
 
 /** normalize を順に当てる。未知の名前は黙って素通りさせない。 */
