@@ -108,7 +108,7 @@ export function articlePage({ app, article }) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'GIGA school', item: `${SITE}/` },
-          { '@type': 'ListItem', position: 2, name: 'しょうかい', item: `${SITE}/apps/` },
+          { '@type': 'ListItem', position: 2, name: '紹介', item: `${SITE}/apps/` },
           { '@type': 'ListItem', position: 3, name: app.name, item: url },
         ],
       },
@@ -159,7 +159,7 @@ ${HEADER}
     <nav class="crumbs" aria-label="パンくず">
       <a href="/">トップ</a>
       <span aria-hidden="true">›</span>
-      <a href="/apps/">しょうかい</a>
+      <a href="/apps/">紹介</a>
       <span aria-hidden="true">›</span>
       <span aria-current="page">${esc(app.name)}</span>
     </nav>
@@ -184,7 +184,7 @@ ${article.html}
       <p class="article__end-lead">${esc(app.name)} は、ブラウザだけで動く無償のアプリです。</p>
       <p class="article__actions">
         <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
-        <a class="btn btn--ghost" href="/apps/">ほかのしょうかいを読む</a>
+        <a class="btn btn--ghost" href="/apps/">ほかの紹介を読む</a>
       </p>
     </aside>
   </main>
@@ -220,7 +220,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
     .sort((x, y) => (y.app.publishedAt || '').localeCompare(x.app.publishedAt || '')
       || String(x.name).localeCompare(String(y.name), 'ja'));
 
-  const title = `アプリのしょうかい（${items.length} 本）`;
+  const title = `アプリの紹介（${items.length} 本）`;
   const description = `小学校の教員がつくった Web アプリの、つくった理由と使い方をまとめた紹介記事 ${items.length} 本の一覧です。`;
 
   const ld = {
@@ -250,7 +250,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'GIGA school', item: `${SITE}/` },
-          { '@type': 'ListItem', position: 2, name: 'しょうかい', item: url },
+          { '@type': 'ListItem', position: 2, name: '紹介', item: url },
         ],
       },
     ],
@@ -318,11 +318,11 @@ ${HEADER}
     <nav class="crumbs" aria-label="パンくず">
       <a href="/">トップ</a>
       <span aria-hidden="true">›</span>
-      <span aria-current="page">しょうかい</span>
+      <span aria-current="page">紹介</span>
     </nav>
 
     <header class="article__head">
-      <h1 class="article__title">アプリのしょうかい</h1>
+      <h1 class="article__title">アプリの紹介</h1>
       <p class="article__meta">
         つくった理由と使い方をまとめた記事が ${items.length} 本あります。
       </p>
@@ -376,7 +376,7 @@ export function linkCards(html, slugs) {
     const link = '<p class="card__actions">'
       + `<a class="card__note" href="/apps/${slug}/">`
       + '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>'
-      + '<span>しょうかいを読む</span></a></p>';
+      + '<span>紹介を読む</span></a></p>';
 
     /* card__foot の手前に、独立した行として置く。
        プライバシーや利用規約と同じ大きさの文字リンクにすると埋もれる。 */

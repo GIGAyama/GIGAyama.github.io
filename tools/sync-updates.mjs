@@ -289,7 +289,7 @@ const main = async () => {
   }
 
   console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本`
-    + ` / しょうかい ${articles.length} 本 / ${data.generatedAt} 時点`);
+    + ` / 紹介 ${articles.length} 本 / ${data.generatedAt} 時点`);
 };
 
 await main();

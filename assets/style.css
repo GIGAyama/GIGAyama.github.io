@@ -668,45 +668,6 @@
   .pillar h3 { font-size: 1.02rem; }
   .pillar p { font-size: .9375rem; line-height: 1.8; color: var(--ink-2); margin: 0; }
 
-  /* ---------- こんなときに（場面タイル） ----------
-     特徴の3点と同じ考え方で、影も枠も足さずに区切り線だけで割る。 */
-  .scenes {
-    display: grid;
-    gap: var(--s-3);
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  }
-  .scene {
-    display: grid;
-    gap: 4px;
-    align-content: start;
-    block-size: 100%;
-    padding: var(--s-4);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    background: var(--surface);
-    color: inherit;
-    text-decoration: none;
-    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease),
-                translate var(--dur) var(--ease);
-  }
-  .scene:hover {
-    border-color: var(--line-strong);
-    background: var(--surface-2);
-    text-decoration: none;
-  }
-  .scene:active { translate: 0 1px; transition-duration: 80ms; }
-  .scene__name { font-weight: 700; font-size: .9375rem; color: var(--ink); }
-  .scene__lead { font-size: .8125rem; line-height: 1.75; color: var(--ink-2); }
-  /* いま選ばれている場面 */
-  .scene[data-on="true"] {
-    border-color: var(--brand);
-    background: var(--brand-softer);
-  }
-  .scene[data-on="true"] .scene__name { color: var(--brand); }
-  @media (prefers-reduced-motion: reduce) {
-    .scene { transition: none; }
-  }
-
   /* ---------- 検索・絞り込み ---------- */
   .finder {
     position: sticky;
@@ -804,34 +765,6 @@
     color: var(--brand-contrast);
   }
   .chip[aria-pressed="true"] .count { color: color-mix(in srgb, var(--brand-contrast) 78%, transparent); }
-
-  /* 場面タイルで絞り込んでいるあいだだけ出る */
-  .scene-now {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-2);
-    margin-block-start: var(--s-3);
-    font-size: .8125rem;
-    color: var(--ink-2);
-  }
-  .scene-now[hidden] { display: none; }
-  .scene-now b { color: var(--ink); }
-  .scene-now__clear {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 11px;
-    border: 1px solid var(--line);
-    border-radius: var(--r-pill);
-    background: var(--surface);
-    color: var(--ink-2);
-    font-size: .75rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .scene-now__clear:hover { border-color: var(--line-strong); color: var(--ink); }
-  .scene-now__clear svg { inline-size: 12px; block-size: 12px; }
 
   .finder__foot {
     display: flex;
@@ -1868,7 +1801,7 @@
   }
   .site-header, .finder, .to-top, .theme-toggle,
   .hero__actions, .empty-state, .strip,
-  .card__acts, .toast, #scenes { display: none !important; }
+  .card__acts, .toast { display: none !important; }
   /* 印刷では出現待ちの状態を残さない */
   .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
   .hero::before, .hero::after { display: none; }
