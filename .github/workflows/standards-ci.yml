@@ -24,9 +24,11 @@ jobs:
         run: node --test standards/lib/*.test.mjs
       - name: 正本の GAS モジュールのテスト
         run: node --test standards/gas/*.test.mjs
+      - name: 正本のブラウザ側モジュールのテスト
+        run: node --test standards/web/*.test.mjs
       - name: 正本の構文検査
         run: |
-          for f in standards/lib/*.mjs standards/sw/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js; do
+          for f in standards/lib/*.mjs standards/sw/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js; do
             node --check "$f"
           done
           # .gs は Node が拡張子を知らないので、写してから見る
