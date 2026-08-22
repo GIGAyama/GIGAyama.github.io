@@ -20,6 +20,7 @@ const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
 const APPS_INDEX = new URL('apps/index.html', ROOT);
+const FEED = new URL('feed.xml', ROOT);
 
 /**
  * サイトに載せるものか。
@@ -195,6 +196,92 @@ ${updRows}
  * 紹介ページ（/apps/<slug>/）も載せる。一覧は tools/build-articles.mjs が
  * data/articles.json に書き出す。まだ無いときは、アプリの行だけで組む。
  */
+/**
+ * 更新を追えるようにする（Atom）。
+ *
+ * 一度アプリに辿り着いた人が、次に何が出たかを知る手段がサイトに無かった。
+ * X と note は続けるかどうかが本人次第だが、フィードは置いておけば勝手に届く。
+ *
+ * 中身は「読むもの」に絞る。紹介記事と、記事がまだ無い新しいアプリ。
+ * 「最近手を入れたもの」は入れない。細かい push が流れ続けるだけで、
+ * 購読している側にとっては報せる値打ちが無い。
+ *
+ * 日付は data/apps.json の YYYY-MM-DD しか持っていないので、
+ * その日の始まり（日本時間）として書く。時刻まで正確である必要はない。
+ */
+function feed(data, articles = []) {
+  const SITE = 'https://giga-school.com';
+  const stamp = (iso) => `${iso}T00:00:00+09:00`;
+  const byslug = new Map(data.items.map((i) => [i.slug, i]));
+  const hasArticle = new Set(articles.map((a) => a.slug));
+
+  /* 紹介記事。読むものとしては、これが本体 */
+  const fromArticles = articles
+    .filter((a) => a.slug && byslug.get(a.slug) && shown(byslug.get(a.slug)))
+    .map((a) => {
+      const app = byslug.get(a.slug);
+      return {
+        id: `${SITE}/apps/${a.slug}/`,
+        href: `${SITE}/apps/${a.slug}/`,
+        title: a.headline || a.title,
+        summary: a.summary,
+        published: app.publishedAt,
+        updated: a.updatedAt || app.updatedAt,
+        category: CATEGORY_LABEL[app.category] || CATEGORY_LABEL.other,
+      };
+    });
+
+  /* 記事がまだ無いアプリ。公開したこと自体は報せる値打ちがある */
+  const fromApps = data.items
+    .filter((i) => shown(i) && i.slug && i.publishedAt && !hasArticle.has(i.slug))
+    .map((i) => ({
+      id: `https://${i.slug}.giga-school.com/`,
+      href: `https://${i.slug}.giga-school.com/`,
+      title: i.name,
+      summary: `${i.name} を公開しました。`,
+      published: i.publishedAt,
+      updated: i.updatedAt || i.publishedAt,
+      category: CATEGORY_LABEL[i.category] || CATEGORY_LABEL.other,
+    }));
+
+  /* 新しく公開した順。多すぎても読まれないので 20 件で切る */
+  const entries = [...fromArticles, ...fromApps]
+    .sort((a, b) => (b.published || '').localeCompare(a.published || '')
+      || String(a.title).localeCompare(String(b.title), 'ja'))
+    .slice(0, 20);
+
+  /* フィード自体の更新日は、いちばん新しい記事に合わせる */
+  const latest = entries.reduce((m, e) => (e.updated > m ? e.updated : m), data.generatedAt);
+
+  const body = entries.map((e) => `  <entry>
+    <title>${esc(e.title)}</title>
+    <link rel="alternate" type="text/html" href="${esc(e.href)}"/>
+    <id>${esc(e.id)}</id>
+    <published>${stamp(e.published)}</published>
+    <updated>${stamp(e.updated)}</updated>
+    <category term="${esc(e.category)}"/>
+    <summary type="text">${esc(e.summary)}</summary>
+  </entry>`).join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<!-- tools/sync-updates.mjs が data/apps.json と data/articles.json から書き出す。手で書き足さない。 -->
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
+  <title>GIGA school｜学校で使える Web アプリ</title>
+  <subtitle>小学校の教員がつくった Web アプリと、その紹介記事の更新</subtitle>
+  <link rel="self" type="application/atom+xml" href="${SITE}/feed.xml"/>
+  <link rel="alternate" type="text/html" href="${SITE}/"/>
+  <id>${SITE}/</id>
+  <updated>${stamp(latest)}</updated>
+  <author>
+    <name>GIGAyama</name>
+    <uri>${SITE}/</uri>
+  </author>
+  <rights>© GIGAyama</rights>
+${body}
+</feed>
+`;
+}
+
 function sitemap(data, articles = []) {
   const url = (loc, lastmod, changefreq, priority) =>
     `  <url>
@@ -276,6 +363,7 @@ const main = async () => {
   } catch (e) { /* data/articles.json が無い。アプリの行だけで組む */ }
 
   await writeFile(MAP, sitemap(data, articles));
+  await writeFile(FEED, feed(data, articles));
 
   /* 紹介ページの一覧（/apps/）。記事が 1 本も無いときは作らない。
      作ってしまうと、空のページがサイトマップと食い違う。 */

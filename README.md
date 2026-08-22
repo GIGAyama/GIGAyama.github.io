@@ -34,6 +34,7 @@ index.html            トップページ（カードはすべて HTML に直接�
 site.webmanifest      PWA マニフェスト
 robots.txt            クロールの許可と sitemap の在りか
 sitemap.xml           トップページ・紹介ページ・各アプリのサブドメイン（tools/sync-updates.mjs が書き出す）
+feed.xml              更新を追うための Atom フィード（tools/sync-updates.mjs が書き出す）
 apps/index.html       紹介ページの一覧（tools/sync-updates.mjs が書き出す）
 apps/<slug>/          アプリの紹介ページ（tools/build-articles.mjs が書き出す）
 assets/
@@ -51,6 +52,7 @@ tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」
 tools/build-articles.mjs  各アプリの note 記事から紹介ページを組み直す
 tools/check-404-redirect.mjs  旧アドレスの受け皿が壊れていないか調べる
 tools/check-cards.mjs  カードの data-slug が「開く」の行き先と食い違っていないか調べる
+tools/set-topics.mjs  各リポジトリの GitHub トピックをまとめて付け直す（手で走らせる）
 tools/lib/            上のものが使う部品（Markdown の変換・ページの雛形・カテゴリの表）
 .github/workflows/sync-updates.yml  それを毎朝走らせる設定
 ```
@@ -92,6 +94,30 @@ HTML なので、機械が削ると戻すときに書き直すことになりま
 > トップページのカードとサイトマップの URL は残り、死んだリンクになります。
 > さらに GitHub Pages は無料プランだと private リポジトリでは公開されないため、
 > アプリ自体が開けなくなります（すでに配った QR コードからも）。
+
+## GitHub のトピック
+
+各アプリのリポジトリに付けるトピックを `tools/set-topics.mjs` の表にまとめてあります。
+トピックは GitHub の中の検索とトピックページからの入口になります。README をいくら書いても、
+トピックが無いと「education を見に来た人」の目には入りません。
+
+```sh
+node tools/set-topics.mjs                             何を付けるか見るだけ
+node tools/set-topics.mjs --repo Reversi              1 つだけ見る
+GITHUB_TOKEN=… node tools/set-topics.mjs --apply      実際に付ける
+```
+
+- トークンは **Administration: write**（classic なら `repo`）が要ります。
+  引数ではなく環境変数で渡してください（シェルの履歴と `ps` に残るため）
+- 毎朝のワークフローでは走らせません。トピックはめったに変えないうえ、
+  書き込みの権限が要るためです。手で走らせるものとして置いてあります
+- 表は `data/apps.json` と突き合わせます。アプリを増やして表に足し忘れると、
+  実行のたびに警告が出ます
+
+> [!IMPORTANT]
+> `PUT /topics` は「置き換え」であって「追加」ではありません。
+> GitHub の画面から手でトピックを足したときは、先に表へ写してください。
+> 写さずに `--apply` すると、手で足したほうが消えます。
 
 ## アプリの紹介ページ
 
@@ -218,6 +244,22 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
   Actions のページから手で実行することもできます。
 - アプリを増やしたときは、`index.html` にカードを足したあと `data/apps.json` にも 1 行足して
   ください（`--fetch` で日付は埋まります）。
+
+## 更新のフィード
+
+`feed.xml`（Atom）を `tools/sync-updates.mjs` が書き出します。**手で直しても次の実行で消えます。**
+
+一度アプリに辿り着いた人が、次に何が出たかを知る手段がサイトにありませんでした。
+X と note は続けるかどうかが本人次第ですが、フィードは置いておけば勝手に届きます。
+
+- 中身は**読むもの**に絞っています。紹介記事と、まだ記事の無い新しいアプリ。
+  「最近手を入れたもの」は入れません。細かい push が流れ続けるだけで、
+  購読している側にとっては報せる値打ちがないためです
+- 新しく公開した順に **20 件**まで
+- `<link rel="alternate" type="application/atom+xml">` をトップ・紹介ページ・
+  記事ページの `<head>` に入れてあります。フッターにも見えるリンクを置いています
+- 日付は `data/apps.json` の `YYYY-MM-DD` しか無いので、その日の始まり（日本時間）
+  として書いています。時刻まで正確である必要はありません
 
 ## 動きについて
 

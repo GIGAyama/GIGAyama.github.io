@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- tools/sync-updates.mjs が data/apps.json と data/articles.json から書き出す。手で書き足さない。 -->
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
+  <title>GIGA school｜学校で使える Web アプリ</title>
+  <subtitle>小学校の教員がつくった Web アプリと、その紹介記事の更新</subtitle>
+  <link rel="self" type="application/atom+xml" href="https://giga-school.com/feed.xml"/>
+  <link rel="alternate" type="text/html" href="https://giga-school.com/"/>
+  <id>https://giga-school.com/</id>
+  <updated>2026-08-21T00:00:00+09:00</updated>
+  <author>
+    <name>GIGAyama</name>
+    <uri>https://giga-school.com/</uri>
+  </author>
+  <rights>© GIGAyama</rights>
+  <entry>
+    <title>じどう車ずかん</title>
+    <link rel="alternate" type="text/html" href="https://jidosha-zukan.giga-school.com/"/>
+    <id>https://jidosha-zukan.giga-school.com/</id>
+    <published>2026-08-10T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="学習・探究"/>
+    <summary type="text">じどう車ずかん を公開しました。</summary>
+  </entry>
+  <entry>
+    <title>「発信が続かない」を仕組みに変える。下書きが毎日届く投稿ランチャー「XXX_automatic」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/xxx-automatic/"/>
+    <id>https://giga-school.com/apps/xxx-automatic/</id>
+    <published>2026-08-07T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="そのほか"/>
+    <summary type="text">授業で使うものを自分で作ってみたけれど、それを他の先生に知らせるところで止まっている、ということはありませんか。せっかく形になったのに、伝える相手が同じ学年の先生だけで終わってしまう。学年が変われば忘れられてしまう。…</summary>
+  </entry>
+  <entry>
+    <title>名簿もログインもなし。ひらいた画面がもう打つ画面のタイピング学習アプリ「Typa（タイパ）」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/typa/"/>
+    <id>https://giga-school.com/apps/typa/</id>
+    <published>2026-07-29T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="学習・探究"/>
+    <summary type="text">「タイピングの練習をさせたいのに、始まるまでが長い」と感じたことはありませんか。</summary>
+  </entry>
+  <entry>
+    <title>「どうして そこで わけるの？」で止まらない。ブロックを自分で動かす計算アプリ「さんすうブロック」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/keisan-block/"/>
+    <id>https://giga-school.com/apps/keisan-block/</id>
+    <published>2026-07-24T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="算数"/>
+    <summary type="text">くりあがりのあるたし算。1年生が算数でつまずく、最初の大きな山ではないでしょうか。</summary>
+  </entry>
+  <entry>
+    <title>「九九カード、どこにいったの?」なくさない、丸付けもいらない計算カードアプリ「九九カード」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/kake-master/"/>
+    <id>https://giga-school.com/apps/kake-master/</id>
+    <published>2026-07-23T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="算数"/>
+    <summary type="text">二学期、二年生の算数はかけ算九九に入ります。宿題に計算カードを出して、次の日に「なくしました」と言われたことはありませんか。輪ゴムが切れて机の中でばらばらになっていたり、家の人にめくってもらう約束が、…</summary>
+  </entry>
+  <entry>
+    <title>「計算カード、ぜんぶ聞いてあげられない」タイムと伸びが自動で残る計算カードアプリ「けいさんカード」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/keisan-card/"/>
+    <id>https://giga-school.com/apps/keisan-card/</id>
+    <published>2026-06-12T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="算数"/>
+    <summary type="text">1年生の計算カード、先生方はどうされていますか。</summary>
+  </entry>
+  <entry>
+    <title>いろいろな つぼみと はな</title>
+    <link rel="alternate" type="text/html" href="https://tsubomi-learning.giga-school.com/"/>
+    <id>https://tsubomi-learning.giga-school.com/</id>
+    <published>2026-06-01T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="国語・言葉"/>
+    <summary type="text">いろいろな つぼみと はな を公開しました。</summary>
+  </entry>
+  <entry>
+    <title>「マスの数、また数えるんですか」打った文章がそのまま見本になるアプリ「ノート見本作成ツール PRO」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/notebooksample-generator/"/>
+    <id>https://giga-school.com/apps/notebooksample-generator/</id>
+    <published>2026-03-29T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="授業づくり・校務"/>
+    <summary type="text">明日の授業で使うノートの見本を、黒板の前でマスを数えながら書いたことはありませんか。</summary>
+  </entry>
+  <entry>
+    <title>学習サイトリンク集</title>
+    <link rel="alternate" type="text/html" href="https://linker-clipper.giga-school.com/"/>
+    <id>https://linker-clipper.giga-school.com/</id>
+    <published>2026-03-25T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="そのほか"/>
+    <summary type="text">学習サイトリンク集 を公開しました。</summary>
+  </entry>
+  <entry>
+    <title>「なぞれた」で終わらせない。書き順まで見てくれる漢字学習アプリ「マイ漢字タウン」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/kanji-town/"/>
+    <id>https://giga-school.com/apps/kanji-town/</id>
+    <published>2026-03-16T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="国語・言葉"/>
+    <summary type="text">漢字の丸付けをしていて、こんなふうに迷ったことはありませんか。</summary>
+  </entry>
+  <entry>
+    <title>音楽制作スタジオ</title>
+    <link rel="alternate" type="text/html" href="https://music-production-studio.giga-school.com/"/>
+    <id>https://music-production-studio.giga-school.com/</id>
+    <published>2026-03-12T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="表現・制作"/>
+    <summary type="text">音楽制作スタジオ を公開しました。</summary>
+  </entry>
+  <entry>
+    <title>「せんせい、わかりません」で止まらない。考える図が出てくる計算学習アプリ「Qalc（カルク）」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/qalc/"/>
+    <id>https://giga-school.com/apps/qalc/</id>
+    <published>2026-03-11T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="算数"/>
+    <summary type="text">計算練習の時間になると、教室はだいたい三つに分かれませんか。</summary>
+  </entry>
+  <entry>
+    <title>「赤ペンの束を持ち帰る夜」をなくす。クラスの作文が一冊の本になるアプリ「オンライン出版社 Pro」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/online-publisher-pro/"/>
+    <id>https://giga-school.com/apps/online-publisher-pro/</id>
+    <published>2026-03-07T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="国語・言葉"/>
+    <summary type="text">作文の時間のあと、こんなことになっていませんか。</summary>
+  </entry>
+  <entry>
+    <title>「宿題出した？」を毎朝聞いて回らない。提出も朝のきもちも十秒で終わる記録アプリ「宿題ポスト」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/homework-barcordreader/"/>
+    <id>https://giga-school.com/apps/homework-barcordreader/</id>
+    <published>2026-03-05T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="学級経営"/>
+    <summary type="text">朝の会が始まるまでの十分間、教室でいちばん時間を取られているのは宿題の確認ではないでしょうか。名簿を片手に「音読カードは出した？」「自主学習をやってきた人」と声をかけて回り、返事のなかった子をもう一度さがしにいく。…</summary>
+  </entry>
+  <entry>
+    <title>「がっこう」が「がこう」になる子へ。おとと マスの ずれから 教える学習アプリ「ひらがな・カタカナ かきかたマスター」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/kana-master/"/>
+    <id>https://giga-school.com/apps/kana-master/</id>
+    <published>2026-03-02T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="国語・言葉"/>
+    <summary type="text">1年生の ひらがなの ノートを 見ていて、こんな まちがいに 出あったことは ありませんか。</summary>
+  </entry>
+  <entry>
+    <title>「あと5分、なにしよう」を埋める。ルール3つで始まる2人対戦ゲーム「南極スライダー」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/ice-slide-puzzle/"/>
+    <id>https://giga-school.com/apps/ice-slide-puzzle/</id>
+    <published>2026-03-01T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="ゲーム・対戦"/>
+    <summary type="text">授業が思ったより早く終わって、5分だけ手もちぶさたな時間ができてしまうこと、ありませんか。</summary>
+  </entry>
+  <entry>
+    <title>「だれが出してないんだっけ」を数えなくていい。がんばりが経験値でたまる学習記録アプリ「まなびクエスト」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/gamification/"/>
+    <id>https://giga-school.com/apps/gamification/</id>
+    <published>2026-02-21T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="学習・探究"/>
+    <summary type="text">宿題や課題を出したあと、だれが出していないかを名簿と見くらべながら数えている時間。あれ、けっこう長いのではないでしょうか。</summary>
+  </entry>
+  <entry>
+    <title>体育ノート</title>
+    <link rel="alternate" type="text/html" href="https://physicaleducation-note.giga-school.com/"/>
+    <id>https://physicaleducation-note.giga-school.com/</id>
+    <published>2026-02-21T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="学習・探究"/>
+    <summary type="text">体育ノート を公開しました。</summary>
+  </entry>
+  <entry>
+    <title>こころスコープ</title>
+    <link rel="alternate" type="text/html" href="https://moral-note.giga-school.com/"/>
+    <id>https://moral-note.giga-school.com/</id>
+    <published>2026-02-15T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="学習・探究"/>
+    <summary type="text">こころスコープ を公開しました。</summary>
+  </entry>
+  <entry>
+    <title>「このプリント、そのまま大きく映したい」PDFに直接書きこめるアプリ「デジタル教科書メーカー」</title>
+    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/digital-textbook/"/>
+    <id>https://giga-school.com/apps/digital-textbook/</id>
+    <published>2026-02-11T00:00:00+09:00</published>
+    <updated>2026-08-21T00:00:00+09:00</updated>
+    <category term="授業づくり・校務"/>
+    <summary type="text">印刷室でプリントを刷りながら、こんなふうに思ったことはありませんか。</summary>
+  </entry>
+</feed>
