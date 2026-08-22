@@ -558,3 +558,54 @@ test('jsDirs: node_modules は読まない', () => {
   const t = { ...OK_TREE, 'js/node_modules/pkg/index.js': 'localStorage.clear();\n' };
   assert.equal(ids(failures(t)).includes('C_NO_LS_CLEAR'), false);
 });
+
+/* ── 先読みの一覧をビルドで注入する型 ────────────────────────────────
+ * 原文の配列は置き場でしかないので、そこを見ても真偽が決まらない。
+ * 2026-08-22 に digitalcloset（種の一覧あり）は偶然通り、
+ * quoridor（空の []）は正しく先読みしているのに落ちていた。
+ * ================================================================= */
+
+const VITE_SW = `const APP_VERSION = 'dev';
+const PRECACHE_URLS = []; /* __PRECACHE_URLS__ */
+self.addEventListener('install', () => {});
+`;
+
+test('注入型: sw-build.config.json の precache に offline.html があれば通る', () => {
+  const t = {
+    ...OK_TREE,
+    'public/sw.js': VITE_SW,
+    'sw-build.config.json': JSON.stringify({ precache: ['index.html', 'offline.html'] }),
+  };
+  const got = ids(failures(t, { sw: 'vite', swSource: 'public/sw.js' }));
+  assert.equal(got.includes('E_SW_PRECACHE_OFFLINE'), false);
+});
+
+test('注入型: precache に offline.html が無ければ落ちる', () => {
+  const t = {
+    ...OK_TREE,
+    'public/sw.js': VITE_SW,
+    'sw-build.config.json': JSON.stringify({ precache: ['index.html'] }),
+  };
+  assert.equal(ids(failures(t, { sw: 'vite', swSource: 'public/sw.js' })).includes('E_SW_PRECACHE_OFFLINE'), true);
+});
+
+test('注入型: sw-build.config.json が無ければ落ちる（見に行く先が無い）', () => {
+  const t = { ...OK_TREE, 'public/sw.js': VITE_SW };
+  assert.equal(ids(failures(t, { sw: 'vite', swSource: 'public/sw.js' })).includes('E_SW_PRECACHE_OFFLINE'), true);
+});
+
+test('注入型でない sw は、これまでどおり原文の配列を見る', () => {
+  const t = { ...OK_TREE, 'sw.js': "const PRECACHE_URLS = ['./index.html'];\n" };
+  assert.equal(ids(failures(t)).includes('E_SW_PRECACHE_OFFLINE'), true);
+});
+
+test('注入型でない sw に sw-build.config.json があっても、原文の配列で判定する', () => {
+  // ここを取りちがえると、原文が offline.html を先読みしていないのに
+  // 設定ファイルのほうを見て通してしまう。目印の有無で分けること。
+  const t = {
+    ...OK_TREE,
+    'sw.js': "const PRECACHE_URLS = ['./index.html'];\n",
+    'sw-build.config.json': JSON.stringify({ precache: ['index.html', 'offline.html'] }),
+  };
+  assert.equal(ids(failures(t)).includes('E_SW_PRECACHE_OFFLINE'), true);
+});
