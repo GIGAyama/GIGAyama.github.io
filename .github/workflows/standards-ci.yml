@@ -28,6 +28,10 @@ jobs:
         run: node --test standards/check-drift.test.mjs
       - name: SW の版づけのテスト（実際に走らせて確かめる）
         run: node --test standards/sw/*.test.mjs
+      # ポータル自身も同じ標準に従う。版を刻み忘れたままコミットすると、
+      # 全アプリの入口が古いシェルのまま残る
+      - name: ポータル自身の SW の版がずれていないか
+        run: node tools/build-sw.mjs --check
       - name: 正本のブラウザ側モジュールのテスト
         run: node --test standards/web/*.test.mjs
       # 配る前にここで読めることを確かめる。壊れた YAML を配ると、
