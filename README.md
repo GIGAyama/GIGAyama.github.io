@@ -53,6 +53,7 @@ tools/build-articles.mjs  各アプリの note 記事から紹介ページを組
 tools/check-404-redirect.mjs  旧アドレスの受け皿が壊れていないか調べる
 tools/check-cards.mjs  カードの data-slug が「開く」の行き先と食い違っていないか調べる
 tools/set-topics.mjs  各リポジトリの GitHub トピックをまとめて付け直す（手で走らせる）
+tools/set-homepage.mjs  各リポジトリの homepage 欄を新アドレスへ揃える（手で走らせる）
 tools/lib/            上のものが使う部品（Markdown の変換・ページの雛形・カテゴリの表）
 .github/workflows/sync-updates.yml  それを毎朝走らせる設定
 ```
@@ -118,6 +119,23 @@ GITHUB_TOKEN=… node tools/set-topics.mjs --apply      実際に付ける
 > `PUT /topics` は「置き換え」であって「追加」ではありません。
 > GitHub の画面から手でトピックを足したときは、先に表へ写してください。
 > 写さずに `--apply` すると、手で足したほうが消えます。
+
+### homepage 欄
+
+同じ要領で `tools/set-homepage.mjs` があります。行き先は `data/apps.json` の `slug` から
+機械的に決まるので、**こちらは手書きの表がありません。**
+
+```sh
+node tools/set-homepage.mjs                             何に直すか見るだけ
+node tools/set-homepage.mjs --repo Reversi              1 つだけ見る
+GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
+```
+
+- 行き先は `https://<slug>.giga-school.com/`。`GIGAyama.github.io` だけ `https://giga-school.com/`
+- `app_launcher` と `Blackboard_Timer` は Chrome 拡張機能でサブドメインを持たないため触りません
+- `hidden` のものも対象です。サイトから外していても、サブドメイン自体は生きているためです
+- 権限はトピックと同じ **Administration: write**。`PATCH` は冪等なので、途中で止まっても
+  もう一度まるごと流して構いません
 
 ## アプリの紹介ページ
 
