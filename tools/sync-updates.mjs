@@ -296,6 +296,8 @@ function sitemap(data, articles = []) {
   /* 紹介ページの一覧。記事が増えるたびに変わる */
   if (articles.length) {
     entries.push(url('https://giga-school.com/apps/', data.generatedAt, 'weekly', '0.9'));
+    /* フィードも載せておく。更新の速いページとしてクローラに拾わせる */
+    entries.push(url('https://giga-school.com/feed.xml', data.generatedAt, 'daily', '0.5'));
   }
 
   /* 紹介ページ。アプリ本体より先に置く。中身のある文章はこちらにある */

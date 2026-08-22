@@ -67,19 +67,91 @@ const THEME_SCRIPT = `  <script>
   </script>`;
 
 /**
+ * 記事の終わりに置く「ほかの紹介」。
+ *
+ * articlePage() から呼ぶほか、すでに書き出してある紹介ページへ後から
+ * 差し込むときにも使う。2 か所で同じ HTML を書くとずれるので、ここを正本にする。
+ */
+export function moreNav({ related = [], prev = null, next = null }) {
+  const card = (a) => `        <li class="more-item" style="--cat:${CATEGORY_COLOR[a.category] || CATEGORY_COLOR.other}">
+          <a href="/apps/${a.slug}/">
+            <img src="/assets/thumbs/${a.slug}-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+            <span class="more-item__tag">${esc(CATEGORY_LABEL[a.category] || CATEGORY_LABEL.other)}</span>
+            <span class="more-item__title">${esc(headlineOf(a.headline || a.title))}</span>
+          </a>
+        </li>`;
+
+  const pager = [
+    prev ? `<a class="more-nav__prev" href="/apps/${prev.slug}/"><span>新しい紹介</span>${esc(prev.name)}</a>` : '',
+    next ? `<a class="more-nav__next" href="/apps/${next.slug}/"><span>古い紹介</span>${esc(next.name)}</a>` : '',
+  ].filter(Boolean).join('\n        ');
+
+  const more = related.length || pager ? `
+    <nav class="article-more" aria-labelledby="more-title">
+      <h2 class="article-more__title" id="more-title">ほかの紹介</h2>
+${related.length ? `      <ul class="more-list">
+${related.map(card).join('\n')}
+      </ul>` : ''}
+${pager ? `      <p class="more-nav">
+        ${pager}
+      </p>` : ''}
+      <p class="more-all"><a href="/apps/">紹介の一覧を見る</a></p>
+    </nav>` : '';
+
+  return more;
+}
+
+/**
+ * 記事どうしをつなぐ。
+ *
+ * 31 本の記事が互いに 1 本もリンクしていなかった。検索から記事に着地した人が、
+ * 読み終えたあと行き場を失う。Google から見ても記事どうしの関係が読み取れない。
+ *
+ * 選び方は「同じカテゴリで、公開日が近いもの」。カテゴリに 3 本ないときは
+ * （表現・制作は 1 本しかない）、ほかのカテゴリから公開日の近い順に足して 3 本にする。
+ * 恣意的に選ぶと、増えたときに手で直すことになるため、規則だけで決める。
+ *
+ * @param {string} slug いま開いている記事
+ * @param {{slug:string,name:string,headline:string,publishedAt:string,category:string}[]} all 公開日の新しい順
+ * @returns {{related:object[], prev:object|null, next:object|null}}
+ */
+export function relatedOf(slug, all) {
+  const i = all.findIndex((a) => a.slug === slug);
+  if (i === -1) return { related: [], prev: null, next: null };
+  const me = all[i];
+
+  /* 公開日がどれだけ離れているか。同じカテゴリを先に、その中で近い順 */
+  const distance = (a) => Math.abs(Date.parse(a.publishedAt) - Date.parse(me.publishedAt));
+  const rest = all.filter((a) => a.slug !== slug);
+  const sameCat = rest.filter((a) => a.category === me.category).sort((a, b) => distance(a) - distance(b));
+  const others = rest.filter((a) => a.category !== me.category).sort((a, b) => distance(a) - distance(b));
+
+  return {
+    related: [...sameCat, ...others].slice(0, 3),
+    /* 一覧（/apps/）と同じ「新しい順」の並びでの前後 */
+    prev: all[i - 1] ?? null,   // これより新しいもの
+    next: all[i + 1] ?? null,   // これより古いもの
+  };
+}
+
+/**
  * @param {object} o
  * @param {{name: string, slug: string, repo: string, publishedAt: string, updatedAt: string}} o.app
  * @param {{title: string, html: string, images: object[], lead: string}} o.article
  * @returns {string} ページ 1 枚ぶんの HTML
  */
-export function articlePage({ app, article }) {
+export function articlePage({ app, article, related = [], prev = null, next = null }) {
   const url = `${SITE}/apps/${app.slug}/`;
   const appUrl = `https://${app.slug}.giga-school.com/`;
   const headline = headlineOf(article.title);
   const summary = summaryOf(article.lead);
   /* og:image は記事の 1 枚目。中身が見えるカードになる。
-     画像が 1 枚も無いときだけ、サイト共通の絵に落とす。 */
-  const ogImage = article.images[0]?.src || OG_FALLBACK;
+     ただし raw.githubusercontent.com のものは使わない。SNS のクローラが
+     取りに行けないことがあり、ブランチの先頭を指すので壊れやすくもある。
+     自分のドメインから出せないときは、サイト共通の絵に落とす。 */
+  const first = article.images[0]?.src || '';
+  const ownHost = /^https:\/\/([a-z0-9-]+\.)?giga-school\.com\//.test(first);
+  const ogImage = ownHost ? first : OG_FALLBACK;
 
   const ld = {
     '@context': 'https://schema.org',
@@ -115,6 +187,8 @@ export function articlePage({ app, article }) {
       },
     ],
   };
+
+  const more = moreNav({ related, prev, next });
 
   return `<!DOCTYPE html>
 <html lang="ja">
@@ -189,6 +263,7 @@ ${article.html}
         <a class="btn btn--ghost" href="/apps/">ほかの紹介を読む</a>
       </p>
     </aside>
+${more}
   </main>
 
 ${FOOTER}

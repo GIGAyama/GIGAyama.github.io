@@ -823,7 +823,11 @@
 
     <!-- ============ 流れる帯 ============
          下の一覧に載せているアプリの画面。読み上げに必要な情報は一覧側に文字で並んでいるため、
-         ここは装飾として扱う（aria-hidden・alt 空・リンクにしない）。 -->
+         ここは装飾として扱う（aria-hidden・alt 空・リンクにしない）。
+
+         装飾に帯域を先取りさせない。30 枚すべてを即時に読むと 200KB ほどになり、
+         本文のサムネイルより先に回線を使ってしまう。横に流れるので、最初に見えるのは
+         数枚だけ。先頭 6 枚だけ即時にして、残りは画面に入ってから読む。 -->
     <div class="strip" aria-hidden="true">
       <div class="strip__track">
         <img src="/assets/thumbs/qalc-1.webp" alt="" width="640" height="400" decoding="async">
@@ -832,31 +836,31 @@
         <img src="/assets/thumbs/townmap-mikke-1.webp" alt="" width="640" height="400" decoding="async">
         <img src="/assets/thumbs/shiritori-fighter-1.webp" alt="" width="640" height="400" decoding="async">
         <img src="/assets/thumbs/online-manuscript-paper-lite-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/keisan-block-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/reflection-journal-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/digital-textbook-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/typa-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/werewolf-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/notebooksample-generator-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/jidosha-zukan-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/haiku-meeting-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/online-100square-calculation-1.webp" alt="" width="640" height="400" decoding="async">
+        <img src="/assets/thumbs/keisan-block-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/reflection-journal-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/digital-textbook-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/typa-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/werewolf-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/notebooksample-generator-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/jidosha-zukan-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/haiku-meeting-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/online-100square-calculation-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
         <!-- 同じ並びをもう一度。半分だけ動かして継ぎ目なく戻す -->
-        <img src="/assets/thumbs/qalc-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/digital-newspaper-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/kanji-town-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/townmap-mikke-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/shiritori-fighter-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/online-manuscript-paper-lite-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/keisan-block-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/reflection-journal-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/digital-textbook-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/typa-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/werewolf-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/notebooksample-generator-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/jidosha-zukan-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/haiku-meeting-1.webp" alt="" width="640" height="400" decoding="async">
-        <img src="/assets/thumbs/online-100square-calculation-1.webp" alt="" width="640" height="400" decoding="async">
+        <img src="/assets/thumbs/qalc-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/digital-newspaper-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/kanji-town-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/townmap-mikke-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/shiritori-fighter-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/online-manuscript-paper-lite-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/keisan-block-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/reflection-journal-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/digital-textbook-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/typa-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/werewolf-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/notebooksample-generator-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/jidosha-zukan-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/haiku-meeting-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
+        <img src="/assets/thumbs/online-100square-calculation-1.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
       </div>
     </div>
 

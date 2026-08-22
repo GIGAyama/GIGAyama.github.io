@@ -41,7 +41,7 @@
 
 import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { renderArticle } from './lib/article-md.mjs';
-import { articlePage, headlineOf, linkCards, summaryOf } from './lib/article-page.mjs';
+import { articlePage, headlineOf, linkCards, relatedOf, summaryOf } from './lib/article-page.mjs';
 
 const OWNER = 'GIGAyama';
 const ROOT = new URL('..', import.meta.url);
@@ -122,6 +122,7 @@ const main = async () => {
     a.hidden !== true && a.slug && a.publishedAt && a.updatedAt);
 
   const built = [];
+  const pages = [];     // 2 周目で書き出すための材料
   let missing = 0;
   let failed = 0;
 
@@ -167,12 +168,9 @@ const main = async () => {
       continue;
     }
 
-    const html = articlePage({ app, article });
-    if (!dry) {
-      const dir = new URL(`${app.slug}/`, APPS_DIR);
-      await mkdir(dir, { recursive: true });
-      await writeFile(new URL('index.html', dir), html);
-    }
+    /* ここでは書き出さない。「ほかの紹介」を出すには 31 本ぶんの題が要るので、
+       全部そろってから 2 周目で書き出す（下の「ページを書き出す」）。 */
+    pages.push({ app, article });
 
     built.push({
       slug: app.slug,
@@ -191,6 +189,32 @@ const main = async () => {
   }
 
   built.sort((a, b) => a.slug.localeCompare(b.slug));
+
+  /* ---------- ページを書き出す（2 周目） ----------
+     記事どうしをつなぐには、31 本ぶんの題と公開日がそろっている必要がある。
+     並びは /apps/ の一覧と同じ「新しく公開した順」にして、前後の記事が
+     一覧の並びと食い違わないようにする。 */
+  const byslug = new Map(data.items.map((i) => [i.slug, i]));
+  const all = built
+    .map((b) => ({
+      slug: b.slug,
+      name: b.name,
+      headline: b.headline,
+      category: byslug.get(b.slug)?.category || 'other',
+      publishedAt: byslug.get(b.slug)?.publishedAt || '1970-01-01',
+    }))
+    .sort((x, y) => (y.publishedAt || '').localeCompare(x.publishedAt || '')
+      || String(x.name).localeCompare(String(y.name), 'ja'));
+
+  for (const { app, article } of pages) {
+    const { related, prev, next } = relatedOf(app.slug, all);
+    const html = articlePage({ app, article, related, prev, next });
+    if (!dry) {
+      const dir = new URL(`${app.slug}/`, APPS_DIR);
+      await mkdir(dir, { recursive: true });
+      await writeFile(new URL('index.html', dir), html);
+    }
+  }
 
   if (!dry) {
     /* 前回あって今回消えた紹介ページを残さない。
