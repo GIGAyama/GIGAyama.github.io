@@ -164,3 +164,13 @@ test('点を含む名前を、正規表現の「任意の1文字」として扱�
   assert.deepEqual(filesToPush(['axhtml', 'a.html'], '!a.html\n**/**'), []);
   assert.deepEqual(filesToPush(['axhtml', 'a.html'], '**/**\n!a.html'), ['a.html']);
 });
+
+test('GAS_ROOT_DIR で下げていても、規則は送るファイルの相対パスに当てる', () => {
+  // .claspignore はリポジトリ直下にあり、送るファイルの一覧は GAS_ROOT_DIR の
+  // 下から取る。規則はその相対パスに当たる（clasp の見方に合わせる）。
+  const files = ['Gemini.gs', 'index.html', 'README.md'];
+  assert.deepEqual(
+    filesToPush(files, '**/**\n!appsscript.json\n!*.gs\n!index.html'),
+    ['Gemini.gs', 'index.html']
+  );
+});
