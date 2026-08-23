@@ -16,7 +16,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { runGigaChecks, stripComments } from './giga-v5-checks.mjs';
+import { runGigaChecks, stripComments, handlerBody } from './giga-v5-checks.mjs';
 
 /** 完全不透明の最小 PNG（colorType 2 = RGB、α なし） */
 function opaquePng() {
@@ -185,6 +185,42 @@ test('無条件の controllerchange reload は拾う', () => {
   assert.ok(!replaced.includes("'controllerchange'"), '置きかえが空振りした');
   const tree = { ...OK_TREE, 'js/app.js': replaced };
   assert.ok(ids(failures(tree)).includes('E_SW_UPDATE_PROMPT'));
+});
+
+test('見はりを消した controllerchange を、すぐ下の別の関数の if (!x) で見のがさない', () => {
+  // Reversi の移行（2026-08-23）で見つかった見のがし。
+  // 見はりの行を丸ごと消しても、90文字ほど下にある
+  //   const notify = (worker) => { if (!worker) return; … }
+  // が 400 文字の窓に入り、「見はりがある」と読めて緑のままだった。
+  const broken = [
+    "navigator.serviceWorker.addEventListener('controllerchange', () => {",
+    '  reloading = true;',
+    '  window.location.reload();',
+    '});',
+    '',
+    'const notify = (worker) => {',
+    '  if (!worker) return;',
+    "  worker.postMessage({ type: 'SKIP_WAITING' });",
+    '};',
+  ].join('\n');
+  const replaced = OK_TREE['js/app.js'].replace(
+    /navigator\.serviceWorker\.addEventListener\('controllerchange'[\s\S]*?\}\);/, broken);
+  assert.ok(replaced.includes('const notify'), '置きかえが空振りした');
+  const tree = { ...OK_TREE, 'js/app.js': replaced };
+  assert.ok(ids(failures(tree)).includes('E_SW_UPDATE_PROMPT'));
+});
+
+test('ハンドラ本体は中かっこの対応で切り出す（隣の関数を巻きこまない）', () => {
+  const js = "addEventListener('x', () => { a(); }); const next = () => { if (!y) return; };";
+  const body = handlerBody(js, js.indexOf("'x'"));
+  assert.ok(body.includes('a();'));
+  assert.ok(!body.includes('if (!y)'), body);
+});
+
+test('ハンドラを名前で渡している形では、これまでどおり窓で見る', () => {
+  const js = "addEventListener('x', onChange);\n".padEnd(500, '/* … */');
+  const body = handlerBody(js, js.indexOf("'x'"));
+  assert.equal(body.length, 400);
 });
 
 test('message ハンドラの中の（正しい）skipWaiting を install のものと誤判定しない', () => {
