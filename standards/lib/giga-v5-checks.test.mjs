@@ -187,6 +187,22 @@ test('無条件の controllerchange reload は拾う', () => {
   assert.ok(ids(failures(tree)).includes('E_SW_UPDATE_PROMPT'));
 });
 
+test('説明文の中の <style> から本物の </style> までを CSS として読まない', () => {
+  // Quarto の index.html にあった形。CSP の注意書きに「<style> を差し込む」と
+  // 書いてあり、そこから本物の </style> までの 3,164 文字が CSS として
+  // 読まれていた。本物の CSS から指定を消しても、説明文の語で通っていた。
+  const tree = { ...OK_TREE };
+  // 説明文の中の <style> と、そのあとにある本物の <style> ブロック。
+  // 本物の閉じタグまでが1つの塊として読まれてしまうのが、この壊れ方。
+  tree['index.html'] = tree['index.html'].replace('<head>',
+    "<head>\n  <!-- 注意: ライブラリが <style> を差し込むので prefers-reduced-motion の話はここに書く -->\n"
+    + '  <style>.boot { color: #333; }</style>');
+  tree['css/style.css'] = tree['css/style.css']
+    .replace(/@media \(prefers-reduced-motion: reduce\)/, '@media (nothing-at-all)');
+  const failed = ids(failures(tree));
+  assert.ok(failed.includes('D_REDUCED_MOTION'), `説明文で満たされました: ${failed.join(', ')}`);
+});
+
 test('版の目印が値そのものの形（vite-plugin-pwa 型）も自動生成と認める', () => {
   // Quarto の src/sw.js がこの形。build-sw-vite.mjs（正本）は両方に対応して
   // いるのに、ゲートだけが「手書きだ」と落としていた（2026-08-23）。
