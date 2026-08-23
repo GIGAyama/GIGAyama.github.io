@@ -464,6 +464,36 @@ test('sw: "static" は v0/dev のままだと拾う', () => {
   assert.ok(ids(failures(tree)).includes('E_SW_VERSION_GENERATED'));
 });
 
+// ---- manifest が指すアイコンの実体 ----
+//
+// 「並んでいる」と「在る」は別である。maskable の実体は E_MASKABLE_SAFE_ZONE が
+// 読むので消えれば落ちるが、any のほうは誰も読んでいなかった。
+// xxx_automatic で icons/icon-192.png を消しても 38 件すべて通った（2026-08-23）。
+// 192 が取れないと Chrome はインストールの合図を出さない。画面は普通に出るので、
+// 誰も気づかないまま「入れられないアプリ」になる。
+
+test('manifest が指す any のアイコンが無ければ拾う', () => {
+  const tree = { ...OK_TREE };
+  delete tree['icons/icon-192.png'];
+  // ⚠️ 入口の <img> も一緒に外す。外さないと F_IMG_DIMENSIONS の
+  //    「画像が無い」で落ち、E_ICONS が見ているのか分からなくなる。
+  tree['index.html'] = tree['index.html']
+    .replace('<img src="./icons/icon-192.png" width="64" height="64" alt="アイコン">', '');
+  const rs = runGigaChecks(makeTree(tree), CONFIG);
+  const icons = rs.find((r) => r.id === 'E_ICONS');
+  assert.equal(icons.ok, false);
+  assert.match(icons.detail.join(' '), /icon-192\.png/);
+});
+
+test('src の無いアイコンが並んでいたら拾う', () => {
+  const tree = { ...OK_TREE };
+  const j = JSON.parse(tree['manifest.webmanifest']);
+  j.icons.push({ sizes: '48x48', type: 'image/png' });
+  tree['manifest.webmanifest'] = JSON.stringify(j);
+  const rs = runGigaChecks(makeTree(tree), CONFIG);
+  assert.equal(rs.find((r) => r.id === 'E_ICONS').ok, false);
+});
+
 // ---- 版を刻む道具の置き場 ----
 //
 // 道具を scripts/ にまとめているリポジトリがある（xxx_automatic）。

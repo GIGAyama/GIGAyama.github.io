@@ -683,6 +683,17 @@ export const CHECKS = [
       if (!has('192x192', 'maskable')) bad.push('192 の maskable がありません');
       if (!has('512x512', 'maskable')) bad.push('512 の maskable がありません');
 
+      // ⚠️ 並んでいることと、在ることは別である。
+      //    maskable の実体は E_MASKABLE_SAFE_ZONE が読むので消えれば落ちるが、
+      //    any のほうは誰も読んでいなかった。icons/icon-192.png を消しても
+      //    38 件すべて通る状態だった（2026-08-23 に xxx_automatic で実測）。
+      //    192 のアイコンが取れないと Chrome はインストールの合図を出さない。
+      //    画面は普通に出るので、誰も気づかないまま「入れられないアプリ」になる。
+      for (const ic of j.icons || []) {
+        if (!ic.src) { bad.push('src の無いアイコンが並んでいます'); continue; }
+        if (!fs.existsSync(sitePath(root, cfg, ic.src))) bad.push(`${ic.src} がありません`);
+      }
+
       const html = read(root, cfg.entryHtml) || '';
       const m = html.replace(/<!--[\s\S]*?-->/g, '').match(/rel=["']apple-touch-icon["'][^>]*href=["']([^"']+)["']/i);
       if (!m) bad.push('apple-touch-icon がありません');
