@@ -464,6 +464,56 @@ test('sw: "static" は v0/dev のままだと拾う', () => {
   assert.ok(ids(failures(tree)).includes('E_SW_VERSION_GENERATED'));
 });
 
+// ---- 「画面のコード」に Service Worker を混ぜない ----
+//
+// jsDirs が配信ディレクトリそのもの（xxx_automatic の ["docs"]）だと sw.js が混ざる。
+// 画面から SKIP_WAITING を丸ごと消しても、sw.js 側の SKIP_WAITING が身代わりになって
+// E_SW_UPDATE_PROMPT が通っていた（2026-08-23 実測）。
+
+test('jsDirs に sw.js が入っていても、画面側の検査の身代わりにならない', () => {
+  const tree = { ...OK_TREE };
+  // 画面のコードを sw.js のとなり（配信ディレクトリの直下）に置く形にする
+  tree['app.js'] = tree['js/app.js'];
+  delete tree['js/app.js'];
+  const cfg = { ...CONFIG, jsDirs: ['.'] };
+  // まず、この置き方でも正しく書けていれば落ちないこと
+  assert.deepEqual(
+    runGigaChecks(makeTree(tree), cfg).filter((r) => !r.ok).map((r) => r.id), [],
+    'ただ置き場を変えただけで落ちてはいけない');
+  // 画面側から SKIP_WAITING を消すと落ちる（sw.js には残っている）
+  const broken = { ...tree, 'app.js': tree['app.js'].replace(/SKIP_WAITING/g, 'XXX') };
+  assert.ok(/SKIP_WAITING/.test(broken['sw.js']), '前提: sw.js 側には残っている');
+  assert.ok(ids(failures(broken, { jsDirs: ['.'] })).includes('E_SW_UPDATE_PROMPT'));
+});
+
+test('jsDirs に sw.js が入っていても、C_PAGEHIDE の身代わりにならない', () => {
+  const tree = { ...OK_TREE };
+  tree['app.js'] = tree['js/app.js'].replace(/pagehide/g, 'REMOVED');
+  delete tree['js/app.js'];
+  // sw.js の側に pagehide という語だけがある状態を作る
+  tree['sw.js'] = `${tree['sw.js']}\n// pagehide のことはここでは扱わない\nconst note = 'pagehide';\n`;
+  assert.ok(ids(failures(tree, { jsDirs: ['.'] })).includes('C_PAGEHIDE'));
+});
+
+// ---- 旧リポジトリ名の絶対パスも、CNAME を配信の起点から探す ----
+//
+// E_CNAME は #59 で直したが、E_STALE_REPO_PATH には決め打ちが残っていた。
+// docs/ から配るリポジトリでは「独自ドメインをつかっていません」と言って黙って通る。
+
+test('E_STALE_REPO_PATH が配信の起点の CNAME を見つける', () => {
+  const tree = { ...OK_TREE };
+  delete tree['CNAME'];
+  tree['public/CNAME'] = 'demo-app.giga-school.com\n';
+  tree['public/index.html'] = tree['index.html'];
+  tree['public/offline.html'] = tree['offline.html'];
+  tree['js/app.js'] = `${tree['js/app.js']}\nconst u = '/Demo_App/app.js';\n`;
+  const cfg = { ...CONFIG, siteRoot: 'public', htmlFiles: ['index.html', 'offline.html'] };
+  const rs = runGigaChecks(makeTree(tree), cfg);
+  const stale = rs.find((r) => r.id === 'E_STALE_REPO_PATH');
+  assert.equal(stale.skip, undefined, '黙って飛ばしてはいけない');
+  assert.equal(stale.ok, false);
+});
+
 // ---- manifest が指すアイコンの実体 ----
 //
 // 「並んでいる」と「在る」は別である。maskable の実体は E_MASKABLE_SAFE_ZONE が
