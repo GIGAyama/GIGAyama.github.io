@@ -187,6 +187,40 @@ test('無条件の controllerchange reload は拾う', () => {
   assert.ok(ids(failures(tree)).includes('E_SW_UPDATE_PROMPT'));
 });
 
+test('版の目印が値そのものの形（vite-plugin-pwa 型）も自動生成と認める', () => {
+  // Quarto の src/sw.js がこの形。build-sw-vite.mjs（正本）は両方に対応して
+  // いるのに、ゲートだけが「手書きだ」と落としていた（2026-08-23）。
+  const tree = { ...OK_TREE };
+  tree['sw.js'] = tree['sw.js'].replace(
+    /const APP_VERSION = '[^']*'; \/\* __APP_VERSION__ \*\//,
+    "const APP_VERSION = '__APP_VERSION__';");
+  assert.ok(tree['sw.js'].includes("'__APP_VERSION__';"), '置きかえが空振りした');
+  assert.ok(!ids(failures(tree, { sw: 'vite', swSource: 'sw.js' })).includes('E_SW_VERSION_GENERATED'));
+});
+
+test('版の目印がどこにも無ければ、やはり落とす', () => {
+  const tree = { ...OK_TREE };
+  tree['sw.js'] = tree['sw.js'].replace(/const APP_VERSION = '[^']*'; \/\* __APP_VERSION__ \*\//,
+    "const APP_VERSION = 'v9';");
+  assert.ok(ids(failures(tree, { sw: 'vite', swSource: 'sw.js' })).includes('E_SW_VERSION_GENERATED'));
+});
+
+test('先読みを __WB_MANIFEST に任せる形は、宣言があれば通す', () => {
+  const tree = { ...OK_TREE };
+  tree['sw.js'] = tree['sw.js'].replace(/const PRECACHE_URLS = \[[^\]]*\];/,
+    'const PRECACHE_URLS = (self.__WB_MANIFEST || []).map((e) => e.url);');
+  assert.ok(tree['sw.js'].includes('__WB_MANIFEST'), '置きかえが空振りした');
+  tree['sw-build.config.json'] = '{ "precacheManagedByPlugin": true }';
+  assert.ok(!ids(failures(tree, { sw: 'vite', swSource: 'sw.js' })).includes('E_SW_PRECACHE_OFFLINE'));
+});
+
+test('先読みを __WB_MANIFEST に任せているのに宣言が無ければ落とす（黙って素通りさせない）', () => {
+  const tree = { ...OK_TREE };
+  tree['sw.js'] = tree['sw.js'].replace(/const PRECACHE_URLS = \[[^\]]*\];/,
+    'const PRECACHE_URLS = (self.__WB_MANIFEST || []).map((e) => e.url);');
+  assert.ok(ids(failures(tree, { sw: 'vite', swSource: 'sw.js' })).includes('E_SW_PRECACHE_OFFLINE'));
+});
+
 test('見はりを消した controllerchange を、すぐ下の別の関数の if (!x) で見のがさない', () => {
   // Reversi の移行（2026-08-23）で見つかった見のがし。
   // 見はりの行を丸ごと消しても、90文字ほど下にある
