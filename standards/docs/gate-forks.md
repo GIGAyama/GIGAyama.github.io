@@ -35,9 +35,9 @@
 
 | リポジトリ | 行数 | 版ずれの検出 | 備考 |
 |---|---|---|---|
-| digitalcloset | 304 | **する** | 正本と同じ `__APP_VERSION__` 方式 |
-| quoridor | 360 | **する** | 同上（`E11_APP_VERSION`） |
-| reversi | 331 | **する** | 同上（`SW_NO_VERSION`）。`dist/sw.js` に `'dev'` が残っていないかも見る |
+| digitalcloset | 304 | **する** | 正本と同じ `__APP_VERSION__` 方式。2026-08-22 に正本へ移行済み（#23） |
+| quoridor | 360 | **する** | 同上（`E11_APP_VERSION`）。2026-08-22 に正本へ移行済み（#31） |
+| reversi | 331 | **する** | 同上（`SW_NO_VERSION`）。`dist/sw.js` に `'dev'` が残っていないかも見る。2026-08-23 に正本へ移行済み（#22） |
 | xxx_automatic | 311 | **する** | ゲートではなく `scripts/check-project.mjs` の `SW_VERSION_STALE` が担う。目印の書き方が違うだけで働いている |
 | quarto | 449 | **する**（後から入れた） | `tools/build-sw.mjs` を配って `src/sw.js` に目印を付けた |
 | mirai-compass | 584 | **する**（後から入れた） | 同上。`npm run ci` が `--check` を回す |
@@ -93,6 +93,8 @@ digitalcloset に正本を当てると 38 件中 4 件が落ちた。**どれも
 
 **残る Vite 型（quoridor / reversi / quarto / online-100square-calculation）は
 この下ごしらえの上に乗れる。** 同じ4件で足踏みすることはない。
+（quoridor は 2026-08-22、reversi は 2026-08-23 に完了。残りは quarto と
+online-100square-calculation の2本）
 
 ### 検査の対応づけは、思ったより素直だった
 
@@ -117,6 +119,39 @@ digitalcloset に正本を当てると 38 件中 4 件が落ちた。**どれも
 
 **次の1本でも、変異表は「正本が何を見ているか」を読んでから書き直すこと。**
 旧IDを機械的に置き換えるだけでは、落ちない変異が残る。
+
+## ② の3本目 — reversi（2026-08-23 に完了）
+
+2本目の quoridor と同じ形（正本＋ `scripts/lib/local-checks.mjs`）で収まった。
+行き先が無かったのは5件（`E_SW_EXISTS` / `E_PRECACHE_BUILD_ASSETS` /
+`E3_INSTALL_HOOK_FILE` / `F5_INITIAL_JS` / `E11_VERSION_FILLED`）で、
+quoridor の4件に「`dist/sw.js` の版が `'dev'` のままでないか」が加わっただけ。
+
+### 正本に寄せて出た指摘は、2件とも設定で片づいた
+
+- `B_NO_CDN_CODE` — 本文の書体に Google Fonts を使っていた。読めなくても
+  CSS の代替に落ちるだけなので、艦隊の先例（Shiritori_fighter・KAKE_Master）と
+  同じ `allowedRemoteScripts` に載せた
+- `C_PAGEHIDE` — 1台を2人で囲んで指すアプリで、対局のとちゅうも結果も
+  保存しない。締めて確定する記録が無いので `skips` に理由つきで入れた
+  （quoridor とまったく同じ理由）
+
+**同じ種類のアプリなら、前の1本の判断をそのまま持ってこられる。**
+
+### また正本の欠陥が1件出た。変異表を書くと出てくる
+
+`E_SW_UPDATE_PROMPT` の見はり
+
+    if (!userAskedUpdate || reloading) return;
+
+を**丸ごと消しても落ちなかった**。正本は `controllerchange` から 400 文字の窓で
+見はりを探していて、90 文字ほど下の別の関数の `if (!worker) return;` を
+見はりと読んでいた。中かっこの対応でハンドラ本体だけを見るように直した
+（GIGAyama.github.io#52）。配布先11本へも配った。
+
+1本目でも3本目でも、**見つけたのは変異表を書き直しているとき**である。
+移行そのものより、変異表の書き直しのほうが正本を鍛える。
+急がなくてよいが、飛ばすと得るものが無くなる。
 
 ## schoolplan_editor にもう1件あった（解消済み）
 
