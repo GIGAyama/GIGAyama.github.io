@@ -181,7 +181,14 @@ const cssSources = (root, cfg, withOffline = true) => [
     .flatMap((rel) => {
       const s = read(root, rel);
       if (!s) return [];
-      const blocks = [...s.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]);
+      // ⚠️ 先に HTML コメントを落とす。
+      //    説明文の中に <style> と書いてあると（CSP の注意書きなどでよくある）、
+      //    そこから本物の </style> までが丸ごと「CSS」として読まれる。
+      //    Quarto の index.html では、そうやって取りこまれた 3,164 文字の
+      //    説明文の中に prefers-reduced-motion という語があり、
+      //    本物の CSS からその指定を消しても D_REDUCED_MOTION が通っていた
+      //    （2026-08-23）。検査が「書いてある言葉」で満たされてはいけない。
+      const blocks = [...s.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]);
       return blocks.length ? [{ rel: `${rel} の <style>`, css: blocks.join('\n') }] : [];
     }),
 ];
