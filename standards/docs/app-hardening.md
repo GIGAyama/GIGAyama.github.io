@@ -357,7 +357,9 @@ grep -rnE "!== *-1 *\?.*: *[0-9]+" $(git ls-files '*.gs' '*.html')
   - 利点は大きい: 児童が先生のスプレッドシートにもドライブにも**アクセス権を持たなくてよくなる**（＝児童がシートを直接開けない、`onOpen` を動かせない、初回にメニューを動かした人が管理者になる穴が構造的に塞がる）。
   - 代わりに `Session.getActiveUser().getEmail()` は `access: DOMAIN` に限ってしか取れません。**`access` をドメイン外に開くと空文字になり、誰も管理画面に入れなくなります。** 変えたら本番で「先生のアカウントで管理画面が開けるか」を必ず 1 回確かめること（手元では確かめられません）。
   - 実例: digital-newspaper（2026-08-23 の PR #9）。**この環境では GAS を実行できないため、本番での挙動は未確認のまま出しています。**
-- **GAS へ送るファイルの名前を変えたら、次の反映は「止まる」のが正しい。** `gas-deploy.mjs` の `deletions()` が「送るとGASから消えるファイルがあります」で停止します。1 回だけ `GAS_ALLOW_DELETIONS=1` を付けるか、GAS エディタで古いファイルを先に消す。**止まらないほうが危ない**（学校が使っている最中に消えると戻せない）。
+- **GAS へ送るファイルの名前を変えたら、次の反映は「止まる」のが正しい。** `gas-deploy.mjs` の `deletions()` が「送るとGASから消えるファイルがあります」で停止します。**止まらないほうが危ない**（学校が使っている最中に消えると戻せない）。
+  - **直すのは GAS 側です。** 正本 `deploy.yml` は `GAS_ALLOW_DELETIONS` を Deploy ステップへ渡していないので、**GitHub Actions からは指定できません**（渡すには正本コピーの `deploy.yml` を書き換えることになり、ドリフトが赤くなります）。Apps Script エディタで名前をそろえるか消してから、失敗した run を再実行してください。
+  - **いちばん最初の反映では、ほぼ必ずここで止まります。** スプレッドシートで「拡張機能 → Apps Script」を開くと Google が空の `コード.gs`（英語UIなら `Code.gs`）を 1 つ作るので、リポジトリ側の名前と違えば「消える」と判断されます。**`コード` をリポジトリ側の名前へリネームするのが 1 手で済みます。** 実例: digital-newspaper の初回反映（2026-08-23 / run 32620292424。`clasp pull` が拾ったのは `appsscript.json` と `コード.gs` の 2 本だけ、控えは 436 バイトだった）。手順は `standards/docs/gas-auto-deploy.md`。
 - **`oauthScopes` を広げない。** とくに `executeAs: USER_ACCESSING` で `auth/drive`（フルドライブ）を要求しない（online-publisher-pro と physicaleducation_note が該当）。保護者説明で「子どものドライブ全部を読めます」と言わざるを得なくなります。手本は `townmap_mikke/appsscript.json`（3 スコープ、`Main.gs:18-27` に DriveApp を使わない理由）と `schoolplan_editor`（drive.file に留めている）。
 - **デプロイのやり直しは「デプロイを管理 → 既存デプロイを編集」。「新しいデプロイ」を作らない**（`/exec` の URL が変わり、学級に配ったリンクが全部切れる）。
 - **2 本デプロイ（townmap_mikke / reflection_journal）では `--deploymentId` を外さない。** 崩すと児童用が USER_ACCESSING になり、`openClassSs_` が `CLASS_UNAVAILABLE` を返し続けて、授業中に学級全員の画面が同時に同じエラーになります。
