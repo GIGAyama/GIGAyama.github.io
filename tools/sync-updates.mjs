@@ -301,6 +301,8 @@ function sitemap(data, articles = []) {
     /* フィードも載せておく。更新の速いページとしてクローラに拾わせる */
     entries.push(url('https://giga-school.com/feed.xml', data.generatedAt, 'daily', '0.5'));
   }
+  /* 自己紹介。だれがつくっているのかは、学校で使うかどうかの判断材料になる */
+  entries.push(url('https://giga-school.com/profile/', data.generatedAt, 'monthly', '0.5'));
   /* 掲載用の資料。めったに変わらないが、媒体の担当者に見つけてほしい */
   entries.push(url('https://giga-school.com/press/', data.generatedAt, 'monthly', '0.4'));
 

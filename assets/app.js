@@ -87,7 +87,7 @@
     if (reduceMotion.matches || !('IntersectionObserver' in window)) return;
 
     var targets = Array.prototype.slice.call(
-      document.querySelectorAll('.section__head, .pillar, .card, .info-card, .contact'));
+      document.querySelectorAll('.section__head, .pillar, .card, .info-card, .contact, .profile-brief'));
     if (!targets.length) return;
 
     root.classList.add('js-reveal');

@@ -37,6 +37,7 @@ sitemap.xml           トップページ・紹介ページ・各アプリのサ�
 feed.xml              更新を追うための Atom フィード（tools/sync-updates.mjs が書き出す）
 apps/index.html       紹介ページの一覧（tools/sync-updates.mjs が書き出す）
 press/index.html      掲載用の資料（tools/sync-updates.mjs が書き出す）
+profile/index.html    自己紹介（手で書く。トップページに簡易版の #profile がある）
 apps/<slug>/          アプリの紹介ページ（tools/build-articles.mjs が書き出す）
 assets/
   style.css           スタイル（@layer で reset → tokens → base → layout → components → utilities）
@@ -45,6 +46,8 @@ assets/
   favicon.svg         ファビコン
   apple-touch-icon.png / icon-512.png
   og.png              OGP 画像（1200×630）
+  og-profile.jpg      自己紹介ページの OGP 画像（1200×630）
+  profile.webp / profile-sm.webp   似顔絵（512／256、円に切り抜いた WebP）
   thumbs/<サブドメイン>-1..6.webp   カードの中で切り替わる画面写真（640×400、WebP）
 sw.js                 オフラインでも開けるようにする仕組み（Service Worker）
 data/apps.json        掲載しているものの一覧と、公開日・最終更新日
@@ -192,6 +195,8 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
      に置き換えると、カテゴリ色のタイルが描かれます。
 2. **カテゴリの件数** … 絞り込みボタン（`.chip`）の `<span class="count">` と、
    見出し・ヒーローの本数を合わせて直します。
+   `profile/index.html` にも同じ件数と本数があります（`.stats` と `.chip`）。
+   トップページの `#profile` にある「いまは ◯ 本」も同じです。
 3. **Chrome 拡張機能など** … `#tools` の中のカードを同じ要領で編集します。
 4. `data/apps.json` にも 1 行足します（`repo` / `name` / `kind` / `slug` / `category`）。
    日付は `node tools/sync-updates.mjs --fetch` で埋まります。
@@ -199,7 +204,7 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
 
 ### アプリを取り下げるとき
 
-リポジトリを消した場合は、次の 4 か所から外してください。外し忘れると、
+リポジトリを消した場合は、次の 5 か所から外してください。外し忘れると、
 カードのリンクが 404 になったり、件数が合わなくなったりします。
 
 1. `index.html` の該当する `<li class="card">`
@@ -207,6 +212,7 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
 3. 本数の表記（ヒーローの「◯本」、見出しの「公開中のアプリ（◯本）」、
    絞り込みボタンの件数、`<meta name="description">` と `og:description`）
 4. `data/apps.json` の該当項目
+5. `profile/index.html` の本数・件数と、トップページ `#profile` の「いまは ◯ 本」
 
 `assets/thumbs/<サブドメイン>-*.webp` も不要なら消します。
 毎朝のワークフローは、消えたリポジトリを見つけると
@@ -269,6 +275,27 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
   Actions のページから手で実行することもできます。
 - アプリを増やしたときは、`index.html` にカードを足したあと `data/apps.json` にも 1 行足して
   ください（`--fetch` で日付は埋まります）。
+
+## 自己紹介のページ（/profile/）
+
+つくっているのがだれなのかは、学校で使うかどうかを決めるときの材料になります。
+そこで、詳しい自己紹介を `profile/index.html` に置き、トップページには
+似顔絵と数行だけの簡易版（`#profile`）を出しています。
+
+**このページは手で書きます。** `tools/` は触りません。
+
+- 似顔絵は `assets/profile.webp`（512px）と `assets/profile-sm.webp`（256px）。
+  円に切り抜いた透過 WebP なので、明暗どちらのテーマでも縁が出ません。
+  差し替えるときは同じ名前・同じ形（正方形・円で切り抜き）で置き換えてください
+- 共有されたときの画像は `assets/og-profile.jpg`（1200×630）。SNS のクローラが
+  読めるように、WebP ではなく JPEG にしています
+- カテゴリの件数（`.chip`）と本数（`.stats`）は**手で直します**。トップページの
+  絞り込みボタンと同じ数です。増減したときの直し方は「アプリを追加・変更するとき」に
+  まとめてあります
+- 「これまで」の年表に書いた過去の本数（2025年10月の 10 本、など）は、
+  そのときの事実なので直しません
+- 節の見た目（`.profile-section` / `.profile-title`）は掲載用の資料と同じ組み方です。
+  どちらも通しでは読まれず、見出しを頼りに拾い読みされるページのためです
 
 ## 掲載用の資料（/press/）
 

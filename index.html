@@ -61,8 +61,10 @@
       "@type": "Person",
       "@id": "https://giga-school.com/#person",
       "name": "GIGAyama",
+      "jobTitle": "小学校教員",
       "email": "basstar.1102@gmail.com",
-      "url": "https://github.com/GIGAyama",
+      "url": "https://giga-school.com/profile/",
+      "image": "https://giga-school.com/assets/profile.webp",
       "sameAs": [
         "https://github.com/GIGAyama",
         "https://note.com/cute_borage86"
@@ -788,6 +790,7 @@
         <a href="/apps/" class="is-optional">紹介</a>
         <a href="#tools" class="is-optional">拡張機能</a>
         <a href="#updates" class="is-optional">更新情報</a>
+        <a href="/profile/" class="is-extra">自己紹介</a>
         <a href="#about" class="is-optional">このサイトについて</a>
         <a href="#contact" class="is-compact">お問い合わせ</a>
       </nav>
@@ -2096,6 +2099,37 @@
       </div>
     </section>
 
+    <!-- ============ 簡易プロフィール ============
+         学校で使うかどうかを決める人にとって、「だれがつくっているのか」は判断の材料になる。
+         ここでは似顔絵と数行だけ置き、くわしくは /profile/ に回す。 -->
+    <section class="section" id="profile" aria-labelledby="profile-title">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="section__eyebrow">PROFILE</p>
+          <h2 id="profile-title" class="section__title">つくっている人</h2>
+        </div>
+        <div class="profile-brief">
+          <img class="profile-avatar" src="/assets/profile-sm.webp"
+               srcset="/assets/profile-sm.webp 256w, /assets/profile.webp 512w"
+               sizes="(max-width: 560px) 96px, 132px"
+               width="512" height="512" loading="lazy" decoding="async" alt="GIGAyama の似顔絵">
+          <div>
+            <p class="profile-name">GIGAyama</p>
+            <p class="profile-role">小学校教員／このサイトのアプリをつくっている人</p>
+            <!-- 本数は手で直す（README「アプリを追加・変更するとき」の手順に入れてある） -->
+            <p class="profile-text">
+              授業や学級の仕事のなかで「これがあれば」と思ったものを自分でつくり、そのまま公開しています。
+              2025 年 10 月にはじめて、いまは 41 本。費用はかからず、ソースコードもすべて見られます。
+            </p>
+            <p class="profile-acts">
+              <a class="btn btn--primary" href="/profile/">くわしい自己紹介を読む<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+              <a class="btn btn--ghost" href="https://note.com/cute_borage86" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>note を読む</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ このサイトについて ============ -->
     <section class="section section--sunken" id="about" aria-labelledby="about-title">
       <div class="wrap">
@@ -2169,6 +2203,7 @@
         <a href="/apps/">紹介</a>
         <a href="#tools">拡張機能</a>
         <a href="#updates">更新情報</a>
+        <a href="/profile/">自己紹介</a>
         <a href="#about">このサイトについて</a>
         <a href="#contact">お問い合わせ</a>
         <a href="https://github.com/GIGAyama" rel="noopener">GitHub</a>

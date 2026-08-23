@@ -361,7 +361,10 @@
   .site-nav a:hover { color: var(--ink); background: var(--surface-2); }
   .site-nav a { white-space: nowrap; }
 
-  /* 画面が狭いときは、順に項目を減らして 1 行に収める */
+  /* 画面が狭いときは、順に項目を減らして 1 行に収める。
+     項目は折り返さないので、入りきらない幅では先に減らすしかない。
+     いちばん先に消えるのが is-extra（自己紹介。フッターとトップの節からも行ける） */
+  @media (max-width: 1020px) { .site-nav .is-extra { display: none; } }
   @media (max-width: 860px) { .site-nav .is-optional { display: none; } }
   @media (max-width: 560px) {
     .brand__sub { display: none; }
@@ -1866,6 +1869,136 @@
   /* 紙にするときは、コピーのボタンとダウンロードの導線は要らない */
   @media print {
     .press-copy, .press-logos { display: none; }
+  }
+
+  /* ---------- 自己紹介（/profile/ と、トップに置く簡易版） ----------
+     読む人がいちばん知りたいのは「だれがつくっているのか」。
+     似顔絵を 1 枚だけ大きく出し、あとは文字で並べる。
+     似顔絵は本文の代わりではないので、読み上げには短い説明だけを渡す。 */
+  .profile-avatar {
+    inline-size: clamp(104px, 15vw, 168px);
+    block-size: auto;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--brand-softer);
+  }
+  .profile-name { font-size: 1.3rem; font-weight: 700; }
+  .profile-role {
+    margin-block-start: var(--s-2);
+    font-size: .9375rem;
+    font-weight: 700;
+    color: var(--brand);
+  }
+  .profile-text {
+    margin-block-start: var(--s-3);
+    max-inline-size: var(--measure-text);
+    font-size: .9375rem;
+    line-height: 1.9;
+    color: var(--ink-2);
+  }
+  .profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+    margin-block-start: var(--s-4);
+    font-size: .875rem;
+    font-weight: 600;
+  }
+  .profile-acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-5);
+  }
+
+  /* 自己紹介ページの見出しまわり */
+  .profile-hero {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(20px, 4vw, 40px);
+    align-items: center;
+    margin-block: var(--s-5) var(--s-6);
+  }
+  .profile-hero .profile-name { font-size: clamp(1.55rem, 1.2rem + 1.6vw, 2.1rem); }
+
+  /* 節。掲載用の資料と同じ組み方にする。どちらも通しでは読まれず、
+     見出しを頼りに拾い読みされるページなので、見え方をそろえる。 */
+  .profile-section {
+    max-inline-size: var(--measure-text);
+    margin-block-start: var(--s-7);
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--line);
+  }
+  .profile-title { font-size: 1.0625rem; font-weight: 700; }
+  .profile-body {
+    margin-block-start: var(--s-3);
+    font-size: .9375rem;
+    line-height: 1.9;
+    color: var(--ink-2);
+  }
+  .profile-body b { color: var(--ink); }
+  .profile-body p + p { margin-block-start: var(--s-4); }
+  .profile-body ul { margin: var(--s-3) 0; padding-inline-start: 1.4em; list-style: disc; }
+  .profile-body li { margin-block: 4px; }
+  .profile-section .stats { margin-block-start: var(--s-4); inline-size: 100%; }
+  /* カテゴリの内訳は、トップの絞り込みボタンをそのままリンクにして使う */
+  .profile-section .chip { text-decoration: none; }
+  /* よくいただく質問は掲載用の資料と同じ組み方（.press-faq）を借りる。
+     あちらは見出しの下に説明文が入るが、こちらは問いが直に続くので、その分だけ空ける */
+  .profile-section > .press-faq:first-of-type { margin-block-start: var(--s-4); }
+
+  /* これまでの歩み。日付の語が長いので、updates の 2 段組みは使わず縦に積む */
+  .profile-steps { display: grid; margin-block-start: var(--s-3); }
+  .profile-step {
+    padding-block: var(--s-3);
+    border-block-end: 1px solid var(--line);
+  }
+  .profile-step:last-child { border-block-end: 0; }
+  .profile-step__when {
+    position: relative;
+    padding-inline-start: 15px;
+    font-size: .8125rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--brand);
+  }
+  .profile-step__when::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: .5em;
+    inline-size: 7px;
+    block-size: 7px;
+    border-radius: 50%;
+    background: var(--brand);
+  }
+  .profile-step__what {
+    margin-block-start: 2px;
+    font-size: .9375rem;
+    line-height: 1.9;
+    color: var(--ink-2);
+  }
+
+  /* トップページに置く簡易版 */
+  .profile-brief {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    /* 本文は 68ch で折り返すので、枠だけ画面幅いっぱいに広げても右が空くだけ */
+    max-inline-size: 880px;
+    gap: clamp(20px, 4vw, 40px);
+    align-items: center;
+    padding: clamp(20px, 4vw, 36px);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-1);
+  }
+  .profile-brief .profile-avatar { inline-size: clamp(88px, 12vw, 132px); }
+
+  /* 狭い画面では似顔絵を上に置く。横に並べたままだと、本文が数語で折り返す */
+  @media (max-width: 560px) {
+    .profile-hero,
+    .profile-brief { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
   }
 
   /* ---------- 情報ボックス ---------- */
