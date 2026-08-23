@@ -10,7 +10,7 @@
  * ===================================================================== */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { deletions, fileStem, deploymentIds } from './gas-deploy.mjs';
+import { deletions, fileStem, deploymentIds, filesToPush, claspIgnoreRule } from './gas-deploy.mjs';
 
 // ── 消えるファイルの判定 ────────────────────────────────────
 
@@ -91,4 +91,76 @@ test('複数の指定があるときは、そちらを使う', () => {
 test('どちらも無ければ空（呼び出し側が止める）', () => {
   assert.deepEqual(deploymentIds({}), []);
   assert.deepEqual(deploymentIds({ GAS_DEPLOYMENT_ID: '   ' }), []);
+});
+
+/* ------------------------------------------------------------------ */
+/* .claspignore を見ずに「消えるファイル」を数えていた穴（2026-08-23）  */
+/*                                                                     */
+/* haiku-meeting のリポジトリには index.html があるが、それはサイトの   */
+/* トップで、.claspignore で外してある。それでも名前が同じというだけで  */
+/* 「安全」と数えられ、本番の index.html が警告なしに消えるところだった。*/
+/* ------------------------------------------------------------------ */
+
+const HAIKU_CLASPIGNORE = [
+  '# コメント行は無視する',
+  '**/**',
+  '!appsscript.json',
+  '!*.gs',
+  '!app.html',
+  '!css.html',
+  '!app-shell.html',
+  '!vendor.html',
+].join('\n');
+
+const REPO_FILES = [
+  'appsscript.json', 'code.gs', 'app-shell.html', 'app.html', 'css.html', 'vendor.html',
+  'index.html', 'privacy.html', 'terms.html', 'package.json', 'quality.config.json',
+];
+
+test('.claspignore で外したファイルは「送るもの」に数えない', () => {
+  assert.deepEqual(
+    filesToPush(REPO_FILES, HAIKU_CLASPIGNORE).sort(),
+    ['app-shell.html', 'app.html', 'appsscript.json', 'code.gs', 'css.html', 'vendor.html']
+  );
+});
+
+test('外したファイルと同じ名前のものが GAS にあれば、消えると分かる', () => {
+  // これがこの修正の要。以前は index.html を「リポジトリにある」と数えたため、
+  // 本番の index.html が消えることに気づけなかった。
+  const inRepo = filesToPush(REPO_FILES, HAIKU_CLASPIGNORE);
+  assert.deepEqual(deletions(['index.html', 'code.gs'], inRepo), ['index.html']);
+});
+
+test('.claspignore が無いときは、絞り込まない（clasp の既定に任せる）', () => {
+  assert.deepEqual(filesToPush(REPO_FILES, null), REPO_FILES);
+});
+
+test('空の .claspignore でも、絞り込まない', () => {
+  assert.deepEqual(filesToPush(REPO_FILES, '\n#だけ\n'), REPO_FILES);
+});
+
+test('あとに書いた規則が勝つ（gitignore と同じ）', () => {
+  assert.deepEqual(filesToPush(['a.gs', 'b.gs'], '*.gs\n!b.gs'), ['b.gs']);
+  assert.deepEqual(filesToPush(['a.gs', 'b.gs'], '!b.gs\n*.gs'), []);
+});
+
+test('** は区切りをまたぐが、* はまたがない', () => {
+  assert.deepEqual(filesToPush(['dist/a.gs', 'a.gs'], 'dist/**'), ['a.gs']);
+  assert.deepEqual(filesToPush(['dist/a.gs', 'a.gs'], '*.gs'), ['dist/a.gs']);
+});
+
+test('node_modules のような入れ子も外せる', () => {
+  const files = ['code.gs', 'node_modules/x/y.js', 'node_modules/x/z.json'];
+  assert.deepEqual(filesToPush(files, 'node_modules/**'), ['code.gs']);
+});
+
+test('知らない書き方は、分かったふりをせず例外にする', () => {
+  // 素通りさせると「送らないのに安全と数える」穴が別の形で開く。
+  assert.throws(() => claspIgnoreRule('src/[ab].gs'), /読み取れません/);
+  assert.throws(() => claspIgnoreRule('a?.gs'), /読み取れません/);
+});
+
+test('点を含む名前を、正規表現の「任意の1文字」として扱わない', () => {
+  assert.deepEqual(filesToPush(['axhtml', 'a.html'], '!a.html\n**/**'), []);
+  assert.deepEqual(filesToPush(['axhtml', 'a.html'], '**/**\n!a.html'), ['a.html']);
 });
