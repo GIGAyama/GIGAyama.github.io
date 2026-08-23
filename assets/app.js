@@ -378,10 +378,11 @@
   var clearBtn = finder.querySelector('.search__clear');
   /* 絞り込みは 2 本立て。教科・分野（data-cat）と、つかいかた（data-use）。
      2 つは掛け合わせで効く（例：国語 × みんなでやる） */
-  var catChips = Array.prototype.slice.call(finder.querySelectorAll('.chip[data-cat]'));
-  var useChips = Array.prototype.slice.call(finder.querySelectorAll('.chip[data-use]'));
+  var filters = { cat: finder.querySelector('[data-filter="cat"]'),
+                  use: finder.querySelector('[data-filter="use"]') };
   var status = finder.querySelector('[data-status]');
-  var resetBtn = document.querySelector('[data-reset]');
+  var resetBtns = Array.prototype.slice.call(document.querySelectorAll('[data-reset]'));
+  var clearBtn2 = finder.querySelector('.finder__clear');
   var forgetBtn = finder.querySelector('[data-forget]');
 
   /* ---------- かな → ローマ字 ----------
@@ -625,6 +626,13 @@
         : cards.length + ' 件中 ' + shown + ' 件を表示しています';
     }
 
+    /* 何かで絞っているときだけ、外すボタンを出す。
+       押しボタンを並べていたころは「すべて」を押し直せたが、
+       プルダウンでは 2 つ戻す手間になるため */
+    if (clearBtn2) {
+      clearBtn2.hidden = state.cat === 'all' && state.use === 'all' && !state.q;
+    }
+
     /* 状態を URL に残す（共有・再読み込みで復元できる）。
        読み込み直後は書き換えない。ここで # を付けると、
        ブラウザがその位置まで勝手にスクロールしてしまうため。 */
@@ -666,36 +674,37 @@
     });
   }
 
-  /* 同じ系統の中では 1 つだけ選べる。系統をまたぐと掛け合わせになる */
-  function bindChips(group, key) {
-    group.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        state[key] = chip.dataset[key] || 'all';
-        group.forEach(function (c) {
-          c.setAttribute('aria-pressed', String(c === chip));
-        });
-        apply(true);
-      });
-    });
-  }
-  bindChips(catChips, 'cat');
-  bindChips(useChips, 'use');
-
-  function pressChips(group, key, value) {
-    group.forEach(function (c) {
-      c.setAttribute('aria-pressed', String((c.dataset[key] || 'all') === value));
-    });
-  }
-
-  if (resetBtn) {
-    resetBtn.addEventListener('click', function () {
-      if (input) input.value = '';
-      state = { q: '', cat: 'all', use: 'all', sort: state.sort };
-      pressChips(catChips, 'cat', 'all');
-      pressChips(useChips, 'use', 'all');
+  /* 系統ごとに 1 つ選ぶ。系統をまたぐと掛け合わせになる */
+  Object.keys(filters).forEach(function (key) {
+    var el = filters[key];
+    if (!el) return;
+    el.addEventListener('change', function () {
+      state[key] = el.value || 'all';
       apply(true);
     });
+  });
+
+  /* 選び直したものを画面に戻す（URL からの復元と「絞り込みを外す」で使う） */
+  function showFilter(key, value) {
+    var el = filters[key];
+    if (!el) return;
+    var known = Array.prototype.some.call(el.options, function (o) { return o.value === value; });
+    if (!known) return false;
+    el.value = value;
+    return true;
   }
+
+  resetBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (input) input.value = '';
+      state = { q: '', cat: 'all', use: 'all', sort: state.sort };
+      showFilter('cat', 'all');
+      showFilter('use', 'all');
+      apply(true);
+      /* 絞り込みバーの下のボタンは、押した拍子に消える。焦点が宙に浮かないよう検索へ戻す */
+      if (btn === clearBtn2 && input) input.focus();
+    });
+  });
 
   if (forgetBtn) {
     forgetBtn.addEventListener('click', function () {
@@ -744,14 +753,8 @@
       state.sort = 'name';
       if (sortSelect) sortSelect.value = 'name';
     }
-    if (cat && catChips.some(function (c) { return c.dataset.cat === cat; })) {
-      state.cat = cat;
-      pressChips(catChips, 'cat', cat);
-    }
-    if (use && useChips.some(function (c) { return c.dataset.use === use; })) {
-      state.use = use;
-      pressChips(useChips, 'use', use);
-    }
+    if (cat && showFilter('cat', cat)) state.cat = cat;
+    if (use && showFilter('use', use)) state.use = use;
     apply(false);
   })();
 })();

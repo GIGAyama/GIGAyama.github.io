@@ -195,11 +195,11 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
      画像がまだ無いときは
      `<div class="card__media card__media--tile" data-initial="頭文字"></div>`
      に置き換えると、カテゴリ色のタイルが描かれます。
-2. **絞り込みの件数** … 教科・分野とつかいかた、**両方の**ボタン（`.chip`）の
-   `<span class="count">` と、見出し・ヒーローの本数を合わせて直します。
-   `profile/index.html` にも同じ件数と本数があります（`.stats` と `.chip`）。
+2. **絞り込みの件数** … 教科・分野とつかいかた、**両方の**プルダウンの選択肢
+   （`<option value="kokugo">国語・言葉（8）</option>` の数字）と、見出し・ヒーローの本数を
+   合わせて直します。`profile/index.html` にも同じ件数と本数があります（`.stats` と `.chip`）。
    トップページの `#profile` にある「いまは ◯ 本」も同じです。
-   数え違いは `node tools/check-cards.mjs` が見つけて止めます。
+   数え違いは `node tools/check-cards.mjs` が見つけて止めます（トップと自己紹介ページの両方を見ます）。
 3. **Chrome 拡張機能など** … `#tools` の中のカードを同じ要領で編集します。
 4. `data/apps.json` にも 1 行足します（`repo` / `name` / `kind` / `slug` / `category`）。
    日付は `node tools/sync-updates.mjs --fetch` で埋まります。
@@ -213,7 +213,7 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
 1. `index.html` の該当する `<li class="card">`
 2. `index.html` の先頭にある構造化データ（`application/ld+json`）の該当項目と `numberOfItems`
 3. 本数の表記（ヒーローの「◯本」、見出しの「公開中のアプリ（◯本）」、
-   絞り込みボタンの件数（教科・分野とつかいかたの両方）、
+   絞り込みの選択肢の件数（教科・分野とつかいかたの両方）、
    `<meta name="description">` と `og:description`）
 4. `data/apps.json` の該当項目
 5. `profile/index.html` の本数・件数と、トップページ `#profile` の「いまは ◯ 本」
@@ -254,6 +254,17 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
 
 URL にも残ります（`/?cat=kokugo&use=minna#apps`）。自己紹介ページからは、この形で
 それぞれの分類へリンクしています。
+
+### 見た目は 2 つのプルダウン
+
+はじめは押しボタン（`.chip`）を 2 列に並べていました。**18 個が 1 つの塊に見えて、
+どれが何の列なのか分からない**という問題があり、選ぶものは選ぶ形にしました。
+
+- 探し方のバーは、ことばで探す欄と、選ぶもの 3 つ（教科・分野／つかいかた／並び順）
+- 件数は選択肢の中に入れます（「国語・言葉（8）」）
+- 何かで絞っているあいだは、枠に色が付き、「絞り込みを外す」が出ます
+- 押しボタンは自己紹介ページの内訳（`/profile/`）に残しています。あちらは
+  絞り込む道具ではなく、**どんな分類があるかを見せる一覧**なので、並んでいるほうが読めます
 
 ## サムネイルについて
 
@@ -326,9 +337,9 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
   差し替えるときは同じ名前・同じ形（正方形・円で切り抜き）で置き換えてください
 - 共有されたときの画像は `assets/og-profile.jpg`（1200×630）。SNS のクローラが
   読めるように、WebP ではなく JPEG にしています
-- カテゴリの件数（`.chip`）と本数（`.stats`）は**手で直します**。トップページの
-  絞り込みボタンと同じ数です。増減したときの直し方は「アプリを追加・変更するとき」に
-  まとめてあります
+- 内訳の件数（`.chip`）と本数（`.stats`）は**手で直します**。トップページの
+  絞り込みの選択肢と同じ数です。増減したときの直し方は「アプリを追加・変更するとき」に
+  まとめてあります。数え違いは `node tools/check-cards.mjs` が見つけて止めます
 - 「これまで」の年表に書いた過去の本数（2025年10月の 10 本、など）は、
   そのときの事実なので直しません
 - 節の見た目（`.profile-section` / `.profile-title`）は掲載用の資料と同じ組み方です。

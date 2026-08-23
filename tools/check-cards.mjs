@@ -62,23 +62,51 @@ ok(noUse.length === 0, `data-use の無いカードが無い（カード ${cards
 const unknown = [...uses].flatMap(([slug, v]) => v.filter((u) => !USES.includes(u)).map((u) => `${slug}:${u}`));
 ok(unknown.length === 0, '知らない「つかいかた」が無い', unknown.join(', '));
 
-console.log('\n■ 絞り込みボタンの件数が、カードの数と合っている');
-/* ボタンに書いてある数を読む */
-const chipCount = (attr, id) =>
-  Number(html.match(new RegExp(`data-${attr}="${id}"[^>]*>(?:(?!</button>)[\\s\\S])*?<span class="count">(\\d+)</span>`))?.[1]);
+console.log('\n■ 絞り込みの選択肢の件数が、カードの数と合っている');
+/* <select data-filter="cat"> の中の <option value="kokugo">国語・言葉（8）</option> を読む。
+   選択肢は 2 つの系統にあり、同じ value（all / そのほか）が両方に出てくるので、
+   まず系統ごとに切り出してから数を拾う。 */
+const selectOf = (name) =>
+  html.match(new RegExp(`<select[^>]*data-filter="${name}"[\\s\\S]*?</select>`))?.[0] ?? '';
 
-const catOf = (c) => c.attrs.match(/data-cat="([^"]*)"/)?.[1] ?? '';
+const optionCount = (name, id) =>
+  Number(selectOf(name).match(new RegExp(`<option value="${id}">[^<（]*（(\\d+)）</option>`))?.[1]);
+
+const realCat = (id) => cards.filter((c) => (c.attrs.match(/data-cat="([^"]*)"/)?.[1] ?? '') === id).length;
+const realUse = (id) => [...uses.values()].filter((v) => v.includes(id)).length;
+
 for (const id of CATS) {
-  const real = cards.filter((c) => catOf(c) === id).length;
-  ok(chipCount('cat', id) === real, `教科・分野：${id} は ${real} 本`, `ボタンには ${chipCount('cat', id)} と書いてある`);
+  ok(optionCount('cat', id) === realCat(id), `教科・分野：${id} は ${realCat(id)} 本`,
+     `選択肢には ${optionCount('cat', id)} と書いてある`);
 }
 for (const id of USES) {
-  const real = [...uses.values()].filter((v) => v.includes(id)).length;
-  ok(chipCount('use', id) === real, `つかいかた：${id} は ${real} 本`, `ボタンには ${chipCount('use', id)} と書いてある`);
+  ok(optionCount('use', id) === realUse(id), `つかいかた：${id} は ${realUse(id)} 本`,
+     `選択肢には ${optionCount('use', id)} と書いてある`);
 }
 /* 「すべて」は両方の系統に 1 つずつある。どちらもカードの総数 */
-ok(chipCount('cat', 'all') === cards.length, `「すべて」（教科・分野）は ${cards.length} 本`, chipCount('cat', 'all'));
-ok(chipCount('use', 'all') === cards.length, `「すべて」（つかいかた）は ${cards.length} 本`, chipCount('use', 'all'));
+for (const name of ['cat', 'use']) {
+  ok(optionCount(name, 'all') === cards.length, `「すべて」（${name}）は ${cards.length} 本`, optionCount(name, 'all'));
+}
+
+/* -----------------------------------------------------------------
+ * 自己紹介ページの内訳
+ * -----------------------------------------------------------------
+ * /profile/ にも同じ数字が並んでいる。トップだけ直して片方が古くなると、
+ * 「8 本」と書いてあるボタンを押したら 7 本、ということが起きる。
+ * --------------------------------------------------------------- */
+console.log('\n■ 自己紹介ページの内訳が、カードの数と合っている');
+const profile = readFileSync(new URL('../profile/index.html', import.meta.url), 'utf8');
+const profileCount = (attr, id) =>
+  Number(profile.match(new RegExp(`href="/\\?${attr}=${id}#apps"[^>]*>[^<]*<span class="count">(\\d+)</span>`))?.[1]);
+
+for (const id of CATS) {
+  ok(profileCount('cat', id) === realCat(id), `教科・分野：${id} は ${realCat(id)} 本`,
+     `自己紹介ページには ${profileCount('cat', id)} と書いてある`);
+}
+for (const id of USES) {
+  ok(profileCount('use', id) === realUse(id), `つかいかた：${id} は ${realUse(id)} 本`,
+     `自己紹介ページには ${profileCount('use', id)} と書いてある`);
+}
 
 console.log(failed === 0 ? '\n✅ すべて通りました' : `\n❌ ${failed} 件 通りませんでした`);
 process.exit(failed === 0 ? 0 : 1);

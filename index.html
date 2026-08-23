@@ -900,56 +900,54 @@
           <p class="section__eyebrow">WEB APPS</p>
           <h2 id="apps-title" class="section__title">公開中のアプリ（38 本）</h2>
           <p class="section__lead">
-            <b>教科・分野</b>と<b>つかいかた</b>の 2 つで絞り込めます（掛け合わせもできます）。
-            アプリ名や説明のことばでも検索できます。
+            <b>教科・分野</b>（何の時間に使うか）と<b>つかいかた</b>（学びのどの場面を助けるか）で
+            絞り込めます。2 つは掛け合わせられます。アプリ名や説明のことばでも検索できます。
             各アプリのプライバシーポリシーと利用規約は、それぞれのアプリの中に置いています。
             <a href="/apps/">紹介の記事だけを読む</a>こともできます。
           </p>
         </div>
 
+        <!-- 探し方は 3 つ（ことば・教科・つかいかた）。押しボタンで並べていたころは
+             18 個が 1 つの塊に見えて、どれが何の列なのか分からなかった。
+             選ぶものは選ぶ形（プルダウン）にして、1 本のバーに収める。
+             件数は選択肢の中に入れる。数字は手で直す（README 参照）。 -->
         <div class="finder" data-finder>
-          <div class="search">
-            <span class="search__icon"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"/></svg></span>
-            <label class="visually-hidden" for="app-search">アプリを検索</label>
-            <input type="search" id="app-search" placeholder="アプリを検索（例：作文、計算、ふりかえり）" autocomplete="off" spellcheck="false">
-            <button type="button" class="search__clear" aria-label="検索語を消す"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
-          </div>
-          <!-- 絞り込みは 2 本立て。「何の時間か」で探す人と、「何をさせたいか」で探す人がいる。
-               2 つは掛け合わせで効く（例：国語 × みんなでやる）。件数は手で直す（README 参照）。 -->
-          <div class="filters">
-            <div class="filter">
-              <p class="filter__label" id="filter-cat">教科・分野</p>
-              <div class="chips" role="group" aria-labelledby="filter-cat">
-                <button type="button" class="chip" data-cat="all" aria-pressed="true">すべて<span class="count">38</span></button>
-                <button type="button" class="chip" data-cat="kokugo" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>国語・言葉<span class="count">8</span></button>
-                <button type="button" class="chip" data-cat="sansu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>算数<span class="count">5</span></button>
-                <button type="button" class="chip" data-cat="tankyu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>学習・探究<span class="count">7</span></button>
-                <button type="button" class="chip" data-cat="gakkyu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>学級経営<span class="count">2</span></button>
-                <button type="button" class="chip" data-cat="koumu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>授業づくり・校務<span class="count">4</span></button>
-                <button type="button" class="chip" data-cat="seisaku" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>表現・制作<span class="count">2</span></button>
-                <button type="button" class="chip" data-cat="game" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>ゲーム・対戦<span class="count">8</span></button>
-                <button type="button" class="chip" data-cat="other" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>そのほか<span class="count">2</span></button>
-              </div>
+          <div class="finder__bar">
+            <div class="search">
+              <span class="search__icon"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"/></svg></span>
+              <label class="visually-hidden" for="app-search">アプリを検索</label>
+              <input type="search" id="app-search" placeholder="アプリを検索（例：作文、計算、ふりかえり）" autocomplete="off" spellcheck="false">
+              <button type="button" class="search__clear" aria-label="検索語を消す"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
             </div>
-            <div class="filter">
-              <p class="filter__label" id="filter-use">つかいかた</p>
-              <div class="chips" role="group" aria-labelledby="filter-use">
-                <button type="button" class="chip" data-use="all" aria-pressed="true">すべて<span class="count">38</span></button>
-                <button type="button" class="chip" data-use="susumu" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>自分で進める<span class="count">2</span></button>
-                <button type="button" class="chip" data-use="renshu" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>練習する<span class="count">8</span></button>
-                <button type="button" class="chip" data-use="shiraberu" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>調べる<span class="count">3</span></button>
-                <button type="button" class="chip" data-use="tsukuru" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>つくる<span class="count">5</span></button>
-                <button type="button" class="chip" data-use="furikaeru" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>ふりかえる<span class="count">5</span></button>
-                <button type="button" class="chip" data-use="minna" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>みんなでやる<span class="count">10</span></button>
-                <button type="button" class="chip" data-use="sensei" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>先生の仕事<span class="count">5</span></button>
-                <button type="button" class="chip" data-use="hoka" aria-pressed="false"><span class="visually-hidden">つかいかた：</span>そのほか<span class="count">2</span></button>
-              </div>
+            <div class="picker">
+              <label for="app-cat">教科・分野</label>
+              <select id="app-cat" data-filter="cat">
+                <option value="all">すべて（38）</option>
+                <option value="kokugo">国語・言葉（8）</option>
+                <option value="sansu">算数（5）</option>
+                <option value="tankyu">学習・探究（7）</option>
+                <option value="gakkyu">学級経営（2）</option>
+                <option value="koumu">授業づくり・校務（4）</option>
+                <option value="seisaku">表現・制作（2）</option>
+                <option value="game">ゲーム・対戦（8）</option>
+                <option value="other">そのほか（2）</option>
+              </select>
             </div>
-          </div>
-          <div class="finder__foot">
-            <p class="finder__status" data-status role="status" aria-live="polite">38 件すべてを表示しています</p>
-            <button type="button" class="finder__forget" data-forget hidden>開いた記録を消す</button>
-            <div class="sorter">
+            <div class="picker">
+              <label for="app-use">つかいかた</label>
+              <select id="app-use" data-filter="use">
+                <option value="all">すべて（38）</option>
+                <option value="susumu">自分で進める（2）</option>
+                <option value="renshu">練習する（8）</option>
+                <option value="shiraberu">調べる（3）</option>
+                <option value="tsukuru">つくる（5）</option>
+                <option value="furikaeru">ふりかえる（5）</option>
+                <option value="minna">みんなでやる（10）</option>
+                <option value="sensei">先生の仕事（5）</option>
+                <option value="hoka">そのほか（2）</option>
+              </select>
+            </div>
+            <div class="picker">
               <label for="app-sort">並び順</label>
               <select id="app-sort" data-sort>
                 <option value="name">名前順</option>
@@ -958,6 +956,11 @@
                 <option value="updated">最近手を入れた順</option>
               </select>
             </div>
+          </div>
+          <div class="finder__foot">
+            <p class="finder__status" data-status role="status" aria-live="polite">38 件すべてを表示しています</p>
+            <button type="button" class="finder__clear" data-reset hidden>絞り込みを外す</button>
+            <button type="button" class="finder__forget" data-forget hidden>開いた記録を消す</button>
           </div>
         </div>
 

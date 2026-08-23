@@ -685,6 +685,32 @@
     .finder { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
   }
 
+  /* 探し方のバー。ことばで探す欄と、選ぶもの 3 つ（教科・つかいかた・並び順）。
+     押しボタン 18 個を並べていたころは、どれが何の列なのか見て分からなかった。
+     選ぶものは選ぶ形にして、1 行に収める。 */
+  .finder__bar {
+    display: grid;
+    grid-template-columns: minmax(200px, 1.7fr) repeat(3, minmax(120px, 1fr));
+    gap: var(--s-3);
+    align-items: end;
+  }
+  /* 狭いところでは、検索を 1 行使い、選ぶものを 2 列に折る */
+  @media (max-width: 900px) {
+    .finder__bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .finder__bar .search { grid-column: 1 / -1; }
+  }
+  @media (max-width: 420px) {
+    .finder__bar { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .picker { display: grid; gap: 6px; min-inline-size: 0; }
+  .picker > label {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+  }
+
   .search {
     position: relative;
     display: flex;
@@ -731,21 +757,6 @@
   }
   .search__clear:hover { background: var(--surface-2); color: var(--ink); }
   .search:not(:has(input:not(:placeholder-shown))) .search__clear { display: none; }
-
-  /* 絞り込みは 2 本立て（教科・分野／つかいかた）。どちらの列かが見て分かるよう、
-     小さな見出しを付ける。付けないと 17 個のボタンが 1 つの塊に見える */
-  .filters {
-    display: grid;
-    gap: var(--s-4);
-    margin-block-start: var(--s-4);
-  }
-  .filter__label {
-    font-size: .75rem;
-    font-weight: 700;
-    letter-spacing: .04em;
-    color: var(--ink-3);
-  }
-  .filter .chips { margin-block-start: var(--s-2); }
 
   .chips {
     display: flex;
@@ -798,6 +809,7 @@
     font-variant-numeric: tabular-nums;
   }
   /* 開いた記録があるときだけ出る */
+  .finder__clear,
   .finder__forget {
     border: 0;
     padding: 0;
@@ -808,19 +820,17 @@
     text-underline-offset: 3px;
     cursor: pointer;
   }
+  .finder__clear:hover,
   .finder__forget:hover { color: var(--ink); }
+  .finder__clear[hidden],
   .finder__forget[hidden] { display: none; }
+  .finder__clear { color: var(--brand); font-weight: 700; }
+  .finder__clear:hover { color: var(--brand-ink); }
+  /* 知らせは左、操作は右へ寄せる */
+  .finder__status { margin-inline-end: auto; }
 
   /* ---------- 並び替え ---------- */
-  .sorter {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    font-size: .8125rem;
-    color: var(--ink-3);
-  }
-  .sorter label { font-weight: 600; white-space: nowrap; }
-  .sorter select {
+  .picker select {
     appearance: none;
     padding: 6px 30px 6px 12px;
     border: 1px solid var(--line-strong);
@@ -834,13 +844,23 @@
     background-size: 5px 5px, 5px 5px;
     background-repeat: no-repeat;
     color: var(--ink);
-    font-size: .8125rem;
+    font-size: .875rem;
     font-weight: 600;
+    inline-size: 100%;
+    min-block-size: 42px;
     cursor: pointer;
+    text-overflow: ellipsis;
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
   }
-  .sorter select:hover { border-color: var(--brand); }
-  .sorter select:focus-visible {
+  .picker select:hover { border-color: var(--brand); }
+  /* いま絞っているものは、閉じていても見て分かるようにする。
+     :has が無いブラウザでは色が付かないだけで、選んだ中身は出る */
+  .picker select[data-filter]:not(:has(option[value="all"]:checked)) {
+    border-color: var(--brand);
+    color: var(--brand-ink);
+    background-color: var(--brand-softer);
+  }
+  .picker select:focus-visible {
     outline: none;
     border-color: var(--brand);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
