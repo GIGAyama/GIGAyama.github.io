@@ -203,6 +203,25 @@ test('説明文の中の <style> から本物の </style> までを CSS とし�
   assert.ok(failed.includes('D_REDUCED_MOTION'), `説明文で満たされました: ${failed.join(', ')}`);
 });
 
+test('CNAME を配信の起点に置くリポジトリでも見る（黙って通さない）', () => {
+  // SchoolPlan_Editor は docs/CNAME を持つ。直下に決め打ちしていたころは
+  // 「独自ドメインをつかっていません」と言って素通りしていた（2026-08-23）。
+  const tree = {};
+  for (const [k, v] of Object.entries(OK_TREE)) tree[`docs/${k}`] = v;
+  tree['docs/CNAME'] = 'example.com\nsecond.example.com\n';   // 2行あるので落ちるはず
+  const cfg = {
+    entryHtml: 'docs/index.html', siteRoot: 'docs', swSource: 'docs/sw.js',
+    manifest: 'docs/manifest.webmanifest', jsDirs: ['docs/js'], cssDirs: ['docs/css'],
+    htmlFiles: ['docs/index.html', 'docs/offline.html'], imageDirs: ['docs/icons'],
+  };
+  assert.ok(ids(failures(tree, cfg)).includes('E_CNAME'));
+});
+
+test('CNAME が直下にあるリポジトリも、これまでどおり見る', () => {
+  const tree = { ...OK_TREE, 'CNAME': 'example.com\nsecond.example.com\n' };
+  assert.ok(ids(failures(tree)).includes('E_CNAME'));
+});
+
 test('入口のページを docs/ に置くリポジトリでも、CSP と viewport を見る', () => {
   // SchoolPlan_Editor は GitHub Pages を docs/ から配る。入口が
   // docs/index.html なので、決め打ちのままでは「index.html がありません」で
