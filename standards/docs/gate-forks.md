@@ -39,7 +39,7 @@
 | quoridor | 360 | **する** | 同上（`E11_APP_VERSION`）。2026-08-22 に正本へ移行済み（#31） |
 | reversi | 331 | **する** | 同上（`SW_NO_VERSION`）。`dist/sw.js` に `'dev'` が残っていないかも見る。2026-08-23 に正本へ移行済み（#22） |
 | xxx_automatic | 311 | **する** | ゲートではなく `scripts/check-project.mjs` の `SW_VERSION_STALE` が担う。目印の書き方が違うだけで働いている |
-| quarto | 449 | **する**（後から入れた） | `tools/build-sw.mjs` を配って `src/sw.js` に目印を付けた |
+| quarto | 449 | **する**（後から入れた） | `tools/build-sw.mjs` を配って `src/sw.js` に目印を付けた。2026-08-23 に正本へ移行済み（#23） |
 | mirai-compass | 584 | **する**（後から入れた） | 同上。`npm run ci` が `--check` を回す |
 | online-100square-calculation | 424 | **する**（後から入れた） | 同上 |
 | schoolplan_editor | 373 | **する**（後から入れた） | 同上。`npm run quality` が `--check` を回す |
@@ -93,8 +93,8 @@ digitalcloset に正本を当てると 38 件中 4 件が落ちた。**どれも
 
 **残る Vite 型（quoridor / reversi / quarto / online-100square-calculation）は
 この下ごしらえの上に乗れる。** 同じ4件で足踏みすることはない。
-（quoridor は 2026-08-22、reversi は 2026-08-23 に完了。残りは quarto と
-online-100square-calculation の2本）
+（quoridor は 2026-08-22、reversi と quarto は 2026-08-23 に完了。
+残るは online-100square-calculation の1本）
 
 ### 検査の対応づけは、思ったより素直だった
 
@@ -152,6 +152,44 @@ quoridor の4件に「`dist/sw.js` の版が `'dev'` のままでないか」が
 1本目でも3本目でも、**見つけたのは変異表を書き直しているとき**である。
 移行そのものより、変異表の書き直しのほうが正本を鍛える。
 急がなくてよいが、飛ばすと得るものが無くなる。
+
+## ② の4本目 — quarto（2026-08-23 に完了）
+
+はじめて**別の作りの PWA**に当てた。ここまでの3本は「public/sw.js を自分で書く」
+形だったが、quarto は vite-plugin-pwa の injectManifest を使う。
+manifest も先読み一覧もビルド時に作られるので、**原文をいくら読んでも
+真偽が決まらない**検査が出てくる。
+
+### 分からないものは「分からない」と言わせる
+
+正本には、宣言だけを見て中身は各リポジトリに任せる、という置き方をした。
+
+- `E_SW_PRECACHE_OFFLINE` は `self.__WB_MANIFEST` を見つけたら、
+  `sw-build.config.json` の `precacheManagedByPlugin: true` があるかだけを見る。
+  **宣言が無ければ落とす**（黙って素通りさせない）
+- 実際に offline.html が入ったかは、quarto 側の `E10_OFFLINE_PRECACHED` が
+  ビルド結果 `dist/sw.js` を読んで確かめる
+- ビルドしていなければ `BUILD_PRESENT` が落ちる。dist を見る検査が
+  丸ごと効かないまま緑になるのを防ぐ
+
+#48 で `__PRECACHE_URLS__` 型に入れた考え方と同じである。
+**「原文では決まらない」ことを認めたうえで、決まる場所に検査を置く。**
+
+### また正本の欠陥が2件出た。しかも片方は重い
+
+- **#54**: 版の目印の形を1通りしか知らなかった。正本の build-sw-vite.mjs は
+  はじめから2通り（行末コメント形と、値そのものが `'__APP_VERSION__'` の形）に
+  対応していたのに、ゲートだけが前者しか見ていなかった。**配る側と検査する側で
+  食い違っていた**わけで、正しく自動生成しているリポジトリを落としていた。
+- **#55**: `index.html` の説明文に `<style>` と書いてあると、そこから本物の
+  `</style>` までが「CSS」として読まれていた。quarto では 3,164 文字の説明文が
+  混ざり、**本物の CSS から `prefers-reduced-motion` を丸ごと消しても
+  `D_REDUCED_MOTION` が通った**。同じ形の見のがしは `D_SAFE_AREA` /
+  `D_FLUID_TYPE` / `D_FORCED_COLORS` にもかかる。
+  検査が「書いてある言葉」で満たされてはいけない。
+
+4本やって、正本の欠陥が出たのは 1本目・3本目・4本目。**毎回、変異表を
+書き直しているときに出ている。** 移行の値打ちは、そこにいちばんある。
 
 ## schoolplan_editor にもう1件あった（解消済み）
 
