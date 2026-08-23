@@ -464,6 +464,39 @@ test('sw: "static" は v0/dev のままだと拾う', () => {
   assert.ok(ids(failures(tree)).includes('E_SW_VERSION_GENERATED'));
 });
 
+// ---- ふりがなの手当ては「rt を指す規則」でなければならない ----
+//
+// かつては [class*="bg-" を CSS のどこかから探すだけだったので、
+// ふりがなと関係のない [class*="bg-primary"] .text-primary { … } が
+// 身代わりになり、手当てを丸ごと消して rt に色を決め打ちしても通っていた
+// （2026-08-23 に mirai-compass で実測）。
+
+test('rt に色を決め打ちし、手当ても消したら拾う', () => {
+  const tree = { ...OK_TREE, 'css/style.css': `${OK_TREE['css/style.css']}\nrt { color: #6c757d; }` };
+  assert.ok(ids(failures(tree)).includes('D_RT_COLOR'));
+});
+
+test('rt と関係のない bg- の規則は手当てと数えない', () => {
+  // Bootstrap 風のユーティリティがあるだけの CSS。ふりがなの逃げ道は無い。
+  const tree = {
+    ...OK_TREE,
+    'css/style.css': `${OK_TREE['css/style.css']}
+rt { color: #6c757d; }
+[class*="bg-primary"] .text-primary { color: #fff; }`,
+  };
+  assert.ok(ids(failures(tree)).includes('D_RT_COLOR'), 'bg- の規則が身代わりになってはいけない');
+});
+
+test('rt を指す手当てがあれば拾わない', () => {
+  const tree = {
+    ...OK_TREE,
+    'css/style.css': `${OK_TREE['css/style.css']}
+rt { color: #6c757d; }
+button rt, .badge rt, [class*="bg-"] rt { color: inherit; }`,
+  };
+  assert.deepEqual(failures(tree).filter((r) => r.id === 'D_RT_COLOR'), []);
+});
+
 // ---- 「画面のコード」に Service Worker を混ぜない ----
 //
 // jsDirs が配信ディレクトリそのもの（xxx_automatic の ["docs"]）だと sw.js が混ざる。
