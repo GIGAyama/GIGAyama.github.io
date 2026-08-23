@@ -41,7 +41,7 @@
 | xxx_automatic | 311 | **する** | ゲートではなく `scripts/check-project.mjs` の `SW_VERSION_STALE` が担う。目印の書き方が違うだけで働いている |
 | quarto | 449 | **する**（後から入れた） | `tools/build-sw.mjs` を配って `src/sw.js` に目印を付けた。2026-08-23 に正本へ移行済み（#23） |
 | mirai-compass | 584 | **する**（後から入れた） | 同上。`npm run ci` が `--check` を回す |
-| online-100square-calculation | 424 | **する**（後から入れた） | 同上 |
+| online-100square-calculation | 424 | **する**（後から入れた） | 同上。2026-08-23 に正本へ移行済み（#32） |
 | schoolplan_editor | 373 | **する**（後から入れた） | 同上。`npm run quality` が `--check` を回す |
 | app_launcher | 275 | ― | **Chrome 拡張**。sw.js を持たない |
 
@@ -93,8 +93,8 @@ digitalcloset に正本を当てると 38 件中 4 件が落ちた。**どれも
 
 **残る Vite 型（quoridor / reversi / quarto / online-100square-calculation）は
 この下ごしらえの上に乗れる。** 同じ4件で足踏みすることはない。
-（quoridor は 2026-08-22、reversi と quarto は 2026-08-23 に完了。
-残るは online-100square-calculation の1本）
+（quoridor は 2026-08-22、reversi・quarto・online-100square-calculation は
+2026-08-23 に完了。**Vite 型は5本すべて移行ずみ**）
 
 ### 検査の対応づけは、思ったより素直だった
 
@@ -190,6 +190,50 @@ manifest も先読み一覧もビルド時に作られるので、**原文をい
 
 4本やって、正本の欠陥が出たのは 1本目・3本目・4本目。**毎回、変異表を
 書き直しているときに出ている。** 移行の値打ちは、そこにいちばんある。
+
+## ② の5本目 — online-100square-calculation（2026-08-23 に完了）
+
+Vite 型の最後の1本。ここまでの下ごしらえ（`siteRoot`・JSX・階層・
+vite-plugin-pwa）がぜんぶ効いて、**正本に寄せて出た指摘は1件だけ**だった
+（Google Fonts。艦隊の先例と同じ `allowedRemoteScripts` に載せた）。
+
+### ローカルに残す検査がいちばん多かった
+
+学習アプリで、しかも一斉授業で電子黒板に映す使い方があるため、
+このアプリならではの検査が多い。10件を `local-checks.mjs` に残した。
+
+- `PRESENTATION_MODE` — 提示モードがあること（§2-11）
+- `PRINT_SCROLL_CLIP` — 画面の横スクロールを紙で戻していること
+- `FORCED_COLORS_PAIR` — 色の対の片方だけを手当てしていないこと
+- `STUDY_APP_VERSION` — 学習記録に刻む版が package.json と揃っていること
+- `PRECACHE_BUDGET` / `PRECACHE_VENDOR` — 先読みの量と中身
+- ほか、実体の有無とビルドの前提を見る4件
+
+**正本に無いから外す、ではない。** どれも「この使われ方でしか壊れないもの」で、
+外せば誰も見なくなる。正本に寄せる作業は、こういうものを見つけて
+名前を付けて残す作業でもある。
+
+### 自己確認そのものの欠陥が1件出た
+
+`collect()` が外側の `config` を読んでいたため、写しの `quality.config.json` を
+壊しても効かず、上限を見る検査（`PRECACHE_BUDGET`）が「壊したのに落ちない」
+状態だった。いま見ている木から設定を読むように直した。
+
+正本の欠陥ではなく、**移行のたびに書き直している自己確認の側**の欠陥である。
+5本やって、1本目・3本目・4本目・5本目で欠陥が出た。出どころは毎回同じで、
+変異表を書き直しているときである。
+
+## ここまでの残り
+
+正本へ移行したのは 14 本（Vite 型5本＋静的型9本）。
+まだフォークを宣言しているのは3本と、移行しない1本:
+
+| リポジトリ | 行数 | 扱い |
+|---|---|---|
+| mirai-compass | 599 | 未移行。型Eの本体でもあるので、そちらの整理と合わせて考える |
+| schoolplan_editor | 390 | 未移行 |
+| xxx_automatic | 311 | 未移行。ゲートが `scripts/check-project.mjs` 側にある作り |
+| app_launcher | 275 | **移行しない**。Chrome 拡張で、PWA の検査がそもそも当てはまらない |
 
 ## schoolplan_editor にもう1件あった（解消済み）
 
