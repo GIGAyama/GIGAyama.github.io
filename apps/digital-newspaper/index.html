@@ -154,11 +154,13 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://digital-newspaper.giga-school.com/docs/note/images/01-write-empty.png"><img src="https://digital-newspaper.giga-school.com/docs/note/images/01-write-empty.png" alt="まっさらな記事の入力画面" loading="lazy" decoding="async"></a><figcaption>タブレットの縦画面でも、五つの欄がそのまま縦に並びます。横スクロールは出ません。</figcaption></figure>
 <p>本文の右上には字数が出ます。改行を除いた数なので、「四百字書こう」といった目標とそのまま比べられます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://digital-newspaper.giga-school.com/docs/note/images/02-write-filled.png"><img src="https://digital-newspaper.giga-school.com/docs/note/images/02-write-filled.png" alt="記入して写真を入れたところ" loading="lazy" decoding="async"></a><figcaption>タグを選ぶと色が変わるので、押せたかどうかが目で分かります。写真は選んだ時点で端末の中で小さくなり、その大きさが下に出ます。</figcaption></figure>
-<p>写真のことだけ、少し書いておきます。以前の版はGoogleドライブに置いていましたが、今はどこにも送りません。その代わり、選んだ瞬間に端末の中で長辺八百ピクセルまで縮めます。教室でふつうに撮った写真なら、六十キロバイトから百キロバイトほどになります。縮めるのはブラウザの中だけで完結する処理なので、外に出ていく通信は起きません。</p>
+<p>写真のことだけ、少し書いておきます。以前の版はGoogleドライブに置いていましたが、今はどこにも送りません。その代わり、選んだ瞬間に端末の中で長辺千二百ピクセルまで縮めます。教室でふつうに撮った写真なら、百五十キロバイトから三百キロバイトほどです。縮めるのはブラウザの中だけで完結する処理なので、外に出ていく通信は起きません。</p>
+<p>置き場所も分けてあります。記事の文字はブラウザのローカルストレージに、写真はIndexedDBという別の入れものに入れています。ローカルストレージは五メガバイトしかなく、写真をそこに入れると四十本ほどで一杯になります。IndexedDBは端末の空きに応じた大きさまで入るので、試した端末では九百二十五メガバイトありました。写真つきの記事を学級全員ぶん集めても、ふつうは足りなくなりません。</p>
+<p>では、なぜ全部をIndexedDBにしないのか。IndexedDBへの書き込みは非同期で、端末がメモリ不足でタブを捨てるときに、最後まで書き終わる保証がありません。記事の文字はローカルストレージに同期で書いて、確実に残します。写真は撮り直せますが、書いた文章は撮り直せないからです。</p>
 <p>書いた記事は右側にたまっていきます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://digital-newspaper.giga-school.com/docs/note/images/03-mine-list.png"><img src="https://digital-newspaper.giga-school.com/docs/note/images/03-mine-list.png" alt="わたしの記事の一覧" loading="lazy" decoding="async"></a><figcaption>一本ごとに「したがき」「おくった」「のせてもらった」のどれかが付きます。自分の記事がいまどこにいるのかが、聞かなくても分かります。</figcaption></figure>
 <p>一覧からは、開いて直す、複製する、消す、送る、ができます。複製は「同じ書き出しでもう一本書きたい」ときに使います。元の記事はそのまま残ります。</p>
-<p>いちばん下には、その端末にどれだけたまっているかが出ます。八割を超えると赤くなります。写真つきの記事は一本で百キロバイトほど使うので、四十本くらいが目安です。これを黙って超えると「送ったのに保存されていない」が起きるので、先に見えるようにしてあります。</p>
+<p>いちばん下には、その端末にどれだけたまっているかと、使える量が出ます。八割を超えると赤くなります。黙って上限に当たると「送ったのに保存されていない」が起きるので、先に見えるようにしてあります。</p>
 <h2>🔗 あいことばだけで、記事が集まる</h2>
 <p>学級のみんなの記事を一台に集めるところが、このアプリのいちばん変わったところだと思います。</p>
 <p>名簿を作る必要がありません。アカウントも要りません。ログインもありません。集める側が「へやを ひらく」を押すと、十文字のあいことばが出ます。</p>
