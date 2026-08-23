@@ -60,12 +60,16 @@
     {
       "@type": "Person",
       "@id": "https://giga-school.com/#person",
-      "name": "GIGAyama",
+      "name": "GIGA山",
+      "alternateName": "GIGAyama",
+      "jobTitle": "小学校教員",
       "email": "basstar.1102@gmail.com",
-      "url": "https://github.com/GIGAyama",
+      "url": "https://giga-school.com/profile/",
+      "image": "https://giga-school.com/assets/profile.webp",
       "sameAs": [
         "https://github.com/GIGAyama",
-        "https://note.com/cute_borage86"
+        "https://note.com/cute_borage86",
+        "https://x.com/gigayama_edu"
       ]
     },
     {
@@ -788,6 +792,7 @@
         <a href="/apps/" class="is-optional">紹介</a>
         <a href="#tools" class="is-optional">拡張機能</a>
         <a href="#updates" class="is-optional">更新情報</a>
+        <a href="/profile/" class="is-extra">自己紹介</a>
         <a href="#about" class="is-optional">このサイトについて</a>
         <a href="#contact" class="is-compact">お問い合わせ</a>
       </nav>
@@ -895,34 +900,54 @@
           <p class="section__eyebrow">WEB APPS</p>
           <h2 id="apps-title" class="section__title">公開中のアプリ（38 本）</h2>
           <p class="section__lead">
-            教科・用途で絞り込めます。アプリ名や説明のことばでも検索できます。
+            <b>教科・分野</b>（何の時間に使うか）と<b>つかいかた</b>（学びのどの場面を助けるか）で
+            絞り込めます。2 つは掛け合わせられます。アプリ名や説明のことばでも検索できます。
             各アプリのプライバシーポリシーと利用規約は、それぞれのアプリの中に置いています。
             <a href="/apps/">紹介の記事だけを読む</a>こともできます。
           </p>
         </div>
 
+        <!-- 探し方は 3 つ（ことば・教科・つかいかた）。押しボタンで並べていたころは
+             18 個が 1 つの塊に見えて、どれが何の列なのか分からなかった。
+             選ぶものは選ぶ形（プルダウン）にして、1 本のバーに収める。
+             件数は選択肢の中に入れる。数字は手で直す（README 参照）。 -->
         <div class="finder" data-finder>
-          <div class="search">
-            <span class="search__icon"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"/></svg></span>
-            <label class="visually-hidden" for="app-search">アプリを検索</label>
-            <input type="search" id="app-search" placeholder="アプリを検索（例：作文、計算、ふりかえり）" autocomplete="off" spellcheck="false">
-            <button type="button" class="search__clear" aria-label="検索語を消す"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
-          </div>
-          <div class="chips" role="group" aria-label="カテゴリで絞り込む">
-          <button type="button" class="chip" data-cat="all" aria-pressed="true">すべて<span class="count">38</span></button>
-          <button type="button" class="chip" data-cat="kokugo" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>国語・言葉<span class="count">8</span></button>
-          <button type="button" class="chip" data-cat="sansu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>算数<span class="count">5</span></button>
-          <button type="button" class="chip" data-cat="tankyu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>学習・探究<span class="count">7</span></button>
-          <button type="button" class="chip" data-cat="gakkyu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>学級経営<span class="count">2</span></button>
-          <button type="button" class="chip" data-cat="koumu" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>授業づくり・校務<span class="count">4</span></button>
-          <button type="button" class="chip" data-cat="seisaku" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>表現・制作<span class="count">2</span></button>
-          <button type="button" class="chip" data-cat="game" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>ゲーム・対戦<span class="count">8</span></button>
-          <button type="button" class="chip" data-cat="other" aria-pressed="false"><span class="visually-hidden">カテゴリ：</span>そのほか<span class="count">2</span></button>
-          </div>
-          <div class="finder__foot">
-            <p class="finder__status" data-status role="status" aria-live="polite">38 件すべてを表示しています</p>
-            <button type="button" class="finder__forget" data-forget hidden>開いた記録を消す</button>
-            <div class="sorter">
+          <div class="finder__bar">
+            <div class="search">
+              <span class="search__icon"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"/></svg></span>
+              <label class="visually-hidden" for="app-search">アプリを検索</label>
+              <input type="search" id="app-search" placeholder="アプリを検索（例：作文、計算、ふりかえり）" autocomplete="off" spellcheck="false">
+              <button type="button" class="search__clear" aria-label="検索語を消す"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
+            </div>
+            <div class="picker">
+              <label for="app-cat">教科・分野</label>
+              <select id="app-cat" data-filter="cat">
+                <option value="all">すべて（38）</option>
+                <option value="kokugo">国語・言葉（8）</option>
+                <option value="sansu">算数（5）</option>
+                <option value="tankyu">学習・探究（7）</option>
+                <option value="gakkyu">学級経営（2）</option>
+                <option value="koumu">授業づくり・校務（4）</option>
+                <option value="seisaku">表現・制作（2）</option>
+                <option value="game">ゲーム・対戦（8）</option>
+                <option value="other">そのほか（2）</option>
+              </select>
+            </div>
+            <div class="picker">
+              <label for="app-use">つかいかた</label>
+              <select id="app-use" data-filter="use">
+                <option value="all">すべて（38）</option>
+                <option value="susumu">自分で進める（2）</option>
+                <option value="renshu">練習する（8）</option>
+                <option value="shiraberu">調べる（3）</option>
+                <option value="tsukuru">つくる（5）</option>
+                <option value="furikaeru">ふりかえる（5）</option>
+                <option value="minna">みんなでやる（10）</option>
+                <option value="sensei">先生の仕事（5）</option>
+                <option value="hoka">そのほか（2）</option>
+              </select>
+            </div>
+            <div class="picker">
               <label for="app-sort">並び順</label>
               <select id="app-sort" data-sort>
                 <option value="name">名前順</option>
@@ -932,10 +957,15 @@
               </select>
             </div>
           </div>
+          <div class="finder__foot">
+            <p class="finder__status" data-status role="status" aria-live="polite">38 件すべてを表示しています</p>
+            <button type="button" class="finder__clear" data-reset hidden>絞り込みを外す</button>
+            <button type="button" class="finder__forget" data-forget hidden>開いた記録を消す</button>
+          </div>
         </div>
 
         <ul class="cards" id="app-list">
-        <li class="card" data-cat="sansu" data-slug="online-100square-calculation" data-name="100ます計算" data-keywords="100マス計算 百ます 手書き 採点 記録 算数 けいさん さんすう がくしゅう きろく ひゃくます てがき さいてん online-100square-calculation" style="--cat:#3b82d6" data-published="2025-10-16" data-updated="2026-08-17">
+        <li class="card" data-cat="sansu" data-slug="online-100square-calculation" data-use="renshu" data-name="100ます計算" data-keywords="100マス計算 百ます 手書き 採点 記録 算数 けいさん さんすう がくしゅう きろく ひゃくます てがき さいてん online-100square-calculation" style="--cat:#3b82d6" data-published="2025-10-16" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://online-100square-calculation.giga-school.com/" data-title="100ます計算" aria-label="100ます計算 のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://online-100square-calculation.giga-school.com/" data-title="100ます計算" aria-label="100ます計算 を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -963,7 +993,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="quarto" data-name="GIGAクアルト！" data-keywords="ボードゲーム 対戦 思考 ゲーム・対戦 たいせん しこう Quarto" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="quarto" data-use="minna" data-name="GIGAクアルト！" data-keywords="ボードゲーム 対戦 思考 ゲーム・対戦 たいせん しこう Quarto" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://quarto.giga-school.com/" data-title="GIGAクアルト！" aria-label="GIGAクアルト！ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://quarto.giga-school.com/" data-title="GIGAクアルト！" aria-label="GIGAクアルト！ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -991,7 +1021,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="haiku-meeting" data-name="GIGA句会プラザ" data-keywords="俳句 句会 ふりかえり 短詩 国語・言葉 ことば はいく くかい こくご Haiku-meeting" style="--cat:#c96a2e" data-published="2025-10-11" data-updated="2026-08-18">
+        <li class="card" data-cat="kokugo" data-slug="haiku-meeting" data-use="minna" data-name="GIGA句会プラザ" data-keywords="俳句 句会 ふりかえり 短詩 国語・言葉 ことば はいく くかい こくご Haiku-meeting" style="--cat:#c96a2e" data-published="2025-10-11" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://haiku-meeting.giga-school.com/" data-title="GIGA句会プラザ" aria-label="GIGA句会プラザ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://haiku-meeting.giga-school.com/" data-title="GIGA句会プラザ" aria-label="GIGA句会プラザ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1019,7 +1049,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="sansu" data-slug="qalc" data-name="Qalc（カルク）" data-keywords="計算 マルチプレイ 一斉授業 対戦 算数 けいさん さんすう たいせん がくしゅう いっせいじゅぎょう Qalc" style="--cat:#3b82d6" data-published="2026-03-11" data-updated="2026-08-17">
+        <li class="card" data-cat="sansu" data-slug="qalc" data-use="renshu" data-name="Qalc（カルク）" data-keywords="計算 マルチプレイ 一斉授業 対戦 算数 けいさん さんすう たいせん がくしゅう いっせいじゅぎょう Qalc" style="--cat:#3b82d6" data-published="2026-03-11" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://qalc.giga-school.com/" data-title="Qalc（カルク）" aria-label="Qalc（カルク） のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://qalc.giga-school.com/" data-title="Qalc（カルク）" aria-label="Qalc（カルク） を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1047,7 +1077,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="tankyu" data-slug="typa" data-name="Typa（タイパ）" data-keywords="タイピング キーボード 入力 学習・探究 たんきゅう がくしゅう Typa" style="--cat:#1d9c9c" data-published="2026-07-29" data-updated="2026-08-17">
+        <li class="card" data-cat="tankyu" data-slug="typa" data-use="renshu" data-name="Typa（タイパ）" data-keywords="タイピング キーボード 入力 学習・探究 たんきゅう がくしゅう Typa" style="--cat:#1d9c9c" data-published="2026-07-29" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://typa.giga-school.com/" data-title="Typa（タイパ）" aria-label="Typa（タイパ） のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://typa.giga-school.com/" data-title="Typa（タイパ）" aria-label="Typa（タイパ） を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1075,7 +1105,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="tsubomi-learning" data-name="いろいろな つぼみと はな" data-keywords="つぼみ 花 植物 図鑑 観察 光村 こくご 国語・言葉 ことば こくご ずかん がくしゅう tsubomi-learning" style="--cat:#c96a2e" data-published="2026-06-01" data-updated="2026-08-18">
+        <li class="card" data-cat="kokugo" data-slug="tsubomi-learning" data-use="shiraberu" data-name="いろいろな つぼみと はな" data-keywords="つぼみ 花 植物 図鑑 観察 光村 こくご 国語・言葉 ことば こくご ずかん がくしゅう tsubomi-learning" style="--cat:#c96a2e" data-published="2026-06-01" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://tsubomi-learning.giga-school.com/" data-title="いろいろな つぼみと はな" aria-label="いろいろな つぼみと はな のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://tsubomi-learning.giga-school.com/" data-title="いろいろな つぼみと はな" aria-label="いろいろな つぼみと はな を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1102,7 +1132,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="online-manuscript-paper-lite" data-name="オンライン原稿用紙 Lite" data-keywords="作文 原稿用紙 縦書き 印刷 国語・言葉 さくぶん げんこうようし たてがき ことば こくご いんさつ online-manuscript-paper-lite" style="--cat:#c96a2e" data-published="2026-02-07" data-updated="2026-08-17">
+        <li class="card" data-cat="kokugo" data-slug="online-manuscript-paper-lite" data-use="tsukuru" data-name="オンライン原稿用紙 Lite" data-keywords="作文 原稿用紙 縦書き 印刷 国語・言葉 さくぶん げんこうようし たてがき ことば こくご いんさつ online-manuscript-paper-lite" style="--cat:#c96a2e" data-published="2026-02-07" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://online-manuscript-paper-lite.giga-school.com/" data-title="オンライン原稿用紙 Lite" aria-label="オンライン原稿用紙 Lite のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://online-manuscript-paper-lite.giga-school.com/" data-title="オンライン原稿用紙 Lite" aria-label="オンライン原稿用紙 Lite を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1130,7 +1160,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="online-manuscript-paper-pro" data-name="オンライン原稿用紙 Pro" data-keywords="作文 原稿用紙 添削 AI 国語・言葉 さくぶん げんこうようし てんさく ことば こくご online-manuscript-paper-pro" style="--cat:#c96a2e" data-published="2026-02-08" data-updated="2026-08-17">
+        <li class="card" data-cat="kokugo" data-slug="online-manuscript-paper-pro" data-use="tsukuru" data-name="オンライン原稿用紙 Pro" data-keywords="作文 原稿用紙 添削 AI 国語・言葉 さくぶん げんこうようし てんさく ことば こくご online-manuscript-paper-pro" style="--cat:#c96a2e" data-published="2026-02-08" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://online-manuscript-paper-pro.giga-school.com/" data-title="オンライン原稿用紙 Pro" aria-label="オンライン原稿用紙 Pro のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://online-manuscript-paper-pro.giga-school.com/" data-title="オンライン原稿用紙 Pro" aria-label="オンライン原稿用紙 Pro を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1158,7 +1188,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="online-publisher-pro" data-name="オンライン出版社 Pro" data-keywords="作文 物語 製本 出版 添削 エディタ 国語・言葉 さくぶん げんこうようし てんさく ものがたり せいほん しゅっぱん ことば こくご ほん Online-Publisher-pro" style="--cat:#c96a2e" data-published="2026-03-07" data-updated="2026-08-18">
+        <li class="card" data-cat="kokugo" data-slug="online-publisher-pro" data-use="tsukuru" data-name="オンライン出版社 Pro" data-keywords="作文 物語 製本 出版 添削 エディタ 国語・言葉 さくぶん げんこうようし てんさく ものがたり せいほん しゅっぱん ことば こくご ほん Online-Publisher-pro" style="--cat:#c96a2e" data-published="2026-03-07" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://online-publisher-pro.giga-school.com/" data-title="オンライン出版社 Pro" aria-label="オンライン出版社 Pro のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://online-publisher-pro.giga-school.com/" data-title="オンライン出版社 Pro" aria-label="オンライン出版社 Pro を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1186,7 +1216,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="quoridor" data-name="カベカベ合戦！" data-keywords="ボードゲーム 対戦 迷路 戦略 ゲーム・対戦 たいせん めいろ せんりゃく Quoridor" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="quoridor" data-use="minna" data-name="カベカベ合戦！" data-keywords="ボードゲーム 対戦 迷路 戦略 ゲーム・対戦 たいせん めいろ せんりゃく Quoridor" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://quoridor.giga-school.com/" data-title="カベカベ合戦！" aria-label="カベカベ合戦！ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://quoridor.giga-school.com/" data-title="カベカベ合戦！" aria-label="カベカベ合戦！ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1214,7 +1244,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="sansu" data-slug="keisan-card" data-name="けいさんカード" data-keywords="計算カード 反復 たし算 ひき算 算数 けいさん さんすう がくしゅう はんぷく Keisan-Card" style="--cat:#3b82d6" data-published="2026-06-12" data-updated="2026-08-17">
+        <li class="card" data-cat="sansu" data-slug="keisan-card" data-use="renshu" data-name="けいさんカード" data-keywords="計算カード 反復 たし算 ひき算 算数 けいさん さんすう がくしゅう はんぷく Keisan-Card" style="--cat:#3b82d6" data-published="2026-06-12" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://keisan-card.giga-school.com/" data-title="けいさんカード" aria-label="けいさんカード のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://keisan-card.giga-school.com/" data-title="けいさんカード" aria-label="けいさんカード を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1242,7 +1272,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="tankyu" data-slug="moral-note" data-name="こころスコープ" data-keywords="道徳 心 ノート 学習・探究 どうとく たんきゅう がくしゅう Moral_note" style="--cat:#1d9c9c" data-published="2026-02-15" data-updated="2026-08-17">
+        <li class="card" data-cat="tankyu" data-slug="moral-note" data-use="furikaeru" data-name="こころスコープ" data-keywords="道徳 心 ノート 学習・探究 どうとく たんきゅう がくしゅう Moral_note" style="--cat:#1d9c9c" data-published="2026-02-15" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://moral-note.giga-school.com/" data-title="こころスコープ" aria-label="こころスコープ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://moral-note.giga-school.com/" data-title="こころスコープ" aria-label="こころスコープ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1262,7 +1292,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="sansu" data-slug="keisan-block" data-name="さんすうブロック" data-keywords="たし算 ひき算 繰り上がり 繰り下がり さくらんぼ計算 ブロック 算数 けいさん さんすう がくしゅう KEISAN-BLOCK" style="--cat:#3b82d6" data-published="2026-07-24" data-updated="2026-08-17">
+        <li class="card" data-cat="sansu" data-slug="keisan-block" data-use="renshu" data-name="さんすうブロック" data-keywords="たし算 ひき算 繰り上がり 繰り下がり さくらんぼ計算 ブロック 算数 けいさん さんすう がくしゅう KEISAN-BLOCK" style="--cat:#3b82d6" data-published="2026-07-24" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://keisan-block.giga-school.com/" data-title="さんすうブロック" aria-label="さんすうブロック のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://keisan-block.giga-school.com/" data-title="さんすうブロック" aria-label="さんすうブロック を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1290,7 +1320,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="tankyu" data-slug="jidosha-zukan" data-name="じどう車ずかん" data-keywords="自動車 図鑑 生活科 くらし 学習・探究 たんきゅう じどうしゃ ずかん がくしゅう JIDOSHA_ZUKAN" style="--cat:#1d9c9c" data-published="2026-08-10" data-updated="2026-08-18">
+        <li class="card" data-cat="tankyu" data-slug="jidosha-zukan" data-use="shiraberu" data-name="じどう車ずかん" data-keywords="自動車 図鑑 生活科 くらし 学習・探究 たんきゅう じどうしゃ ずかん がくしゅう JIDOSHA_ZUKAN" style="--cat:#1d9c9c" data-published="2026-08-10" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://jidosha-zukan.giga-school.com/" data-title="じどう車ずかん" aria-label="じどう車ずかん のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://jidosha-zukan.giga-school.com/" data-title="じどう車ずかん" aria-label="じどう車ずかん を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1317,7 +1347,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="shiritori-fighter" data-name="しりとりファイター" data-keywords="しりとり 言葉 対戦 ゲーム・対戦 ことば たいせん Shiritori_fighter" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="shiritori-fighter" data-use="minna" data-name="しりとりファイター" data-keywords="しりとり 言葉 対戦 ゲーム・対戦 ことば たいせん Shiritori_fighter" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://shiritori-fighter.giga-school.com/" data-title="しりとりファイター" aria-label="しりとりファイター のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://shiritori-fighter.giga-school.com/" data-title="しりとりファイター" aria-label="しりとりファイター を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1340,7 +1370,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="seisaku" data-slug="digital-newspaper" data-name="デジタルクラス新聞社" data-keywords="新聞 記事 レイアウト 学級新聞 表現・制作 しんぶん きじ がっきゅうしんぶん Digital-Newspaper" style="--cat:#cd5a86" data-published="2026-01-23" data-updated="2026-08-18">
+        <li class="card" data-cat="seisaku" data-slug="digital-newspaper" data-use="tsukuru" data-name="デジタルクラス新聞社" data-keywords="新聞 記事 レイアウト 学級新聞 表現・制作 しんぶん きじ がっきゅうしんぶん Digital-Newspaper" style="--cat:#cd5a86" data-published="2026-01-23" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://digital-newspaper.giga-school.com/" data-title="デジタルクラス新聞社" aria-label="デジタルクラス新聞社 のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://digital-newspaper.giga-school.com/" data-title="デジタルクラス新聞社" aria-label="デジタルクラス新聞社 を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1368,7 +1398,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="other" data-slug="digitalcloset" data-name="デジタルワードローブ" data-keywords="服 ワードローブ ファッション AI Gemini そのほか けんさく ふく DigitalCloset" style="--cat:#8b93a1" data-published="2025-10-09" data-updated="2026-08-17">
+        <li class="card" data-cat="other" data-slug="digitalcloset" data-use="hoka" data-name="デジタルワードローブ" data-keywords="服 ワードローブ ファッション AI Gemini そのほか けんさく ふく DigitalCloset" style="--cat:#8b93a1" data-published="2025-10-09" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://digitalcloset.giga-school.com/" data-title="デジタルワードローブ" aria-label="デジタルワードローブ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://digitalcloset.giga-school.com/" data-title="デジタルワードローブ" aria-label="デジタルワードローブ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1396,7 +1426,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="koumu" data-slug="digital-textbook" data-name="デジタル教科書メーカー" data-keywords="PDF 教科書 プリント 書き込み QR WebRTC 授業づくり・校務 きょうかしょ Digital_textbook" style="--cat:#5b7f9e" data-published="2026-02-11" data-updated="2026-08-17">
+        <li class="card" data-cat="koumu" data-slug="digital-textbook" data-use="sensei" data-name="デジタル教科書メーカー" data-keywords="PDF 教科書 プリント 書き込み QR WebRTC 授業づくり・校務 きょうかしょ Digital_textbook" style="--cat:#5b7f9e" data-published="2026-02-11" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://digital-textbook.giga-school.com/" data-title="デジタル教科書メーカー" aria-label="デジタル教科書メーカー のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://digital-textbook.giga-school.com/" data-title="デジタル教科書メーカー" aria-label="デジタル教科書メーカー を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1424,7 +1454,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="reading-books" data-name="どくしょちょきんばこ" data-keywords="読書 記録 読書通帳 バーコード ISBN 国語・言葉 どくしょ きろく ほん こくご Reading-Books" style="--cat:#c96a2e" data-published="2026-02-01" data-updated="2026-08-20">
+        <li class="card" data-cat="kokugo" data-slug="reading-books" data-use="furikaeru" data-name="どくしょちょきんばこ" data-keywords="読書 記録 読書通帳 バーコード ISBN 国語・言葉 どくしょ きろく ほん こくご Reading-Books" style="--cat:#c96a2e" data-published="2026-02-01" data-updated="2026-08-20">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://reading-books.giga-school.com/" data-title="どくしょちょきんばこ" aria-label="どくしょちょきんばこ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://reading-books.giga-school.com/" data-title="どくしょちょきんばこ" aria-label="どくしょちょきんばこ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1450,7 +1480,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="koumu" data-slug="notebooksample-generator" data-name="ノート見本作成ツール PRO" data-keywords="ノート 見本 板書 授業づくり・校務 みほん ばんしょ ほん NotebookSample_Generator" style="--cat:#5b7f9e" data-published="2026-03-29" data-updated="2026-08-17">
+        <li class="card" data-cat="koumu" data-slug="notebooksample-generator" data-use="sensei" data-name="ノート見本作成ツール PRO" data-keywords="ノート 見本 板書 授業づくり・校務 みほん ばんしょ ほん NotebookSample_Generator" style="--cat:#5b7f9e" data-published="2026-03-29" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://notebooksample-generator.giga-school.com/" data-title="ノート見本作成ツール PRO" aria-label="ノート見本作成ツール PRO のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://notebooksample-generator.giga-school.com/" data-title="ノート見本作成ツール PRO" aria-label="ノート見本作成ツール PRO を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1478,7 +1508,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="gobblet" data-name="パクパクゴブレット" data-keywords="ボードゲーム 対戦 三目並べ ゲーム・対戦 たいせん Gobblet" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="gobblet" data-use="minna" data-name="パクパクゴブレット" data-keywords="ボードゲーム 対戦 三目並べ ゲーム・対戦 たいせん Gobblet" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://gobblet.giga-school.com/" data-title="パクパクゴブレット" aria-label="パクパクゴブレット のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://gobblet.giga-school.com/" data-title="パクパクゴブレット" aria-label="パクパクゴブレット を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1506,7 +1536,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="kana-master" data-name="ひらがなカタカナかきかたマスター" data-keywords="ひらがな カタカナ 書き順 なぞり書き 拗音 促音 国語・言葉 かきじゅん もじ こくご KANA_Master" style="--cat:#c96a2e" data-published="2026-03-02" data-updated="2026-08-10">
+        <li class="card" data-cat="kokugo" data-slug="kana-master" data-use="renshu" data-name="ひらがなカタカナかきかたマスター" data-keywords="ひらがな カタカナ 書き順 なぞり書き 拗音 促音 国語・言葉 かきじゅん もじ こくご KANA_Master" style="--cat:#c96a2e" data-published="2026-03-02" data-updated="2026-08-10">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://kana-master.giga-school.com/" data-title="ひらがなカタカナかきかたマスター" aria-label="ひらがなカタカナかきかたマスター のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://kana-master.giga-school.com/" data-title="ひらがなカタカナかきかたマスター" aria-label="ひらがなカタカナかきかたマスター を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1532,7 +1562,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="gakkyu" data-slug="reflection-journal" data-name="ふりかえりジャーナル" data-keywords="ふりかえり ジャーナル 日記 心 可視化 学級経営 きろく にっき かしか Reflection_Journal" style="--cat:#9a63c9" data-published="2026-02-11" data-updated="2026-08-18">
+        <li class="card" data-cat="gakkyu" data-slug="reflection-journal" data-use="furikaeru" data-name="ふりかえりジャーナル" data-keywords="ふりかえり ジャーナル 日記 心 可視化 学級経営 きろく にっき かしか Reflection_Journal" style="--cat:#9a63c9" data-published="2026-02-11" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://reflection-journal.giga-school.com/" data-title="ふりかえりジャーナル" aria-label="ふりかえりジャーナル のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://reflection-journal.giga-school.com/" data-title="ふりかえりジャーナル" aria-label="ふりかえりジャーナル を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1560,7 +1590,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="kokugo" data-slug="kanji-town" data-name="マイ漢字タウン" data-keywords="漢字 語彙 ゲーム 国語・言葉 かんじ ごい ことば こくご がくしゅう KANJI_Town" style="--cat:#c96a2e" data-published="2026-03-16" data-updated="2026-08-17">
+        <li class="card" data-cat="kokugo" data-slug="kanji-town" data-use="renshu" data-name="マイ漢字タウン" data-keywords="漢字 語彙 ゲーム 国語・言葉 かんじ ごい ことば こくご がくしゅう KANJI_Town" style="--cat:#c96a2e" data-published="2026-03-16" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://kanji-town.giga-school.com/" data-title="マイ漢字タウン" aria-label="マイ漢字タウン のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://kanji-town.giga-school.com/" data-title="マイ漢字タウン" aria-label="マイ漢字タウン を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1588,7 +1618,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="tankyu" data-slug="gamification" data-name="まなびクエスト" data-keywords="ゲーミフィケーション 得点 記録 GAS 学習・探究 たんきゅう がくしゅう きろく とくてん Gamification" style="--cat:#1d9c9c" data-published="2026-02-21" data-updated="2026-08-17">
+        <li class="card" data-cat="tankyu" data-slug="gamification" data-use="furikaeru susumu" data-name="まなびクエスト" data-keywords="ゲーミフィケーション 得点 記録 GAS 学習・探究 たんきゅう がくしゅう きろく とくてん Gamification" style="--cat:#1d9c9c" data-published="2026-02-21" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://gamification.giga-school.com/" data-title="まなびクエスト" aria-label="まなびクエスト のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://gamification.giga-school.com/" data-title="まなびクエスト" aria-label="まなびクエスト を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1616,7 +1646,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="tankyu" data-slug="townmap-mikke" data-name="みっけ！" data-keywords="まち探検 地図 探究 協働 社会科 学習・探究 ちず たんきゅう しゃかい がくしゅう きょうどう Townmap_Mikke" style="--cat:#1d9c9c" data-published="2026-02-11" data-updated="2026-08-17">
+        <li class="card" data-cat="tankyu" data-slug="townmap-mikke" data-use="shiraberu minna" data-name="みっけ！" data-keywords="まち探検 地図 探究 協働 社会科 学習・探究 ちず たんきゅう しゃかい がくしゅう きょうどう Townmap_Mikke" style="--cat:#1d9c9c" data-published="2026-02-11" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://townmap-mikke.giga-school.com/" data-title="みっけ！" aria-label="みっけ！ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://townmap-mikke.giga-school.com/" data-title="みっけ！" aria-label="みっけ！ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1644,7 +1674,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="tankyu" data-slug="mirai-compass" data-name="みらいコンパス" data-keywords="自由進度学習 個別最適 計画 進度 学習・探究 たんきゅう がくしゅう きろく じゆうしんどがくしゅう こべつさいてき けいかく しんど MIRAI-Compass" style="--cat:#1d9c9c" data-published="2026-01-29" data-updated="2026-08-18">
+        <li class="card" data-cat="tankyu" data-slug="mirai-compass" data-use="susumu" data-name="みらいコンパス" data-keywords="自由進度学習 個別最適 計画 進度 学習・探究 たんきゅう がくしゅう きろく じゆうしんどがくしゅう こべつさいてき けいかく しんど MIRAI-Compass" style="--cat:#1d9c9c" data-published="2026-01-29" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://mirai-compass.giga-school.com/" data-title="みらいコンパス" aria-label="みらいコンパス のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://mirai-compass.giga-school.com/" data-title="みらいコンパス" aria-label="みらいコンパス を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1672,7 +1702,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="word-basket" data-name="みんなでしりとり！ワードバスケット" data-keywords="ワードバスケット しりとり カードゲーム 言葉 ゲーム・対戦 ことば たいせん word_basket" style="--cat:#4a9e5c" data-published="2025-10-13" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="word-basket" data-use="minna" data-name="みんなでしりとり！ワードバスケット" data-keywords="ワードバスケット しりとり カードゲーム 言葉 ゲーム・対戦 ことば たいせん word_basket" style="--cat:#4a9e5c" data-published="2025-10-13" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://word-basket.giga-school.com/" data-title="みんなでしりとり！ワードバスケット" aria-label="みんなでしりとり！ワードバスケット のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://word-basket.giga-school.com/" data-title="みんなでしりとり！ワードバスケット" aria-label="みんなでしりとり！ワードバスケット を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1700,7 +1730,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="reversi" data-name="リバーシ" data-keywords="リバーシ 対戦 ボードゲーム ゲーム・対戦 せいり たいせん Reversi" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="reversi" data-use="minna" data-name="リバーシ" data-keywords="リバーシ 対戦 ボードゲーム ゲーム・対戦 せいり たいせん Reversi" style="--cat:#4a9e5c" data-published="2025-10-10" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://reversi.giga-school.com/" data-title="リバーシ" aria-label="リバーシ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://reversi.giga-school.com/" data-title="リバーシ" aria-label="リバーシ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1728,7 +1758,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="seisaku" data-slug="music-production-studio" data-name="音楽制作スタジオ" data-keywords="音楽 作曲 DAW MP3 ルビ 表現・制作 おんがく さっきょく おと Music-production_studio" style="--cat:#cd5a86" data-published="2026-03-12" data-updated="2026-08-17">
+        <li class="card" data-cat="seisaku" data-slug="music-production-studio" data-use="tsukuru" data-name="音楽制作スタジオ" data-keywords="音楽 作曲 DAW MP3 ルビ 表現・制作 おんがく さっきょく おと Music-production_studio" style="--cat:#cd5a86" data-published="2026-03-12" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://music-production-studio.giga-school.com/" data-title="音楽制作スタジオ" aria-label="音楽制作スタジオ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://music-production-studio.giga-school.com/" data-title="音楽制作スタジオ" aria-label="音楽制作スタジオ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1748,7 +1778,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="koumu" data-slug="shared-folder-sync" data-name="共有フォルダ同期くん" data-keywords="ドライブ 同期 フォルダ 配布 授業づくり・校務 どうき はいふ Shared-Folder-Sync" style="--cat:#5b7f9e" data-published="2026-02-01" data-updated="2026-08-18">
+        <li class="card" data-cat="koumu" data-slug="shared-folder-sync" data-use="sensei" data-name="共有フォルダ同期くん" data-keywords="ドライブ 同期 フォルダ 配布 授業づくり・校務 どうき はいふ Shared-Folder-Sync" style="--cat:#5b7f9e" data-published="2026-02-01" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://shared-folder-sync.giga-school.com/" data-title="共有フォルダ同期くん" aria-label="共有フォルダ同期くん のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://shared-folder-sync.giga-school.com/" data-title="共有フォルダ同期くん" aria-label="共有フォルダ同期くん を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1768,7 +1798,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="sansu" data-slug="kake-master" data-name="九九カード" data-keywords="かけ算 九九 計算カード 算数 けいさん くく さんすう KAKE_Master" style="--cat:#3b82d6" data-published="2026-07-23" data-updated="2026-08-17">
+        <li class="card" data-cat="sansu" data-slug="kake-master" data-use="renshu" data-name="九九カード" data-keywords="かけ算 九九 計算カード 算数 けいさん くく さんすう KAKE_Master" style="--cat:#3b82d6" data-published="2026-07-23" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://kake-master.giga-school.com/" data-title="九九カード" aria-label="九九カード のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://kake-master.giga-school.com/" data-title="九九カード" aria-label="九九カード を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1796,7 +1826,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="koumu" data-slug="schoolplan-editor" data-name="週案エディタ" data-keywords="週案 指導計画 時間割 授業づくり・校務 へんしゅう しゅうあん じかんわり しどうけいかく けいかく SchoolPlan_Editor" style="--cat:#5b7f9e" data-published="2026-02-11" data-updated="2026-08-18">
+        <li class="card" data-cat="koumu" data-slug="schoolplan-editor" data-use="sensei" data-name="週案エディタ" data-keywords="週案 指導計画 時間割 授業づくり・校務 へんしゅう しゅうあん じかんわり しどうけいかく けいかく SchoolPlan_Editor" style="--cat:#5b7f9e" data-published="2026-02-11" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://schoolplan-editor.giga-school.com/" data-title="週案エディタ" aria-label="週案エディタ のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://schoolplan-editor.giga-school.com/" data-title="週案エディタ" aria-label="週案エディタ を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1824,7 +1854,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="gakkyu" data-slug="homework-barcordreader" data-name="宿題ポスト" data-keywords="宿題 提出 健康観察 バーコード 出欠 学級経営 しゅくだい ていしゅつ けんこうかんさつ しゅっけつ きろく Homework_barcordreader" style="--cat:#9a63c9" data-published="2026-03-05" data-updated="2026-08-17">
+        <li class="card" data-cat="gakkyu" data-slug="homework-barcordreader" data-use="sensei" data-name="宿題ポスト" data-keywords="宿題 提出 健康観察 バーコード 出欠 学級経営 しゅくだい ていしゅつ けんこうかんさつ しゅっけつ きろく Homework_barcordreader" style="--cat:#9a63c9" data-published="2026-03-05" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://homework-barcordreader.giga-school.com/" data-title="宿題ポスト" aria-label="宿題ポスト のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://homework-barcordreader.giga-school.com/" data-title="宿題ポスト" aria-label="宿題ポスト を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1852,7 +1882,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="werewolf" data-name="人狼ゲーム" data-keywords="人狼 対戦 パーティ ゲーム・対戦 せいり じんろう たいせん Werewolf" style="--cat:#4a9e5c" data-published="2025-10-11" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="werewolf" data-use="minna" data-name="人狼ゲーム" data-keywords="人狼 対戦 パーティ ゲーム・対戦 せいり じんろう たいせん Werewolf" style="--cat:#4a9e5c" data-published="2025-10-11" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://werewolf.giga-school.com/" data-title="人狼ゲーム" aria-label="人狼ゲーム のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://werewolf.giga-school.com/" data-title="人狼ゲーム" aria-label="人狼ゲーム を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1880,7 +1910,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="tankyu" data-slug="physicaleducation-note" data-name="体育ノート" data-keywords="体育 運動 ノート 記録 学習・探究 たいいく たんきゅう がくしゅう きろく PhysicalEducation_note" style="--cat:#1d9c9c" data-published="2026-02-21" data-updated="2026-08-18">
+        <li class="card" data-cat="tankyu" data-slug="physicaleducation-note" data-use="furikaeru" data-name="体育ノート" data-keywords="体育 運動 ノート 記録 学習・探究 たいいく たんきゅう がくしゅう きろく PhysicalEducation_note" style="--cat:#1d9c9c" data-published="2026-02-21" data-updated="2026-08-18">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://physicaleducation-note.giga-school.com/" data-title="体育ノート" aria-label="体育ノート のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://physicaleducation-note.giga-school.com/" data-title="体育ノート" aria-label="体育ノート を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1900,7 +1930,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="other" data-slug="xxx-automatic" data-name="投稿ランチャー" data-keywords="投稿 SNS X note 発信 自動 ランチャー そのほか  XXX_automatic" style="--cat:#8b93a1" data-published="2026-08-07" data-updated="2026-08-17">
+        <li class="card" data-cat="other" data-slug="xxx-automatic" data-use="hoka" data-name="投稿ランチャー" data-keywords="投稿 SNS X note 発信 自動 ランチャー そのほか  XXX_automatic" style="--cat:#8b93a1" data-published="2026-08-07" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://xxx-automatic.giga-school.com/" data-title="投稿ランチャー" aria-label="投稿ランチャー のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://xxx-automatic.giga-school.com/" data-title="投稿ランチャー" aria-label="投稿ランチャー を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -1928,7 +1958,7 @@
             </p>
           </div>
         </li>
-        <li class="card" data-cat="game" data-slug="ice-slide-puzzle" data-name="南極スライダー" data-keywords="パズル 対戦 スワイプ ゲーム・対戦 たいせん Ice_slide-puzzle" style="--cat:#4a9e5c" data-published="2026-03-01" data-updated="2026-08-17">
+        <li class="card" data-cat="game" data-slug="ice-slide-puzzle" data-use="minna" data-name="南極スライダー" data-keywords="パズル 対戦 スワイプ ゲーム・対戦 たいせん Ice_slide-puzzle" style="--cat:#4a9e5c" data-published="2026-03-01" data-updated="2026-08-17">
           <div class="card__acts">
             <button type="button" class="card__act" data-copy data-url="https://ice-slide-puzzle.giga-school.com/" data-title="南極スライダー" aria-label="南極スライダー のリンクをコピーする"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-link"/></svg></button>
             <button type="button" class="card__act" data-share data-url="https://ice-slide-puzzle.giga-school.com/" data-title="南極スライダー" aria-label="南極スライダー を共有する"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg></button>
@@ -2096,6 +2126,38 @@
       </div>
     </section>
 
+    <!-- ============ 簡易プロフィール ============
+         学校で使うかどうかを決める人にとって、「だれがつくっているのか」は判断の材料になる。
+         ここでは似顔絵と数行だけ置き、くわしくは /profile/ に回す。 -->
+    <section class="section" id="profile" aria-labelledby="profile-title">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="section__eyebrow">PROFILE</p>
+          <h2 id="profile-title" class="section__title">つくっている人</h2>
+        </div>
+        <div class="profile-brief">
+          <img class="profile-avatar" src="/assets/profile-sm.webp"
+               srcset="/assets/profile-sm.webp 256w, /assets/profile.webp 512w"
+               sizes="(max-width: 560px) 96px, 132px"
+               width="512" height="512" loading="lazy" decoding="async" alt="GIGAyama の似顔絵">
+          <div>
+            <p class="profile-name">GIGA山</p>
+            <p class="profile-role">小学校教員／Google Workspace と GAS で校務改善</p>
+            <!-- 本数は手で直す（README「アプリを追加・変更するとき」の手順に入れてある） -->
+            <p class="profile-text">
+              教室で「これがあれば」と思ったものをつくっています。子どもが自分で学べるようにする道具と、
+              先生の手を空ける道具の 2 つです。2025 年 10 月にはじめて、いまは 41 本。
+              費用はかからず、ソースコードもすべて見られます。
+            </p>
+            <p class="profile-acts">
+              <a class="btn btn--primary" href="/profile/">くわしい自己紹介を読む<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open"/></svg></a>
+              <a class="btn btn--ghost" href="https://note.com/cute_borage86" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>note を読む</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ このサイトについて ============ -->
     <section class="section section--sunken" id="about" aria-labelledby="about-title">
       <div class="wrap">
@@ -2137,7 +2199,7 @@
           <dl class="contact__list">
             <div class="contact__row">
               <dt>制作・運用</dt>
-              <dd>GIGAyama（小学校教員）</dd>
+              <dd>GIGA山 / GIGAyama（小学校教員）</dd>
             </div>
             <div class="contact__row">
               <dt>メール</dt>
@@ -2150,6 +2212,10 @@
             <div class="contact__row">
               <dt>note</dt>
               <dd><a href="https://note.com/cute_borage86" rel="noopener">note.com/cute_borage86</a></dd>
+            </div>
+            <div class="contact__row">
+              <dt>X</dt>
+              <dd><a href="https://x.com/gigayama_edu" rel="noopener">@gigayama_edu</a></dd>
             </div>
           </dl>
         </div>
@@ -2169,10 +2235,12 @@
         <a href="/apps/">紹介</a>
         <a href="#tools">拡張機能</a>
         <a href="#updates">更新情報</a>
+        <a href="/profile/">自己紹介</a>
         <a href="#about">このサイトについて</a>
         <a href="#contact">お問い合わせ</a>
         <a href="https://github.com/GIGAyama" rel="noopener">GitHub</a>
         <a href="https://note.com/cute_borage86" rel="noopener">note</a>
+        <a href="https://x.com/gigayama_edu" rel="noopener">X</a>
         <a href="/press/">掲載用の資料</a>
         <a href="/feed.xml">更新を受け取る（RSS）</a>
       </nav>

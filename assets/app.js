@@ -87,7 +87,7 @@
     if (reduceMotion.matches || !('IntersectionObserver' in window)) return;
 
     var targets = Array.prototype.slice.call(
-      document.querySelectorAll('.section__head, .pillar, .card, .info-card, .contact'));
+      document.querySelectorAll('.section__head, .pillar, .card, .info-card, .contact, .profile-brief'));
     if (!targets.length) return;
 
     root.classList.add('js-reveal');
@@ -376,9 +376,13 @@
   var cards = Array.prototype.slice.call(list.querySelectorAll('.card'));
   var input = finder.querySelector('input[type="search"]');
   var clearBtn = finder.querySelector('.search__clear');
-  var chips = Array.prototype.slice.call(finder.querySelectorAll('.chip'));
+  /* 絞り込みは 2 本立て。教科・分野（data-cat）と、つかいかた（data-use）。
+     2 つは掛け合わせで効く（例：国語 × みんなでやる） */
+  var filters = { cat: finder.querySelector('[data-filter="cat"]'),
+                  use: finder.querySelector('[data-filter="use"]') };
   var status = finder.querySelector('[data-status]');
-  var resetBtn = document.querySelector('[data-reset]');
+  var resetBtns = Array.prototype.slice.call(document.querySelectorAll('[data-reset]'));
+  var clearBtn2 = finder.querySelector('.finder__clear');
   var forgetBtn = finder.querySelector('[data-forget]');
 
   /* ---------- かな → ローマ字 ----------
@@ -454,6 +458,8 @@
     return {
       el: card,
       cat: card.dataset.cat || '',
+      /* 1 枚が 2 つのつかいかたを持つことがある（例：みっけ！＝調べる・みんなでやる） */
+      use: (card.dataset.use || '').split(' ').filter(Boolean),
       text: base + ' ' + romajiOf(base)
     };
   });
@@ -470,7 +476,7 @@
       .trim();
   }
 
-  var state = { q: '', cat: 'all', sort: 'name' };
+  var state = { q: '', cat: 'all', use: 'all', sort: 'name' };
 
   var canAnimateMove = typeof Element !== 'undefined' &&
     typeof Element.prototype.animate === 'function';
@@ -595,8 +601,9 @@
 
     index.forEach(function (item) {
       var okCat = state.cat === 'all' || item.cat === state.cat;
+      var okUse = state.use === 'all' || item.use.indexOf(state.use) !== -1;
       var okText = terms.every(function (t) { return item.text.indexOf(t) !== -1; });
-      var visible = okCat && okText;
+      var visible = okCat && okUse && okText;
       item.el.hidden = !visible;
       if (visible) shown++;
     });
@@ -619,12 +626,20 @@
         : cards.length + ' 件中 ' + shown + ' 件を表示しています';
     }
 
+    /* 何かで絞っているときだけ、外すボタンを出す。
+       押しボタンを並べていたころは「すべて」を押し直せたが、
+       プルダウンでは 2 つ戻す手間になるため */
+    if (clearBtn2) {
+      clearBtn2.hidden = state.cat === 'all' && state.use === 'all' && !state.q;
+    }
+
     /* 状態を URL に残す（共有・再読み込みで復元できる）。
        読み込み直後は書き換えない。ここで # を付けると、
        ブラウザがその位置まで勝手にスクロールしてしまうため。 */
     if (writeUrl) {
       var params = new URLSearchParams();
       if (state.cat !== 'all') params.set('cat', state.cat);
+      if (state.use !== 'all') params.set('use', state.use);
       if (state.q) params.set('q', input ? input.value.trim() : state.q);
       if (state.sort !== 'name') params.set('sort', state.sort);
       var qs = params.toString();
@@ -659,26 +674,37 @@
     });
   }
 
-  chips.forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      state.cat = chip.dataset.cat || 'all';
-      chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', String(c === chip));
-      });
+  /* 系統ごとに 1 つ選ぶ。系統をまたぐと掛け合わせになる */
+  Object.keys(filters).forEach(function (key) {
+    var el = filters[key];
+    if (!el) return;
+    el.addEventListener('change', function () {
+      state[key] = el.value || 'all';
       apply(true);
     });
   });
 
-  if (resetBtn) {
-    resetBtn.addEventListener('click', function () {
-      if (input) input.value = '';
-      state = { q: '', cat: 'all', sort: state.sort };
-      chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', String((c.dataset.cat || 'all') === 'all'));
-      });
-      apply(true);
-    });
+  /* 選び直したものを画面に戻す（URL からの復元と「絞り込みを外す」で使う） */
+  function showFilter(key, value) {
+    var el = filters[key];
+    if (!el) return;
+    var known = Array.prototype.some.call(el.options, function (o) { return o.value === value; });
+    if (!known) return false;
+    el.value = value;
+    return true;
   }
+
+  resetBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (input) input.value = '';
+      state = { q: '', cat: 'all', use: 'all', sort: state.sort };
+      showFilter('cat', 'all');
+      showFilter('use', 'all');
+      apply(true);
+      /* 絞り込みバーの下のボタンは、押した拍子に消える。焦点が宙に浮かないよう検索へ戻す */
+      if (btn === clearBtn2 && input) input.focus();
+    });
+  });
 
   if (forgetBtn) {
     forgetBtn.addEventListener('click', function () {
@@ -714,6 +740,7 @@
   (function restore() {
     var params = new URLSearchParams(location.search);
     var cat = params.get('cat');
+    var use = params.get('use');
     var q = params.get('q');
     var sort = params.get('sort');
     if (q && input) { input.value = q; state.q = normalize(q); }
@@ -726,12 +753,8 @@
       state.sort = 'name';
       if (sortSelect) sortSelect.value = 'name';
     }
-    if (cat && chips.some(function (c) { return c.dataset.cat === cat; })) {
-      state.cat = cat;
-      chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', String(c.dataset.cat === cat));
-      });
-    }
+    if (cat && showFilter('cat', cat)) state.cat = cat;
+    if (use && showFilter('use', use)) state.use = use;
     apply(false);
   })();
 })();
