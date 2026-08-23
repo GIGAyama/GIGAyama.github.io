@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-22",
+ "generatedAt": "2026-08-23",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -13,7 +13,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 4832,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "digital-textbook",
@@ -26,7 +26,7 @@
    "images": 23,
    "imageHost": "raw",
    "charCount": 8059,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "digitalcloset",
@@ -39,7 +39,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 6094,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "gamification",
@@ -52,7 +52,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 7082,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "gobblet",
@@ -73,12 +73,12 @@
    "name": "GIGA句会プラザ",
    "title": "教室で使えるかもしれないもの作り #◯ 「書いて出して、終わり」にしない。クラス全員で読み合う句会アプリ「GIGA句会プラザ」",
    "headline": "「書いて出して、終わり」にしない。クラス全員で読み合う句会アプリ「GIGA句会プラザ」",
-   "summary": "国語の俳句の授業で、こんなことになっていませんか。",
+   "summary": "国語の俳句の授業で、こんなことになっていませんか。短冊は全員ぶん集まったのに、みんなで読み合えたのは、そのうちの数人ぶんだけ。",
    "source": "docs/note/giga-kukai-plaza-note-article.md",
    "images": 24,
    "imageHost": "subdomain",
-   "charCount": 6069,
-   "updatedAt": "2026-08-22"
+   "charCount": 6543,
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "homework-barcordreader",
@@ -91,7 +91,7 @@
    "images": 25,
    "imageHost": "raw",
    "charCount": 5442,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "ice-slide-puzzle",
@@ -104,7 +104,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 6004,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "kake-master",
@@ -117,7 +117,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5839,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "kana-master",
@@ -130,7 +130,7 @@
    "images": 28,
    "imageHost": "subdomain",
    "charCount": 7049,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "kanji-town",
@@ -143,7 +143,7 @@
    "images": 16,
    "imageHost": "raw",
    "charCount": 6664,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "keisan-block",
@@ -156,7 +156,7 @@
    "images": 26,
    "imageHost": "subdomain",
    "charCount": 6249,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "keisan-card",
@@ -169,7 +169,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6464,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "mirai-compass",
@@ -182,7 +182,7 @@
    "images": 27,
    "imageHost": "subdomain",
    "charCount": 6301,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "notebooksample-generator",
@@ -207,8 +207,8 @@
    "source": "docs/note/square100-note-article.md",
    "images": 19,
    "imageHost": "raw",
-   "charCount": 6059,
-   "updatedAt": "2026-08-22"
+   "charCount": 8297,
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "online-manuscript-paper-lite",
@@ -221,7 +221,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 5792,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "online-manuscript-paper-pro",
@@ -234,7 +234,7 @@
    "images": 29,
    "imageHost": "subdomain",
    "charCount": 5467,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-22"
   },
   {
    "slug": "online-publisher-pro",
@@ -247,7 +247,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6283,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "qalc",
@@ -260,7 +260,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 6465,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "quarto",
@@ -273,7 +273,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6052,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "quoridor",
@@ -286,7 +286,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 5461,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "reading-books",
@@ -299,7 +299,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 5949,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "reflection-journal",
@@ -309,10 +309,10 @@
    "headline": "「せんせい、なにを書けばいいの」で止まらない。書き出しのことばが出てくるふりかえりアプリ「ふりかえりジャーナル」",
    "summary": "一日の終わりに、ふりかえりを書かせる。 やってみると、思っていたよりむずかしくないでしょうか。",
    "source": "docs/note/reflection-journal-note-article.md",
-   "images": 23,
+   "images": 22,
    "imageHost": "subdomain",
-   "charCount": 5638,
-   "updatedAt": "2026-08-22"
+   "charCount": 7150,
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "reversi",
@@ -325,7 +325,7 @@
    "images": 22,
    "imageHost": "raw",
    "charCount": 5697,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "schoolplan-editor",
@@ -338,7 +338,7 @@
    "images": 23,
    "imageHost": "subdomain",
    "charCount": 7414,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "townmap-mikke",
@@ -351,7 +351,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5980,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "typa",
@@ -364,7 +364,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 6056,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "werewolf",
@@ -377,7 +377,7 @@
    "images": 25,
    "imageHost": "raw",
    "charCount": 5743,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "word-basket",
@@ -390,7 +390,7 @@
    "images": 21,
    "imageHost": "raw",
    "charCount": 5718,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   },
   {
    "slug": "xxx-automatic",
@@ -403,7 +403,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 7341,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-23"
   }
  ]
 }
