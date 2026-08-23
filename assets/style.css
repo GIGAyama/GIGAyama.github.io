@@ -732,6 +732,21 @@
   .search__clear:hover { background: var(--surface-2); color: var(--ink); }
   .search:not(:has(input:not(:placeholder-shown))) .search__clear { display: none; }
 
+  /* 絞り込みは 2 本立て（教科・分野／つかいかた）。どちらの列かが見て分かるよう、
+     小さな見出しを付ける。付けないと 17 個のボタンが 1 つの塊に見える */
+  .filters {
+    display: grid;
+    gap: var(--s-4);
+    margin-block-start: var(--s-4);
+  }
+  .filter__label {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+  }
+  .filter .chips { margin-block-start: var(--s-2); }
+
   .chips {
     display: flex;
     flex-wrap: wrap;
@@ -1941,8 +1956,16 @@
   .profile-body ul { margin: var(--s-3) 0; padding-inline-start: 1.4em; list-style: disc; }
   .profile-body li { margin-block: 4px; }
   .profile-section .stats { margin-block-start: var(--s-4); inline-size: 100%; }
-  /* カテゴリの内訳は、トップの絞り込みボタンをそのままリンクにして使う */
+  /* 内訳は、トップの絞り込みボタンをそのままリンクにして使う */
   .profile-section .chip { text-decoration: none; }
+  .profile-chips-label {
+    margin-block-start: var(--s-4);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+  }
+  .profile-chips-label + .chips { margin-block-start: var(--s-2); }
   /* よくいただく質問は掲載用の資料と同じ組み方（.press-faq）を借りる。
      あちらは見出しの下に説明文が入るが、こちらは問いが直に続くので、その分だけ空ける */
   .profile-section > .press-faq:first-of-type { margin-block-start: var(--s-4); }

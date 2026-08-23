@@ -376,7 +376,10 @@
   var cards = Array.prototype.slice.call(list.querySelectorAll('.card'));
   var input = finder.querySelector('input[type="search"]');
   var clearBtn = finder.querySelector('.search__clear');
-  var chips = Array.prototype.slice.call(finder.querySelectorAll('.chip'));
+  /* 絞り込みは 2 本立て。教科・分野（data-cat）と、つかいかた（data-use）。
+     2 つは掛け合わせで効く（例：国語 × みんなでやる） */
+  var catChips = Array.prototype.slice.call(finder.querySelectorAll('.chip[data-cat]'));
+  var useChips = Array.prototype.slice.call(finder.querySelectorAll('.chip[data-use]'));
   var status = finder.querySelector('[data-status]');
   var resetBtn = document.querySelector('[data-reset]');
   var forgetBtn = finder.querySelector('[data-forget]');
@@ -454,6 +457,8 @@
     return {
       el: card,
       cat: card.dataset.cat || '',
+      /* 1 枚が 2 つのつかいかたを持つことがある（例：みっけ！＝調べる・みんなでやる） */
+      use: (card.dataset.use || '').split(' ').filter(Boolean),
       text: base + ' ' + romajiOf(base)
     };
   });
@@ -470,7 +475,7 @@
       .trim();
   }
 
-  var state = { q: '', cat: 'all', sort: 'name' };
+  var state = { q: '', cat: 'all', use: 'all', sort: 'name' };
 
   var canAnimateMove = typeof Element !== 'undefined' &&
     typeof Element.prototype.animate === 'function';
@@ -595,8 +600,9 @@
 
     index.forEach(function (item) {
       var okCat = state.cat === 'all' || item.cat === state.cat;
+      var okUse = state.use === 'all' || item.use.indexOf(state.use) !== -1;
       var okText = terms.every(function (t) { return item.text.indexOf(t) !== -1; });
-      var visible = okCat && okText;
+      var visible = okCat && okUse && okText;
       item.el.hidden = !visible;
       if (visible) shown++;
     });
@@ -625,6 +631,7 @@
     if (writeUrl) {
       var params = new URLSearchParams();
       if (state.cat !== 'all') params.set('cat', state.cat);
+      if (state.use !== 'all') params.set('use', state.use);
       if (state.q) params.set('q', input ? input.value.trim() : state.q);
       if (state.sort !== 'name') params.set('sort', state.sort);
       var qs = params.toString();
@@ -659,23 +666,33 @@
     });
   }
 
-  chips.forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      state.cat = chip.dataset.cat || 'all';
-      chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', String(c === chip));
+  /* 同じ系統の中では 1 つだけ選べる。系統をまたぐと掛け合わせになる */
+  function bindChips(group, key) {
+    group.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        state[key] = chip.dataset[key] || 'all';
+        group.forEach(function (c) {
+          c.setAttribute('aria-pressed', String(c === chip));
+        });
+        apply(true);
       });
-      apply(true);
     });
-  });
+  }
+  bindChips(catChips, 'cat');
+  bindChips(useChips, 'use');
+
+  function pressChips(group, key, value) {
+    group.forEach(function (c) {
+      c.setAttribute('aria-pressed', String((c.dataset[key] || 'all') === value));
+    });
+  }
 
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       if (input) input.value = '';
-      state = { q: '', cat: 'all', sort: state.sort };
-      chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', String((c.dataset.cat || 'all') === 'all'));
-      });
+      state = { q: '', cat: 'all', use: 'all', sort: state.sort };
+      pressChips(catChips, 'cat', 'all');
+      pressChips(useChips, 'use', 'all');
       apply(true);
     });
   }
@@ -714,6 +731,7 @@
   (function restore() {
     var params = new URLSearchParams(location.search);
     var cat = params.get('cat');
+    var use = params.get('use');
     var q = params.get('q');
     var sort = params.get('sort');
     if (q && input) { input.value = q; state.q = normalize(q); }
@@ -726,11 +744,13 @@
       state.sort = 'name';
       if (sortSelect) sortSelect.value = 'name';
     }
-    if (cat && chips.some(function (c) { return c.dataset.cat === cat; })) {
+    if (cat && catChips.some(function (c) { return c.dataset.cat === cat; })) {
       state.cat = cat;
-      chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', String(c.dataset.cat === cat));
-      });
+      pressChips(catChips, 'cat', cat);
+    }
+    if (use && useChips.some(function (c) { return c.dataset.use === use; })) {
+      state.use = use;
+      pressChips(useChips, 'use', use);
     }
     apply(false);
   })();

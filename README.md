@@ -179,8 +179,10 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
 
 1. **Web アプリ** … `<ul class="cards" id="app-list">` の中に `<li class="card">` を追加します。
    既存のカードをコピーし、次の 5 か所を書き換えてください。
-   - `data-cat` … カテゴリの id（`kokugo` / `sansu` / `tankyu` / `gakkyu` / `koumu` /
-     `seisaku` / `game` / `other`）
+   - `data-cat` … 教科・分野の id（`kokugo` / `sansu` / `tankyu` / `gakkyu` / `koumu` /
+     `seisaku` / `game` / `other`）。**1 枚に 1 つだけ**
+   - `data-use` … つかいかたの id（下の「絞り込みの 2 本目」を見てください）。
+     2 つ持たせるときは空白で区切ります（例：`data-use="shiraberu minna"`）
    - `data-slug` … サブドメインの名前。「最近開いた順」の記録に使うので、
      カードの「開く」の行き先と必ずそろえます
    - `data-name` と `data-keywords` … 検索に使う語。漢字の語は、ひらがなの読みも足しておくと
@@ -193,14 +195,15 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
      画像がまだ無いときは
      `<div class="card__media card__media--tile" data-initial="頭文字"></div>`
      に置き換えると、カテゴリ色のタイルが描かれます。
-2. **カテゴリの件数** … 絞り込みボタン（`.chip`）の `<span class="count">` と、
-   見出し・ヒーローの本数を合わせて直します。
+2. **絞り込みの件数** … 教科・分野とつかいかた、**両方の**ボタン（`.chip`）の
+   `<span class="count">` と、見出し・ヒーローの本数を合わせて直します。
    `profile/index.html` にも同じ件数と本数があります（`.stats` と `.chip`）。
    トップページの `#profile` にある「いまは ◯ 本」も同じです。
+   数え違いは `node tools/check-cards.mjs` が見つけて止めます。
 3. **Chrome 拡張機能など** … `#tools` の中のカードを同じ要領で編集します。
 4. `data/apps.json` にも 1 行足します（`repo` / `name` / `kind` / `slug` / `category`）。
    日付は `node tools/sync-updates.mjs --fetch` で埋まります。
-5. `node tools/check-cards.mjs` を走らせて、`data-slug` を確かめます。
+5. `node tools/check-cards.mjs` を走らせて、`data-slug`・`data-use`・件数を確かめます。
 
 ### アプリを取り下げるとき
 
@@ -210,13 +213,47 @@ GITHUB_TOKEN=… node tools/set-homepage.mjs --apply      実際に直す
 1. `index.html` の該当する `<li class="card">`
 2. `index.html` の先頭にある構造化データ（`application/ld+json`）の該当項目と `numberOfItems`
 3. 本数の表記（ヒーローの「◯本」、見出しの「公開中のアプリ（◯本）」、
-   絞り込みボタンの件数、`<meta name="description">` と `og:description`）
+   絞り込みボタンの件数（教科・分野とつかいかたの両方）、
+   `<meta name="description">` と `og:description`）
 4. `data/apps.json` の該当項目
 5. `profile/index.html` の本数・件数と、トップページ `#profile` の「いまは ◯ 本」
 
 `assets/thumbs/<サブドメイン>-*.webp` も不要なら消します。
 毎朝のワークフローは、消えたリポジトリを見つけると
 「見つからない（削除された？）」と記録に残しますが、自動では外しません。
+
+## 絞り込みの 2 本目（つかいかた）
+
+カードは 2 つの軸で絞り込めます。**掛け合わせ**で効きます（例：国語・言葉 × みんなでやる）。
+
+| 軸 | 属性 | 何を表すか | 数 |
+|---|---|---|---|
+| 教科・分野 | `data-cat` | **何の時間に使うか**。1 枚に 1 つだけ | 8 分類 |
+| つかいかた | `data-use` | **学びのどの場面を助けるか**。1 枚に 2 つまで | 8 分類 |
+
+教科だけだと、「明日の授業で子どもに何をさせたいか」から探せませんでした。
+逆に、つかいかただけだと「国語の時間に使えるもの」が見つかりません。両方を残しています。
+
+つかいかたの id と意味：
+
+| id | 表示 | 入れるもの |
+|---|---|---|
+| `susumu` | 自分で進める | 見通しを立て、進み具合を自分で確かめられるもの（みらいコンパス など） |
+| `renshu` | 練習する | くりかえして身につけるもの（九九カード、かきかたマスター など） |
+| `shiraberu` | 調べる | 資料や事象を見て考えるもの（じどう車ずかん など） |
+| `tsukuru` | つくる | 作品や成果物を仕上げるもの（オンライン原稿用紙、音楽制作スタジオ など） |
+| `furikaeru` | ふりかえる | 記録して見返すもの（ふりかえりジャーナル、どくしょちょきんばこ など） |
+| `minna` | みんなでやる | 対戦・協働など、ひとりでは成り立たないもの（人狼ゲーム、みっけ！ など） |
+| `sensei` | 先生の仕事 | 準備や校務を軽くするもの（週案エディタ、宿題ポスト など） |
+| `hoka` | そのほか | 上のどれでもないもの |
+
+> [!NOTE]
+> **2 つ持たせるのは、本当に両方のときだけ**にしてください。
+> いまは「みっけ！」（調べる・みんなでやる）と「まなびクエスト」（ふりかえる・自分で進める）の
+> 2 枚だけです。迷ったら 1 つにします。多く付けるほど、絞り込みの意味が薄くなります。
+
+URL にも残ります（`/?cat=kokugo&use=minna#apps`）。自己紹介ページからは、この形で
+それぞれの分類へリンクしています。
 
 ## サムネイルについて
 
