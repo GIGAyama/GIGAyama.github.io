@@ -203,6 +203,36 @@ test('説明文の中の <style> から本物の </style> までを CSS とし�
   assert.ok(failed.includes('D_REDUCED_MOTION'), `説明文で満たされました: ${failed.join(', ')}`);
 });
 
+test('入口のページを docs/ に置くリポジトリでも、CSP と viewport を見る', () => {
+  // SchoolPlan_Editor は GitHub Pages を docs/ から配る。入口が
+  // docs/index.html なので、決め打ちのままでは「index.html がありません」で
+  // まとめて落ちていた（2026-08-23）。
+  const tree = {};
+  for (const [k, v] of Object.entries(OK_TREE)) tree[`docs/${k}`] = v;
+  const cfg = {
+    entryHtml: 'docs/index.html',
+    siteRoot: 'docs',
+    swSource: 'docs/sw.js',
+    manifest: 'docs/manifest.webmanifest',
+    jsDirs: ['docs/js'],
+    cssDirs: ['docs/css'],
+    htmlFiles: ['docs/index.html', 'docs/offline.html'],
+    imageDirs: ['docs/icons'],
+  };
+  const failed = ids(failures(tree, cfg));
+  for (const id of ['B_CSP', 'B_NO_INLINE_SCRIPT', 'D_VIEWPORT', 'E_INSTALL_HOOK']) {
+    assert.ok(!failed.includes(id), `${id} が落ちました: ${failed.join(', ')}`);
+  }
+});
+
+test('入口のページの指定が効かないと、docs/ 型は落ちる（受け皿の確認）', () => {
+  const tree = {};
+  for (const [k, v] of Object.entries(OK_TREE)) tree[`docs/${k}`] = v;
+  // entryHtml を既定（直下の index.html）のままにすると見つからない
+  const failed = ids(failures(tree, { siteRoot: 'docs', swSource: 'docs/sw.js', manifest: 'docs/manifest.webmanifest' }));
+  assert.ok(failed.includes('D_VIEWPORT'), failed.join(', '));
+});
+
 test('版の目印が値そのものの形（vite-plugin-pwa 型）も自動生成と認める', () => {
   // Quarto の src/sw.js がこの形。build-sw-vite.mjs（正本）は両方に対応して
   // いるのに、ゲートだけが「手書きだ」と落としていた（2026-08-23）。
