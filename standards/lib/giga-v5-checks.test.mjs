@@ -464,6 +464,70 @@ test('sw: "static" は v0/dev のままだと拾う', () => {
   assert.ok(ids(failures(tree)).includes('E_SW_VERSION_GENERATED'));
 });
 
+// ---- manifest が指すアイコンの実体 ----
+//
+// 「並んでいる」と「在る」は別である。maskable の実体は E_MASKABLE_SAFE_ZONE が
+// 読むので消えれば落ちるが、any のほうは誰も読んでいなかった。
+// xxx_automatic で icons/icon-192.png を消しても 38 件すべて通った（2026-08-23）。
+// 192 が取れないと Chrome はインストールの合図を出さない。画面は普通に出るので、
+// 誰も気づかないまま「入れられないアプリ」になる。
+
+test('manifest が指す any のアイコンが無ければ拾う', () => {
+  const tree = { ...OK_TREE };
+  delete tree['icons/icon-192.png'];
+  // ⚠️ 入口の <img> も一緒に外す。外さないと F_IMG_DIMENSIONS の
+  //    「画像が無い」で落ち、E_ICONS が見ているのか分からなくなる。
+  tree['index.html'] = tree['index.html']
+    .replace('<img src="./icons/icon-192.png" width="64" height="64" alt="アイコン">', '');
+  const rs = runGigaChecks(makeTree(tree), CONFIG);
+  const icons = rs.find((r) => r.id === 'E_ICONS');
+  assert.equal(icons.ok, false);
+  assert.match(icons.detail.join(' '), /icon-192\.png/);
+});
+
+test('src の無いアイコンが並んでいたら拾う', () => {
+  const tree = { ...OK_TREE };
+  const j = JSON.parse(tree['manifest.webmanifest']);
+  j.icons.push({ sizes: '48x48', type: 'image/png' });
+  tree['manifest.webmanifest'] = JSON.stringify(j);
+  const rs = runGigaChecks(makeTree(tree), CONFIG);
+  assert.equal(rs.find((r) => r.id === 'E_ICONS').ok, false);
+});
+
+// ---- 版を刻む道具の置き場 ----
+//
+// 道具を scripts/ にまとめているリポジトリがある（xxx_automatic）。
+// tools/build-sw.mjs と決め打ちしていたころは、版を正しく自動生成しているのに
+// 「自動生成が外れています」と落ちていた。entryHtml・E_CNAME と同じ形の決め打ちで、
+// 見つかったのはこれで3件目である。
+
+test('swBuilder で道具の置き場を変えられる', () => {
+  const tree = { ...OK_TREE };
+  delete tree['tools/build-sw.mjs'];
+  tree['scripts/build-sw.mjs'] = '// 正本のコピー\n';
+  const f = ids(failures(tree, { swBuilder: 'scripts/build-sw.mjs' }));
+  assert.ok(!f.includes('E_SW_VERSION_GENERATED'), `落ちてはいけない: ${f}`);
+});
+
+test('swBuilder で指したところに道具が無ければ拾う', () => {
+  const tree = { ...OK_TREE };
+  delete tree['tools/build-sw.mjs'];
+  const rs = runGigaChecks(makeTree(tree), { ...CONFIG, swBuilder: 'scripts/build-sw.mjs' });
+  const gen = rs.find((r) => r.id === 'E_SW_VERSION_GENERATED');
+  assert.equal(gen.ok, false);
+  // 「tools/」ではなく、指したところの名前で知らせる
+  assert.match(gen.detail.join(' '), /scripts\/build-sw\.mjs/);
+});
+
+test('swBuilder を書かなければ tools/build-sw.mjs を見る（これまでどおり）', () => {
+  const tree = { ...OK_TREE };
+  delete tree['tools/build-sw.mjs'];
+  const rs = runGigaChecks(makeTree(tree), CONFIG);
+  const gen = rs.find((r) => r.id === 'E_SW_VERSION_GENERATED');
+  assert.equal(gen.ok, false);
+  assert.match(gen.detail.join(' '), /tools\/build-sw\.mjs/);
+});
+
 test('sw: "workbox" は SW 原文の検査を理由つきで飛ばす', () => {
   const tree = { ...OK_TREE };
   delete tree['sw.js'];
