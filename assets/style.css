@@ -672,35 +672,44 @@
   .pillar p { font-size: .9375rem; line-height: 1.8; color: var(--ink-2); margin: 0; }
 
   /* ---------- 検索・絞り込み ---------- */
+  /* 貼り付くのは、探すのに要る段だけ（ことばで探す欄と、絞り込み 2 つ）。
+     件数の知らせと並び順まで貼り付けていたころは、スマホで 4 行ぶんが
+     画面に残りつづけ、読める面積が半分以下になっていた。
+     知らせは絞り込んだ直後に見るもの、並び順は最初に一度決めるもので、
+     どちらもスクロール中には要らない。下の .finder__foot に置いて、上へ送り出す。
+
+     ⚠️ 貼り付いていられるのは親の中だけ。この枠は節の器（.wrap）の子でなければ
+        ならない。入れ子にすると、その入れ物の底で貼り付きが外れる。 */
   .finder {
     position: sticky;
-    inset-block-start: 66px;
+    /* 背を低くしたあとのヘッダー（56px）のすぐ下。66px だと 10px の隙間ができ、
+       スクロール中はそこだけカードが覗いて見える */
+    inset-block-start: 56px;
     z-index: 20;
     padding-block: var(--s-4);
-    margin-block-end: var(--s-5);
     background: color-mix(in srgb, var(--bg-sunken) 88%, transparent);
-    border-block-end: 1px solid transparent;
   }
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .finder { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
   }
 
-  /* 探し方のバー。ことばで探す欄と、選ぶもの 3 つ（教科・つかいかた・並び順）。
+  /* 探し方のバー。ことばで探す欄と、絞り込み 2 つ（教科・分野／つかいかた）。
      押しボタン 18 個を並べていたころは、どれが何の列なのか見て分からなかった。
-     選ぶものは選ぶ形にして、1 行に収める。 */
-  .finder__bar {
+     選ぶものは選ぶ形にして、1 行に収める。
+
+     ⚠️ .finder は画面の上に貼り付く。ここに置いたものは、スクロールのあいだ
+        ずっと場所を取りつづける。スマホでは高さがそのまま読める面積を削るので、
+        上の段は「探すのに要るもの」だけにする（並び順は下の段）。 */
+  .finder {
     display: grid;
-    grid-template-columns: minmax(200px, 1.7fr) repeat(3, minmax(120px, 1fr));
+    grid-template-columns: minmax(200px, 1.6fr) repeat(2, minmax(130px, 1fr));
     gap: var(--s-3);
     align-items: end;
   }
-  /* 狭いところでは、検索を 1 行使い、選ぶものを 2 列に折る */
-  @media (max-width: 900px) {
-    .finder__bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .finder__bar .search { grid-column: 1 / -1; }
-  }
-  @media (max-width: 420px) {
-    .finder__bar { grid-template-columns: minmax(0, 1fr); }
+  /* 狭いところでは、検索が 1 行、絞り込み 2 つで 1 行。合わせて 2 行に収める */
+  @media (max-width: 760px) {
+    .finder { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); }
+    .finder .search { grid-column: 1 / -1; }
   }
 
   .picker { display: grid; gap: 6px; min-inline-size: 0; }
@@ -710,6 +719,15 @@
     letter-spacing: .04em;
     color: var(--ink-3);
   }
+
+  /* 並び順は知らせの行に置く。ここだけ横並びで小さく */
+  .picker--sort {
+    grid-auto-flow: column;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .picker--sort > label { white-space: nowrap; }
+  .picker--sort select { min-block-size: 32px; padding-block: 4px; font-size: .8125rem; }
 
   .search {
     position: relative;
@@ -801,7 +819,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--s-2) var(--s-4);
-    margin-block-start: var(--s-3);
+    margin-block: var(--s-3) var(--s-5);
   }
   .finder__status {
     font-size: .8125rem;
@@ -860,6 +878,16 @@
     color: var(--brand-ink);
     background-color: var(--brand-softer);
   }
+  /* 貼り付いているあいだの高さを削る。読める面積がそのぶん増える。
+     行の高さは本文の 1.85 のままだと字より余白のほうが厚くなるので、詰める */
+  @media (max-width: 560px) {
+    .finder { padding-block: var(--s-3); }
+    .picker select { min-block-size: 38px; font-size: .8125rem; }
+    .picker > label { line-height: 1.3; }
+    .search input { padding-block: 9px; font-size: .875rem; line-height: 1.4; }
+    .finder__foot { margin-block-start: var(--s-3); }
+  }
+
   .picker select:focus-visible {
     outline: none;
     border-color: var(--brand);
