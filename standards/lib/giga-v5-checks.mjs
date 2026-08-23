@@ -97,6 +97,12 @@ const DEFAULTS = {
   // ここを決め打ちにしていたせいで、そういうリポジトリでは CSP も viewport も
   // インストールの合図も「index.html がありません」で落ちていた（2026-08-23）。
   entryHtml: 'index.html',
+  // 版を刻む道具の場所。ほとんどのリポジトリは tools/build-sw.mjs だが、
+  // 道具を scripts/ にまとめているリポジトリ（xxx_automatic）は
+  // 'scripts/build-sw.mjs' になる。ここを決め打ちにしていたせいで、
+  // 版を正しく自動生成しているのに「自動生成が外れています」と落ちていた
+  // （entryHtml #58・E_CNAME #59 と同じ形の決め打ち。3件目）（2026-08-23）。
+  swBuilder: 'tools/build-sw.mjs',
   jsDirs: ['js'],
   cssDirs: ['css'],
   htmlFiles: ['index.html', 'offline.html'],
@@ -849,8 +855,8 @@ export const CHECKS = [
       const rel = swSourceOf(cfg);
       const src = read(root, rel);
       if (!src) return { ok: false, detail: [`${rel} がありません`] };
-      if (!fs.existsSync(path.join(root, 'tools/build-sw.mjs'))) {
-        return { ok: false, detail: ['tools/build-sw.mjs がありません。版の自動生成が外れています'] };
+      if (!fs.existsSync(path.join(root, cfg.swBuilder))) {
+        return { ok: false, detail: [`${cfg.swBuilder} がありません。版の自動生成が外れています`] };
       }
       // ⚠️ 目印はコメントなので、コメント除去前の原文で見る。
       const name = cfg.swVersionConst ? cfg.swVersionConst.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '(?:APP_VERSION|VERSION)';
@@ -866,7 +872,7 @@ export const CHECKS = [
         return { ok: false, detail: [`${rel} の版の行が自動生成の形（__APP_VERSION__ の目印つき）になっていません`] };
       }
       if (stamped && cfg.sw === 'static' && (stamped[1] === 'v0' || stamped[1] === 'dev')) {
-        return { ok: false, detail: [`${rel} の版が仮の値（${stamped[1]}）のままです。node tools/build-sw.mjs で埋めてください`] };
+        return { ok: false, detail: [`${rel} の版が仮の値（${stamped[1]}）のままです。node ${cfg.swBuilder} で埋めてください`] };
       }
       return { ok: true, detail: [] };
     },

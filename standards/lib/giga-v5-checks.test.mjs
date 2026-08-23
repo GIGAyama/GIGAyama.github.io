@@ -464,6 +464,40 @@ test('sw: "static" は v0/dev のままだと拾う', () => {
   assert.ok(ids(failures(tree)).includes('E_SW_VERSION_GENERATED'));
 });
 
+// ---- 版を刻む道具の置き場 ----
+//
+// 道具を scripts/ にまとめているリポジトリがある（xxx_automatic）。
+// tools/build-sw.mjs と決め打ちしていたころは、版を正しく自動生成しているのに
+// 「自動生成が外れています」と落ちていた。entryHtml・E_CNAME と同じ形の決め打ちで、
+// 見つかったのはこれで3件目である。
+
+test('swBuilder で道具の置き場を変えられる', () => {
+  const tree = { ...OK_TREE };
+  delete tree['tools/build-sw.mjs'];
+  tree['scripts/build-sw.mjs'] = '// 正本のコピー\n';
+  const f = ids(failures(tree, { swBuilder: 'scripts/build-sw.mjs' }));
+  assert.ok(!f.includes('E_SW_VERSION_GENERATED'), `落ちてはいけない: ${f}`);
+});
+
+test('swBuilder で指したところに道具が無ければ拾う', () => {
+  const tree = { ...OK_TREE };
+  delete tree['tools/build-sw.mjs'];
+  const rs = runGigaChecks(makeTree(tree), { ...CONFIG, swBuilder: 'scripts/build-sw.mjs' });
+  const gen = rs.find((r) => r.id === 'E_SW_VERSION_GENERATED');
+  assert.equal(gen.ok, false);
+  // 「tools/」ではなく、指したところの名前で知らせる
+  assert.match(gen.detail.join(' '), /scripts\/build-sw\.mjs/);
+});
+
+test('swBuilder を書かなければ tools/build-sw.mjs を見る（これまでどおり）', () => {
+  const tree = { ...OK_TREE };
+  delete tree['tools/build-sw.mjs'];
+  const rs = runGigaChecks(makeTree(tree), CONFIG);
+  const gen = rs.find((r) => r.id === 'E_SW_VERSION_GENERATED');
+  assert.equal(gen.ok, false);
+  assert.match(gen.detail.join(' '), /tools\/build-sw\.mjs/);
+});
+
 test('sw: "workbox" は SW 原文の検査を理由つきで飛ばす', () => {
   const tree = { ...OK_TREE };
   delete tree['sw.js'];
