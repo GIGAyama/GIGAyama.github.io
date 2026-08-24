@@ -1584,12 +1584,25 @@
     border: 1px solid var(--line);
     background: var(--surface-2);
   }
-  /* カテゴリの色は、カードの .tag と同じ見え方にそろえる */
+  /* カテゴリの色は、カードの .tag と同じ見え方にそろえる。
+     ⚠️ 色は丸で出し、文字は --ink-2 にする。カテゴリの 8 色は
+        いずれも白地に対して 3.1〜4.2:1 しかなく、11px の文字に使うと
+        AA（4.5:1）に届かない。カードの .tag が同じ作りになっている。 */
   .more-item__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     justify-self: start;
     font-size: .6875rem;
     font-weight: 700;
-    color: var(--cat, var(--ink-3));
+    color: var(--ink-2);
+  }
+  .more-item__tag::before {
+    content: "";
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 50%;
+    background: var(--cat, var(--brand));
   }
   .more-item__title {
     font-size: .8125rem;

@@ -258,8 +258,10 @@
     </aside>
 
     <!-- だれが書いたのかは、学校で使うかを決めるときの材料になる。
-         自己紹介のページには書いてあるのに、紹介記事からは 1 本もつながっていなかった -->
-    <aside class="article__author">
+         自己紹介のページには書いてあるのに、紹介記事からは 1 本もつながっていなかった。
+         ⚠️ aside にしない。すぐ上の .article__end も aside で、名前のない
+            complementary の目印が 2 つ並ぶと、読み上げで見分けがつかなくなる -->
+    <div class="article__author">
       <img class="article__author-face" src="/assets/profile.webp"
            srcset="/assets/profile-sm.webp 256w, /assets/profile.webp 512w" sizes="72px"
            width="512" height="512" loading="lazy" decoding="async" alt="">
@@ -269,7 +271,7 @@
         <p class="article__author-text">教室で「これがあれば」と思ったものをつくって、
         無償で公開しています。<a href="/profile/">自己紹介を読む</a></p>
       </div>
-    </aside>
+    </div>
 
     <nav class="article-more" aria-labelledby="more-title">
       <h2 class="article-more__title" id="more-title">ほかの紹介</h2>
