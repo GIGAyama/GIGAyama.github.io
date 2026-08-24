@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-23",
+ "generatedAt": "2026-08-24",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -13,7 +13,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 4832,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "digital-textbook",
@@ -24,9 +24,9 @@
    "summary": "印刷室でプリントを刷りながら、こんなふうに思ったことはありませんか。",
    "source": "docs/note/digital-textbook-note-article.md",
    "images": 23,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 8059,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "digitalcloset",
@@ -37,9 +37,9 @@
    "summary": "朝、クローゼットの前でしばらく動けなくなること、ありませんか。",
    "source": "docs/note/digital-closet-note-article.md",
    "images": 21,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 6094,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "gamification",
@@ -51,8 +51,8 @@
    "source": "docs/note/manabi-quest-note-article.md",
    "images": 25,
    "imageHost": "subdomain",
-   "charCount": 7082,
-   "updatedAt": "2026-08-23"
+   "charCount": 7165,
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "gobblet",
@@ -65,7 +65,7 @@
    "images": 22,
    "imageHost": "subdomain",
    "charCount": 6166,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "haiku-meeting",
@@ -78,7 +78,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6543,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "homework-barcordreader",
@@ -89,9 +89,9 @@
    "summary": "朝の会が始まるまでの十分間、教室でいちばん時間を取られているのは宿題の確認ではないでしょうか。名簿を片手に「音読カードは出した？」「自主学習をやってきた人」と声をかけて回り、返事のなかった子をもう一度さがしにいく。…",
    "source": "docs/note/shukudai-post-note-article.md",
    "images": 25,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 5442,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "ice-slide-puzzle",
@@ -104,7 +104,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 6004,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "kake-master",
@@ -117,7 +117,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5839,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "kana-master",
@@ -129,8 +129,8 @@
    "source": "docs/note/kana-master-note-article.md",
    "images": 28,
    "imageHost": "subdomain",
-   "charCount": 7049,
-   "updatedAt": "2026-08-23"
+   "charCount": 7055,
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "kanji-town",
@@ -141,9 +141,9 @@
    "summary": "漢字の丸付けをしていて、こんなふうに迷ったことはありませんか。",
    "source": "docs/note/kanji-town-note-article.md",
    "images": 16,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 6664,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "keisan-block",
@@ -156,7 +156,7 @@
    "images": 26,
    "imageHost": "subdomain",
    "charCount": 6249,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "keisan-card",
@@ -169,7 +169,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6464,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "mirai-compass",
@@ -181,8 +181,8 @@
    "source": "docs/note/mirai-compass-note-article.md",
    "images": 27,
    "imageHost": "subdomain",
-   "charCount": 6301,
-   "updatedAt": "2026-08-23"
+   "charCount": 7056,
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "notebooksample-generator",
@@ -193,9 +193,9 @@
    "summary": "明日の授業で使うノートの見本を、黒板の前でマスを数えながら書いたことはありませんか。",
    "source": "docs/note/notebook-sample-note-article.md",
    "images": 20,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 6511,
-   "updatedAt": "2026-08-21"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "online-100square-calculation",
@@ -206,9 +206,9 @@
    "summary": "100マス計算は、やれば力がつくと分かっているものの筆頭ではないでしょうか。朝の会の前の5分、算数のはじめの3分。毎日続けたい、と思って始めた先生は多いと思います。",
    "source": "docs/note/square100-note-article.md",
    "images": 19,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 8297,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "online-manuscript-paper-lite",
@@ -221,7 +221,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 5792,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "online-manuscript-paper-pro",
@@ -234,7 +234,7 @@
    "images": 29,
    "imageHost": "subdomain",
    "charCount": 5467,
-   "updatedAt": "2026-08-22"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "online-publisher-pro",
@@ -247,7 +247,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6283,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "qalc",
@@ -258,9 +258,9 @@
    "summary": "計算練習の時間になると、教室はだいたい三つに分かれませんか。",
    "source": "docs/note/qalc-note-article.md",
    "images": 21,
-   "imageHost": "raw",
-   "charCount": 6465,
-   "updatedAt": "2026-08-23"
+   "imageHost": "mirror",
+   "charCount": 6467,
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "quarto",
@@ -271,9 +271,9 @@
    "summary": "テストやプリントが早く終わった子に、「読書していてね」と言うしかない5分。 雨の日の休み時間、教室でもてあましてしまう時間。 次の準備をしているあいだ、手持ちぶさたにさせてしまう数分間。 そういう時間に、…",
    "source": "docs/note/quarto-note-article.md",
    "images": 17,
-   "imageHost": "subdomain",
+   "imageHost": "raw",
    "charCount": 6052,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "quoridor",
@@ -284,9 +284,9 @@
    "summary": "雨の日の休み時間、教室にボードゲームを出してみたものの、ルールの説明だけで10分が過ぎてしまった、ということはありませんか。ようやく始まったと思ったら、今度は「それ反則だよ」「いや、いいんだよ」の言い合いが始まって、…",
    "source": "docs/note/kabekabe-note-article.md",
    "images": 21,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 5461,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "reading-books",
@@ -299,7 +299,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 5949,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "reflection-journal",
@@ -311,8 +311,8 @@
    "source": "docs/note/reflection-journal-note-article.md",
    "images": 22,
    "imageHost": "subdomain",
-   "charCount": 7150,
-   "updatedAt": "2026-08-23"
+   "charCount": 7401,
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "reversi",
@@ -323,9 +323,9 @@
    "summary": "休み時間の教室を見わたすと、子どもたちがそれぞれの端末に向かって、ばらばらに画面をのぞきこんでいる。そんな時間が増えていませんか。",
    "source": "docs/note/reversi-note-article.md",
    "images": 22,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 5697,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "schoolplan-editor",
@@ -338,7 +338,7 @@
    "images": 23,
    "imageHost": "subdomain",
    "charCount": 7414,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "townmap-mikke",
@@ -351,7 +351,20 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5980,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
+  },
+  {
+   "slug": "tsubomi-learning",
+   "repo": "tsubomi-learning",
+   "name": "いろいろな つぼみと はな",
+   "title": "教室で使えるかもしれないもの作り #◯ 「つぼみの本が 人数ぶん ありません」20種類を全員に配る図鑑アプリ「いろいろな つぼみと 花」",
+   "headline": "「つぼみの本が 人数ぶん ありません」20種類を全員に配る図鑑アプリ「いろいろな つぼみと 花」",
+   "summary": "1年生が つぼみと花の文を書く時間に、図書室の本が足りなくて困ったことはありませんか。20種類のつぼみと花を、カードでめくれるアプリを作りました。",
+   "source": "docs/note/tsubomi-learning-note-article.md",
+   "images": 21,
+   "imageHost": "subdomain",
+   "charCount": 6407,
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "typa",
@@ -364,7 +377,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 6056,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "werewolf",
@@ -375,9 +388,9 @@
    "summary": "「話し合いの学習」と聞くと、少し身構えてしまうことはありませんか。テーマを決めて、グループを分けて、司会を立てて、時間を計る。準備にそれなりの手間がかかるわりに、いざ始めてみると数人だけが話していて、…",
    "source": "docs/note/werewolf-note-article.md",
    "images": 25,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 5743,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "word-basket",
@@ -388,9 +401,9 @@
    "summary": "雨の日の昼休み、学級レクの残り10分、行事のあとにぽっかり空いた時間。何かひとつ、教室のみんなで遊べるものがほしいと思うことはありませんか。",
    "source": "docs/note/word-basket-note-article.md",
    "images": 21,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 5718,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   },
   {
    "slug": "xxx-automatic",
@@ -403,7 +416,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 7341,
-   "updatedAt": "2026-08-23"
+   "updatedAt": "2026-08-24"
   }
  ]
 }
