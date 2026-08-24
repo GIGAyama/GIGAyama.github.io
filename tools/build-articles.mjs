@@ -129,6 +129,24 @@ function usesOf(page) {
   return out;
 }
 
+/**
+ * そのリポジトリの docs/CHANGELOG.md。書いていなければ空文字。
+ *
+ * 「何が変わったか」はコミットからは作らない（理由は tools/lib/changelog.mjs）。
+ * 本人が書いたものだけを読む。
+ */
+async function fetchChangelog(repo) {
+  try {
+    const res = await api(`${repo}/contents/docs/CHANGELOG.md`);
+    if (!res.ok) return '';
+    const json = await res.json();
+    if (json.encoding !== 'base64') return '';
+    return Buffer.from(json.content, 'base64').toString('utf8');
+  } catch (e) {
+    return '';           // 取れなくてもページは組む。節が出ないだけ
+  }
+}
+
 const main = async () => {
   const dry = process.argv.includes('--dry-run');
   const data = JSON.parse(await readFile(DATA, 'utf8'));
@@ -236,7 +254,7 @@ const main = async () => {
     try { await access(card); ogCard = `https://giga-school.com/assets/og/${app.slug}.jpg`; }
     catch (e) { /* まだ作っていない */ }
     const html = articlePage({ app, article, related, prev, next,
-      use: uses.get(app.slug) ?? [], ogCard });
+      use: uses.get(app.slug) ?? [], ogCard, changelog: await fetchChangelog(app.repo) });
     if (!dry) {
       const dir = new URL(`${app.slug}/`, APPS_DIR);
       await mkdir(dir, { recursive: true });

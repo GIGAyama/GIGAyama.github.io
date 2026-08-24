@@ -1911,6 +1911,34 @@
   .article__end-lead { color: var(--ink-2); }
   .article__end .article__actions { margin-block-start: var(--s-4); }
 
+  /* 最近の更新。アプリのリポジトリの docs/CHANGELOG.md を書いたときだけ出る。
+     「まだ手入れされている」ことが、使い続けてよいかの判断材料になる */
+  .changes {
+    max-width: var(--measure-text);
+    margin-block-start: var(--s-8);
+    padding: var(--s-5) var(--s-6);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .changes__title { font-size: 1.0625rem; font-weight: 700; }
+  .changes__at { margin-block-start: var(--s-4); }
+  .changes__date {
+    font-size: .8125rem;
+    font-weight: 700;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .changes__list {
+    margin: var(--s-2) 0 0;
+    padding-inline-start: 1.3em;
+    list-style: disc;
+    font-size: .9375rem;
+    line-height: 1.9;
+    color: var(--ink-2);
+  }
+  .changes__list li + li { margin-block-start: 2px; }
+
   /* だれが書いたのか。学校で使うかを決めるときの材料になるので、
      読み終わりに置いて、自己紹介のページへつなぐ */
   .article__author {
