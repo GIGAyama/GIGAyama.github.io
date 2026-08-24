@@ -8,7 +8,7 @@
 
 import { esc } from './article-md.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
-import { CATEGORY_LABEL, CATEGORY_COLOR, USE_LABEL } from './categories.mjs';
+import { CATEGORY_LABEL, CATEGORY_COLOR, USE_LABEL, gradeLabel } from './categories.mjs';
 
 /** 記事の題につけてある連載名。ページでは見出しから外し、上に小さく添える。 */
 export const SERIES_RE = /^教室で使えるかもしれないもの作り\s*#\S*\s*/;
@@ -203,7 +203,11 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
   /* 何の時間に使うアプリなのかを、題のすぐ下で分かるようにする。
      押すとトップの同じ分類だけが出る。トップの絞り込みと同じ 2 本の軸
      （教科・分野と、つかいかた）をそのまま使う。 */
+  const grade = gradeLabel(app.grades);
   const tags = [
+    /* 学年を先に置く。担任が最初に見るのは「何年生に使えるか」なので、
+       教科より前に出す。決めていないアプリでは何も出ない。 */
+    grade ? `<span class="chip chip--plain">${esc(grade)}</span>` : '',
     CATEGORY_LABEL[app.category]
       ? `<a class="chip" href="/?cat=${app.category}#apps">${esc(CATEGORY_LABEL[app.category])}</a>`
       : '',

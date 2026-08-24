@@ -1978,6 +1978,15 @@
     margin-block-start: var(--s-4);
   }
   .article__tags .chip { text-decoration: none; padding: 5px 13px; font-size: .8125rem; }
+  /* 学年は押せない。押せるチップ（教科・つかいかた）と見分けがつくよう、
+     地を敷いて枠を外す。押しても何も起きないものに、枠と手の形は付けない */
+  .chip--plain {
+    cursor: default;
+    color: var(--ink-2);
+    background: var(--brand-soft);
+    border-color: transparent;
+  }
+  .chip--plain:hover { border-color: transparent; color: var(--ink-2); }
 
   /* ---------- 掲載用の資料（/press/） ----------
      媒体の担当者が拾いに来るページ。読み物ではないので、

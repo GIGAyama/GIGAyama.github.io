@@ -1,5 +1,5 @@
 {
- "_comment": "publishedAt は最初のコミット日、updatedAt は最後に push された日。tools/sync-updates.mjs が GitHub から取り直して書き換える。",
+ "_comment": "tools/sync-updates.mjs が日付を書き込む。grades（対象学年）は手で書く。[] は「児童が使うものではない（先生の道具など）」、項目そのものが無いものは「まだ決めていない」。",
  "generatedAt": "2026-08-23",
  "items": [
   {
@@ -17,6 +17,7 @@
    "kind": "app",
    "slug": "digitalcloset",
    "category": "other",
+   "grades": [],
    "publishedAt": "2025-10-09",
    "updatedAt": "2026-08-23"
   },
@@ -26,6 +27,7 @@
    "kind": "app",
    "slug": "digital-textbook",
    "category": "koumu",
+   "grades": [],
    "publishedAt": "2026-02-11",
    "updatedAt": "2026-08-23"
   },
@@ -44,6 +46,14 @@
    "kind": "app",
    "slug": "gobblet",
    "category": "game",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2025-10-10",
    "updatedAt": "2026-08-22"
   },
@@ -62,6 +72,7 @@
    "kind": "app",
    "slug": "homework-barcordreader",
    "category": "gakkyu",
+   "grades": [],
    "publishedAt": "2026-03-05",
    "updatedAt": "2026-08-23"
   },
@@ -71,6 +82,14 @@
    "kind": "app",
    "slug": "ice-slide-puzzle",
    "category": "game",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-03-01",
    "updatedAt": "2026-08-23"
   },
@@ -80,6 +99,9 @@
    "kind": "app",
    "slug": "jidosha-zukan",
    "category": "tankyu",
+   "grades": [
+    1
+   ],
    "publishedAt": "2026-08-10",
    "updatedAt": "2026-08-23"
   },
@@ -89,6 +111,9 @@
    "kind": "app",
    "slug": "kake-master",
    "category": "sansu",
+   "grades": [
+    2
+   ],
    "publishedAt": "2026-07-23",
    "updatedAt": "2026-08-23"
   },
@@ -98,6 +123,9 @@
    "kind": "app",
    "slug": "kana-master",
    "category": "kokugo",
+   "grades": [
+    1
+   ],
    "publishedAt": "2026-03-02",
    "updatedAt": "2026-08-23"
   },
@@ -107,6 +135,14 @@
    "kind": "app",
    "slug": "kanji-town",
    "category": "kokugo",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-03-16",
    "updatedAt": "2026-08-23"
   },
@@ -116,6 +152,9 @@
    "kind": "app",
    "slug": "keisan-block",
    "category": "sansu",
+   "grades": [
+    1
+   ],
    "publishedAt": "2026-07-24",
    "updatedAt": "2026-08-23"
   },
@@ -125,6 +164,9 @@
    "kind": "app",
    "slug": "keisan-card",
    "category": "sansu",
+   "grades": [
+    1
+   ],
    "publishedAt": "2026-06-12",
    "updatedAt": "2026-08-23"
   },
@@ -161,6 +203,7 @@
    "kind": "app",
    "slug": "notebooksample-generator",
    "category": "koumu",
+   "grades": [],
    "publishedAt": "2026-03-29",
    "updatedAt": "2026-08-21"
   },
@@ -170,6 +213,14 @@
    "kind": "app",
    "slug": "online-100square-calculation",
    "category": "sansu",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2025-10-16",
    "updatedAt": "2026-08-23"
   },
@@ -179,6 +230,14 @@
    "kind": "app",
    "slug": "online-manuscript-paper-lite",
    "category": "kokugo",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-02-07",
    "updatedAt": "2026-08-23"
   },
@@ -188,6 +247,14 @@
    "kind": "app",
    "slug": "online-manuscript-paper-pro",
    "category": "kokugo",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-02-08",
    "updatedAt": "2026-08-22"
   },
@@ -197,6 +264,14 @@
    "kind": "app",
    "slug": "online-publisher-pro",
    "category": "kokugo",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-03-07",
    "updatedAt": "2026-08-23"
   },
@@ -215,6 +290,14 @@
    "kind": "app",
    "slug": "qalc",
    "category": "sansu",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-03-11",
    "updatedAt": "2026-08-23"
   },
@@ -233,6 +316,14 @@
    "kind": "app",
    "slug": "quoridor",
    "category": "game",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2025-10-10",
    "updatedAt": "2026-08-23"
   },
@@ -260,6 +351,14 @@
    "kind": "app",
    "slug": "reversi",
    "category": "game",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2025-10-10",
    "updatedAt": "2026-08-23"
   },
@@ -269,6 +368,7 @@
    "kind": "app",
    "slug": "schoolplan-editor",
    "category": "koumu",
+   "grades": [],
    "publishedAt": "2026-02-11",
    "updatedAt": "2026-08-23"
   },
@@ -278,6 +378,7 @@
    "kind": "app",
    "slug": "shared-folder-sync",
    "category": "koumu",
+   "grades": [],
    "publishedAt": "2026-02-01",
    "updatedAt": "2026-08-21"
   },
@@ -305,6 +406,9 @@
    "kind": "app",
    "slug": "tsubomi-learning",
    "category": "kokugo",
+   "grades": [
+    1
+   ],
    "publishedAt": "2026-06-01",
    "updatedAt": "2026-08-21"
   },
@@ -323,6 +427,12 @@
    "kind": "app",
    "slug": "werewolf",
    "category": "game",
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2025-10-11",
    "updatedAt": "2026-08-23"
   },
@@ -332,6 +442,14 @@
    "kind": "app",
    "slug": "word-basket",
    "category": "game",
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2025-10-13",
    "updatedAt": "2026-08-23"
   },
@@ -341,6 +459,7 @@
    "kind": "app",
    "slug": "xxx-automatic",
    "category": "other",
+   "grades": [],
    "publishedAt": "2026-08-07",
    "updatedAt": "2026-08-23"
   },
@@ -350,6 +469,7 @@
    "kind": "tool",
    "slug": null,
    "category": null,
+   "grades": [],
    "publishedAt": "2026-02-24",
    "updatedAt": "2026-08-22"
   },
@@ -359,6 +479,7 @@
    "kind": "tool",
    "slug": null,
    "category": null,
+   "grades": [],
    "publishedAt": "2026-02-24",
    "updatedAt": "2026-08-21"
   },
@@ -368,6 +489,7 @@
    "kind": "tool",
    "slug": "linker-clipper",
    "category": null,
+   "grades": [],
    "publishedAt": "2026-03-25",
    "updatedAt": "2026-08-22"
   }

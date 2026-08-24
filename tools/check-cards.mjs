@@ -127,5 +127,27 @@ for (const [id, label] of Object.entries(USE_LABEL)) {
      `index.html には「${optionLabel('use', id)}」と書いてある`);
 }
 
+/* -----------------------------------------------------------------
+ * 対象学年（data/apps.json の grades）。
+ *
+ * 値そのものの間違い（0 年生、7 年生、文字列）は止める。
+ * まだ決めていないアプリがあることは止めない。決まった順に書き足す前提で、
+ * どれが残っているかを毎回見えるようにしておく。
+ * --------------------------------------------------------------- */
+console.log('\n■ 対象学年の値が正しい');
+const apps = JSON.parse(readFileSync(new URL('../data/apps.json', import.meta.url), 'utf8')).items;
+const shown = apps.filter((a) => a.hidden !== true && a.slug);
+const badGrade = shown.filter((a) => a.grades !== undefined
+  && (!Array.isArray(a.grades)
+      || a.grades.some((n) => !Number.isInteger(n) || n < 1 || n > 6)));
+ok(badGrade.length === 0, '1〜6 の整数の配列になっている',
+   badGrade.map((a) => `${a.slug}:${JSON.stringify(a.grades)}`).join(', '));
+
+const undecided = shown.filter((a) => a.grades === undefined);
+const withGrade = shown.filter((a) => Array.isArray(a.grades) && a.grades.length);
+console.log(`  info 学年あり ${withGrade.length} 本 / 児童が使わないもの `
+  + `${shown.length - withGrade.length - undecided.length} 本 / まだ決めていない ${undecided.length} 本`);
+if (undecided.length) console.log(`       → ${undecided.map((a) => a.slug).join(', ')}`);
+
 console.log(failed === 0 ? '\n✅ すべて通りました' : `\n❌ ${failed} 件 通りませんでした`);
 process.exit(failed === 0 ? 0 : 1);
