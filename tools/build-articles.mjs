@@ -184,16 +184,30 @@ const main = async () => {
     /* まずは自分のドメインで組む。読み手にとってはこちらが本筋 */
     const onSubdomain = under((path) =>
       `https://${app.slug}.giga-school.com/${docsIsRoot ? path.replace(/^docs\//, '') : path}`);
-    /* 届かなかったときの逃げ道。HEAD は既定のブランチを指す */
+    /* サブドメインから読めないときの置き場。tools/build-article-images.py が
+       WebP にして自分のドメインへ移してある。ここにあれば、学校が GitHub を
+       塞いでいても画面写真が出る。 */
+    const onMirror = under((path) => {
+      const name = path.replace(/^.*\//, '').replace(/\.[a-z0-9]+$/i, '.webp');
+      return `/assets/article/${app.slug}/${name}`;
+    });
+    /* それも無いときの逃げ道。HEAD は既定のブランチを指す。
+       ⚠️ 残しておく。build-article-images.py を走らせていないアプリでも
+          記事が壊れないようにするため。 */
     const onRaw = under((path) => `https://raw.githubusercontent.com/${OWNER}/${app.repo}/HEAD/${path}`);
 
     let article = renderArticle(got.markdown, { imageUrl: onSubdomain });
     let imageHost = 'subdomain';
     const first = article.images[0]?.src;
     if (first && !(await reachable(first))) {
-      article = renderArticle(got.markdown, { imageUrl: onRaw });
-      imageHost = 'raw';
-      console.warn(`  画像はサブドメインから読めない ${app.repo} → raw に切り替えた`);
+      /* 移してあるかどうかは、1 枚目があるかで見る。
+         記事 1 本ぶんはまとめて移すので、1 枚あれば全部ある。 */
+      const probe = onMirror(article.images[0].src.replace(/^.*\/note\//, ''));
+      const mirrored = await access(new URL(`.${probe}`, ROOT)).then(() => true, () => false);
+      article = renderArticle(got.markdown, { imageUrl: mirrored ? onMirror : onRaw });
+      imageHost = mirrored ? 'mirror' : 'raw';
+      console.warn(`  画像はサブドメインから読めない ${app.repo} → `
+        + (mirrored ? '自分のドメインの控えを使う' : 'raw に切り替えた（控えが無い）'));
     }
     if (!article.title || article.charCount < 1200) {
       console.warn(`  中身が足りない ${app.repo}（題:${article.title ? 'あり' : 'なし'} / ${article.charCount}字）`);

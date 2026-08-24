@@ -17,6 +17,7 @@
  * ===================================================================== */
 import { readFileSync } from 'node:fs';
 import { ACCOUNT_LABEL, CATEGORY_LABEL, STORAGE_LABEL, USE_LABEL } from './lib/categories.mjs';
+import { HOST_INFO } from './lib/hosts.mjs';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 /* 学年の検査（下のほう）より先に要るので、ここで読む */
@@ -184,6 +185,38 @@ const withGrade = shown.filter((a) => Array.isArray(a.grades) && a.grades.length
 console.log(`  info 学年あり ${withGrade.length} 本 / 児童が使わないもの `
   + `${shown.length - withGrade.length - undecided.length} 本 / まだ決めていない ${undecided.length} 本`);
 if (undecided.length) console.log(`       → ${undecided.map((a) => a.slug).join(', ')}`);
+
+/* -----------------------------------------------------------------
+ * 校内のフィルタリングで許可するアドレス（hosts）
+ * -----------------------------------------------------------------
+ * ⚠️ ここがずれると、先生が情報担当に出した申請が通ったのにアプリが開かない。
+ *    先生からは「サイトの言うとおりにしたのに動かない」と見える。
+ *    説明の無いアドレスを黙って素通りさせないよう、知らないものは止める。
+ * --------------------------------------------------------------- */
+console.log('\n■ 許可するアドレスの一覧が正しい');
+/* Chrome の拡張機能（kind: tool）はサブドメインから配られないので、対象にしない */
+const webApps = shown.filter((a) => a.kind === 'app');
+const noHosts = webApps.filter((a) => !Array.isArray(a.hosts)).map((a) => a.slug);
+ok(noHosts.length === 0, `Web アプリ ${webApps.length} 本すべてに hosts がある`, noHosts.join(', '));
+
+const unknownHost = [...new Set(webApps.flatMap((a) => a.hosts ?? []))].filter((h) => !HOST_INFO[h]);
+ok(unknownHost.length === 0, '説明の書かれていないアドレスが無い（tools/lib/hosts.mjs）',
+   unknownHost.join(', '));
+
+/* 自分のサブドメインは hostsOf() が必ず足す。hosts に書くと一覧に 2 回出る */
+const selfDup = webApps.filter((a) => (a.hosts ?? []).some((h) => h.endsWith('giga-school.com')))
+  .map((a) => a.slug);
+ok(selfDup.length === 0, 'hosts に giga-school.com のアドレスが入っていない', selfDup.join(', '));
+
+const filtering = readFileSync(new URL('../filtering/index.html', import.meta.url), 'utf8');
+const missingRow = webApps.filter((a) => !filtering.includes(`${a.slug}.giga-school.com`)).map((a) => a.slug);
+ok(missingRow.length === 0, `/filtering/ に ${webApps.length} 本すべての行がある`, missingRow.join(', '));
+
+const missingHost = [...new Set(webApps.flatMap((a) => a.hosts ?? []))].filter((h) => !filtering.includes(h));
+ok(missingHost.length === 0, '/filtering/ に、要るアドレスがすべて載っている', missingHost.join(', '));
+
+console.log(`  info 外部が要らないアプリ ${webApps.filter((a) => !(a.hosts ?? []).length).length} 本`
+  + ` / アドレスの種類 ${Object.keys(HOST_INFO).length}`);
 
 /* -----------------------------------------------------------------
  * 導入を決めるための項目（account / storage）。

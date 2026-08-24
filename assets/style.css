@@ -1922,6 +1922,60 @@
 
   /* 最近の更新。アプリのリポジトリの docs/CHANGELOG.md を書いたときだけ出る。
      「まだ手入れされている」ことが、使い続けてよいかの判断材料になる */
+
+  /* ---------- 校内のフィルタリングの一覧（/filtering/） ---------- */
+  /* ⚠️ 表は横に長い。ページ全体に横スクロールを出さないよう、
+        この枠の中だけで流す（ヒートマップと同じ考え方）。 */
+  .fl-scroll {
+    overflow-x: auto;
+    margin-block: var(--s-5);
+    border: 1px solid var(--line);
+    border-radius: var(--r-2);
+  }
+  .fl {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: .9375rem;
+  }
+  .fl th, .fl td {
+    padding: 10px 14px;
+    text-align: start;
+    vertical-align: top;
+    border-block-end: 1px solid var(--line);
+  }
+  .fl thead th {
+    position: sticky;
+    inset-block-start: 0;
+    background: var(--surface-2);
+    font-size: .8125rem;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .fl tbody tr:last-child th, .fl tbody tr:last-child td { border-block-end: 0; }
+  /* 塞いだときの影響の見出し。行の中の見出しなので、色ではなく地の濃さで分ける
+     （色だけで意味を伝えると、色の見え方が違う人に伝わらない） */
+  .fl-head th {
+    background: var(--brand-softer);
+    font-size: .8125rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .fl code { font-size: .875rem; overflow-wrap: anywhere; }
+  .fl-count { white-space: nowrap; color: var(--ink-2); }
+  .fl-none { color: var(--ink-2); font-size: .875rem; }
+
+  /* 申請書に貼る用。長いので枠の中で流す */
+  .fl-plain {
+    margin-block: var(--s-4) var(--s-6);
+    padding: var(--s-4);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-2);
+    overflow-x: auto;
+    font-size: .875rem;
+    line-height: 1.7;
+  }
+
   .changes {
     max-width: var(--measure-text);
     margin-block-start: var(--s-8);
@@ -2575,7 +2629,14 @@
   }
   .site-header, .finder, .to-top, .theme-toggle,
   .hero__actions, .empty-state, .strip,
-  .card__acts, .toast, .article-more { display: none !important; }
+  .card__acts, .toast, .article-more, .no-print { display: none !important; }
+  /* 許可するアドレスの一覧は、印刷して情報担当の先生に渡すためのもの。
+     枠の中のスクロールは紙では意味が無いので外し、行が途中で切れないようにする */
+  .fl-scroll { overflow: visible; border: 0; }
+  .fl { font-size: 9pt; }
+  .fl thead th { position: static; }
+  .fl tr { break-inside: avoid; }
+  .fl-plain { break-inside: auto; font-size: 8.5pt; }
   /* 印刷では出現待ちの状態を残さない */
   .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
   .hero::before, .hero::after { display: none; }

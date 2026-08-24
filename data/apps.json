@@ -8,7 +8,20 @@
    "kind": "app",
    "slug": "digital-newspaper",
    "category": "seisaku",
-   "grades": [3, 4, 5, 6],
+   "hosts": [
+    "0.peerjs.com",
+    "eu-0.turn.peerjs.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "stun.l.google.com",
+    "us-0.turn.peerjs.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-01-23",
@@ -20,6 +33,9 @@
    "kind": "app",
    "slug": "digitalcloset",
    "category": "other",
+   "hosts": [
+    "generativelanguage.googleapis.com"
+   ],
    "grades": [],
    "account": "none",
    "storage": "device",
@@ -32,6 +48,13 @@
    "kind": "app",
    "slug": "digital-textbook",
    "category": "koumu",
+   "hosts": [
+    "0.peerjs.com",
+    "accounts.google.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "www.googleapis.com"
+   ],
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-02-11",
@@ -43,7 +66,19 @@
    "kind": "app",
    "slug": "gamification",
    "category": "tankyu",
-   "grades": [3, 4, 5, 6],
+   "hosts": [
+    "cdn.jsdelivr.net",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "googleusercontent.com",
+    "script.google.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-21",
@@ -55,6 +90,7 @@
    "kind": "app",
    "slug": "gobblet",
    "category": "game",
+   "hosts": [],
    "grades": [
     1,
     2,
@@ -74,7 +110,15 @@
    "kind": "app",
    "slug": "haiku-meeting",
    "category": "kokugo",
-   "grades": [3, 4, 5, 6],
+   "hosts": [
+    "fonts.googleapis.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
    "account": "google",
    "storage": "google",
    "publishedAt": "2025-10-11",
@@ -86,6 +130,11 @@
    "kind": "app",
    "slug": "homework-barcordreader",
    "category": "gakkyu",
+   "hosts": [
+    "accounts.google.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-03-05",
@@ -97,6 +146,10 @@
    "kind": "app",
    "slug": "ice-slide-puzzle",
    "category": "game",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1,
     2,
@@ -116,6 +169,10 @@
    "kind": "app",
    "slug": "jidosha-zukan",
    "category": "tankyu",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1
    ],
@@ -128,6 +185,10 @@
    "kind": "app",
    "slug": "kake-master",
    "category": "sansu",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     2
    ],
@@ -141,6 +202,10 @@
    "kind": "app",
    "slug": "kana-master",
    "category": "kokugo",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1
    ],
@@ -153,6 +218,10 @@
    "kind": "app",
    "slug": "kanji-town",
    "category": "kokugo",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1,
     2,
@@ -172,6 +241,7 @@
    "kind": "app",
    "slug": "keisan-block",
    "category": "sansu",
+   "hosts": [],
    "grades": [
     1
    ],
@@ -186,6 +256,10 @@
    "kind": "app",
    "slug": "keisan-card",
    "category": "sansu",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1
    ],
@@ -200,7 +274,16 @@
    "kind": "app",
    "slug": "mirai-compass",
    "category": "tankyu",
-   "grades": [5, 6],
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "googleusercontent.com",
+    "script.google.com"
+   ],
+   "grades": [
+    5,
+    6
+   ],
    "account": "google",
    "publishedAt": "2026-01-29",
    "updatedAt": "2026-08-23"
@@ -211,7 +294,18 @@
    "kind": "app",
    "slug": "moral-note",
    "category": "tankyu",
-   "grades": [3, 4, 5, 6],
+   "hosts": [
+    "cdn-icons-png.flaticon.com",
+    "cdn.jsdelivr.net",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-02-15",
    "updatedAt": "2026-08-23"
   },
@@ -221,7 +315,16 @@
    "kind": "app",
    "slug": "music-production-studio",
    "category": "seisaku",
-   "grades": [2, 3, 4, 5, 6],
+   "hosts": [
+    "fonts.googleapis.com"
+   ],
+   "grades": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-03-12",
    "updatedAt": "2026-08-23"
   },
@@ -231,6 +334,12 @@
    "kind": "app",
    "slug": "notebooksample-generator",
    "category": "koumu",
+   "hosts": [
+    "accounts.google.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "www.googleapis.com"
+   ],
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-03-29",
@@ -242,6 +351,10 @@
    "kind": "app",
    "slug": "online-100square-calculation",
    "category": "sansu",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1,
     2,
@@ -261,6 +374,10 @@
    "kind": "app",
    "slug": "online-manuscript-paper-lite",
    "category": "kokugo",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1,
     2,
@@ -280,6 +397,14 @@
    "kind": "app",
    "slug": "online-manuscript-paper-pro",
    "category": "kokugo",
+   "hosts": [
+    "cdn.jsdelivr.net",
+    "cdn.tailwindcss.com",
+    "cdnjs.cloudflare.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "unpkg.com"
+   ],
    "grades": [
     1,
     2,
@@ -299,6 +424,13 @@
    "kind": "app",
    "slug": "online-publisher-pro",
    "category": "kokugo",
+   "hosts": [
+    "cdn.jsdelivr.net",
+    "cdn.tailwindcss.com",
+    "cdnjs.cloudflare.com",
+    "fonts.googleapis.com",
+    "unpkg.com"
+   ],
    "grades": [
     1,
     2,
@@ -318,7 +450,17 @@
    "kind": "app",
    "slug": "physicaleducation-note",
    "category": "tankyu",
-   "grades": [3, 4, 5, 6],
+   "hosts": [
+    "cdn.jsdelivr.net",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
    "publishedAt": "2026-02-21",
    "updatedAt": "2026-08-23"
   },
@@ -328,6 +470,12 @@
    "kind": "app",
    "slug": "qalc",
    "category": "sansu",
+   "hosts": [
+    "0.peerjs.com",
+    "eu-0.turn.peerjs.com",
+    "stun.l.google.com",
+    "us-0.turn.peerjs.com"
+   ],
    "grades": [
     1,
     2,
@@ -347,7 +495,18 @@
    "kind": "app",
    "slug": "quarto",
    "category": "game",
-   "grades": [1, 2, 3, 4, 5, 6],
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "account": "none",
    "publishedAt": "2025-10-10",
    "updatedAt": "2026-08-23"
@@ -358,6 +517,7 @@
    "kind": "app",
    "slug": "quoridor",
    "category": "game",
+   "hosts": [],
    "grades": [
     1,
     2,
@@ -377,7 +537,19 @@
    "kind": "app",
    "slug": "reading-books",
    "category": "kokugo",
-   "grades": [1, 2, 3, 4, 5, 6],
+   "hosts": [
+    "api.openbd.jp",
+    "ndlsearch.ndl.go.jp",
+    "www.googleapis.com"
+   ],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-01",
@@ -389,7 +561,20 @@
    "kind": "app",
    "slug": "reflection-journal",
    "category": "gakkyu",
-   "grades": [3, 4, 5, 6],
+   "hosts": [
+    "accounts.google.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "generativelanguage.googleapis.com",
+    "openidconnect.googleapis.com",
+    "www.googleapis.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
@@ -401,6 +586,10 @@
    "kind": "app",
    "slug": "reversi",
    "category": "game",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1,
     2,
@@ -420,6 +609,13 @@
    "kind": "app",
    "slug": "schoolplan-editor",
    "category": "koumu",
+   "hosts": [
+    "apis.google.com",
+    "drive.google.com",
+    "fonts.googleapis.com",
+    "googleusercontent.com",
+    "script.google.com"
+   ],
    "grades": [],
    "account": "google",
    "storage": "google",
@@ -432,6 +628,10 @@
    "kind": "app",
    "slug": "shared-folder-sync",
    "category": "koumu",
+   "hosts": [
+    "cdn.jsdelivr.net",
+    "fonts.googleapis.com"
+   ],
    "grades": [],
    "publishedAt": "2026-02-01",
    "updatedAt": "2026-08-21"
@@ -442,7 +642,15 @@
    "kind": "app",
    "slug": "shiritori-fighter",
    "category": "game",
-   "grades": [1, 2, 3],
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
+   "grades": [
+    1,
+    2,
+    3
+   ],
    "publishedAt": "2025-10-10",
    "updatedAt": "2026-08-23"
   },
@@ -452,7 +660,18 @@
    "kind": "app",
    "slug": "townmap-mikke",
    "category": "tankyu",
-   "grades": [2, 3, 4, 5, 6],
+   "hosts": [
+    "cdn.tailwindcss.com",
+    "fonts.googleapis.com",
+    "unpkg.com"
+   ],
+   "grades": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
@@ -464,6 +683,10 @@
    "kind": "app",
    "slug": "tsubomi-learning",
    "category": "kokugo",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1
    ],
@@ -476,7 +699,12 @@
    "kind": "app",
    "slug": "typa",
    "category": "tankyu",
-   "grades": [2, 3, 4],
+   "hosts": [],
+   "grades": [
+    2,
+    3,
+    4
+   ],
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-07-29",
@@ -488,6 +716,7 @@
    "kind": "app",
    "slug": "werewolf",
    "category": "game",
+   "hosts": [],
    "grades": [
     3,
     4,
@@ -505,6 +734,10 @@
    "kind": "app",
    "slug": "word-basket",
    "category": "game",
+   "hosts": [
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
    "grades": [
     1,
     2,
@@ -524,6 +757,9 @@
    "kind": "app",
    "slug": "xxx-automatic",
    "category": "other",
+   "hosts": [
+    "raw.githubusercontent.com"
+   ],
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-08-07",

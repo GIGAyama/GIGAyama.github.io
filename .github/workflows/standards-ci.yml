@@ -62,6 +62,10 @@ jobs:
       # 見るだけなので Pillow は要らない
       - name: 共有の絵がそろっているか
         run: python3 tools/build-og.py --check
+      # 記事の画面写真。自分のドメインに控えが無いと、GitHub を塞いでいる学校で
+      # 11 本の記事の画像が 21 枚まとめて出なくなる。見るだけなので Pillow は要らない
+      - name: 記事の画面写真がそろっているか
+        run: python3 tools/build-article-images.py --check
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
