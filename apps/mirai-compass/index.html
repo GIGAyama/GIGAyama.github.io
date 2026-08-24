@@ -24,7 +24,7 @@
   <meta property="og:url" content="https://giga-school.com/apps/mirai-compass/">
   <meta property="og:image" content="https://mirai-compass.giga-school.com/note/images/16-today-planned.png">
   <meta property="article:published_time" content="2026-01-29">
-  <meta property="article:modified_time" content="2026-08-23">
+  <meta property="article:modified_time" content="2026-08-24">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="/assets/style.css">
@@ -50,7 +50,7 @@
       "image": "https://mirai-compass.giga-school.com/note/images/16-today-planned.png",
       "inLanguage": "ja",
       "datePublished": "2026-01-29",
-      "dateModified": "2026-08-23",
+      "dateModified": "2026-08-24",
       "author": {
         "@id": "https://giga-school.com/#person"
       },
@@ -130,7 +130,7 @@
       <p class="article__series">教室で使えるかもしれないもの作り</p>
       <h1 class="article__title">「先生、つぎ何やればいいですか」が減る。子どもが自分で計画を立てる自由進度学習アプリ「みらいコンパス」</h1>
       <p class="article__meta">
-        <time datetime="2026-08-23">2026/08/23</time> 現在
+        <time datetime="2026-08-24">2026/08/24</time> 現在
         <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__tags"><span class="chip chip--plain">5〜6年生</span><a class="chip" href="/?cat=tankyu#apps">学習・探究</a><a class="chip" href="/?use=susumu#apps">自分で進める</a><span class="chip chip--plain">Google アカウントが必要</span></p>
@@ -226,19 +226,26 @@
 <p>もう一つ、電子黒板に映すための提示モードがあります。文字とボタンが大きくなり、子どもの名前ははじめ伏せられます。教室のうしろの席や廊下から名前が読めてしまうのを避けるためです。名前を出したいときだけ、ボタンを押します。</p>
 <h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に確認されそうなところを、先にまとめておきます。</p>
-<p>データの置き場所は、導入した先生の Google ドライブの中に自動で作られるスプレッドシート1つです。学校の外にデータは出ません。子どもの氏名とクラスと出席番号、学習の記録がここに入ります。外部のサービスに送るものはありません。</p>
+<p>このアプリは、先生おひとりずつが、ご自分の Google アカウントで公開して使う形です。学校をまたぐ共通の入口はありません。</p>
+<p>データの置き場所は、公開した先生の Google ドライブの中にあるスプレッドシート1つです。学校の外にデータは出ません。子どもの氏名とクラスと出席番号、学習の記録がここに入ります。外部のサービスに送るものはありません。制作者もデータを見られません。</p>
 <p>本人確認は、その端末でログインしている Google アカウントで行います。パスワードはありません。誰が先生かはメールアドレスの許可リストで決まり、最初に初期設定を実行した人が最初の先生になります。以後は設定から同僚のアドレスを足していきます。</p>
 <p>そのため、公開の設定は「実行するユーザーは自分（所有者）」「アクセスできるユーザーは同一 Workspace」の組み合わせが必須です。「全員（匿名を含む）」にすると、サーバーがメールアドレスを取れなくなり、先生の判定が働きません。学校の Google Workspace の中で配ることが前提のアプリです。</p>
 <p>校内のフィルタリングでは、Google Apps Script のアドレス（script.google.com と googleusercontent.com）と、GitHub Pages のアドレス（github.io）が通ることを確かめてください。それ以外に外部から読み込むプログラムはありません。画面の見た目に使っている書体だけは Google Fonts から読んでいますが、届かなくても字の形が変わるだけで、アプリは動きます。</p>
 <p>生成AIを使う場合だけ、Gemini のアドレスも必要になります。キーはアプリの保管場所に入り、子どもの画面には渡りません。キーを登録しなくても、ワークシートは手貼りで作れます。</p>
-<p>導入の手順は次のとおりです。</p>
-<ol><li>Google Apps Script で新しいプロジェクトを作り、配布されているファイルを貼り付けます</li><li>「デプロイ」から「ウェブアプリ」を選び、上に書いた組み合わせで公開します</li><li>発行されたアドレスを開き、「初期設定を開始する」を押します</li></ol>
-<figure class="prose__fig"><a class="prose__zoom" href="https://mirai-compass.giga-school.com/note/images/01-setup.png"><img src="https://mirai-compass.giga-school.com/note/images/01-setup.png" alt="初期設定" loading="lazy" decoding="async"></a><figcaption>このボタンを押した人が、最初の先生になります。</figcaption></figure>
+<p>導入の手順は2通りあります。</p>
+<p><strong>A. スプレッドシートをコピーする。</strong> 配布リンクを開いて「コピーを作成」を選ぶと、ご自分のドライブにファイルができます。このファイルにはアプリのコードが束ねられていて、学習の記録もこの中に入ります。貼り付ける作業はありませんし、データがどこにできたのかを探す必要もありません。</p>
+<p>（※ この配布リンクは現在準備中です。用意できるまでは B の手順をお使いください。）</p>
+<p><strong>B. ファイルを貼り付ける。</strong> 学校のポリシーで外部ファイルのコピーが禁じられている場合は、こちらです。Google Apps Script で新しいプロジェクトを作り、配布されている 11 個のファイルを貼り付けます。入るものは A と同じです。</p>
+<p>どちらの場合も、そのあとは同じです。</p>
+<ol><li>「デプロイ」から「ウェブアプリ」を選び、上に書いた組み合わせで公開します</li><li><strong>児童にアドレスを配る前に、先生が先に</strong>そのアドレスを開き、「初期設定を開始する」を押します</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://mirai-compass.giga-school.com/note/images/01-setup.png"><img src="https://mirai-compass.giga-school.com/note/images/01-setup.png" alt="初期設定" loading="lazy" decoding="async"></a><figcaption>このボタンを押した人が、最初の先生になります。A（コピー）の場合は、そのスプレッドシートを持っている先生しか押せません。児童が先に開いても先生にはなれないようにしてあります。</figcaption></figure>
 <ol><li>設定から、ほかの先生のメールアドレスを足します</li><li>名簿を登録します</li></ol>
 <figure class="prose__fig"><a class="prose__zoom" href="https://mirai-compass.giga-school.com/note/images/05-roster.png"><img src="https://mirai-compass.giga-school.com/note/images/05-roster.png" alt="名簿の登録" loading="lazy" decoding="async"></a><figcaption>名簿は、Excel や名簿ソフトからそのまま貼り付けられます。</figcaption></figure>
 <p>名簿は、番号と名前とメールアドレスの順に並んだ表を、左の欄にそのまま貼り付けるだけです。メールアドレスの欄は空でも動きますが、入れておくと、同じ名前の子がいても記録が混ざりません。ここは入れておくことをおすすめします。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://mirai-compass.giga-school.com/note/images/37-pwa-shell.png"><img src="https://mirai-compass.giga-school.com/note/images/37-pwa-shell.png" alt="PWAシェル" loading="lazy" decoding="async"></a><figcaption>子どもの端末には、アプリとして入れられます。</figcaption></figure>
-<p>子どもの端末には、ブラウザで開いたまま使ってもらってもかまいませんが、アプリとして入れることもできます。GitHub Pages に置いてあるページを開き、アプリのアドレスを一度入れると、次からはアイコンから開けます。クラス全員に配るときは、アドレスの後ろに設定を付けたリンクを Classroom で配れば、子どもは開くだけで設定が終わります。</p>
+<p>子どもの端末には、ブラウザで開いたまま使ってもらってもかまいませんが、アプリとして入れることもできます。案内のページ（mirai-compass.giga-school.com）を開き、「児童の端末に入れる」に先生のアドレスを一度入れると、次からはアイコンから開けます。クラス全員に配るときは、アドレスの後ろに設定を付けたリンクを Classroom で配れば、子どもは開くだけで設定が終わります。</p>
+<p>シートの並びが崩れると、ワークシートと答案が入れかわります。列の番号で読み書きしているためです。そこで、スプレッドシートの上のメニューと、アプリの設定の両方に「点検」を置きました。足りないシートや見出しはその場で足せます。ただし、<strong>列の並びが入れかわっているときは、直さずに「何列目がどうずれているか」だけをお知らせします。</strong> 見出しだけを正しくすると、まちがった列に正しいラベルが付いて、事故が見えなくなるからです。</p>
+<p>なお、先生ごとに公開する形にした代わりに、<strong>更新をこちらから一斉に配ることはできません。</strong> アプリを直したときは、先生に貼り替えかコピーのやり直しをお願いすることになります。その代わり、子どものデータは先生のドライブの中だけにあり、私は一切関与しません。どちらを取るかで、後者を取りました。</p>
 <h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>子どもへの説明は、この順で足ります。</p>
 <ol><li>配られたアドレスを開きます</li><li>クラスと自分の名前を選んで「スタート」を押します</li></ol>
