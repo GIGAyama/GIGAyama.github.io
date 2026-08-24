@@ -8,7 +8,7 @@
 
 import { esc } from './article-md.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
-import { CATEGORY_LABEL, CATEGORY_COLOR, USE_LABEL } from './categories.mjs';
+import { ACCOUNT_LABEL, CATEGORY_LABEL, CATEGORY_COLOR, STORAGE_LABEL, USE_LABEL, gradeLabel } from './categories.mjs';
 
 /** 記事の題につけてある連載名。ページでは見出しから外し、上に小さく添える。 */
 export const SERIES_RE = /^教室で使えるかもしれないもの作り\s*#\S*\s*/;
@@ -203,12 +203,22 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
   /* 何の時間に使うアプリなのかを、題のすぐ下で分かるようにする。
      押すとトップの同じ分類だけが出る。トップの絞り込みと同じ 2 本の軸
      （教科・分野と、つかいかた）をそのまま使う。 */
+  const grade = gradeLabel(app.grades);
   const tags = [
+    /* 学年を先に置く。担任が最初に見るのは「何年生に使えるか」なので、
+       教科より前に出す。決めていないアプリでは何も出ない。 */
+    grade ? `<span class="chip chip--plain">${esc(grade)}</span>` : '',
     CATEGORY_LABEL[app.category]
       ? `<a class="chip" href="/?cat=${app.category}#apps">${esc(CATEGORY_LABEL[app.category])}</a>`
       : '',
     ...use.filter((u) => USE_LABEL[u])
       .map((u) => `<a class="chip" href="/?use=${u}#apps">${esc(USE_LABEL[u])}</a>`),
+    /* 学校で使うかを決める人が、いちばん先に確かめること。
+       記事のどこかに書いてはあるが、読まないと分からなかった。 */
+    ACCOUNT_LABEL[app.account]
+      ? `<span class="chip chip--plain">${esc(ACCOUNT_LABEL[app.account])}</span>` : '',
+    STORAGE_LABEL[app.storage]
+      ? `<span class="chip chip--plain">${esc(STORAGE_LABEL[app.storage])}</span>` : '',
   ].filter(Boolean);
 
   return `<!DOCTYPE html>
@@ -329,6 +339,17 @@ ${FOOTER}
  * @param {string} o.generatedAt
  * @returns {string} ページ 1 枚ぶんの HTML
  */
+/** 分野ごとの入口へのリンク。数はアプリの本数（記事の本数ではない）。 */
+function catChips(apps) {
+  const shown = apps.filter((a) => a.hidden !== true && a.slug);
+  return Object.entries(CATEGORY_LABEL).map(([id, label]) => {
+    const n = shown.filter((a) => (CATEGORY_LABEL[a.category] ? a.category : 'other') === id).length;
+    if (!n) return '';
+    return `<a class="chip" href="/apps/category/${id}/">${esc(label)}`
+      + `<span class="count">${n}</span></a>`;
+  }).filter(Boolean).join('');
+}
+
 export function articleIndexPage({ articles, apps, generatedAt }) {
   const url = `${SITE}/apps/`;
   const byslug = new Map(apps.map((a) => [a.slug, a]));
@@ -399,7 +420,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
   }).join('\n');
 
   return `<!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="no-js">
 
 <head>
   <meta charset="UTF-8">
@@ -426,6 +447,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/search.js" defer></script>
 ${THEME_SCRIPT}
 
   <script type="application/ld+json">
@@ -453,6 +475,28 @@ ${HEADER}
       </p>
     </header>
 
+    <!-- 記事の中を探す。索引（663KB）は、この欄に触れるまで読み込まない。
+         JavaScript が無いときは .no-js が付いたままなので、CSS が隠す -->
+    <div class="article-search" data-article-search>
+      <div class="search">
+        <span class="search__icon" aria-hidden="true">🔍</span>
+        <label class="visually-hidden" for="article-search">紹介記事の中を検索</label>
+        <input type="search" id="article-search" autocomplete="off" spellcheck="false"
+               placeholder="記事の中を検索（例：ローマ字、ふりかえり、二学期）">
+        <button type="button" class="search__clear" aria-label="検索語を消す">✕</button>
+      </div>
+    </div>
+    <p class="article-search__status" data-search-status role="status" aria-live="polite"></p>
+    <ul class="hit-list" data-search-results hidden></ul>
+
+    <!-- 分類の入口。押すと、その分類のアプリと紹介だけのページに移る。
+         トップの絞り込みと違って JavaScript は要らない -->
+    <div data-search-hide>
+      <h2 class="cat-title">分野から探す</h2>
+      <div class="chips">${catChips(apps)}</div>
+    </div>
+
+    <h2 class="cat-title" data-search-hide>新しい順にすべて</h2>
     <ul class="article-list">
 ${rows}
     </ul>

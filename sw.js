@@ -19,7 +19,7 @@
 //    手書きだったころは上げるのが人の仕事で、2026-08-21 に12リポジトリで同時に
 //    上げ忘れる事故が起きた。上げ忘れると古いシェルのキャッシュが掃除されず、
 //    直した画面が端末に一度も届かない。ここは全アプリの入口なので影響が広い。
-const VERSION = 'v250b2aa2'; /* __APP_VERSION__ */
+const VERSION = 'vb9ddc382'; /* __APP_VERSION__ */
 const SHELL = `giga-school-shell-${VERSION}`;   // 骨組み（毎回使うもの）
 const PAGES = `giga-school-pages-${VERSION}`;   // 開いたページ。アドレスごとに持つ
 const RUNTIME = `giga-school-media-${VERSION}`; // 画像など、使った分だけためるもの
@@ -33,6 +33,7 @@ const SHELL_FILES = [
   '/assets/style.css',
   '/assets/app.js',
   '/assets/article.js',
+  '/assets/search.js',
   '/assets/favicon.svg',
   '/assets/logo.svg',
   '/site.webmanifest',

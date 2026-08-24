@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="no-js">
 
 <head>
   <meta charset="UTF-8">
@@ -26,6 +26,7 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/search.js" defer></script>
   <script>
     (function () {
       try {
@@ -300,6 +301,28 @@
       </p>
     </header>
 
+    <!-- 記事の中を探す。索引（663KB）は、この欄に触れるまで読み込まない。
+         JavaScript が無いときは .no-js が付いたままなので、CSS が隠す -->
+    <div class="article-search" data-article-search>
+      <div class="search">
+        <span class="search__icon" aria-hidden="true">🔍</span>
+        <label class="visually-hidden" for="article-search">紹介記事の中を検索</label>
+        <input type="search" id="article-search" autocomplete="off" spellcheck="false"
+               placeholder="記事の中を検索（例：ローマ字、ふりかえり、二学期）">
+        <button type="button" class="search__clear" aria-label="検索語を消す">✕</button>
+      </div>
+    </div>
+    <p class="article-search__status" data-search-status role="status" aria-live="polite"></p>
+    <ul class="hit-list" data-search-results hidden></ul>
+
+    <!-- 分類の入口。押すと、その分類のアプリと紹介だけのページに移る。
+         トップの絞り込みと違って JavaScript は要らない -->
+    <div data-search-hide>
+      <h2 class="cat-title">分野から探す</h2>
+      <div class="chips"><a class="chip" href="/apps/category/kokugo/">国語・言葉<span class="count">8</span></a><a class="chip" href="/apps/category/sansu/">算数<span class="count">5</span></a><a class="chip" href="/apps/category/tankyu/">学習・探究<span class="count">7</span></a><a class="chip" href="/apps/category/gakkyu/">学級経営<span class="count">2</span></a><a class="chip" href="/apps/category/koumu/">授業づくり・校務<span class="count">4</span></a><a class="chip" href="/apps/category/seisaku/">表現・制作<span class="count">2</span></a><a class="chip" href="/apps/category/game/">ゲーム・対戦<span class="count">8</span></a><a class="chip" href="/apps/category/other/">そのほか<span class="count">3</span></a></div>
+    </div>
+
+    <h2 class="cat-title" data-search-hide>新しい順にすべて</h2>
     <ul class="article-list">
         <li class="article-item" style="--cat:#8b93a1">
           <a class="article-item__media" href="/apps/xxx-automatic/" tabindex="-1" aria-hidden="true">

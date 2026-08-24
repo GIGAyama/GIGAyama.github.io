@@ -16,7 +16,7 @@
  * ここでは index.html だけを読んで確かめる。ブラウザは要らない。
  * ===================================================================== */
 import { readFileSync } from 'node:fs';
-import { CATEGORY_LABEL, USE_LABEL } from './lib/categories.mjs';
+import { ACCOUNT_LABEL, CATEGORY_LABEL, STORAGE_LABEL, USE_LABEL } from './lib/categories.mjs';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
@@ -126,6 +126,49 @@ for (const [id, label] of Object.entries(USE_LABEL)) {
   ok(optionLabel('use', id) === label, `つかいかた：${id} は「${label}」`,
      `index.html には「${optionLabel('use', id)}」と書いてある`);
 }
+
+/* -----------------------------------------------------------------
+ * 対象学年（data/apps.json の grades）。
+ *
+ * 値そのものの間違い（0 年生、7 年生、文字列）は止める。
+ * まだ決めていないアプリがあることは止めない。決まった順に書き足す前提で、
+ * どれが残っているかを毎回見えるようにしておく。
+ * --------------------------------------------------------------- */
+console.log('\n■ 対象学年の値が正しい');
+const apps = JSON.parse(readFileSync(new URL('../data/apps.json', import.meta.url), 'utf8')).items;
+const shown = apps.filter((a) => a.hidden !== true && a.slug);
+const badGrade = shown.filter((a) => a.grades !== undefined
+  && (!Array.isArray(a.grades)
+      || a.grades.some((n) => !Number.isInteger(n) || n < 1 || n > 6)));
+ok(badGrade.length === 0, '1〜6 の整数の配列になっている',
+   badGrade.map((a) => `${a.slug}:${JSON.stringify(a.grades)}`).join(', '));
+
+const undecided = shown.filter((a) => a.grades === undefined);
+const withGrade = shown.filter((a) => Array.isArray(a.grades) && a.grades.length);
+console.log(`  info 学年あり ${withGrade.length} 本 / 児童が使わないもの `
+  + `${shown.length - withGrade.length - undecided.length} 本 / まだ決めていない ${undecided.length} 本`);
+if (undecided.length) console.log(`       → ${undecided.map((a) => a.slug).join(', ')}`);
+
+/* -----------------------------------------------------------------
+ * 導入を決めるための項目（account / storage）。
+ *
+ * 「アカウント不要」は、学校が判断の前提にする言葉である。
+ * 知らない値を黙って落とすと、書いたつもりのものが出ないまま気づけない。
+ * 値の間違いは止める。まだ書いていないことは止めない。
+ * --------------------------------------------------------------- */
+console.log('\n■ 導入を決めるための項目が正しい');
+const badAccount = shown.filter((a) => a.account !== undefined && !ACCOUNT_LABEL[a.account]);
+ok(badAccount.length === 0, `account は ${Object.keys(ACCOUNT_LABEL).join(' / ')} のどれか`,
+   badAccount.map((a) => `${a.slug}:${a.account}`).join(', '));
+const badStorage = shown.filter((a) => a.storage !== undefined && !STORAGE_LABEL[a.storage]);
+ok(badStorage.length === 0, `storage は ${Object.keys(STORAGE_LABEL).join(' / ')} のどれか`,
+   badStorage.map((a) => `${a.slug}:${a.storage}`).join(', '));
+
+const noAccount = shown.filter((a) => a.account === undefined);
+const noStorage = shown.filter((a) => a.storage === undefined);
+console.log(`  info アカウント ${shown.length - noAccount.length} 本 / `
+  + `記録の置き場所 ${shown.length - noStorage.length} 本（全 ${shown.length} 本）`);
+if (noAccount.length) console.log(`       アカウント未記入 → ${noAccount.map((a) => a.slug).join(', ')}`);
 
 console.log(failed === 0 ? '\n✅ すべて通りました' : `\n❌ ${failed} 件 通りませんでした`);
 process.exit(failed === 0 ? 0 : 1);

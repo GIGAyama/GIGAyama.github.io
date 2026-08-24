@@ -8,10 +8,12 @@
  * 依存パッケージはない。Node 20 以降の fetch をそのまま使う。
  */
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 
 import { CATEGORY_LABEL, CATEGORY_COLOR } from './lib/categories.mjs';
 import { articleIndexPage } from './lib/article-page.mjs';
+import { CATEGORY_BASE, categoryPage, groupByCategory } from './lib/category-page.mjs';
+import { searchIndex } from './lib/search-index.mjs';
 import { pressPage } from './lib/press-page.mjs';
 
 const OWNER = 'GIGAyama';
@@ -21,6 +23,7 @@ const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
 const APPS_INDEX = new URL('apps/index.html', ROOT);
+const SEARCH = new URL('data/search-index.json', ROOT);
 const PRESS = new URL('press/index.html', ROOT);
 const FEED = new URL('feed.xml', ROOT);
 
@@ -301,6 +304,13 @@ function sitemap(data, articles = []) {
     /* フィードも載せておく。更新の速いページとしてクローラに拾わせる */
     entries.push(url('https://giga-school.com/feed.xml', data.generatedAt, 'daily', '0.5'));
   }
+  /* 教科・分野ごとの入口。「国語 アプリ 小学校」で探している人の着地点になる。
+     トップページの絞り込み（?cat=）は JavaScript が要るうえ、行き先が
+     トップページ 1 枚なので、検索の受け皿にならない */
+  Object.keys(CATEGORY_LABEL).forEach((id) => {
+    entries.push(url(`https://giga-school.com/${CATEGORY_BASE}/${id}/`,
+      data.generatedAt, 'weekly', '0.7'));
+  });
   /* 自己紹介。だれがつくっているのかは、学校で使うかどうかの判断材料になる */
   entries.push(url('https://giga-school.com/profile/', data.generatedAt, 'monthly', '0.5'));
   /* 掲載用の資料。めったに変わらないが、媒体の担当者に見つけてほしい */
@@ -384,13 +394,49 @@ const main = async () => {
     }));
   }
 
+  /* 教科・分野ごとの入口（/apps/category/<id>/）。
+     8 分野ぶんを毎回書き直す。アプリが 1 本も無い分野は作らない
+     （空のページがサイトマップと食い違う）。 */
+  const groups = groupByCategory(data.items, articles);
+  let cats = 0;
+  for (const id of Object.keys(CATEGORY_LABEL)) {
+    /* アプリが 1 本も無い分野は作らない。空のページがサイトマップと食い違う。
+       前に作ってあれば消す。最後の 1 本を取り下げた分野のページが、
+       中身のないまま検索に残り続けるのを避ける。 */
+    if (!groups.get(id).apps.length) {
+      await rm(new URL(`${CATEGORY_BASE}/${id}/`, ROOT), { recursive: true, force: true });
+      continue;
+    }
+    await mkdir(new URL(`${CATEGORY_BASE}/${id}/`, ROOT), { recursive: true });
+    await writeFile(new URL(`${CATEGORY_BASE}/${id}/index.html`, ROOT),
+      categoryPage({ id, groups, generatedAt: data.generatedAt }));
+    cats++;
+  }
+
+  /* 紹介記事の中を探すための索引。書き出し済みのページから作るので、
+     GitHub を見に行かなくても作り直せる。検索の欄に触れるまで読み込まれない。 */
+  if (articles.length) {
+    const pages = [];
+    for (const a of articles) {
+      if (!a.slug) continue;
+      try {
+        pages.push({
+          slug: a.slug,
+          name: a.name,
+          html: await readFile(new URL(`apps/${a.slug}/index.html`, ROOT), 'utf8'),
+        });
+      } catch (e) { /* まだ書き出されていない。次の朝には入る */ }
+    }
+    await writeFile(SEARCH, searchIndex(pages, data.generatedAt));
+  }
+
   /* 掲載用の資料（/press/）。数字を手で書くと、ここだけ古くなって
      媒体に古い本数が載ることになる。毎回組み直す。 */
   await mkdir(new URL('press/', ROOT), { recursive: true });
   await writeFile(PRESS, pressPage({ apps: data.items, articles, generatedAt: data.generatedAt }));
 
   console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本`
-    + ` / 紹介 ${articles.length} 本 / ${data.generatedAt} 時点`);
+    + ` / 紹介 ${articles.length} 本 / 分類 ${cats} 枚 / ${data.generatedAt} 時点`);
 };
 
 await main();
