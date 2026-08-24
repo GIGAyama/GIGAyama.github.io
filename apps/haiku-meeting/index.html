@@ -131,6 +131,7 @@
       <h1 class="article__title">「書いて出して、終わり」にしない。クラス全員で読み合う句会アプリ「GIGA句会プラザ」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://haiku-meeting.giga-school.com/">GIGA句会プラザ を開く</a>
@@ -138,8 +139,27 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">🥇 金・銀・銅の三票しか持たせない</a></li>
+          <li><a href="#s-4">🖥 電子黒板に映すときだけ、名前を伏せる</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a>
+            <ol class="toc__sub"><li><a href="#s-6-1">準備するもの</a></li><li><a href="#s-6-2">入れる手順</a></li><li><a href="#s-6-3">合言葉を決めてください</a></li><li><a href="#s-6-4">校内のフィルタリングで通すもの</a></li><li><a href="#s-6-5">個人情報について</a></li><li><a href="#s-6-6">シートを点検する</a></li><li><a href="#s-6-7">共用端末をお使いの場合</a></li><li><a href="#s-6-8">いま無いもの</a></li></ol>
+          </li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">子どもたちに伝えること</a></li><li><a href="#s-7-2">先生の当日の進め方</a></li><li><a href="#s-7-3">出したくない作品が出てしまったとき</a></li><li><a href="#s-7-4">締め切りと、次の回の準備</a></li></ol>
+          </li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>国語の俳句の授業で、こんなことになっていませんか。短冊は全員ぶん集まったのに、みんなで読み合えたのは、そのうちの数人ぶんだけ。</p>
 <p>短冊を配って、五・七・五を書かせて、集めるところまでは進みます。問題はそのあとです。放課後に模造紙へ貼り、次の時間に「では、いくつか読んでみましょう」と言う。けれど時間の都合で読めるのは、せいぜい五人か六人ぶん。残りの子の句は、だれの目にも触れないまま学級通信のすみに小さく載って終わります。</p>
 <p>俳句は、詠むことと同じくらい、読み合うことが大事なのだと思います。ところが読み合う時間をとろうとすると、集める、並べる、貼る、写す、という段取りのほうに時間を持っていかれます。作品そのものと向き合う時間が、いちばん先に削られてしまう。</p>
@@ -148,7 +168,7 @@
 <p>置いてあるのはこちらです。</p>
 <p><a href="https://github.com/GIGAyama/Haiku-meeting" rel="noopener">https://github.com/GIGAyama/Haiku-meeting</a></p>
 <p>国語の俳句づくりが本来の使いみちですが、理科の実験のあとや、体育の試合のあとの振り返りを五・七・五で書かせる、という使い方もできます。三行に収めようとすると、子どもたちは自分が何を見て何を感じたのかを、いやでも選ぶことになります。</p>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>画面は5つで、上のタブで切り替えます。子どもたちが使うのが「投稿」「広場」「自分」「過去」の4つ、先生だけが入るのが「先生」の1つです。</p>
 <p>最初に開いたときには、短い案内が出ます。これはその端末で一度だけ出るもので、二度目からは出ません。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/01-welcome.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/01-welcome.png" alt="はじめて開いたときの案内" loading="lazy" decoding="async"></a><figcaption>はじめて開いたときの案内。「さあ、はじめよう！」を押すと消えます。</figcaption></figure>
@@ -172,7 +192,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/11-mypage-open.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/11-mypage-open.png" alt="もらったコメントを開いたところ" loading="lazy" decoding="async"></a><figcaption>句をタップすると、もらったコメントが開きます。前の回の句も、同じ場所から読み返せます。</figcaption></figure>
 <p>「過去」のタブでは、終わった句会を開催日ごとに読み返せます。こちらには作者の名前が付いています。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/24-archives-pc.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/24-archives-pc.png" alt="過去の句会" loading="lazy" decoding="async"></a><figcaption>過去の句会。学期の終わりに読み返すと、季節の移りかわりがそのまま並びます。</figcaption></figure>
-<h2>🥇 金・銀・銅の三票しか持たせない</h2>
+<h2 id="s-3">🥇 金・銀・銅の三票しか持たせない</h2>
 <p>このアプリでいちばん考えたのが、投票のしくみです。</p>
 <p>一人が持っている票は、金と銀と銅の三枚だけです。金が3点、銀が2点、銅が1点になります。同じ賞は一度しか使えません。同じ作品に二回は入れられません。押したら取り消せません。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/07-voted.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/07-voted.png" alt="投票したところ" loading="lazy" decoding="async"></a><figcaption>投票すると紙吹雪が舞います。一票の重さを、少しだけ演出でも支えたいと思いました。</figcaption></figure>
@@ -184,69 +204,69 @@
 <p>同じ点数の作品が複数あれば、その全員が同じ賞になります。無理に一人に絞りません。0点の作品は賞に入りません。締め切ったあとに「投票を受付する」に戻せば、名前はまた伏せられて一覧に戻ります。授業の終わりに押しそこねても取り返しがつきます。</p>
 <p>締め切ったあとの広場には「印刷」のボタンが出ます。A4の縦で、上のタブも下の著作権表示も紙には刷りません。紙吹雪も刷りません。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/23-print.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/23-print.png" alt="印刷したときの見た目" loading="lazy" decoding="async"></a><figcaption>印刷したときに紙へ載るのは、この三枚だけです。学級通信に貼るなら、ここを切り取るのがいちばん早いと思います。</figcaption></figure>
-<h2>🖥 電子黒板に映すときだけ、名前を伏せる</h2>
+<h2 id="s-4">🖥 電子黒板に映すときだけ、名前を伏せる</h2>
 <p>結果発表は、教室のみんなで見たい場面です。そこで広場に「大きく表示」を用意しました。押すと字も余白も1.5倍になり、全画面に切り替わります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/21-presentation.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/21-presentation.png" alt="電子黒板に映したところ" loading="lazy" decoding="async"></a><figcaption>大きく表示したところ。受賞した子の名前は 〇〇〇 と伏せられています。</figcaption></figure>
 <p>ここで名前を伏せているのには理由があります。電子黒板は、廊下を通る人からも見えてしまいます。教室のなかで発表するつもりの名前が、通りがかりの人の目に入るのは、たぶん本人が望んでいることではありません。だから大きく映したときだけは、既定で伏せるようにしました。</p>
 <p>発表するときは「名前を出す」を押します。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/22-presentation-names.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/22-presentation-names.png" alt="名前を出したところ" loading="lazy" decoding="async"></a><figcaption>「名前を出す」を押すと、そこではじめて作者が出ます。発表の間をつくる装置にもなります。</figcaption></figure>
 <p>大きくしたまま別のタブに移ると、自動でもとの大きさに戻ります。先生が電子黒板で使ったあと、子どもの手元が巨大なまま残らないようにしてあります。</p>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、全員の作品が必ず読まれることです。紙で集めていたときは、時間の都合で読まれる子と読まれない子が出ていました。画面に並べれば、全員の句が最初から並びます。しかも三票しか持っていないので、子どもたちは端から端まで読むことになります。「わたしの句、だれも読んでいないかもしれない」と思う子がいなくなれば、次に書くときの構えが変わるのではないかと思っています。</p>
 <p>二つ目は、集計と掲示から解放されることです。短冊を集めて、並べて、貼って、点数を数えて、という作業がなくなります。締め切りを押した瞬間に結果が出ます。空いた時間は、「この句はどこがいいのだろう」と子どもたちに問い返すことに使えます。効率化そのものが目的ではなくて、削れるところを削って、削れないところに時間を寄せるための道具のつもりです。</p>
 <p>三つ目は、書いたものが残っていくことです。一年ぶんの句が、開催日ごとに残ります。子どもは「自分」のタブから、自分がこれまでに詠んだ句と、もらったコメントをいつでも読み返せます。四月に書いた句と十二月に書いた句が並ぶと、成長は数字で示さなくても本人に伝わるのではないかと思います。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に確認されそうなところを、先に書いておきます。</p>
-<h3>準備するもの</h3>
+<h3 id="s-6-1">準備するもの</h3>
 <p>Google アカウントが1つあれば足ります。ふだんお使いの学校のアカウントで大丈夫です。</p>
-<h3>入れる手順</h3>
+<h3 id="s-6-2">入れる手順</h3>
 <p>このリンクを開いて、「コピーを作成」を押すところから始まります。</p>
 <p><a href="https://docs.google.com/spreadsheets/d/19VeKs838Yp8J4Xlxq4FWNfvmUj8u8ta31s2qOXGif0k/copy" rel="noopener">https://docs.google.com/spreadsheets/d/19VeKs838Yp8J4Xlxq4FWNfvmUj8u8ta31s2qOXGif0k/copy</a></p>
 <ol><li>上のリンクを開き、「コピーを作成」を押します。ご自分のドライブに、句会用の表計算ファイルができます。</li><li>できたファイルを開き、上の「拡張機能」から「Apps Script」を開きます。</li><li>右上の「デプロイ」から「新しいデプロイ」を選び、種類を「ウェブアプリ」にします。</li><li>実行するユーザーを「自分」にします。アクセスできるユーザーは「同一ドメインの全員」をおすすめします。学校の Google アカウントを持つ人だけが開ける状態になります。</li><li>表示された URL を子どもたちに配れば準備完了です。</li></ol>
 <p>アプリの中身は、コピーしたファイルの中に入っています。貼り付ける作業はありません。作品もそのファイルの中に入るので、どこにできたのかを探す必要もありません。</p>
 <p>「全員（匿名ユーザーを含む）」を選ぶと、URL を知っていれば校外の人でも投稿と投票とコメントができます。児童が学校のアカウントを持っていない場合はこちらを選ぶことになりますが、そのときは句会をする時間だけ公開して、終わったら公開を止めてください。</p>
 <p>学校のポリシーで、外部のファイルをコピーできない設定になっていることがあります。その場合は、リポジトリの README にある「B. ファイルを貼り付ける」の手順をお使いください。code.gs と、app-shell、app、css、vendor という名前の HTML 4つを Apps Script に貼る形で、入るものは同じです。以前の版を貼ってお使いの場合も、そのままで動きます。</p>
-<h3>合言葉を決めてください</h3>
+<h3 id="s-6-3">合言葉を決めてください</h3>
 <p>先生用の画面に入る合言葉は、はじめは決まっていません。公開したあと、いちばん最初に「先生」タブを開いた人が、その場で決めます（6文字以上）。児童に URL を配る前に、先生が先に開いて決めてください。あとから変えたいときは、管理の画面の下のほうに変更する欄があります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/15-admin-login.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/15-admin-login.png" alt="先生用の画面" loading="lazy" decoding="async"></a><figcaption>先生のタブは合言葉で守られています。ここに入れないかぎり、お題も締め切りも動かせません。</figcaption></figure>
 <p>以前の版では、お題の変更や締め切りやミュートといった操作が、画面のボタンを隠しているだけの状態でした。くわしい子が画面の裏側から直接呼べてしまう作りだったので、いまはログインしたときに受け取った合鍵をサーバー側で照らし合わせてから実行するようにしてあります。合鍵は先生用のタブを離れると消えるので、そのつど入り直しが必要です。手間ですが、ここは手間のほうを選びました。</p>
-<h3>校内のフィルタリングで通すもの</h3>
+<h3 id="s-6-4">校内のフィルタリングで通すもの</h3>
 <p>かならず通す必要があるのは、アプリ本体が置かれる script.google.com だけです。</p>
 <p>見た目のために2つ使っていますが、どちらも届かなくてもアプリは動きます。和風の書体を読むために fonts.googleapis.com と fonts.gstatic.com を、タブに出る小さな絵のために drive.google.com を使っています。書体が届かなければ、端末に入っている明朝体で表示されるだけです。</p>
 <p>画面を作るための部品は、外から読み込んでいません。学校のフィルタリングで配信元が塞がれると画面がまったく出なくなるので、必要なものは全部アプリの中に持たせてあります。最初に読み込む量はあわせて256キロバイトほどです。</p>
-<h3>個人情報について</h3>
+<h3 id="s-6-5">個人情報について</h3>
 <p>子どもが入れるのはニックネームで足ります。出席番号でも、ひらがなの名前でも構いません。入れた名前はその端末に覚えられて、次から自動で入ります。</p>
 <p>書かれたものはすべて、公開した先生のドライブにある表計算ファイルの中だけにあります。外部のサービスには何も送っていません。表計算ファイルは直接開けるので、誤字を直したり、消したい行を消したりするのは、そこでするのがいちばん確実です。</p>
-<h3>シートを点検する</h3>
+<h3 id="s-6-6">シートを点検する</h3>
 <p>コピーした表計算ファイルを開くと、上のメニューに「GIGA句会プラザ」が出ます。「シートを点検する」を押すと、中の作りがアプリの想定どおりかを確かめられます。</p>
 <p>得点や、締め切ったあとの作者名は、列の番号で読み書きしています。誤字を直したり、行を消したりするのは構いませんが、列の並びは変えないでください。変わっていると、先生の管理画面にも知らせが出ます。</p>
-<h3>共用端末をお使いの場合</h3>
+<h3 id="s-6-7">共用端末をお使いの場合</h3>
 <p>だれが投票したかは、端末に作られた印で見分けています。ですから別の端末や別のブラウザで開き直すと、同じ子がもう一度三票を使えてしまいます。一人一台で、投票の間は端末を替えないようにしてください。共用の端末を交代で使う形の投票には向きません。</p>
-<h3>いま無いもの</h3>
+<h3 id="s-6-8">いま無いもの</h3>
 <p>正直に書いておきます。結果を表計算の形で書き出す機能はありません。自動生成された表計算ファイルをそのままお使いください。広場も先生の画面も自動では更新されないので、最新の状態を見るにはボタンを押します。オフラインでは使えません。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
-<h3>子どもたちに伝えること</h3>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
+<h3 id="s-7-1">子どもたちに伝えること</h3>
 <ol><li>先生から配られた URL を開きます。</li><li>最初に出る案内を「さあ、はじめよう！」で閉じます。</li><li>「投稿」のタブで、名前と、上の句、中の句、下の句を入れます。</li><li>「作品を送る」を押します。送れると自動で「広場」に移ります。</li><li>「広場」で、ほかの人の短冊をタップして読みます。</li><li>いいと思った句に、金、銀、銅のどれかを入れます。三つとも別の句に入れます。</li><li>感想があれば、下の欄に書いて送ります。</li><li>新しい作品が出ているかを見るときは、右上の丸い矢印を押します。</li></ol>
 <p>四つの欄はどれか一つでも空だと送れません。何句でも投稿できます。上限はありません。</p>
 <p>キーボードだけでも一通り操作できます。Tab で短冊まで移動して、Enter か Space で開きます。開いた画面は Esc で閉じます。閉じるともとの短冊に戻ります。マウスやタッチが使いにくい子がいる学級でも、置いていかずに済むようにしてあります。</p>
 <p>字が小さいと感じたら、指を広げて拡大できます。拡大を禁止する設定は入れていません。</p>
-<h3>先生の当日の進め方</h3>
+<h3 id="s-7-2">先生の当日の進め方</h3>
 <ol><li>「先生」のタブに入り、合言葉を入れます。</li><li>お題の欄を書き換えて「お題を更新」を押します。</li><li>子どもたちに URL を配って、投稿させます。</li><li>様子を見るときは「最新の情報に更新」を押します。参加した人数、投稿の数、票の数、コメントの数が出ます。</li><li>読み合いと投票の時間をとります。</li><li>「投票を締め切る」を押します。子どもたちの広場が結果発表に変わります。</li><li>電子黒板に映すなら、広場の「大きく表示」を押します。発表するときに「名前を出す」を押します。</li><li>次の回に進むときは「新しい句会を準備する」を押します。</li></ol>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/16-admin-dashboard.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/16-admin-dashboard.png" alt="管理の画面" loading="lazy" decoding="async"></a><figcaption>管理の画面。数字はボタンを押したときに読み直します。放っておいても増えません。</figcaption></figure>
 <p>数字の下にある横棒は、40人、120句、120票、200件を満たしたときにいっぱいになる目安です。クラスの規模を表すものではないので、半分までしか伸びていなくても気にしなくて大丈夫です。</p>
-<h3>出したくない作品が出てしまったとき</h3>
+<h3 id="s-7-3">出したくない作品が出てしまったとき</h3>
 <p>管理の画面の下に、投稿された作品の一覧があります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/17-admin-safety.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/17-admin-safety.png" alt="作品の一覧" loading="lazy" decoding="async"></a><figcaption>投稿された作品の一覧。作者の名前と句が並びます。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/18-admin-muted.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/18-admin-muted.png" alt="隠したところ" loading="lazy" decoding="async"></a><figcaption>「隠す」を押すと、その作品は子どもたちの広場から消えます。消えたのではなく隠れているだけなので、いつでも戻せます。</figcaption></figure>
 <p>送り方を試しただけの投稿や、書きかけのまま送ってしまった句を、その場でどけられます。データは消えていないので、「非表示中 (戻す)」を押せば戻ります。ただし、隠した作品も本人の「自分」のタブには残ります。完全に見えなくしたいときは、表計算ファイルでその行を消してください。</p>
-<h3>締め切りと、次の回の準備</h3>
+<h3 id="s-7-4">締め切りと、次の回の準備</h3>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/19-admin-closed.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/19-admin-closed.png" alt="締め切ったところ" loading="lazy" decoding="async"></a><figcaption>締め切ると、押したボタンのほうが塗りつぶされます。いまどちらの状態かが、ひと目で分かります。</figcaption></figure>
 <p>締め切りは何度でも戻せます。「新しい句会を準備する」だけは戻せません。押すと、いまの作品とコメントと票が日時の付いた場所に移り、空の状態から始まります。移したぶんは子どもたちの「過去」のタブから読めます。</p>
 <p>一つだけ順番の注意があります。先に投票を締め切ってから、新しい句会を準備してください。締め切らないまま準備すると、その回の作品はすべて作者非公開として保存されて、あとから名前を出せなくなります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/14-plaza-pc.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/14-plaza-pc.png" alt="締め切る前の広場" loading="lazy" decoding="async"></a><figcaption>締め切る前の広場。並び替えを「ランダム」にすると、いつも同じ句が先頭に来ることを避けられます。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://haiku-meeting.giga-school.com/docs/note/images/12-archives.png"><img src="https://haiku-meeting.giga-school.com/docs/note/images/12-archives.png" alt="過去の句会をさかのぼる" loading="lazy" decoding="async"></a><figcaption>「過去」のタブは、開催日を選ぶとその回の作品が並びます。学期末の振り返りに使えると思います。</figcaption></figure>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>このアプリがしているのは、集めることと並べることだけです。どの句がいいのかを決めるのは子どもたちで、どこがいいのかを言葉にさせるのは先生です。その二つは、機械には代われません。</p>
 <p>ただ、集めることと並べることに使っていた時間は、たしかに返ってきます。返ってきた時間を、「どうしてこの句を選んだの」と聞くことに使えたら、それがいちばんの使いみちだと思います。ICT を使う理由は、速く終わらせることそのものではなくて、子どもと向き合う時間をつくるためだと考えています。</p>
 <p>はじめての導入は、たしかに気が重いものです。それでも、することはファイルを1つコピーして、公開の設定をするだけです。一度うまく動けば、次からは URL を配るだけになります。</p>

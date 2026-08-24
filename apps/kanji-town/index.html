@@ -131,6 +131,7 @@
       <h1 class="article__title">「なぞれた」で終わらせない。書き順まで見てくれる漢字学習アプリ「マイ漢字タウン」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://kanji-town.giga-school.com/">マイ漢字タウン を開く</a>
@@ -138,8 +139,25 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">✍️ 「なぜ その点数か」がわかる採点</a></li>
+          <li><a href="#s-4">🎤 声に出して読んだかを確かめる音読チャレンジ</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">はじめて使う日</a></li><li><a href="#s-7-2">先生がドリルを配る</a></li><li><a href="#s-7-3">ドリルでテストする</a></li></ol>
+          </li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>漢字の丸付けをしていて、こんなふうに迷ったことはありませんか。</p>
 <p>形はきれいに書けている。でも、書いているところを見ていたら、たぶん書き順が違っていた。ノートに残るのは書き上がった字だけなので、あとから見ても、その子がどの順番で書いたのかは分かりません。同じように、はねるところで止めてしまった、突き抜けるところで止めてしまった、というつまずきも、答案の上ではほとんど見分けがつきません。三十数人ぶんのノートを前にして、そこまで一人ひとり確かめるのは、正直むずかしいと思います。</p>
 <p>以前この連載で「マイ漢字タウン」というアプリを紹介しました。漢字を覚えると自分の町が育っていく、小学生向けの漢字学習アプリです。あれから半年ほどのあいだに、いちばん大事なところを作り直しました。書けたかどうかを判定する仕組みを、根っこから組み直したのです。</p>
@@ -147,7 +165,7 @@
 <p><a href="https://kanji-town.giga-school.com/" rel="noopener">https://kanji-town.giga-school.com/</a></p>
 <p>アカウントの登録は要りません。URLを開けば、その場で始められます。学習の記録は、その端末の中だけに残ります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/01-home.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/01-home.png" alt="トップページ" loading="lazy" decoding="async"></a><figcaption>トップページ。学年を選んで、赤いボタンを押せば その日の学習が始まります。</figcaption></figure>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>小学校で習う教育漢字1026字を、すべて収めています。1年生の80字から6年生の181字まで、学年配当のとおりに並んでいます。</p>
 <p>一つの漢字は、音読、書き順を見る、なぞる、テスト、という4つの段階で進みます。この流れ自体は前回と同じですが、中身はどこも入れかわりました。</p>
 <p>最初は音読です。その漢字を使った例文が出てきます。例文はアプリ全体で2000をこえる数を用意しました。読みかたと意味を、字を書く前に頭に入れておくためのステップです。</p>
@@ -161,7 +179,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/10-test-graded.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/10-test-graded.png" alt="テストの採点" loading="lazy" decoding="async"></a><figcaption>自分の字とこたえが並びます。この結果を見て、次にいつ復習するかが決まります。</figcaption></figure>
 <p>覚えた漢字は、町の住人としてマップに増えていきます。学習を続けるとマップが広がり、集めた素材で建物を作れるようになります。忘れそうなタイミングになると町にお化けが出てきて、それが復習の合図になります。この部分の考えかたは前回から変えていません。反復そのものを、続けたくなる形に置きかえたい、という作りです。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/12-home-after.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/12-home-after.png" alt="学習のあとのトップページ" loading="lazy" decoding="async"></a><figcaption>学習した日のトップページ。土地が広がり、レベルが上がりました。はじめは小さなあき地からです。</figcaption></figure>
-<h2>✍️ 「なぜ その点数か」がわかる採点</h2>
+<h2 id="s-3">✍️ 「なぜ その点数か」がわかる採点</h2>
 <p>今回いちばん時間をかけたのが、ここです。</p>
 <p>以前の判定は、正直なところ、書きはじめと書きおわりの位置しか見ていませんでした。両端さえ合っていれば、その間の形がどれだけ崩れていても満点が出ます。とめ・はね・はらいは点数に入っておらず、書き順も、似た形の画が並ぶ字では正しく書いても誤って判定されることがありました。これでは、いちばん直したいところが直せません。</p>
 <p>いまは100点を6つに分けて配点しています。字の形が30点、書き順が25点、とめ・はね・はらいが15点、点画の交わりかたが10点、書きはじめの位置が10点、書きおわりの位置が10点です。合格は70点にしました。</p>
@@ -173,7 +191,7 @@
 <p>とめ・はね・はらいについては、ひとつ決めごとをしました。正解が分からないときは褒めない、というものです。以前は子どもの書いた終筆をそのまま読み取って「きれいなハネ！」と返していたのですが、これだと、とめるべきところではねても褒めてしまいます。誤りをこちらから強化していたことになります。いまは手本の側に筆画の種類の情報があるときだけ判定し、分からないときは中立の言葉を返します。</p>
 <p>また、この項目の配点はあえて15点と控えめにして、外れても半分の点は残るようにしています。文部科学省の「常用漢字表の字体・字形に関する指針」が、終筆の細かい部分にはある程度の幅を認めているためです。細部を厳しくしすぎて、書くこと自体を怖がらせたくありませんでした。</p>
 <p>採点の仕組みは、通常の学習でも、マイドリルのテストでも、ボスバトルでも、まったく同じものを使っています。画面によって基準が変わることはありません。</p>
-<h2>🎤 声に出して読んだかを確かめる音読チャレンジ</h2>
+<h2 id="s-4">🎤 声に出して読んだかを確かめる音読チャレンジ</h2>
 <p>もうひとつ増えたのが、音読チャレンジです。</p>
 <p>音読の画面は、これまで「声にだそう！」と表示するだけで、タップ1回で次へ進めました。声を出さなくても通り抜けられたわけです。声に出して読むことには、黙読より記憶に残りやすいという裏づけがあるので、実際に声を出したことを確かめる仕組みを入れました。</p>
 <p>マイクのボタンを押すと、アプリが声を聞きとります。しっかり声が出ていればクリアで、ボーナスの経験値がもらえます。</p>
@@ -184,13 +202,13 @@
 <p>しきい値は、その場の静かさに合わせて自動で決まります。静かな教室で敏感になりすぎず、ざわついた教室でも叫ばずに済むようにしてあります。咳やタップの音のような短い音は、声として数えません。</p>
 <p>お手本の読み上げもつけました。こちらも端末の中に入っている音声だけを使っています。正しい読みを聞いてから自分で声に出す、という流れを作りたかったからです。</p>
 <p>マイクが使えない端末や、許可されていない環境では、チャレンジのカードが案内表示に変わります。学習はそのまま最後まで進められます。ボーナスの経験値がつかないだけです。設定から機能ごと切ることもできます。</p>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、先生が見えなかったところが見えるようになることです。ノートに残るのは書き上がった字だけですが、このアプリは書いている途中の運びを見ています。字の形はいいのに書き順でつまずいている子、はらうところで止めてしまう子を、答案からではなく、その場で見分けられます。子ども自身が「なぜ69点なのか」を画面で確かめられるので、先生が一人ずつ説明して回らなくても、直すべきところが本人に届きます。</p>
 <p>二つ目は、丸付けの時間が減ることです。字形と書き順の細かい判定はアプリが引き受けます。そのぶん先生は、「この字、はねが力強くなったね」「住人がこんなに増えたね」といった、数字にならない伸びを言葉にすることに時間を使えるのではないかと思います。丸付けに追われる時間が、子どもと話す時間に変わっていくのが理想です。</p>
 <p>三つ目は、学び方の選択肢が増えることです。今日は鉛筆でノートに向かいたい、今日は集中が切れそうだからアプリで町を育てながら頑張る。そんなふうに、その日のコンディションで手段を選べるようになります。ノートにはノートの良さがあり、これを置きかえるつもりはありません。ただ、選べる状態を作っておくことで、自分に合った学び方を自分で探す土台ができていくのだと思います。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/16-stats.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/16-stats.png" alt="学習きろく" loading="lazy" decoding="async"></a><figcaption>「読み」「意味」「書字」「筆順」の4つの力が、答えかたと練習の記録から自動で計算されます。</figcaption></figure>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に確認されそうなことを、先にまとめておきます。</p>
 <p>導入の作業は、URLを子どもたちに伝えるだけです。インストールも、アカウントの登録も要りません。</p>
 <p><a href="https://kanji-town.giga-school.com/" rel="noopener">https://kanji-town.giga-school.com/</a></p>
@@ -202,11 +220,11 @@
 <p>うまく動かないときのために、端末の状態と最近のエラーを表示する画面も用意しました。設定の下のほうにあります。この画面を見せていただければ、原因が分かりやすくなります。ここにも個人情報は含まれません。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/29-system-status.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/29-system-status.png" alt="アプリの状態" loading="lazy" decoding="async"></a><figcaption>保存できているか、オフラインで使えるかなどが一目で分かります。</figcaption></figure>
 <p>先生向けの手引きは MANUAL.md として別に用意しました。専門用語を使わずに書いてあります。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
-<h3>はじめて使う日</h3>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
+<h3 id="s-7-1">はじめて使う日</h3>
 <ol><li>児童の端末で上のURLを開きます。</li><li>最初に案内が出ます。「つぎへ」で読み進めるか、時間がなければ「スキップする」で飛ばせます。</li><li>学年を選びます。</li><li>赤い「きょうの5字」を押すと、その日の学習が始まります。</li></ol>
 <p>1回の学習はおよそ10分です。1字ごとに、音読、書き順を見る、なぞる、テストの順に進みます。</p>
-<h3>先生がドリルを配る</h3>
+<h3 id="s-7-2">先生がドリルを配る</h3>
 <p>覚えさせたい漢字だけを集めたオリジナルのドリルを作って、子どもたちに配れます。今週習った5字だけを集める、一学期に間違いが多かった字を集める、といった使いかたを想定しています。学年をまたいで選べます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/19-drill-editor.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/19-drill-editor.png" alt="ドリルを作る" loading="lazy" decoding="async"></a><figcaption>学年の枠をこえて、覚えさせたい字だけを選べます。</figcaption></figure>
 <p>配りかたは2通りあります。今回の更新で増えたのが、リンクで配る方法です。</p>
@@ -215,13 +233,13 @@
 <p>この方法だと、同じ教室にいなくても配れます。家庭学習にも使えますし、学級閉鎖のときにも届きます。アカウントの連携も、APIキーの設定も要りません。Classroomの共有画面を開くだけの作りにしてあるからです。</p>
 <p>気をつけていただきたいのは、配ったあとにドリルを直しても、配り済みのリンクの中身は変わらないことです。直したら、リンクを配りなおしてください。それと、漢字を入れすぎるとURLが長くなりすぎます。長すぎる場合は画面が知らせてくれるので、そのときはドリルを分けてください。</p>
 <p>もう1つは、4けたの数字で送る方法です。同じ教室にある端末どうしを直接つなぎます。先生の端末に4けたの数字とQRコードが出るので、子どもはそれを入れるか読み取るだけです。電子黒板に映すときは「大きく表示」を押すと文字が1.5倍になり、教室の後ろの席からも読めます。</p>
-<h3>ドリルでテストする</h3>
+<h3 id="s-7-3">ドリルでテストする</h3>
 <ol><li>マイドリルの一覧で「テスト」を押します。</li><li>何問出すかを選びます。</li><li>例文の中の「◯」のところに、その漢字を書きます。</li><li>「答える」を押すと、次の問題に進みます。</li><li>全部書き終えると、まとめて採点されて結果が出ます。</li></ol>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/23-drill-test-question.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/23-drill-test-question.png" alt="ドリルのテスト" loading="lazy" decoding="async"></a><figcaption>一文字を切りはなして書くのではなく、例文の流れの中で書きます。</figcaption></figure>
 <p>一問ごとに止まらないので、テストらしい緊張感のまま最後まで走り抜けられます。結果の画面では、点数のついたカードが並びます。カードを押すと、さきほどの採点の内訳が開きます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/25-drill-test-result.png"><img src="https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/note/images/25-drill-test-result.png" alt="テスト結果" loading="lazy" decoding="async"></a><figcaption>「復習する」を押すと、まちがえた問題だけを書き順から練習しなおせます。</figcaption></figure>
 <p>まちがえた字だけを選んで練習しなおせるので、できた字をもう一度やる時間は要りません。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>漢字の練習は、どうしても反復から逃げられません。逃げられないからこそ、その時間の質を上げたいと思って作り直しました。</p>
 <p>なぞれたことと、書けるようになったことは、同じではありません。形が合っていても、書き順が身についていなければ、画数の多い字に進んだときに必ずつまずきます。そこを見分けて、理由まで本人に返す。今回の更新は、そのためのものです。</p>
 <p>そして、細かい判定をアプリが引き受けるぶん、先生の手には時間が残ります。その時間で、点数には出てこない伸びを見つけて、言葉にしてあげてほしいと思っています。ICTを使うことで生まれる、子どもと向き合う時間のゆとり。そのゆとりこそが、教育の質を高めるのだと私は信じています。</p>

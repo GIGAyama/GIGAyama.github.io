@@ -131,6 +131,7 @@
       <h1 class="article__title">「だれが出してないんだっけ」を数えなくていい。がんばりが経験値でたまる学習記録アプリ「まなびクエスト」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://gamification.giga-school.com/">まなびクエスト を開く</a>
@@ -138,8 +139,23 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">🎮 学習アプリのきろくが、そのまま経験値になる</a></li>
+          <li><a href="#s-4">✅ 課題を出すと、提出率がひとりでに出てくる</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a></li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>宿題や課題を出したあと、だれが出していないかを名簿と見くらべながら数えている時間。あれ、けっこう長いのではないでしょうか。</p>
 <p>丸をつける作業そのものより、「出した子」と「まだの子」を分けるところに手間がかかります。しかも次の日にはまた新しい提出物が来るので、数え直しになります。</p>
 <p>そのいっぽうで、子どものほうにも困りごとがあります。がんばって計算アプリをやっても、家で本を読んでも、それは先生には見えません。見えないものは、ほめようがありません。ほめられないと、続ける理由が本人の意志だけになってしまいます。</p>
@@ -148,7 +164,7 @@
 <p><a href="https://gigayama.github.io/Gamification/manabi-portal/" rel="noopener">https://gigayama.github.io/Gamification/manabi-portal/</a></p>
 <p>この連載では、これまでも計算や漢字の学習アプリを紹介してきました。まなびクエストは、それらのアプリが残したきろくを受け取って、ひとつの成長として見せるための土台にあたります。単体でも使えますが、学習アプリといっしょに使うといちばん力を出します。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://gamification.giga-school.com/docs/note/images/02-home.png"><img src="https://gamification.giga-school.com/docs/note/images/02-home.png" alt="ホーム画面" loading="lazy" decoding="async"></a><figcaption>トップページ。名前とレベル、次のレベルまでの残り、経験値、連続きろく日数が一画面におさまっています。</figcaption></figure>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>まず、子どもが開いたときの話から書きます。</p>
 <p>その日はじめて開くと、ログインボーナスが出ます。何もしていなくても、来ただけで少しもらえます。小さなことですが、「まず開く」という習慣ができないと、あとの機能は全部ないのと同じになってしまいます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://gamification.giga-school.com/docs/note/images/01-login-bonus.png"><img src="https://gamification.giga-school.com/docs/note/images/01-login-bonus.png" alt="ログインボーナス" loading="lazy" decoding="async"></a><figcaption>その日はじめて開いたときのごほうび。もらえる量は先生が変えられます。</figcaption></figure>
@@ -179,7 +195,7 @@
 <p>読めなければ使えない、というところにも手を入れました。児童画面の漢字には、自動でふりがなが付きます。あらかじめ用意した文だけでなく、友だちが書いたふり返りや本のタイトルにも付きます。</p>
 <p>文字の大きさも、画面の右上で三段階に切りかえられます。低学年の教室や、見えにくい子のいる教室で最初につまずくのはここだと思っています。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://gamification.giga-school.com/docs/note/images/14-font-large.png"><img src="https://gamification.giga-school.com/docs/note/images/14-font-large.png" alt="文字を大きくしたところ" loading="lazy" decoding="async"></a><figcaption>いちばん大きい設定にしたところ。画面ぜんぶが同時に大きくなります。</figcaption></figure>
-<h2>🎮 学習アプリのきろくが、そのまま経験値になる</h2>
+<h2 id="s-3">🎮 学習アプリのきろくが、そのまま経験値になる</h2>
 <p>まなびクエストのいちばんの持ち味は、ここだと思っています。</p>
 <p>ホームの「がくしゅうアプリ」を開くと、この連載で紹介してきた学習アプリが9本ならびます。教科のラベルと、ひとこと説明つきです。押すと新しいタブで開きます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://gamification.giga-school.com/docs/note/images/05-apps.png"><img src="https://gamification.giga-school.com/docs/note/images/05-apps.png" alt="がくしゅうアプリ" loading="lazy" decoding="async"></a><figcaption>Qalc、漢字タウン、けいさんカード、さんすうブロック、100マス計算、九九カード、どくしょ ちょきんばこ、Typa、かきかたマスターの9本。</figcaption></figure>
@@ -196,7 +212,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://gamification.giga-school.com/docs/note/images/23-teacher-stumbles.png"><img src="https://gamification.giga-school.com/docs/note/images/23-teacher-stumbles.png" alt="クラスのつまずき問題" loading="lazy" decoding="async"></a><figcaption>初回で誤答した子が多かった問題。何人が同じ問題を落としたかが出ます。</figcaption></figure>
 <p>「6かける9で四人が落とした」と分かると、明日の授業でどこに時間を使うかが決まります。個人の点数を見るより、こちらのほうが授業づくりに効くと思ってこの形にしました。</p>
 <p>読書だけは、時間ではなく冊数とページ数で見るようにしています。読書アプリが測っているのは「一冊を記録する操作」にかかった時間で、読んでいた時間ではないからです。ここを学習時間に足すと、数字が嘘になります。</p>
-<h2>✅ 課題を出すと、提出率がひとりでに出てくる</h2>
+<h2 id="s-4">✅ 課題を出すと、提出率がひとりでに出てくる</h2>
 <p>先生の画面から、課題を出せます。出せるのは二種類です。学習アプリでやるものと、まなびクエストの中に書くきろくです。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://gamification.giga-school.com/docs/note/images/19-teacher-assignment-form.png"><img src="https://gamification.giga-school.com/docs/note/images/19-teacher-assignment-form.png" alt="課題を出す" loading="lazy" decoding="async"></a><figcaption>課題を出すところ。目標の数、期限、ごほうびの経験値、だれに出すかをえらびます。</figcaption></figure>
 <p>宛先はクラス全員でも、児童をえらんで個別でも出せます。「この子にはこれを」という出し方ができます。</p>
@@ -220,12 +236,12 @@
 <p>所見づくりの下ごしらえもできます。授業の単元名とねらいを登録しておくと、子どものふり返りを照らし合わせて所見の材料をためていく仕組みです。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://gamification.giga-school.com/docs/note/images/25-teacher-shoken.png"><img src="https://gamification.giga-school.com/docs/note/images/25-teacher-shoken.png" alt="AI所見" loading="lazy" decoding="async"></a><figcaption>指導事項を登録しておくところ。AIの鍵を入れていないときは、画面の上に未設定と出ます。</figcaption></figure>
 <p>ここだけは、Gemini というサービスの鍵を用意したときだけ動きます。鍵がなくても、ほかの機能はすべて動きます。画面の上に未設定と出るので、動いていないことが分かるようにしました。動いていないのに黙っているのがいちばんこわいので、そこは必ず出すようにしています。</p>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、数える時間がなくなることです。だれが出していないかを名簿と見くらべる作業が要らなくなります。提出は記録からみちびいているので、目標の回数や期限を直しても数え直しになりません。その時間を、まだ出していない子に声をかけるほうに回せると思います。</p>
 <p>二つ目は、見えなかったがんばりが見えることです。家でやった計算アプリも、休み時間に読んだ本も、ふだんは先生に届きません。それがきろくとして届くようになると、ほめる材料が増えます。ほめる材料が増えると、ほめられる子が増えます。テストの点数が高い子だけがほめられる状態から、少しだけ動かせるのではないかと思っています。</p>
 <p>三つ目は、気になる子に早く気づけることです。声かけリストは、記録が止まっている子と、未提出がたまっている子を毎日ひろい上げます。忙しい週ほど見落としは増えますが、機械のほうから名前を出してくれるなら、その週も気づけます。授業のことで頭がいっぱいの日に、いちばん助かるのはここだと思っています。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に確認されそうなことを、先に書いておきます。</p>
 <p>必要なものは、Google のスプレッドシート一枚と、そこに貼り付けるプログラムです。それ以外のサーバーは要りません。データはすべて、その一枚のスプレッドシートの中に入ります。学校の外にデータを置く場所は増えません。</p>
 <p>学校のアカウントに制限があって、公開の設定で「全員」がえらべないことがあります。そのままで使えるように作ってあります。組織内のままでかまいません。</p>
@@ -241,7 +257,7 @@
 <p>端末ごとの癖も書いておきます。iPad の Safari は、七日間そのサイトを開かないと保存した内容を消すことがあります。長い休みの前には、「おくる」を押してから終わるようにしてください。ホーム画面に追加しておくと消されにくくなります。</p>
 <p>Chromebook は、メモリが足りなくなると開きっぱなしのタブを黙って閉じます。タブを開きっぱなしにしないほうが確実です。</p>
 <p>ホーム画面への追加は、iPhone と iPad なら Safari の共有ボタンから「ホーム画面に追加」です。Safari 以外では出ません。Android と Chromebook と Windows は、画面の下に出てくる案内バーか、アドレスバーのインストールのアイコンから入れられます。入れておくと、ブラウザのタブを探さなくてよくなります。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>子どもの一日の流れです。この五つだけ覚えてもらえば動きます。</p>
 <ol><li>配られたURLを開く。ホーム画面に入れてあるなら、そのアイコンを押す</li><li>「がくしゅうアプリ」から、やりたいアプリをえらんで開く。新しいタブで開きます</li><li>あそび終わったら、まなびクエストのタブにもどる</li><li>画面の下の「おくる」を押す。右上の数字が、まだ送っていないきろくの数です</li><li>経験値がたまって、レベルが上がる</li></ol>
 <p>きろくを自分で書くときは、こうします。</p>
@@ -251,7 +267,7 @@
 <p>出したあとは、同じ画面の下に提出率がならびます。丸をつける作業はありません。未提出の子の名前を押すと、その子の記録の画面に行けます。</p>
 <p>うまくいかないときは、まず画面をとじて、もう一度ひらいてください。これでたいてい直ります。それでも直らないときは、せっていの接続テストを押して、赤い印が出ていないかをたしかめてください。</p>
 <p>きろくは送れるまで端末に残ります。押しても消えることはないので、そこは安心してください。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>このアプリを作りながら、ずっと考えていたことがあります。</p>
 <p>先生の時間が足りないのは、たぶん、やることが多いからではありません。数える、写す、そろえる。そういう「本当は人がやらなくてもいいこと」に時間が溶けているからだと思います。提出物を数える時間は、その代表格ではないでしょうか。</p>
 <p>そこが減ったぶんの時間を、何に使うか。それは効率を上げることではなくて、子どもの顔を見ることに使えたらいいと思っています。「三日きろくが止まっているな」と気づいて、廊下で一声かける。そのくらいのことが、いちばん効くような気がしています。</p>

@@ -131,6 +131,7 @@
       <h1 class="article__title">「せんせい、わかりません」で止まらない。考える図が出てくる計算学習アプリ「Qalc（カルク）」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://qalc.giga-school.com/">Qalc（カルク） を開く</a>
@@ -138,15 +139,35 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">💡 鉛筆が止まった子を助ける「かんがえるどうぐ」</a></li>
+          <li><a href="#s-4">🤝 クラス全員で挑む「ボスバトル」と「じんとりバトル」</a>
+            <ol class="toc__sub"><li><a href="#s-4-1">ボスバトル</a></li><li><a href="#s-4-2">じんとりバトル</a></li></ol>
+          </li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">自分のペースで学ぶとき</a></li><li><a href="#s-7-2">みんなで学ぶとき</a></li><li><a href="#s-7-3">大型提示装置に映すとき</a></li><li><a href="#s-7-4">自分だけの問題を追加するとき</a></li><li><a href="#s-7-5">ごほうびのきせかえ</a></li></ol>
+          </li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+          <li><a href="#s-9">🏷 ハッシュタグ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>計算練習の時間になると、教室はだいたい三つに分かれませんか。</p>
 <p>さっさと解き終わって手持ちぶさたになる子。一問目で鉛筆が止まったまま、時間だけが過ぎていく子。そして、その両方を横目に見ながら丸をつけている先生です。</p>
 <p>とくに気になるのは、真ん中で止まっている子のことだと思います。手を挙げて「せんせい、わかりません」と言って、順番が回ってくるのを待つ。その待っている数分が、その子にとっていちばんもったいない時間ですよね。かといって、三十人の教室で全員のところに同時に立つことはできません。</p>
 <p>以前この連載で、計算学習アプリのQalcを紹介しました。あのときは、ファイルをご自身のドライブにコピーして、公開の設定をして、という準備をお願いしていました。あそこでつまずいて、そのままになってしまった先生もいらっしゃったかもしれません。</p>
 <p>そこで、まるごと作り直しました。今度はコピーも公開設定もいりません。アドレスを開けば、それだけで始まります。そして今回は、鉛筆が止まった子が自分で開ける「考えるための図」を、二十五種類用意しました。</p>
 <p><a href="https://qalc.giga-school.com/" rel="noopener">https://qalc.giga-school.com/</a></p>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>一人ひとりの習熟に寄り添って計算の定着を助ける、という考え方は前のものと変わっていません。変わったのは、そこにたどり着くまでの手間と、つまずいた子への手当てです。</p>
 <p>まず、準備がいりません。アカウントを作る必要も、名簿を取りこむ必要も、アプリを入れる必要もありません。子どもたちの名前もメールアドレスも出席番号も、このアプリはいっさい持ちません。中身は一年生の「あわせて10」から六年生の「速さ」や「比」まで、百十九のコース、およそ一万二千八百問がはじめから入っています。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/01-home.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/01-home.png" alt="Qalcのホーム画面" loading="lazy" decoding="async"></a><figcaption>トップページ。レベルと称号、コイン、連続学習日数、今日のミッション、直近七日のがんばりが一画面にまとまっています。</figcaption></figure>
@@ -157,7 +178,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03-game.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03-game.png" alt="ゲーム画面" loading="lazy" decoding="async"></a><figcaption>問題画面。選択肢から選ぶのではなく、自分の頭で考えた数字を打ちこみます。正解すると、その場で次の問題に切り替わります。</figcaption></figure>
 <p>答えは四つの選択肢から選ぶのではなく、自分で数字を打ちこみます。ここは前のものからずっと変えていないところです。四択なら、わからなくても四分の一で当たってしまいます。それでは定着したかどうかがわかりません。右下のペンのボタンを押せば手書きのメモが開くので、筆算はそこに書きながら進められます。</p>
 <p>連続で正解するとコンボがたまり、五つ続けばフィーバーに入って点が伸びます。速く、正確に解けることがそのまま気持ちよさになるので、声をかけなくても手が止まりにくくなります。</p>
-<h2>💡 鉛筆が止まった子を助ける「かんがえるどうぐ」</h2>
+<h2 id="s-3">💡 鉛筆が止まった子を助ける「かんがえるどうぐ」</h2>
 <p>ここが、今回いちばん時間をかけたところです。</p>
 <p>ゲームのとちゅうで画面の左下にある電球を押すと、いま出ている問題に合った図が下から出てきます。どの図を出すかは、問題文と数の大きさからアプリが選びます。全部で二十五種類あります。</p>
 <p>三年生の二けたのかけ算なら、問題がそのまま筆算の形になって出てきます。</p>
@@ -181,7 +202,7 @@
 <p>さらにこの問題は、次からコース一覧のいちばん上に「にがて克服ボックス」としてたまっていきます。解けるようになったら、そこから静かに消えていきます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/10-mistakes-box.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/10-mistakes-box.png" alt="にがて克服ボックス" loading="lazy" decoding="async"></a><figcaption>その子だけの練習セットが、勝手に育っていきます。</figcaption></figure>
 <p>まちがい直しのプリントを作る必要も、丸をつける必要もありません。「にがてだけ五分やってみよう」という声かけが、その場でできるようになります。</p>
-<h2>🤝 クラス全員で挑む「ボスバトル」と「じんとりバトル」</h2>
+<h2 id="s-4">🤝 クラス全員で挑む「ボスバトル」と「じんとりバトル」</h2>
 <p>一人で取り組むだけでなく、みんなで一緒に挑むこともできます。ここも今回、大きく作り変えました。</p>
 <p>先生か代表の子が一人リーダーになって「へや」を作ると、十けたの番号とQRコードが出ます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/11-room-qr.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/11-room-qr.png" alt="へやをつくる" loading="lazy" decoding="async"></a><figcaption>番号は読みまちがえないように区切って表示されます。QRコードを読んでも入れます。</figcaption></figure>
@@ -191,7 +212,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/13-approve.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/13-approve.png" alt="入室の許可" loading="lazy" decoding="async"></a><figcaption>一人ずつ通すこともできますし、人数が多いときはまとめて通すこともできます。</figcaption></figure>
 <p>とはいえ三十人学級で三十回タップするのは現実的ではないので、三十秒だけ受付を開けておくボタンも用意しました。押している間の申しこみは自動で通り、時間が来れば自動で閉じます。</p>
 <p>前のものは番号が四けたでした。四けたでは、たまたま同じ番号にたどり着いた校外の誰かが入ってこられてしまいます。今回は十けたにしたので、組み合わせは九十億通りになりました。そのうえで、リーダーが通していない端末には参加者の名前も問題文も届かない作りにしてあります。</p>
-<h3>ボスバトル</h3>
+<h3 id="s-4-1">ボスバトル</h3>
 <p>みんなの正解が、そのままボスへの攻撃になります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/14-boss-start.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/14-boss-start.png" alt="ボスバトルの開始" loading="lazy" decoding="async"></a><figcaption>上にボスの体力とチームの体力。正解するたびにダメージが入り、コンボがつながると威力が上がります。</figcaption></figure>
 <p>ボスのほうも反撃してきます。問題文の上にヘドロを落として読めなくしたり、数字キーの並びをバラバラにしたり、問題を左右反転させたり。しばらくのあいだ与えるダメージを半分にしてくることもあります。</p>
@@ -199,19 +220,19 @@
 <p>そこで効いてくるのが「おうえん」です。正解でたまるゲージを使うと、仲間にかかった妨害を消して、チームの体力を回復して、ダメージを二倍にできます。速く解ける子の力が、そのまま仲間を助ける手段になるようにしました。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/16-boss-result.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/16-boss-result.png" alt="ボスバトルの結果" loading="lazy" decoding="async"></a><figcaption>倒したボスの数がチームの記録になります。表彰されるのはアタック、サポート、コンボの三種類です。</figcaption></figure>
 <p>表彰を三種類にしたのは、いちばん速い子だけが名前を呼ばれる形にしたくなかったからです。</p>
-<h3>じんとりバトル</h3>
+<h3 id="s-4-2">じんとりバトル</h3>
 <p>あかとあおの二チームに分かれて、七かける七の盤面をぬりあいます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/17-territory-board.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/17-territory-board.png" alt="じんとりバトルの盤面" loading="lazy" decoding="async"></a><figcaption>上が盤面、下が問題。正解するたびに、自分がねらっているマスがぬられていきます。</figcaption></figure>
 <p>ねらうマスは自分でタップして決めます。仲間や相手がどこをねらっているかも小さな印で見えるので、手分けをするか、集中して攻めるかを相談しながら進められます。相手のマスをうばうには一回多くかかりますし、自陣ととなり合っていないマスにも一回多くかかります。だからこそ、どこを取りにいくかに作戦が生まれます。</p>
 <p>星のマスとまんなかのマスは点が高いので、そこが争点になります。正解を十回ためると一気にぬる大技が撃てて、残り三十秒はぬる量が二倍になるので、最後の最後でひっくり返ることもあります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/18-territory-result.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/18-territory-result.png" alt="じんとりバトルの結果" loading="lazy" decoding="async"></a><figcaption>ぬった割合と表彰。ぬり、こうけん、うばい、スペシャル、コンボの五つで名前が呼ばれます。</figcaption></figure>
 <p>このモードは、計算が速ければ勝てるようにはしていません。どこをねらうか、誰が前線を広げるか、大技をいつ使うか。計算が得意でない子でも、作戦のところで勝負に加わることができます。</p>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>このアプリを教室に取り入れることで、三つのいいことが期待できます。</p>
 <p>一つ目は、準備がほんとうに要らなくなったことです。前のものは、ファイルをコピーして公開の設定をするところから始めていただく必要がありました。今回はアドレスを配るだけで終わりです。もちろん丸つけも自動なので、放課後に山を崩す時間はまるごと消えます。授業のなかで思いついたときに、そのまま定着の時間に入れます。</p>
 <p>二つ目は、つまずきがその日のうちに見えることです。まなびのきろくを開けば、一回めで正解できた割合と、まちがえた問題そのものが並びます。その問題は自動でにがて克服ボックスにたまっていくので、まちがい直しの教材を先生が作らなくても、その子専用の練習が用意されます。テストの結果を待たずに手を打てるというのは、思っているよりも大きな違いだと思います。</p>
 <p>三つ目は、計算が苦手な子にも出番があることです。かんがえるどうぐがあるので、鉛筆が止まっても自分で前に進めます。ボスバトルでは仲間を助けた子が表彰され、じんとりバトルでは作戦を立てた子が勝負を決めます。速く解ける子だけが気持ちよくなるのではなく、それぞれのやり方でクラスに貢献できる。計算の時間が苦手だった子が、次の時間を少し楽しみにしてくれたら嬉しいです。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>今回はコピーも公開設定もありません。次のアドレスを子どもたちの端末で開くだけです。</p>
 <p><a href="https://qalc.giga-school.com/" rel="noopener">https://qalc.giga-school.com/</a></p>
 <p>そのうえで、二つだけ確認していただけると安心です。</p>
@@ -221,33 +242,33 @@
 <p>保存したものは、すべてその端末のなかだけに残ります。外のどこかに送られることはありませんし、広告もアクセス解析も入れていません。みんなで挑むモードで他の端末に伝わるのは、子どもが自分で打ちこんだ八文字までのニックネームと、点数とコンボだけです。ですので、ニックネームには本名を入れないよう、最初にひとこと伝えてから始めてください。</p>
 <p>一人一台でない場合は、記録がその端末に残ることだけ気にとめておいてください。名前は保存していないので誰のものかはわかりませんが、前に使った子の成績は見えます。</p>
 <p>音は、はじめは出ない設定にしてあります。三十台が一斉に鳴ると大変なので、そうしました。出したいときは画面右上のスピーカーのボタンで切りかえられます。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>導入が終わったら、さっそく教室で使ってみましょう。</p>
-<h3>自分のペースで学ぶとき</h3>
+<h3 id="s-7-1">自分のペースで学ぶとき</h3>
 <ol><li>スコアアタック、タイムアタック、サドンデスのどれかを選びます。迷ったらスコアアタックがおすすめです。</li><li>学年をしぼりこんで、練習したいコースを選びます。いくつ選んでもかまいません。</li><li>制限時間を決めてスタート。解けば解くほど経験値がたまり、レベルが上がっていきます。</li><li>手が止まったら、左下の電球です。図を見ながらもう一度考えてみます。</li></ol>
-<h3>みんなで学ぶとき</h3>
+<h3 id="s-7-2">みんなで学ぶとき</h3>
 <ol><li>リーダーが「みんなであそぶ」を選びます。</li><li>出題モードとコース、制限時間を決めて、画面に出た番号かQRコードを仲間に伝えます。</li><li>仲間は「へやに入る」から番号を入れて、ニックネームを打って申しこみます。</li><li>リーダーが一人ずつ通します。人数が多いときは、三十秒の受付タイムを開けておくと早く済みます。</li><li>全員そろったらスタートです。</li></ol>
-<h3>大型提示装置に映すとき</h3>
+<h3 id="s-7-3">大型提示装置に映すとき</h3>
 <p>教員機を電子黒板やプロジェクタにつないだら、画面の右上にあるモニターのボタンを押してください。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/19-presentation-mode.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/19-presentation-mode.png" alt="ていじモード" loading="lazy" decoding="async"></a><figcaption>大きく表示すると、文字とボタンが一・五倍になって、教室のいちばん後ろの席からでも読めるようになります。</figcaption></figure>
 <p>名前をかくすは、はじめからオンにしてあります。大型提示装置は廊下や参観の保護者から見える場所に置かれることが多いので、そうしました。切るときは、画面が見えていないかどうかを確かめてからにしてください。</p>
 <p>えんしゅつをへらすは、紙ふぶきや画面のゆれ、端末のふるえを止める設定です。感覚過敏のある子の端末でも、ぜひ使ってください。端末側の「視差効果を減らす」の設定でも、同じように止まります。</p>
-<h3>自分だけの問題を追加するとき</h3>
+<h3 id="s-7-4">自分だけの問題を追加するとき</h3>
 <p>教科書の巻末にあるような手強い問題も、その日の授業でみんなが苦戦した計算も、いくらでも足せます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/21-course-manager.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/21-course-manager.png" alt="コース管理" loading="lazy" decoding="async"></a><figcaption>トップページの下にある「コース管理」から、この画面に入れます。</figcaption></figure>
 <p>一問ずつ作りたいときは新規作成から、まとめて入れたいときは生成AIに手伝ってもらいます。画面のボタンから指示文をコピーして、ChatGPTやGeminiに貼りつけ、「小学四年生の小数のかけ算を二十問」といったふうにお願いするだけです。返ってきたものをこのアプリに貼りつければ、その場で自分のコースができあがります。</p>
 <p>作ったコースは共有コードで他の先生に渡せます。学年で分担して作れば、あっという間に学校独自の問題集がそろいます。</p>
-<h3>ごほうびのきせかえ</h3>
+<h3 id="s-7-5">ごほうびのきせかえ</h3>
 <p>正解やミッションでたまったコインは、アバターやテーマと交換できます。全部で四百七十一種類あります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/20-shop.png"><img src="https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/20-shop.png" alt="きせかえショップ" loading="lazy" decoding="async"></a><figcaption>動物のベース、ぼうし、かお、もちもの、はいけい、しょうごう、それに画面の色を変えるテーマが十三種類。</figcaption></figure>
 <p>ひとつだけ、ためらいながら入れた制限があります。すでに解けるようになったコースを何度も回したり、同じコースを同じ日に続けたりすると、もらえる経験値とコインは少しずつ減っていきます。同じ問題を回してコインだけ集める遊びになってしまうと、定着から離れていってしまうからです。ただし、にがて克服ボックスと、まちがいが増えたコースの復習だけは、いつやっても満額のままにしてあります。まちがい直しに損をさせたくありませんでした。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>ICTを活用することの本当の価値は、効率化や省力化そのものではないと思っています。アナログの教室ではどうしても難しかったこと、たとえば一人ひとりの習熟に合わせた反復練習や、つまずきをその日のうちに見取ることが、当たり前にできるようになる。そこにこそ意味があるのだと思います。</p>
 <p>鉛筆が止まった子が、手を挙げて待たずに自分で図を開く。まちがえた問題が、いつのまにかその子だけの練習になっている。計算が苦手だった子が、作戦を立ててクラスの勝負を決める。そういう場面が一日に一つでも増えたら、先生はそのぶん、別の子のとなりに座っていられます。</p>
 <p>新しいものを教室に持ちこむのは、最初の一歩に少し勇気がいりますよね。でも今回は、アドレスを開くだけです。まずは先生ご自身の端末で、一分だけ触ってみてください。</p>
 <p>このアプリは、どなたでも自由に使っていただけます。使ってみて気づいたことや、「こんなコースがほしい」というご要望があれば、ぜひ教えてください。教室で本当に役に立つものにしていきたいと思っています。</p>
 <p>一歩踏み出そうとする先生を、私はいつでも全力で応援しています。</p>
-<h2>🏷 ハッシュタグ</h2>
+<h2 id="s-9">🏷 ハッシュタグ</h2>
 <p>#小学校 #小学校教員 #算数 #計算 #GIGAスクール #ICT教育 #1人1台端末 #教育 #授業づくり #学級経営 #タブレット学習 #Chromebook #iPad #個別最適な学び #特別支援教育 #Qalc</p>
     </div>
 

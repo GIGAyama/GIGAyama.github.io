@@ -131,6 +131,7 @@
       <h1 class="article__title">「1人1台」の教室で、あえて1台を2人で。盤面の大きさを変えられる対戦アプリ「リバーシ」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://reversi.giga-school.com/">リバーシ を開く</a>
@@ -138,15 +139,30 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">🔢 盤面の大きさを、4から12まで変えられます</a></li>
+          <li><a href="#s-4">🙌 だれも置いていかれないようにしたところ</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a></li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>休み時間の教室を見わたすと、子どもたちがそれぞれの端末に向かって、ばらばらに画面をのぞきこんでいる。そんな時間が増えていませんか。</p>
 <p>一人一台になって、できることはたしかに増えました。そのいっぽうで、机をくっつけて向かい合う遊びが、教室から少しずつ減っているようにも感じます。かといって、対戦できるものを入れようとすると、アカウントを作る話になったり、通信の許可を取る話になったり、勝ち負けの記録が残る話になったりして、いつのまにか大ごとになってしまいます。</p>
 <p>今回作ったのは、その手前で止まっているアプリです。リンクをひらくと、すぐに盤面が出ます。登録もインストールも要りません。1台の端末を2人で囲んで、黒と白を交代で置いていく、ただそれだけのリバーシです。</p>
 <p><a href="https://reversi.giga-school.com/" rel="noopener">https://reversi.giga-school.com/</a></p>
 <p>コンピュータとの対戦は入れていません。離れた端末どうしの通信対戦も入れていません。相手が目の前にいないと遊べない作りに、あえてしてあります。1人1台の端末で1人ずつ遊ぶものなら、すでにたくさんあります。この連載で私が作りたかったのは、端末を1台に減らして、子どもたちが顔を上げるきっかけのほうでした。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/01-home.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/01-home.png" alt="ホーム画面" loading="lazy" decoding="async"></a><figcaption>ひらいた直後の画面です。8かける8の盤面と、黒から始まることが、説明なしで分かるようにしています。</figcaption></figure>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>ひらくと、まん中に4つの石が置かれた盤面が出ます。手番は黒からです。</p>
 <p>盤面のところどころに、白くうすい丸が光っています。これが「いま石を置ける場所」です。リバーシを知らない子どもでも、光っているところを押していけば、とりあえずゲームは進みます。ルールを覚えてから遊ぶのではなく、遊びながら覚えられるようにしたかったところです。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/02-flip.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/02-flip.png" alt="石を置くとめくれていくところ" loading="lazy" decoding="async"></a><figcaption>石を置いた瞬間です。はさんだ石が、置いた場所から近い順に0.1秒ずつずれてめくれていきます。</figcaption></figure>
@@ -161,7 +177,7 @@
 <p>ルールの説明は、子どもが自分で読めるように書きました。全部にふりがなを振って、3ステップだけにしています。はさむこと、置ける場所が決まっていること、多いほうが勝ちであること。この3つが分かれば始められます。先生がルールを説明して回らなくてよくなればと思っています。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/07-sound-off.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/07-sound-off.png" alt="音を消したところ" loading="lazy" decoding="async"></a><figcaption>右上のボタンで音を消せます。消すと表示が変わるので、いまどちらなのかがひと目で分かります。</figcaption></figure>
 <p>音は、石を置いたとき、石がめくれるとき、パスのとき、「待った！」のとき、勝ったときに鳴ります。教室全体で使うときや、音に敏感な子どもがいるときのために、画面から消せるようにしました。音声のファイルは1つも持っていません。その場で音を作って鳴らしているので、読み込みで待たされることもありません。</p>
-<h2>🔢 盤面の大きさを、4から12まで変えられます</h2>
+<h2 id="s-3">🔢 盤面の大きさを、4から12まで変えられます</h2>
 <p>このアプリでいちばん時間をかけたのは、盤面の大きさを変えられるようにしたところです。</p>
 <p>ふつうのリバーシは8かける8です。ですが低学年の子どもにとって、8かける8は長すぎます。休み時間の残りが10分を切っているときも、始めたら終わりません。途中でチャイムが鳴って、そのまま放り出されてしまいます。</p>
 <p>そこで、画面の下にある「盤面」の欄の数字を変えて「開始/リセット」を押すと、盤面の大きさが変わるようにしました。使えるのは4、6、8、10、12の5とおりです。</p>
@@ -178,7 +194,7 @@
 <p>終わり方は2つあります。盤面が全部うまるか、黒と白の両方が続けて置けなくなるかです。どちらの場合も紙吹雪が出て、どちらが何個で勝ったのかを出します。数字を添えているのは、「28対36で負けた」と言えたほうが、次にどうするかの話になりやすいと思ったからです。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/14-again.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/14-again.png" alt="もう一度を押したあと" loading="lazy" decoding="async"></a><figcaption>「もう一度」を押すと、そのときの盤面の大きさのまま、すぐ次の対戦が始まります。</figcaption></figure>
 <p>終わったあとに毎回サイズを入れ直すのは面倒なので、「もう一度」は同じ大きさのまま始まるようにしました。4かける4で遊んでいたら4かける4のまま、次が始まります。</p>
-<h2>🙌 だれも置いていかれないようにしたところ</h2>
+<h2 id="s-4">🙌 だれも置いていかれないようにしたところ</h2>
 <p>盤面の大きさの次に時間をかけたのが、ここです。</p>
 <p>まず、画面じゅうの漢字にふりがなを振ってあります。ふりがなが要るのは低学年の子どもですから、そこが読めないと、そもそもこのアプリを使えません。色のついたボタンの上にふりがなを置くと読めなくなることがあるので、ボタンの色に合わせてふりがなの色も変わるようにしてあります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/15-keyboard-focus.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/15-keyboard-focus.png" alt="キーボードで場所を選んでいるところ" loading="lazy" decoding="async"></a><figcaption>タブキーを押すと、石を置ける場所だけを順に移動します。いま選んでいるマスは白い枠で囲まれます。</figcaption></figure>
@@ -191,12 +207,12 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/19-narrow-320.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/19-narrow-320.png" alt="横320ピクセルの画面" loading="lazy" decoding="async"></a><figcaption>横320ピクセルという、いちばん狭い条件で開いたところです。横スクロールは出ません。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/20-landscape.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/20-landscape.png" alt="横向きにしたところ" loading="lazy" decoding="async"></a><figcaption>横向きにすると、スコアと盤面と操作パネルが横に並び替わります。盤面の大きさを保つためです。</figcaption></figure>
 <p>拡大も禁止していません。字が小さいと感じたら、ブラウザの拡大がそのまま使えます。iPadなら2本指を広げる操作です。読みにくい人が自分で大きくできる余地を、アプリの都合で塞がないようにしています。</p>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、準備がいらないことです。リンクを配るだけで始められます。アカウントを作る必要も、名簿を登録する必要もありません。子どもの名前も出席番号も、このアプリはそもそも受け取る場所を持っていません。入力する欄が無いのは、盤面の大きさの数字を入れるところだけです。だから保護者の同意を取る話にもなりませんし、情報担当の先生に相談することも少なくて済みます。</p>
 <p>二つ目は、先生が見ていなくていいことです。このアプリは対戦の記録を残しません。端末の外へ送らないだけでなく、端末の中にも保存していません。再読み込みすれば、いつでも8かける8の最初の盤面に戻ります。誰が何回勝ったかが積み上がらないので、順位表もできませんし、休み時間のたびに勝ち数の話でもめることもないはずです。記録が残らないことを不便だと感じる方もいると思いますが、休み時間の遊びについては、残らないほうがいいと考えて、そう作りました。</p>
 <p>三つ目は、電波が弱くても止まらないことです。一度ひらいた端末なら、そのあとはインターネットにつながっていなくても遊べます。校舎のはしのほうや体育館わきの教室など、電波が弱い場所は学校のなかに必ずあります。そこで「読み込み中」のまま休み時間が終わってしまうのは、いちばんもったいない終わり方です。ホーム画面に置いておけば、アイコンから開けて、圏外でも起動します。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に確認されそうなことを、先にまとめておきます。</p>
 <p>配信しているアドレスはこちらです。</p>
 <p><a href="https://reversi.giga-school.com/" rel="noopener">https://reversi.giga-school.com/</a></p>
@@ -213,7 +229,7 @@
 <p>アプリを新しくしたときは、子どもたちの画面の下に「あたらしい ばんが あります」という帯が出ます。ここを押すまで切りかわらないようにしてあります。対戦の最中に勝手に入れ替わると、並べたばかりの盤面が消えてしまうからです。すぐでなくてよければ「あとで」を押せば消えます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/21-offline.png"><img src="https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/21-offline.png" alt="圏外のときの画面" loading="lazy" decoding="async"></a><figcaption>一度もひらいたことがない端末で、電波が無いときだけ出る画面です。</figcaption></figure>
 <p>この画面が出るのは、その端末でこのアプリを一度もひらいたことがなく、しかも電波が無いときだけです。一度でもひらいたことがあれば、圏外でも盤面が出ます。子どもから「開かない」と言われたときは、まずこの画面が出ていないかを見てください。出ていれば、電波の問題です。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>子どもたちに配るときの手順です。</p>
 <ol><li>リンクをひらく。8かける8の盤面が出て、黒の番から始まります</li><li>1台の端末を2人で囲む。黒の子と白の子を決めます</li><li>光っている丸を押す。そこが石を置ける場所です</li><li>はさんだ相手の石が、自分の色に変わります</li><li>交代で置いていきます。置ける場所が無いほうは自動でパスになります</li><li>盤面がうまるか、両方とも置けなくなったら終わりです。石が多いほうの勝ちです</li><li>「もう一度」を押すと、同じ大きさのまますぐ次が始まります</li></ol>
 <p>盤面の大きさを変えるときは、次のとおりです。</p>
@@ -221,7 +237,7 @@
 <p>そのほかの操作です。</p>
 <ol><li>置いた場所をまちがえたら「待った！」を押す。何回でも戻せます</li><li>音を消したいときは、右上の音のボタンを押す</li><li>あそびかたを読みたいときは、右上の「？」を押す。エスケープキーか「わかった！」で閉じます</li><li>マウスやタッチが使いにくいときは、タブキーで置ける場所を選んで、エンターキーかスペースキーで置く</li></ol>
 <p>うまくいかないときは、いちど再読み込みしてください。Chromebookならコントロールとシフトとアールの3つを同時に押します。ただし再読み込みすると対戦は最初からになりますので、対戦中は避けてください。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>このアプリには、経験値もコインも連続記録もありません。順位表もありません。作れなかったのではなく、入れませんでした。</p>
 <p>休み時間に子どもたちが端末を持っているとき、その画面の向こうにあるのが、ためこんだ数字ではなく、目の前にいる友だちであってほしいと思ったからです。石の数を数えて笑ったり、「あーっ」と声を上げたり、「もう一度」を押しながら次はどう置くか話したり。そういう時間が少しでも増えるといいなと思って作りました。</p>
 <p>ICTを使うと、たしかにいろいろなことが速くなります。ただ、速くすること自体が目的ではないはずです。速くなったぶんで空いた時間に、子どもたちと向かい合えるかどうかが、いちばん大事なところだと思っています。このアプリでいえば、ルールを説明して回る時間や、記録を管理する時間を減らして、そのぶん子どもたちのやりとりを横で見ていられる時間になれば、と考えています。</p>

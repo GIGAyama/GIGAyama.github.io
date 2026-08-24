@@ -131,6 +131,7 @@
       <h1 class="article__title">「今日は何を着よう」で朝を削らない。手持ちの服だけで考えるクローゼット帳アプリ「デジタルワードローブ」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://digitalcloset.giga-school.com/">デジタルワードローブ を開く</a>
@@ -138,8 +139,23 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">📅 着た日を残すと、持っている服が数で見えてきます</a></li>
+          <li><a href="#s-4">🤖 AI に相談できます。使う鍵はご自分のもの</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a></li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>朝、クローゼットの前でしばらく動けなくなること、ありませんか。</p>
 <p>昨日と同じ服はさすがに気が引ける。今日は参観日だから少しきちんとしたい。でも下に何を合わせたか思い出せない。そうやって迷っているうちに五分が過ぎて、結局いつもの一着に手が伸びる。教室に着いてから「またこれか」と気づく。</p>
 <p>先生の朝は、家を出るまでがすでに仕事です。連絡帳の返事、子どもの支度、忘れ物の確認。そのうえで服まで考えるのは、正直しんどいと思います。</p>
@@ -150,7 +166,7 @@
 <p><a href="https://digitalcloset.giga-school.com/" rel="noopener">https://digitalcloset.giga-school.com/</a></p>
 <p>会員登録もログインもありません。ひらいたその場から使えます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/01-closet-empty.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/01-closet-empty.png" alt="まだ何も登録していない画面" loading="lazy" decoding="async"></a><figcaption>はじめてひらいたところ。ここに手持ちの服が並んでいきます。</figcaption></figure>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>やることは、服を一着ずつ写真で登録していくだけです。</p>
 <p>右上の丸いボタンから、その場でカメラで撮るか、すでに撮ってある写真を選びます。あとは名前とカテゴリ、色、季節、素材、買った年、値段を入れて保存します。名前だけは必ず入れてもらいますが、あとの欄は空でもかまいません。あとから足せます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/02-add-choose.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/02-add-choose.png" alt="写真の選びかた" loading="lazy" decoding="async"></a><figcaption>カメラで撮るか、端末に入っている写真から選ぶかを決めます。</figcaption></figure>
@@ -166,7 +182,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/07-closet-outer.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/07-closet-outer.png" alt="アウターだけを表示したところ" loading="lazy" decoding="async"></a><figcaption>上の帯を押すだけでも、そのカテゴリだけになります。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/08-search.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/08-search.png" alt="名前で検索したところ" loading="lazy" decoding="async"></a><figcaption>「ニット」と打てば、名前かブランドに当てはまる服だけが残ります。</figcaption></figure>
 <p>絞りこみをここまで用意したのは、季節の入れかえのときに効いてほしかったからです。衣がえの前に、冬のものだけを並べて眺める。買った年の古い順に並べて、そろそろ手放すものを考える。そういう使いかたを想定しました。</p>
-<h2>📅 着た日を残すと、持っている服が数で見えてきます</h2>
+<h2 id="s-3">📅 着た日を残すと、持っている服が数で見えてきます</h2>
 <p>このアプリの中心にあるのは、実はカレンダーだと思っています。</p>
 <p>「その日に何を着たか」を残しておくと、あとから効いてきます。日付を押して、着た服を選ぶだけです。一日に何着でも登録できるので、上と下と靴とかばんまで残せます。まちがえたら、記録の右のごみ箱から一件ずつ消せます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/09-calendar-month.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/09-calendar-month.png" alt="カレンダー" loading="lazy" decoding="async"></a><figcaption>日付のマスに、その日に着た服の写真が小さく並びます。</figcaption></figure>
@@ -183,7 +199,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/12-coord-select.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/12-coord-select.png" alt="組み合わせを選ぶ" loading="lazy" decoding="async"></a><figcaption>押して選ぶだけです。二着以上でないと保存できないようにしてあります。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/13-coord-list.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/13-coord-list.png" alt="保存した組み合わせ" loading="lazy" decoding="async"></a><figcaption>星をつけておくと、あとで見返したときに迷いません。</figcaption></figure>
 <p>保存した組み合わせは、一着ずつの画面にも出てきます。「このシャツ、前は何と合わせたんだっけ」が、その場で分かります。朝の五分は、たいていここで消えていると思うのです。</p>
-<h2>🤖 AI に相談できます。使う鍵はご自分のもの</h2>
+<h2 id="s-4">🤖 AI に相談できます。使う鍵はご自分のもの</h2>
 <p>写真から服の情報を読みとったり、コーデを提案したりする機能もあります。ただし、これは使いたい方だけが使えばよい部分です。</p>
 <p>まず前提をはっきり書いておきます。AI の機能は、ご自分で用意した鍵を設定に入れたときだけ動きます。鍵はアプリの中には入っていません。そして鍵を入れなくても、登録も記録もふりかえりも、ここまで書いたことは全部使えます。</p>
 <p>なぜこうしたかというと、無料で配るものに勝手な仕組みを持たせると、使う人の知らないところでお金や情報が動くことになるからです。自分の鍵を自分で入れる形にすれば、どこに何を渡しているかがはっきりします。</p>
@@ -197,13 +213,13 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/21-ai-chat.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/21-ai-chat.png" alt="AI相談室" loading="lazy" decoding="async"></a><figcaption>下のボタンで使い方を切りかえます。写真が要るものは、写真がないと送れないようにしてあります。</figcaption></figure>
 <p>ふつうの相談では、明日の天気に合わせて何を着ればいいかといったことを聞けます。写真を添えることもできます。手持ちの服と、星を四つ以上つけた組み合わせを踏まえて答えが返ってきます。好みの傾向として渡しているのは、その星の高い組み合わせです。</p>
 <p>買おうか迷っている服を見てもらう窓口は、半分は自分のためにつくりました。似たようなものを持っているのに、また似たものを買ってしまう。それを止めてくれる相手が、手持ちの一覧を全部知っているというのが、この仕組みのいいところだと思っています。</p>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、朝に決める時間が短くなることです。前に何と合わせたかが残っていれば、思い出す作業がなくなります。星をつけた組み合わせがあれば、迷ったときはそこから選べばよくなります。決めることの数が減るのは、忙しい朝にはそれだけで効くと思います。</p>
 <p>二つ目は、持ち物がはっきりすることです。何を持っているかが二列に並ぶだけで、似たものを重ねて買うことは減るはずです。着た回数の記録がたまれば、出番のない服も見えてきます。手放すかどうかを決める材料が、感覚ではなく記録になります。</p>
 <p>三つ目は、服にかけたお金と向き合えることです。一回あたりの金額が出るので、高かった一着をしまいこむより着るほうに気持ちが向きます。買うか迷ったときに、手持ちと見くらべてから決められるのも、長い目で見れば効いてくると思います。</p>
 <p>そのぶんの余白が、子どもと向き合う時間に回ればいいなと思ってつくりました。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>このアプリは、学校の端末に入れるものではなく、先生ご自身の端末で使うものです。それでも、情報担当の先生に聞かれそうなことを先に書いておきます。</p>
 <p>入れる作業は要りません。ブラウザで開くだけです。</p>
 <p>写真も記録も、使っている端末の中だけに残ります。どこかのサーバーに送られることはありません。他の人が見ることもできません。そのかわり、別の端末とは共有されません。スマートフォンで登録した服は、パソコンには出てきません。</p>
@@ -215,7 +231,7 @@
 <p>ホーム画面に追加しておくと、ブラウザのバーが消えて画面が広く使えます。電波が届かないところでも、登録済みの服は見られます。追加のしかたは端末によって違います。Android やパソコンの Chrome なら、設定の画面に「ホーム画面に追加する」が出てくるのでそれを押します。iPhone と iPad は Safari の共有ボタンから「ホーム画面に追加」を選びます。</p>
 <p>新しい版が出たときは、画面の下に案内が出ます。押すまで切りかわりません。服の登録や相談の途中で画面が入れかわると、打ちかけの入力が消えてしまうためです。</p>
 <p>文字の濃さと、押せる場所の大きさは、実際のブラウザで測って直してあります。読みにくい文字や、押しにくい小さなボタンは残っていないはずです。指で広げれば拡大もできます。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>はじめの一着を登録するところまでを書きます。</p>
 <ol><li><a href="https://digitalcloset.giga-school.com/" rel="noopener">https://digitalcloset.giga-school.com/</a> をひらきます</li><li>右上の「＋」を押します</li><li>「カメラ」でその場で撮るか、「写真を選択」で端末の写真から選びます</li><li>名前を入れます。ここだけは必ず要ります</li><li>カテゴリと色を入れます。欄を押すと候補が出るので、そこから選べます</li><li>季節のボタンを押します。いくつ選んでもかまいません</li><li>値段と買った年を入れておくと、あとで一回あたりの金額が出ます</li><li>「保存する」を押します</li></ol>
 <p>これを何着かくり返します。全部を一度にやろうとせず、よく着るものから十着ほど入れると、その日から使えるようになります。</p>
@@ -233,7 +249,7 @@
 <p>うまくいかないときに多いのは、次の二つだと思います。画面が真っ白になったときは、いちど閉じて開き直してください。AI の機能が使えないと出るときは、鍵を入れていないか、その日の回数の上限に達しています。しばらく待ってからもう一度試してください。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/16-settings.png"><img src="https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/16-settings.png" alt="設定の画面" loading="lazy" decoding="async"></a><figcaption>カテゴリと色の候補は、自分で書きかえられます。はじめはカテゴリが八つ、色が十一入っています。</figcaption></figure>
 <p>カテゴリの候補は、そのまま使ってもいいですし、自分の持ち物に合わせて書きかえてもかまいません。ここを自由にしたのは、人によって持っているものの分けかたが違うと思ったからです。和服が多い方も、作業着が多い方もいます。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>服のことなんて、と思われるかもしれません。子どもの話でも授業の話でもないので、この連載のなかでは変わり種です。</p>
 <p>それでも、朝の五分は本当に貴重だと思うのです。その五分があれば、連絡帳にもう一言書けます。今日の一時間目の板書を、もう一度だけ見直せます。教室に着いてから、子どもたちの顔をゆっくり見る余裕ができるかもしれません。</p>
 <p>ICT で楽になるところは、授業のなかだけではないと思っています。先生が自分の生活のなかで一つでも「決めなくていいこと」を増やせたら、そのぶんの余裕は、めぐりめぐって子どもたちのところへ届くのではないでしょうか。効率化そのものが目的ではありません。空いた時間を何に使うかのほうが、ずっと大事です。</p>
