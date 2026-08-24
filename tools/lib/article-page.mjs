@@ -8,6 +8,7 @@
 
 import { esc } from './article-md.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
+import { changelogSection, changesOf } from './changelog.mjs';
 import { ACCOUNT_LABEL, CATEGORY_LABEL, CATEGORY_COLOR, STORAGE_LABEL, USE_LABEL, gradeLabel } from './categories.mjs';
 
 /** 記事の題につけてある連載名。ページでは見出しから外し、上に小さく添える。 */
@@ -142,9 +143,11 @@ export function relatedOf(slug, all) {
  * @param {{name: string, slug: string, repo: string, publishedAt: string, updatedAt: string}} o.app
  * @param {{title: string, html: string, images: object[], lead: string}} o.article
  * @param {string[]} [o.use] つかいかたの id。index.html のカードの data-use と同じ
+ * @param {string} [o.ogCard] assets/og/<slug>.jpg の URL。無ければ空文字
+ * @param {string} [o.changelog] アプリのリポジトリの docs/CHANGELOG.md。無ければ空文字
  * @returns {string} ページ 1 枚ぶんの HTML
  */
-export function articlePage({ app, article, related = [], prev = null, next = null, use = [] }) {
+export function articlePage({ app, article, related = [], prev = null, next = null, use = [], ogCard = '', changelog = '' }) {
   const url = `${SITE}/apps/${app.slug}/`;
   const appUrl = `https://${app.slug}.giga-school.com/`;
   const headline = headlineOf(article.title);
@@ -155,7 +158,10 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
      自分のドメインから出せないときは、サイト共通の絵に落とす。 */
   const first = article.images[0]?.src || '';
   const ownHost = /^https:\/\/([a-z0-9-]+\.)?giga-school\.com\//.test(first);
-  const ogImage = ownHost ? first : OG_FALLBACK;
+  /* 記事の写真が使えないときは、カードのサムネイルから作った絵を使う
+     （tools/build-og.py）。それも無ければ、サイト共通の絵に落とす。
+     ここでファイルの有無は見ない。組み立ては呼ぶ側から渡された事実だけで決める */
+  const ogImage = ownHost ? first : (ogCard || OG_FALLBACK);
 
   const ld = {
     '@context': 'https://schema.org',
@@ -288,7 +294,7 @@ ${toc}    <div class="prose prose--article">
 ${body}
     </div>
 
-    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。position: sticky なので、
+${changelogSection(changesOf(changelog), esc)}    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。position: sticky なので、
          本文を読み終えるとこの位置に収まり、下の「開く」と重ならない -->
     <p class="article__sticky">
       <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>

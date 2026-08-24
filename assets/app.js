@@ -376,9 +376,10 @@
   var cards = Array.prototype.slice.call(list.querySelectorAll('.card'));
   var input = finder.querySelector('input[type="search"]');
   var clearBtn = finder.querySelector('.search__clear');
-  /* 絞り込みは 2 本立て。教科・分野（data-cat）と、つかいかた（data-use）。
-     2 つは掛け合わせで効く（例：国語 × みんなでやる） */
-  var filters = { cat: finder.querySelector('[data-filter="cat"]'),
+  /* 絞り込みは 3 本立て。学年（data-grades）と、教科・分野（data-cat）と、
+     つかいかた（data-use）。3 つは掛け合わせで効く（例：3年生 × 国語 × みんなでやる） */
+  var filters = { grade: finder.querySelector('[data-filter="grade"]'),
+                  cat: finder.querySelector('[data-filter="cat"]'),
                   use: finder.querySelector('[data-filter="use"]') };
   /* 知らせ・並び順・ボタンは .finder の外（貼り付かない行）にある。
      .finder は画面の上に貼り付くので、探すのに要るものだけを入れてある */
@@ -460,6 +461,9 @@
     return {
       el: card,
       cat: card.dataset.cat || '',
+      /* 先生だけが使うアプリには data-grades が無い。空のままにしておくと、
+         学年を選んだときに外れる。これが正しい（子どもは使わないため） */
+      grades: (card.dataset.grades || '').split(' ').filter(Boolean),
       /* 1 枚が 2 つのつかいかたを持つことがある（例：みっけ！＝調べる・みんなでやる） */
       use: (card.dataset.use || '').split(' ').filter(Boolean),
       text: base + ' ' + romajiOf(base)
@@ -478,7 +482,7 @@
       .trim();
   }
 
-  var state = { q: '', cat: 'all', use: 'all', sort: 'name' };
+  var state = { q: '', grade: 'all', cat: 'all', use: 'all', sort: 'name' };
 
   var canAnimateMove = typeof Element !== 'undefined' &&
     typeof Element.prototype.animate === 'function';
@@ -602,10 +606,11 @@
     var before = animate ? measure() : null;
 
     index.forEach(function (item) {
+      var okGrade = state.grade === 'all' || item.grades.indexOf(state.grade) !== -1;
       var okCat = state.cat === 'all' || item.cat === state.cat;
       var okUse = state.use === 'all' || item.use.indexOf(state.use) !== -1;
       var okText = terms.every(function (t) { return item.text.indexOf(t) !== -1; });
-      var visible = okCat && okUse && okText;
+      var visible = okGrade && okCat && okUse && okText;
       item.el.hidden = !visible;
       if (visible) shown++;
     });
@@ -632,7 +637,8 @@
        押しボタンを並べていたころは「すべて」を押し直せたが、
        プルダウンでは 2 つ戻す手間になるため */
     if (clearBtn2) {
-      clearBtn2.hidden = state.cat === 'all' && state.use === 'all' && !state.q;
+      clearBtn2.hidden = state.grade === 'all' && state.cat === 'all' &&
+                         state.use === 'all' && !state.q;
     }
 
     /* 状態を URL に残す（共有・再読み込みで復元できる）。
@@ -640,6 +646,7 @@
        ブラウザがその位置まで勝手にスクロールしてしまうため。 */
     if (writeUrl) {
       var params = new URLSearchParams();
+      if (state.grade !== 'all') params.set('grade', state.grade);
       if (state.cat !== 'all') params.set('cat', state.cat);
       if (state.use !== 'all') params.set('use', state.use);
       if (state.q) params.set('q', input ? input.value.trim() : state.q);
@@ -699,7 +706,8 @@
   resetBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
       if (input) input.value = '';
-      state = { q: '', cat: 'all', use: 'all', sort: state.sort };
+      state = { q: '', grade: 'all', cat: 'all', use: 'all', sort: state.sort };
+      showFilter('grade', 'all');
       showFilter('cat', 'all');
       showFilter('use', 'all');
       apply(true);
@@ -741,6 +749,7 @@
   /* URL の状態を復元 */
   (function restore() {
     var params = new URLSearchParams(location.search);
+    var grade = params.get('grade');
     var cat = params.get('cat');
     var use = params.get('use');
     var q = params.get('q');
@@ -755,6 +764,7 @@
       state.sort = 'name';
       if (sortSelect) sortSelect.value = 'name';
     }
+    if (grade && showFilter('grade', grade)) state.grade = grade;
     if (cat && showFilter('cat', cat)) state.cat = cat;
     if (use && showFilter('use', use)) state.use = use;
     apply(false);

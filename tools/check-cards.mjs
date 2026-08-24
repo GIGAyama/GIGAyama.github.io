@@ -19,6 +19,8 @@ import { readFileSync } from 'node:fs';
 import { ACCOUNT_LABEL, CATEGORY_LABEL, STORAGE_LABEL, USE_LABEL } from './lib/categories.mjs';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+/* 学年の検査（下のほう）より先に要るので、ここで読む */
+const apps = JSON.parse(readFileSync(new URL('../data/apps.json', import.meta.url), 'utf8')).items;
 
 let failed = 0;
 const ok = (cond, label, extra) => {
@@ -84,8 +86,43 @@ for (const id of USES) {
   ok(optionCount('use', id) === realUse(id), `つかいかた：${id} は ${realUse(id)} 本`,
      `選択肢には ${optionCount('use', id)} と書いてある`);
 }
-/* 「すべて」は両方の系統に 1 つずつある。どちらもカードの総数 */
-for (const name of ['cat', 'use']) {
+/* -----------------------------------------------------------------
+ * 絞り込みの 3 本目（学年）
+ * -----------------------------------------------------------------
+ * ⚠️ 件数がずれると、いちばん静かに壊れる。「3年生（24）」と書いてあるのに
+ *    23 本しか出ない、という壊れ方は目で見て気づけない。
+ *    しかも学年は data/apps.json とカードの両方にあるので、
+ *    ずれる口が 2 つある。両方見る。
+ * --------------------------------------------------------------- */
+console.log('\n■ カードの学年が data/apps.json と同じ');
+const cardGrades = new Map(cards.map((c) => [
+  c.slug,
+  (c.attrs.match(/data-grades="([^"]*)"/)?.[1] ?? '').split(' ').filter(Boolean).map(Number),
+]));
+const bySlug = new Map(apps.filter((a) => a.slug).map((a) => [a.slug, a]));
+const drift = [...cardGrades].filter(([slug, g]) => {
+  const want = bySlug.get(slug)?.grades ?? [];
+  return JSON.stringify(g) !== JSON.stringify(want);
+}).map(([slug]) => slug);
+ok(drift.length === 0, `${cards.length} 枚すべてで data-grades が apps.json と同じ`, drift.join(', '));
+
+/* 児童が使わないアプリには data-grades を付けない。付けると、
+   学年を選んだときに先生用の道具が子ども向けの列に混ざる */
+const teacherOnly = [...cardGrades].filter(([, g]) => g.length === 0).map(([slug]) => slug);
+ok(teacherOnly.every((slug) => (bySlug.get(slug)?.grades ?? []).length === 0),
+   `data-grades の無いカード ${teacherOnly.length} 枚は、apps.json でも学年なし`);
+
+console.log('\n■ 学年の選択肢の件数が、カードの数と合っている');
+const realGrade = (n) => [...cardGrades.values()].filter((g) => g.includes(Number(n))).length;
+for (const n of [1, 2, 3, 4, 5, 6]) {
+  ok(optionCount('grade', String(n)) === realGrade(n), `${n}年生は ${realGrade(n)} 本`,
+     `選択肢には ${optionCount('grade', String(n))} と書いてある`);
+}
+
+/* 「すべて」は 3 つの系統に 1 つずつある。どれもカードの総数。
+   ⚠️ 学年の「すべて」も総数（38）でよい。学年を選んだときにだけ
+      先生用の 7 本が外れる、という動きにしてある */
+for (const name of ['grade', 'cat', 'use']) {
   ok(optionCount(name, 'all') === cards.length, `「すべて」（${name}）は ${cards.length} 本`, optionCount(name, 'all'));
 }
 
@@ -135,7 +172,6 @@ for (const [id, label] of Object.entries(USE_LABEL)) {
  * どれが残っているかを毎回見えるようにしておく。
  * --------------------------------------------------------------- */
 console.log('\n■ 対象学年の値が正しい');
-const apps = JSON.parse(readFileSync(new URL('../data/apps.json', import.meta.url), 'utf8')).items;
 const shown = apps.filter((a) => a.hidden !== true && a.slug);
 const badGrade = shown.filter((a) => a.grades !== undefined
   && (!Array.isArray(a.grades)
