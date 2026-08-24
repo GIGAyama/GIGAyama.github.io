@@ -895,6 +895,7 @@
   }
 
   /* JavaScript が無い環境では、動かない操作部品を出さない */
+  .no-js .article-search,
   .no-js .finder,
   .no-js .theme-toggle,
   .no-js .card__acts,
@@ -1968,6 +1969,59 @@
       }
     }
     .article__sticky .btn { inline-size: 100%; }
+  }
+
+  /* ブラウザが出す消去ボタンを止める。自前の .search__clear と 2 つ並んでしまう。
+     見た目も動きもブラウザごとに違うので、自前のほうにそろえる */
+  .search input[type="search"]::-webkit-search-cancel-button,
+  .search input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+
+  /* 紹介記事の中を探す（/apps/）。索引は欄に触れるまで読み込まない */
+  .article-search { margin-block-start: var(--s-6); }
+  .article-search__status {
+    margin-block-start: var(--s-3);
+    font-size: .875rem;
+    color: var(--ink-2);
+    min-block-size: 1.5em;
+  }
+  .hit-list {
+    display: grid;
+    gap: var(--s-3);
+    margin: var(--s-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hit {
+    padding: var(--s-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .hit__link { display: block; text-decoration: none; }
+  .hit__app {
+    display: block;
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--ink-3);
+  }
+  .hit__head {
+    display: block;
+    margin-block-start: 2px;
+    font-weight: 700;
+    color: var(--link);
+  }
+  .hit__link:hover .hit__head { text-decoration: underline; }
+  .hit__text {
+    margin-block-start: var(--s-2);
+    font-size: .875rem;
+    line-height: 1.85;
+    color: var(--ink-2);
+  }
+  .hit__text mark {
+    padding: 0 2px;
+    color: var(--ink);
+    background: var(--brand-soft);
+    border-radius: 3px;
   }
 
   /* 分類ページ（/apps/category/<id>/）と、紹介の一覧の見出し */

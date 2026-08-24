@@ -420,7 +420,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
   }).join('\n');
 
   return `<!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="no-js">
 
 <head>
   <meta charset="UTF-8">
@@ -447,6 +447,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/search.js" defer></script>
 ${THEME_SCRIPT}
 
   <script type="application/ld+json">
@@ -474,12 +475,28 @@ ${HEADER}
       </p>
     </header>
 
+    <!-- 記事の中を探す。索引（663KB）は、この欄に触れるまで読み込まない。
+         JavaScript が無いときは .no-js が付いたままなので、CSS が隠す -->
+    <div class="article-search" data-article-search>
+      <div class="search">
+        <span class="search__icon" aria-hidden="true">🔍</span>
+        <label class="visually-hidden" for="article-search">紹介記事の中を検索</label>
+        <input type="search" id="article-search" autocomplete="off" spellcheck="false"
+               placeholder="記事の中を検索（例：ローマ字、ふりかえり、二学期）">
+        <button type="button" class="search__clear" aria-label="検索語を消す">✕</button>
+      </div>
+    </div>
+    <p class="article-search__status" data-search-status role="status" aria-live="polite"></p>
+    <ul class="hit-list" data-search-results hidden></ul>
+
     <!-- 分類の入口。押すと、その分類のアプリと紹介だけのページに移る。
          トップの絞り込みと違って JavaScript は要らない -->
-    <h2 class="cat-title">分野から探す</h2>
-    <div class="chips">${catChips(apps)}</div>
+    <div data-search-hide>
+      <h2 class="cat-title">分野から探す</h2>
+      <div class="chips">${catChips(apps)}</div>
+    </div>
 
-    <h2 class="cat-title">新しい順にすべて</h2>
+    <h2 class="cat-title" data-search-hide>新しい順にすべて</h2>
     <ul class="article-list">
 ${rows}
     </ul>

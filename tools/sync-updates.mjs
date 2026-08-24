@@ -13,6 +13,7 @@ import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { CATEGORY_LABEL, CATEGORY_COLOR } from './lib/categories.mjs';
 import { articleIndexPage } from './lib/article-page.mjs';
 import { CATEGORY_BASE, categoryPage, groupByCategory } from './lib/category-page.mjs';
+import { searchIndex } from './lib/search-index.mjs';
 import { pressPage } from './lib/press-page.mjs';
 
 const OWNER = 'GIGAyama';
@@ -22,6 +23,7 @@ const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
 const APPS_INDEX = new URL('apps/index.html', ROOT);
+const SEARCH = new URL('data/search-index.json', ROOT);
 const PRESS = new URL('press/index.html', ROOT);
 const FEED = new URL('feed.xml', ROOT);
 
@@ -409,6 +411,23 @@ const main = async () => {
     await writeFile(new URL(`${CATEGORY_BASE}/${id}/index.html`, ROOT),
       categoryPage({ id, groups, generatedAt: data.generatedAt }));
     cats++;
+  }
+
+  /* 紹介記事の中を探すための索引。書き出し済みのページから作るので、
+     GitHub を見に行かなくても作り直せる。検索の欄に触れるまで読み込まれない。 */
+  if (articles.length) {
+    const pages = [];
+    for (const a of articles) {
+      if (!a.slug) continue;
+      try {
+        pages.push({
+          slug: a.slug,
+          name: a.name,
+          html: await readFile(new URL(`apps/${a.slug}/index.html`, ROOT), 'utf8'),
+        });
+      } catch (e) { /* まだ書き出されていない。次の朝には入る */ }
+    }
+    await writeFile(SEARCH, searchIndex(pages, data.generatedAt));
   }
 
   /* 掲載用の資料（/press/）。数字を手で書くと、ここだけ古くなって
