@@ -909,58 +909,68 @@
 
         <!-- 探し方は 3 つ（ことば・教科・つかいかた）。押しボタンで並べていたころは
              18 個が 1 つの塊に見えて、どれが何の列なのか分からなかった。
-             選ぶものは選ぶ形（プルダウン）にして、1 本のバーに収める。
-             件数は選択肢の中に入れる。数字は手で直す（README 参照）。 -->
+             選ぶものは選ぶ形（プルダウン）にする。件数は選択肢の中に入れる（数字は手で直す。README 参照）。
+
+             ⚠️ この枠は画面の上に貼り付く（sticky）。スマホでは占める高さがそのまま
+                読める面積を削るので、上の段は「探すのに要るもの」だけにする。
+                並び順は下の段（知らせの行）に置く。絞り込みほどは使わないため。 -->
+        <!-- 探し方は 3 つ（ことば・教科・つかいかた）。押しボタンで並べていたころは
+             18 個が 1 つの塊に見えて、どれが何の列なのか分からなかった。
+             選ぶものは選ぶ形（プルダウン）にする。件数は選択肢の中に入れる（数字は手で直す。README 参照）。
+
+             ⚠️ この枠は画面の上に貼り付く（sticky）。貼り付いていられるのは親の中だけなので、
+                この枠は「節そのもの（.wrap）の子」でなければならない。入れ子にすると、
+                その入れ物の底で貼り付きが外れ、一覧を見ているあいだは消えてしまう。
+                貼り付く高さはそのまま読める面積を削るので、ここには探すのに要るものだけを置く。
+                件数の知らせと並び順は、下の .finder__foot（貼り付かない）に置く。 -->
         <div class="finder" data-finder>
-          <div class="finder__bar">
-            <div class="search">
-              <span class="search__icon"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"/></svg></span>
-              <label class="visually-hidden" for="app-search">アプリを検索</label>
-              <input type="search" id="app-search" placeholder="アプリを検索（例：作文、計算、ふりかえり）" autocomplete="off" spellcheck="false">
-              <button type="button" class="search__clear" aria-label="検索語を消す"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
-            </div>
-            <div class="picker">
-              <label for="app-cat">教科・分野</label>
-              <select id="app-cat" data-filter="cat">
-                <option value="all">すべて（38）</option>
-                <option value="kokugo">国語・言葉（8）</option>
-                <option value="sansu">算数（5）</option>
-                <option value="tankyu">学習・探究（7）</option>
-                <option value="gakkyu">学級経営（2）</option>
-                <option value="koumu">授業づくり・校務（4）</option>
-                <option value="seisaku">表現・制作（2）</option>
-                <option value="game">ゲーム・対戦（8）</option>
-                <option value="other">そのほか（2）</option>
-              </select>
-            </div>
-            <div class="picker">
-              <label for="app-use">つかいかた</label>
-              <select id="app-use" data-filter="use">
-                <option value="all">すべて（38）</option>
-                <option value="susumu">自分で進める（2）</option>
-                <option value="renshu">練習する（8）</option>
-                <option value="shiraberu">調べる（3）</option>
-                <option value="tsukuru">つくる（5）</option>
-                <option value="furikaeru">ふりかえる（5）</option>
-                <option value="minna">みんなでやる（10）</option>
-                <option value="sensei">先生の仕事（5）</option>
-                <option value="hoka">そのほか（2）</option>
-              </select>
-            </div>
-            <div class="picker">
-              <label for="app-sort">並び順</label>
-              <select id="app-sort" data-sort>
-                <option value="name">名前順</option>
-                <option value="recent" data-recent hidden>最近開いた順</option>
-                <option value="new">新しく公開した順</option>
-                <option value="updated">最近手を入れた順</option>
-              </select>
-            </div>
+          <div class="search">
+            <span class="search__icon"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"/></svg></span>
+            <label class="visually-hidden" for="app-search">アプリを検索</label>
+            <input type="search" id="app-search" placeholder="アプリを検索（例：作文、計算、ふりかえり）" autocomplete="off" spellcheck="false">
+            <button type="button" class="search__clear" aria-label="検索語を消す"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
           </div>
-          <div class="finder__foot">
-            <p class="finder__status" data-status role="status" aria-live="polite">38 件すべてを表示しています</p>
-            <button type="button" class="finder__clear" data-reset hidden>絞り込みを外す</button>
-            <button type="button" class="finder__forget" data-forget hidden>開いた記録を消す</button>
+          <div class="picker">
+            <label for="app-cat">教科・分野</label>
+            <select id="app-cat" data-filter="cat">
+              <option value="all">すべて（38）</option>
+              <option value="kokugo">国語・言葉（8）</option>
+              <option value="sansu">算数（5）</option>
+              <option value="tankyu">学習・探究（7）</option>
+              <option value="gakkyu">学級経営（2）</option>
+              <option value="koumu">授業づくり・校務（4）</option>
+              <option value="seisaku">表現・制作（2）</option>
+              <option value="game">ゲーム・対戦（8）</option>
+              <option value="other">そのほか（2）</option>
+            </select>
+          </div>
+          <div class="picker">
+            <label for="app-use">つかいかた</label>
+            <select id="app-use" data-filter="use">
+              <option value="all">すべて（38）</option>
+              <option value="susumu">自分で進める（2）</option>
+              <option value="renshu">練習する（8）</option>
+              <option value="shiraberu">調べる（3）</option>
+              <option value="tsukuru">つくる（5）</option>
+              <option value="furikaeru">ふりかえる（5）</option>
+              <option value="minna">みんなでやる（10）</option>
+              <option value="sensei">先生の仕事（5）</option>
+              <option value="hoka">そのほか（2）</option>
+            </select>
+          </div>
+        </div>
+        <div class="finder__foot">
+          <p class="finder__status" data-status role="status" aria-live="polite">38 件すべてを表示しています</p>
+          <button type="button" class="finder__clear" data-reset hidden>絞り込みを外す</button>
+          <button type="button" class="finder__forget" data-forget hidden>開いた記録を消す</button>
+          <div class="picker picker--sort">
+            <label for="app-sort">並び順</label>
+            <select id="app-sort" data-sort>
+              <option value="name">名前順</option>
+              <option value="recent" data-recent hidden>最近開いた順</option>
+              <option value="new">新しく公開した順</option>
+              <option value="updated">最近手を入れた順</option>
+            </select>
           </div>
         </div>
 

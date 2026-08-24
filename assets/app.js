@@ -380,10 +380,12 @@
      2 つは掛け合わせで効く（例：国語 × みんなでやる） */
   var filters = { cat: finder.querySelector('[data-filter="cat"]'),
                   use: finder.querySelector('[data-filter="use"]') };
-  var status = finder.querySelector('[data-status]');
+  /* 知らせ・並び順・ボタンは .finder の外（貼り付かない行）にある。
+     .finder は画面の上に貼り付くので、探すのに要るものだけを入れてある */
+  var status = document.querySelector('[data-status]');
   var resetBtns = Array.prototype.slice.call(document.querySelectorAll('[data-reset]'));
-  var clearBtn2 = finder.querySelector('.finder__clear');
-  var forgetBtn = finder.querySelector('[data-forget]');
+  var clearBtn2 = document.querySelector('.finder__clear');
+  var forgetBtn = document.querySelector('[data-forget]');
 
   /* ---------- かな → ローマ字 ----------
      「sakubun」でも作文が引けるようにする。ヘボン式と訓令式で綴りが割れる音
@@ -527,7 +529,7 @@
 
   /* ---------- 並び替え ----------
      もとの並び（名前順）を控えておき、そこから組み替える。 */
-  var sortSelect = finder.querySelector('[data-sort]');
+  var sortSelect = document.querySelector('[data-sort]');
   var originalOrder = cards.slice();
 
   var SORTS = {
