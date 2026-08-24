@@ -131,6 +131,7 @@
       <h1 class="article__title">「読書カード、集めて数えるのが大変」。ピッとためる読書通帳アプリ「どくしょ ちょきんばこ」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://reading-books.giga-school.com/">どくしょちょきんばこ を開く</a>
@@ -138,8 +139,24 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">💰 冊数だけでなく、ページとねだんもためる</a></li>
+          <li><a href="#s-4">🏅 月の目標と、たまっていくスタンプ帳</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🖨️ 紙1枚にまとまる</a></li>
+          <li><a href="#s-7">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-8">📖 【利用者向け】使い方のガイド</a></li>
+          <li><a href="#s-9">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>読書の記録カード、学期のおわりに集めて数えるのが大変ではありませんか。</p>
 <p>一人ひとりのカードを開いて、冊数を数えて、名簿に書きうつす。せっかく子どもたちが書いてくれたのに、集計だけで放課後がひとつ消えてしまう。しかも子どものほうも、書くのがめんどうになって、いつのまにか白いままのカードが机の奥から出てくる。読書そのものは楽しいのに、記録のところで止まってしまうのは、もったいないと思うのです。</p>
 <p>そこで作ったのが「どくしょ ちょきんばこ」です。読んだ本のうらにあるバーコードを、タブレットのカメラで読ませるだけ。本の名前も、かいた人も、ページ数も、ねだんも、自動で入ります。そして冊数だけでなく、読んだページ数と、その本のねだんの合計が「ちょきん」のようにたまっていきます。</p>
@@ -147,7 +164,7 @@
 <p><a href="https://reading-books.giga-school.com/" rel="noopener">https://reading-books.giga-school.com/</a></p>
 <p>アカウントもログインもありません。名前も出席番号も入力しません。リンクを配れば、その日から使えます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/01-home.png"><img src="https://reading-books.giga-school.com/docs/note/images/01-home.png" alt="ホーム画面" loading="lazy" decoding="async"></a><figcaption>トップページ。読んだ冊数、ページ数、金額の合計が、いちばん上にならびます。</figcaption></figure>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>画面は下の4つに分かれています。ホーム、リスト、スタンプ、きろく。それだけです。子どもが迷子にならない数に絞りました。</p>
 <p>本を記録する入口は3つあります。カメラでバーコードを読む、番号を打ちこむ、じぶんで書く。上から順に楽な順です。</p>
 <p>いちばん使ってほしいのはカメラです。本のうらの978からはじまるバーコードにカメラを向けると、真ん中の枠にピントが合った瞬間に読み取って、そのまま本を探しにいきます。子どもがすることは、本をかざすことだけです。</p>
@@ -168,14 +185,14 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/08-detail.png"><img src="https://reading-books.giga-school.com/docs/note/images/08-detail.png" alt="本の くわしく画面" loading="lazy" decoding="async"></a><figcaption>読んだ直後は星だけ、あとで思い出したらかんそうを足す。そんな使い方ができます。</figcaption></figure>
 <p>前の月の分をあとから入れることもできます。リストかスタンプで年月をえらんでから記録すると、その月の記録になります。入れる画面に金色で「このきろくは2026年6月になります」と出るので、いま入れている月をまちがえません。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/18-past-month.png"><img src="https://reading-books.giga-school.com/docs/note/images/18-past-month.png" alt="前の月に記録するときの画面" loading="lazy" decoding="async"></a><figcaption>長い休みのあとにまとめて入れるときや、書きためた紙のカードから移すときに使えます。</figcaption></figure>
-<h2>💰 冊数だけでなく、ページとねだんもためる</h2>
+<h2 id="s-3">💰 冊数だけでなく、ページとねだんもためる</h2>
 <p>読書の記録というと、ふつうは冊数だけを数えます。でも冊数だけだと、うすい絵本を10冊読んだ子と、分厚い物語を1冊読み切った子が、まったく別の見え方になってしまいます。読み切った子のがんばりが、数字の上では小さく見えてしまうのです。</p>
 <p>だからこのアプリは、ページ数もためます。そしてもう一つ、本のねだんもためます。</p>
 <p>なぜねだんなのか。読書は目に見えにくいからです。50冊読んだと言われてもぴんとこない子でも、「今までに読んだ本を全部買っていたら、49,090円ぶんだよ」と言われると、急に大きさが分かります。図書室の本をこれだけ使わせてもらった、という重さも伝わります。貯金箱に小銭がたまっていくのと同じ手ざわりを、読書に持ちこみたかったのです。</p>
 <p>これが「ちょきんばこ」という名前の理由です。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/12-stats.png"><img src="https://reading-books.giga-school.com/docs/note/images/12-stats.png" alt="ふりかえりのグラフ" loading="lazy" decoding="async"></a><figcaption>「きろく」から開くふりかえり。月ごとの冊数がならび、いちばん読んだ月と、続けてきた月の数が出ます。</figcaption></figure>
 <p>グラフは12か月ぶんです。棒がだんだん伸びていくのが見えると、続ける気持ちになりやすいのではないかと思っています。1冊あたりの平均ページ数も出るので、「うすい本ばかりになっていないかな」と自分で気づくきっかけにもなります。</p>
-<h2>🏅 月の目標と、たまっていくスタンプ帳</h2>
+<h2 id="s-4">🏅 月の目標と、たまっていくスタンプ帳</h2>
 <p>もう一つの柱がスタンプ帳です。</p>
 <p>月ごとに目標の冊数を決めます。はじめは10冊にしてありますが、1冊から99冊まで、子どもが自分で決められます。読むのが苦手な子が3冊にしてもいいし、どんどん読む子が30冊にしてもいい。学級で一律にしなかったのは、他の子と比べるための数字にしたくなかったからです。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/09-stamp.png"><img src="https://reading-books.giga-school.com/docs/note/images/09-stamp.png" alt="スタンプちょう" loading="lazy" decoding="async"></a><figcaption>1冊読むごとにスタンプが1つ。目標に届くとバーが金色になります。</figcaption></figure>
@@ -185,18 +202,18 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/03-celebrate.png"><img src="https://reading-books.giga-school.com/docs/note/images/03-celebrate.png" alt="もくひょう たっせいのお祝い" loading="lazy" decoding="async"></a><figcaption>10冊目を記録した瞬間の画面。同じ月に何度も出ることはありません。</figcaption></figure>
 <p>何度も出るとうるさくなるので、一回だけにしました。動きが気になる子のために、端末の設定で「視差効果を減らす」をオンにしていると紙ふぶきは出ません。音も、あとから出てくる設定で切れます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/04-home-done.png"><img src="https://reading-books.giga-school.com/docs/note/images/04-home-done.png" alt="目標に届いたあとのホーム" loading="lazy" decoding="async"></a><figcaption>届いたあとは、進み具合のバーが金色のまま残ります。</figcaption></figure>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、先生の集計がなくなることです。冊数もページ数も金額も、子どもが記録した時点で合計されています。学期末にカードを集めて数える作業が、そのままなくなります。学級全体の記録をまとめたいときは、あとで書く「ひょうにコピー」を使えば、そのままスプレッドシートに貼れます。</p>
 <p>二つ目は、子どもが自分の読書量を自分で見られることです。先生に言われて数えるのではなく、自分の貯金箱が増えていくのを自分で見る。読書の記録が、提出物ではなく自分のものになります。続けるかどうかを決めるのは、通知表ではなく、たまっていく数字のほうがいいと思うのです。</p>
 <p>三つ目は、家庭に伝えやすくなることです。A4の紙1枚に読んだ本が全部ならぶので、授業参観でも懇談でも、そのまま見せられます。「よく本を読んでいます」と口で言うより、読んだ本のならんだ紙を見てもらうほうが早いです。</p>
-<h2>🖨️ 紙1枚にまとまる</h2>
+<h2 id="s-6">🖨️ 紙1枚にまとまる</h2>
 <p>このアプリで先生にいちばん使ってほしいのが、この印刷です。</p>
 <p>「きろく」の中の「データを のこす・よみこむ」を開いて、いちばん下の「いんさつの がめんを ひらく」を押すと、その時点の記録が全部、古い順にならんだ紙が出ます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/16-print.png"><img src="https://reading-books.giga-school.com/docs/note/images/16-print.png" alt="印刷される紙のようす" loading="lazy" decoding="async"></a><figcaption>A4のたて1枚。なまえとクラスは手書きの欄です。アプリは名前を持たないので、ここだけは紙の上で書いてもらいます。</figcaption></figure>
 <p>通し番号、読んだ日、本の名前、かんそう、かいた人、ページ数、ねだん、おもしろさの星。全部そろっています。表が2ページ目に続くときは、見出しの行が2ページ目にも出るようにしてあるので、途中から見ても何の列か分かります。1冊ぶんの行が途中で切れることもありません。</p>
 <p>読書週間のまとめ、懇談の資料、学年末の持ち帰り。紙にしたい場面はまだ残っていると思うので、そこはちゃんと紙にできるようにしました。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-7">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に聞かれることを、先に全部書いておきます。</p>
 <p>導入でやることは3つだけです。</p>
 <ol><li>上のURLを子どもたちに配る。Classroomでも、ブックマークでも、QRコードでもかまいません</li><li>端末で「ホーム画面に追加」をしてもらう</li><li>「バーコードは978からはじまるほうを読む」と一度だけ伝える</li></ol>
@@ -217,7 +234,7 @@
 <p>すでに学習ポータルの「まなびクエスト」をお使いの学校では、そちらにも記録が届きます。このアプリは端末に保存するだけで、送るのはポータルの側です。送られるのは本の題名やページ数といった読書の中身だけで、氏名や出席番号はふくみません。使っていない学校では、何もしなくてかまいません。</p>
 <p>パソコンやChromebookの広い画面では、横に2列にならびます。教室の大型提示装置に映して説明するときも、そのまま使えます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/20-desktop.png"><img src="https://reading-books.giga-school.com/docs/note/images/20-desktop.png" alt="パソコンの画面幅で開いたところ" loading="lazy" decoding="async"></a><figcaption>画面が広いときは自動で2列になります。</figcaption></figure>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-8">📖 【利用者向け】使い方のガイド</h2>
 <p>子どもたちに渡すときの手順です。この順で伝えると迷いません。</p>
 <ol><li>配られたURLを開く</li><li>下の「きろく」を開いて「アプリとして インストール」を押す。iPadの場合は共有ボタンから「ホーム画面に追加」を押す</li><li>ホームの「カメラで バーコードを よむ」を押す</li><li>本のうらの、978からはじまるバーコードに、画面のまん中の枠を合わせる。本は20センチから25センチくらい離す</li><li>「よめました！」と出たら、本の名前とページ数が入っているか見る。赤くなっている欄があったら、本を見て自分で書き足す</li><li>おもしろさの星をつけて、かんそうを書く。書かなくても記録できる</li><li>「この本を きろくする！」を押す</li></ol>
 <p>うまく読めないときの手当ても、順番にしてあります。</p>
@@ -229,7 +246,7 @@
 <ol><li>「きろく」を開いて「データを のこす・よみこむ」を開く</li><li>「ファイルに ほぞんする」を押す</li><li>出てきたファイルを、Googleドライブなどに置いておく</li><li>新しい端末で同じ画面を開き、「ファイルを えらぶ」からそのファイルを選ぶ</li><li>今の記録に足すか、まるごと入れかえるかを選ぶ</li></ol>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reading-books.giga-school.com/docs/note/images/13-save.png"><img src="https://reading-books.giga-school.com/docs/note/images/13-save.png" alt="データを のこす画面" loading="lazy" decoding="async"></a><figcaption>同じ画面にある「ひょう(スプレッドシート)に コピー」を押すと、そのまま表計算ソフトに貼りつけられる形でコピーされます。学級の記録をまとめたいときは、こちらが便利です。</figcaption></figure>
 <p>足すほうを選んだときは、すでにある記録と同じものが二重に入らないようにしてあります。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-9">📝 まとめ</h2>
 <p>このアプリで減らしたかったのは、読書のじゃまをしている事務仕事です。</p>
 <p>カードを集めて数える時間、名簿に書きうつす時間、子どもが記録を書くのをためらう時間。どれも、読書そのものとは関係のないところで消えていく時間でした。そこをアプリに任せてしまえば、先生は「その本、どこがおもしろかった？」と聞くほうに時間を使えます。読書指導でいちばん効くのは、たぶんその一言のほうだと思うのです。</p>
 <p>子どものほうも同じです。記録が1秒で終われば、記録は義務でなくなります。たまっていく数字を見て、次の本を選びにいく。そういう回り方になればいいと思って作りました。</p>

@@ -7,6 +7,7 @@
  */
 
 import { esc } from './article-md.mjs';
+import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
 import { CATEGORY_LABEL, CATEGORY_COLOR } from './categories.mjs';
 
 /** 記事の題につけてある連載名。ページでは見出しから外し、上に小さく添える。 */
@@ -192,6 +193,12 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
 
   const more = moreNav({ related, prev, next });
 
+  /* 見出しに id を振ってから目次を組む。長さも、組み上がった本文から数える。
+     ここを article-md.mjs 側でやらないのは article-toc.mjs の冒頭に書いたとおり。 */
+  const { html: body, headings } = withAnchors(article.html);
+  const toc = tocOf(headings);
+  const reading = readingOf(body);
+
   return `<!DOCTYPE html>
 <html lang="ja">
 
@@ -247,6 +254,7 @@ ${HEADER}
       <h1 class="article__title">${esc(headline)}</h1>
       <p class="article__meta">
         <time datetime="${app.updatedAt}">${app.updatedAt.replace(/-/g, '/')}</time> 現在
+        <span class="article__len">読むのに約 ${reading.minutes} 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
@@ -254,8 +262,8 @@ ${HEADER}
       </p>
     </header>
 
-    <div class="prose prose--article">
-${article.html}
+${toc}    <div class="prose prose--article">
+${body}
     </div>
 
     <aside class="article__end">

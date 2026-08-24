@@ -1466,11 +1466,75 @@
     color: var(--ink-3);
     font-variant-numeric: tabular-nums;
   }
+  /* 「読むのに約 15 分」。かかる時間は先に言う。分からないまま読み始めた人は、
+     途中でやめて戻ってこない。分かっていれば、目次のほうを使う */
+  .article__len { margin-inline-start: var(--s-2); }
+  .article__len::before { content: "・"; margin-inline-end: var(--s-2); color: var(--line-strong); }
+
   .article__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--s-3);
     margin-block-start: var(--s-5);
+  }
+
+  /* 目次。節が 8〜10 あり、画面写真が 22 枚入るページを、
+     先頭から順に送るしかない状態をやめるためのもの。
+     <details> にしてあるので JavaScript は要らない。畳んでも開いても、
+     行き先は同じ id なので、検索から見出しに直接来た人にも効く。 */
+  .toc {
+    margin-block: var(--s-6) var(--s-7);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .toc__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-3);
+    padding: var(--s-4) var(--s-5);
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+  .toc__head::-webkit-details-marker { display: none; }
+  /* 開閉のしるしは自前で描く。ブラウザごとの三角は大きさも位置もそろわない */
+  .toc__head::before {
+    content: "";
+    inline-size: 8px;
+    block-size: 8px;
+    border-inline-end: 2px solid var(--brand);
+    border-block-end: 2px solid var(--brand);
+    rotate: -45deg;
+    translate: 0 -2px;
+    transition: rotate var(--dur) var(--ease);
+  }
+  .toc[open] .toc__head::before { rotate: 45deg; translate: 0 -3px; }
+  .toc__hint { font-size: .8125rem; font-weight: 400; color: var(--ink-3); }
+  .toc__list {
+    margin: 0;
+    padding: 0 var(--s-5) var(--s-5) calc(var(--s-5) + 1.4em);
+    list-style: decimal;
+    color: var(--ink-3);
+  }
+  .toc__list > li + li { margin-block-start: var(--s-2); }
+  .toc__list a {
+    color: var(--ink-2);
+    text-decoration: none;
+    border-block-end: 1px solid transparent;
+  }
+  .toc__list a:hover { color: var(--link); border-block-end-color: currentColor; }
+  .toc__sub {
+    margin: var(--s-1) 0 0;
+    padding-inline-start: 1.2em;
+    list-style: disc;
+    font-size: .9375rem;
+  }
+  .toc__sub li + li { margin-block-start: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc__head::before { transition: none; }
   }
 
   /* ---------- 記事の終わりの「ほかの紹介」 ----------
@@ -1645,25 +1709,50 @@
   /* 記事の本文。読みやすさだけを見て、幅と行間をとる */
   .prose--article { font-size: 1.0625rem; line-height: 1.95; }
   .prose--article > * + * { margin-block-start: var(--s-5); }
+  /* 見出しは 2 段階で見分けがつくようにする。
+     h2 は上に短い帯（トップページの .section__eyebrow と同じしるし）と下罫。
+     h3 は左罫だけ。以前は h3 が本文と同じ 1.0625rem で、節の切れ目が
+     目に入らず、拾い読みの足がかりがなかった。 */
   .prose--article h2 {
-    font-size: 1.25rem;
+    font-size: clamp(1.25rem, 1.1rem + .7vw, 1.45rem);
     font-weight: 700;
     line-height: 1.5;
     margin-block-start: var(--s-8);
-    padding-block-end: var(--s-2);
-    border-block-end: 1px solid var(--line);
+    padding-block-end: var(--s-3);
+    border-block-end: 1px solid var(--line-strong);
+  }
+  .prose--article h2::before {
+    content: "";
+    display: block;
+    inline-size: 28px;
+    block-size: 3px;
+    border-radius: 2px;
+    background: var(--brand);
+    margin-block-end: var(--s-3);
   }
   .prose--article h3 {
-    font-size: 1.0625rem;
+    font-size: 1.1875rem;
     font-weight: 700;
+    line-height: 1.6;
     margin-block-start: var(--s-6);
+    padding-inline-start: var(--s-3);
+    border-inline-start: 3px solid var(--brand);
   }
   .prose--article ol,
   .prose--article ul { padding-inline-start: 1.5em; }
   .prose--article li + li { margin-block-start: var(--s-2); }
   .prose--article ol { list-style: decimal; }
   .prose--article ul { list-style: disc; }
-  .prose--article strong { font-weight: 700; }
+  /* 強調。記事側の書き方（**太字**）は変えずに、目に入るようにする。
+     蛍光ペンの帯を敷くのは、太字だけだと 1.95 の行間の中で沈むため。
+     色は増やさず、見出しと同じ --brand の淡いほうを使う。 */
+  .prose--article strong {
+    font-weight: 700;
+    background: linear-gradient(
+      transparent 58%,
+      color-mix(in srgb, var(--brand) 20%, transparent) 58%);
+    padding-inline: .12em;
+  }
 
   .prose--article code {
     font-family: var(--font-mono);
@@ -1817,7 +1906,9 @@
     padding-block-start: var(--s-5);
     border-block-start: 1px solid var(--line);
   }
-  .press-title { font-size: 1.0625rem; font-weight: 700; }
+  /* 見出しは .profile-title と同じ規則で組む（下でまとめて指定している）。
+     README に「同じ組み方」と書いてあるのに、以前は同じ値を二か所に書いていた。
+     片方だけ直すと静かに離れるので、選択子を並べて 1 つの規則にした。 */
   .press-lead {
     font-size: .875rem;
     color: var(--ink-2);
@@ -1992,7 +2083,41 @@
     padding-block-start: var(--s-5);
     border-block-start: 1px solid var(--line);
   }
-  .profile-title { font-size: 1.0625rem; font-weight: 700; }
+  /* 見出しは本文からはっきり離す。以前は 1.0625rem で、本文（.9375rem）と
+     ほとんど差がなく、8 つある節の切れ目が目に入らなかった。
+     上の短い帯は紹介記事の h2 と同じしるし。サイトの中で見出しの意味をそろえる。 */
+  .profile-title,
+  .press-title {
+    font-size: clamp(1.1875rem, 1.1rem + .4vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .profile-title::before,
+  .press-title::before {
+    content: "";
+    display: block;
+    inline-size: 28px;
+    block-size: 3px;
+    border-radius: 2px;
+    background: var(--brand);
+    margin-block-end: var(--s-3);
+  }
+
+  /* ページ内の行き先。読みたい節が人によって違うページなので、上に入口を置く。
+     見た目はトップの絞り込みと同じ .chips を借りる */
+  .profile-jump {
+    margin-block: var(--s-5) 0;
+    padding-block-end: var(--s-5);
+    border-block-end: 1px solid var(--line);
+  }
+  .profile-jump__label {
+    margin-block-end: var(--s-3);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+  }
+  .profile-jump .chip { text-decoration: none; }
   .profile-body {
     margin-block-start: var(--s-3);
     font-size: .9375rem;
@@ -2027,6 +2152,10 @@
   .profile-step:last-child { border-block-end: 0; }
   .profile-step__when {
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2);
     padding-inline-start: 15px;
     font-size: .8125rem;
     font-weight: 700;
@@ -2043,6 +2172,16 @@
     border-radius: 50%;
     background: var(--brand);
   }
+  /* その時期に何本出したか。増え方は本文にも書いてあるが、
+     読まないと分からない形だったので、日付の隣に数字だけ出しておく */
+  .profile-step__count {
+    padding: 1px 8px 2px;
+    border-radius: var(--r-pill);
+    background: var(--brand-soft);
+    color: var(--brand-ink);
+    font-size: .75rem;
+  }
+
   .profile-step__what {
     margin-block-start: 2px;
     font-size: .9375rem;

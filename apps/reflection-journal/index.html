@@ -131,6 +131,7 @@
       <h1 class="article__title">「せんせい、なにを書けばいいの」で止まらない。書き出しのことばが出てくるふりかえりアプリ「ふりかえりジャーナル」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://reflection-journal.giga-school.com/">ふりかえりジャーナル を開く</a>
@@ -138,9 +139,24 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">💬 スタンプひとつでも、おへんじは返せる</a></li>
+          <li><a href="#s-4">💗 気持ちの14日間を、色で見る「心のバイタル」</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a></li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
 <blockquote><p><strong>編集注（2026-08-23）:</strong> 配り方を変えました。いまは<strong>スプレッドシートをコピーして、先生おひとりずつがご自分のアカウントで公開する形</strong>です。共通のURLはありません。</p><p></p><p>本文中の画面写真は、この変更より前に撮ったものです。先生の画面の右上にあった「クラスの切りかえ」と「＋ クラス追加」は無くなり（1ファイル＝1クラスになったため）、クラス設定に「シートの作り」の欄が増えています。それ以外の見た目は変わっていません。</p></blockquote>
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>一日の終わりに、ふりかえりを書かせる。 やってみると、思っていたよりむずかしくないでしょうか。</p>
 <p>書ける子はどんどん書きます。けれど何人かは、えんぴつを持ったまま止まってしまいます。「なにを書けばいいの」と聞かれて、「今日がんばったことでいいよ」と答えても、また止まる。そのあいだにも、こちらは机の間を回らないといけません。</p>
 <p>そして集めたあと。ノートを持ち帰って、ひとりずつ読んで、赤ペンでひとこと書く。それを毎日となると、正直つづきません。返せなかったノートが職員室に積まれて、こちらの気持ちのほうが重くなっていく。</p>
@@ -149,7 +165,7 @@
 <p>作ったものはここに置いてあります。</p>
 <p><a href="https://github.com/GIGAyama/Reflection_Journal" rel="noopener">https://github.com/GIGAyama/Reflection_Journal</a></p>
 <p>先生も子どもも、学校のGoogleアカウントがあれば使えます。アプリを入れる必要も、パスワードを配る必要もありません。</p>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>先生の画面から見ていきます。クラスのURLを先生ご自身が開くと、この画面が出ます（同じURLを子どもが開くと、子どもの画面になります）。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/01-teacher-dashboard.png"><img src="https://reflection-journal.giga-school.com/note/images/01-teacher-dashboard.png" alt="教員ダッシュボード" loading="lazy" decoding="async"></a><figcaption>今日の提出率がまるいグラフで出て、その横で今日のテーマを決められます。上のタブは三つだけです。</figcaption></figure>
 <p>テーマは、その日その日で入れてもいいのですが、毎日考えるのは大変です。折りたたみを開くと、月曜から金曜まで、曜日ごとのテーマをしまっておけます。その日のテーマを入れ忘れた朝は、こちらが自動で出ます。</p>
@@ -168,7 +184,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/18-student-writing.png"><img src="https://reflection-journal.giga-school.com/note/images/18-student-writing.png" alt="書いたところ" loading="lazy" decoding="async"></a></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/19-student-tools.png"><img src="https://reflection-journal.giga-school.com/note/images/19-student-tools.png" alt="サポートツールと気持ち" loading="lazy" decoding="async"></a><figcaption>提出すると、画面いっぱいに紙吹雪がまいます。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/20-student-submit.png"><img src="https://reflection-journal.giga-school.com/note/images/20-student-submit.png" alt="提出したときの紙吹雪" loading="lazy" decoding="async"></a><figcaption>出しただけで終わらせたくなかったので、ここは少しにぎやかにしてあります。ただ、動きが苦手な子もいます。端末の設定で「動きを減らす」にしていると、紙吹雪は出ません。</figcaption></figure>
-<h2>💬 スタンプひとつでも、おへんじは返せる</h2>
+<h2 id="s-3">💬 スタンプひとつでも、おへんじは返せる</h2>
 <p>このアプリでいちばん時間をかけたのは、返すところです。</p>
 <p>一覧の行にカーソルを合わせると、四つのスタンプが出ます。押すと、その場で返却済みになります。押しまちがえても取り消せます。</p>
 <p>これだけです。読んで、いいなと思ったら、指を一回。三十人ぶんでも数分で終わります。</p>
@@ -182,7 +198,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/06-teacher-ai.png"><img src="https://reflection-journal.giga-school.com/note/images/06-teacher-ai.png" alt="AIにコメント案を作らせる" loading="lazy" decoding="async"></a></figure>
 <p>未返却で本文のあるものをまとめて下書きします。ここで大事なのは、AIが作るのはあくまで下書きで、実行しても状況は未返却のままだということです。先生が読んで、直して、それから返します。子どもに届くことばを、AIが勝手に決めてしまう作りにはしたくありませんでした。</p>
 <p>なお、AIを使ったときだけ、ジャーナルの本文がGoogleのAIに送られます。使わなければ一度も外へ出ません。キーを入れなければAIのボタンは動かないので、そこは学校の方針に合わせて決めてください。</p>
-<h2>💗 気持ちの14日間を、色で見る「心のバイタル」</h2>
+<h2 id="s-4">💗 気持ちの14日間を、色で見る「心のバイタル」</h2>
 <p>もうひとつのタブが「心のバイタル」です。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/07-teacher-vitals.png"><img src="https://reflection-journal.giga-school.com/note/images/07-teacher-vitals.png" alt="気にかけたい児童" loading="lazy" decoding="async"></a><figcaption>上に出るのは、少し気にかけておきたい子です。条件は二つだけで、直近三件のうち二件以上が「もやもや」か「くやしい」だったとき。それと、提出が三件以上あって、いちばん新しい記述の量が過去の平均の三割を切ったときです。</figcaption></figure>
 <p>ここはAIではなく、アプリの中の単純なきまりで判定しています。画面には「AI解析」と出ますが、中身はこの二つのものさしだけです。何を見ているのかが分からないまま「この子が心配です」と言われるより、条件がはっきりしているほうが、先生にとって使いやすいと考えました。</p>
@@ -193,12 +209,12 @@
 <p>子どものほうにも、自分の記録をふりかえる入り口があります。カレンダーは、書いた日に色がつき、おへんじがついた日にはしるしが出ます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/21-student-calendar.png"><img src="https://reflection-journal.giga-school.com/note/images/21-student-calendar.png" alt="カレンダー" loading="lazy" decoding="async"></a><figcaption>そして「過去の自分と対話する」を押すと、一ヶ月以上前の自分の記録がランダムで一件出てきます。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://reflection-journal.giga-school.com/note/images/22-student-past.png"><img src="https://reflection-journal.giga-school.com/note/images/22-student-past.png" alt="過去の自分と対話する" loading="lazy" decoding="async"></a><figcaption>下の欄に、今の自分から過去の自分へメッセージを残せます。一ヶ月前にできなかったことが、今はできている。そのことに自分で気づく瞬間があればいいなと思って入れました。</figcaption></figure>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、返せなかったノートが積み上がらなくなることです。スタンプ一回で返却として成立するので、時間のない日でも「今日は返せなかった」がなくなります。ていねいに書ける日はマーカーを引けばいい。全部か無かではなく、その日にできるぶんだけ返せる作りにしたのが、いちばん効くところだと思っています。</p>
 <p>二つ目は、書けない子が置いていかれにくくなることです。書き出しの十二個とテンプレートの四つは、「なにを書けばいいの」に対して先生が毎回答えていた内容を、あらかじめ画面に置いたものです。えんぴつが止まっている子のところへ行く前に、その子が自分で一歩目を踏み出せる。回る先が減るぶん、本当に見てあげたい子のところに長くいられるようになるはずです。</p>
 <p>三つ目は、気づきにくい変化に手がかりができることです。毎日おとなしく提出していた子の記述が、ある日から三行になった。紙のノートだと気づきにくいところですが、十四日ぶんを一枚で見れば分かります。データが先生の代わりに判断するのではなく、先生が声をかける順番を決める材料になる。そういう使い方を想定しています。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に確認されそうなことを、先に書いておきます。</p>
 <p><strong>入れかたは、スプレッドシートをコピーするだけです。</strong> 案内ページの「スプレッドシートをコピーして始める」を押して、ご自分のドライブにコピーを作ります。コードはそのファイルの中に入っているので、貼り付ける作業はありません。あとはメニューの「はじめの設定」を1回押し、Apps Scriptから「ウェブアプリ」として公開すれば、クラスの URL ができます。十分ほどです。</p>
 <p><strong>データの置き場所です。</strong> コピーしたそのスプレッドシートが、そのまま記録の置き場所です。名簿も、提出も、おへんじも、添付した写真も、全部その1つのファイルの中に入ります。持ち主は先生です。運営者のアカウントが編集者として入ることもありません。学校の外に別のデータベースを持たないので、アプリを使わなくなっても記録は先生の手もとに残ります。</p>
@@ -221,7 +237,7 @@
 <ul><li><strong>1つのファイルが1つのクラスです。</strong> 2クラス受け持つ先生は、コピーを2つ作ってください。URLも2本になります</li><li>インターネットがつながっていないと使えません</li><li>画面は自動では更新されません。最新の状態はボタンで読み直します</li><li>下書きと、おへんじを読んだかどうかは、その端末のブラウザにだけ残ります。別の端末には引き継がれません</li><li>写真は、送る前に端末の中で小さくしてからシートに保存されます</li><li>配り終えたコピーは、その時点のコードで動きます。<strong>こちらの直しは自動では届きません</strong></li></ul>
 <p>学校のポリシーで「外部ファイルのコピー」が禁じられていることがあります。その場合はコピーのボタンで止まりますので、ファイルを貼り付ける手順（リポジトリのREADMEにあります）をお使いください。入るものは同じです。</p>
 <p>先に言っておくと、今の作りでできないこともあります。クラスをまたいで見ること、子どもから先生へメッセージを送ること、子ども同士でおたがいの記録を読むこと、それにメールでのお知らせは、どれもありません。書き出しの絞りこみも、画面のボタンからは全期間・全員での出力になります。あとから「あると思っていた」となるより、先に書いておいたほうが親切だと思うので並べておきます。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>先生がはじめる手順です（最初の1回だけ、十分ほど）。</p>
 <ol><li>案内ページの「スプレッドシートをコピーして始める」を押し、「コピーを作成」を選びます</li><li>できたファイルを開き、上のメニュー「ふりかえりジャーナル」＞「はじめの設定」を押します。承認をたずねられたら許可し、クラス名を入れます</li><li>「拡張機能」＞「Apps Script」＞「デプロイ」＞「新しいデプロイ」。種類はウェブアプリ、実行するユーザーは「自分」、アクセスできるユーザーは「同じ組織内の全員」</li><li>出てきたURLを控えます。これがクラスのURLです。先生ご自身が開くと先生の画面が出ます</li><li>クラス設定のタブを開き、名簿に子どもの名前とGoogleアカウントを入れて保存します。ここに載っている子は、承認なしで参加できます</li><li>ジャーナル管理のタブで今日のテーマを入れ、「今すぐ適用」を押します</li><li>児童用URL（またはQRコード）を子どもに配ります</li></ol>
 <p><strong>「はじめの設定」は、子どもにURLを配る前に押してください。</strong> 押すまでは、誰が開いても「まだ準備中です」としか出ません。</p>
@@ -231,7 +247,7 @@
 <ol><li>ジャーナル管理のタブを開きます</li><li>さっと返すときは、行に出る四つのスタンプからひとつを押します。これで返却済みになります</li><li>ことばを添えるときは「詳細を開く」を押し、コメントを書きます</li><li>本文の中でここを見てほしいという場所があれば、その部分をドラッグして選びます。マーカーとして右側に入るので、ひとことと絵文字をつけます</li><li>「保存して返却する」を押します</li></ol>
 <p>子どもがおへんじを読む手順です。</p>
 <ol><li>画面の上に出たしるしから「読む」を押します</li><li>先生のコメントと、本文に引かれたマーカーが見えます</li><li>あとから読み返すときは、左のカレンダーで、しるしのついた日をタップします</li></ol>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>このアプリでやったのは、ふりかえりを増やすことではありません。ふりかえりを続けるための、しんどさを減らすことです。</p>
 <p>書けない子には最初の一行を。返す先生には、スタンプ一回という逃げ道を。そして毎日の記録が積み上がったら、それを十四日ぶんの色にして返す。そこまでが一続きになっていないと、結局どこかで止まってしまうと考えました。</p>
 <p>ICTを入れる目的は、効率化そのものではないと思っています。丸付けや集計に取られていた時間が少し戻ってきて、そのぶん子どもの顔を見る時間が増える。増えた時間で、色が沈んでいた子のところへ行って「最近どう」と聞ける。そこまで行けたら、はじめて入れた意味があったと言えるのだと思います。</p>

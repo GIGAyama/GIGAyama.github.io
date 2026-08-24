@@ -159,6 +159,22 @@
       <div><dt>紹介の記事</dt><dd>31<span class="unit">本</span></dd></div>
     </dl>
 
+    <!-- 読みたい節が人によって違うページなので、上に入口をまとめる。
+         行き先は各節の見出しの id。新しい仕掛けは足していない -->
+    <nav class="profile-jump" aria-label="このページの中の行き先">
+      <p class="profile-jump__label">このページに書いてあること</p>
+      <div class="chips">
+        <a class="chip" href="#who-title">していること</a>
+        <a class="chip" href="#belief-title">目指していること</a>
+        <a class="chip" href="#what-title">つくっているもの</a>
+        <a class="chip" href="#rules-title">決めていること</a>
+        <a class="chip" href="#how-title">つくりかた</a>
+        <a class="chip" href="#history-title">これまで</a>
+        <a class="chip" href="#qa-title">よくいただく質問</a>
+        <a class="chip" href="#contact-title">連絡先</a>
+      </div>
+    </nav>
+
     <section class="profile-section" aria-labelledby="who-title">
       <h2 class="profile-title" id="who-title">していること</h2>
       <div class="profile-body">
@@ -166,14 +182,22 @@
         そこで実際に困った場面から始まります。困りごとを 1 回ずつ気合いで片づけるのではなく、
         <b>次から起きないように仕組みごと変えるほうが好きです。</b></p>
         <p>つくるものは、大きく 2 つに分かれます。</p>
-        <ul>
-          <li><b>子どもが自分で学べるようにする道具</b>
-          … 進み方を自分で決められる、途中でやり直せる、あとから見返せる。
-          先生が全員を同時に引っぱらなくても、学びが進むようにするためのものです。</li>
-          <li><b>先生の手を空ける道具</b>
-          … 週案簿、宿題の受け取り、フォルダの同期など。作業が減ったぶんの時間は、
-          子どもを見ることや教材を考えることに回せます。</li>
-        </ul>
+      </div>
+      <!-- サイト全体の主題にあたる 2 つ。箇条書きの中にあると、
+           ここだけ読んだ人に渡らないので、カードにして取り出しておく -->
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>子どもが自分で学べるようにする道具</h3>
+          <p>進み方を自分で決められる、途中でやり直せる、あとから見返せる。
+          先生が全員を同時に引っぱらなくても、学びが進むようにするためのものです。</p>
+        </div>
+        <div class="info-card">
+          <h3>先生の手を空ける道具</h3>
+          <p>週案簿、宿題の受け取り、フォルダの同期など。作業が減ったぶんの時間は、
+          子どもを見ることや教材を考えることに回せます。</p>
+        </div>
+      </div>
+      <div class="profile-body">
         <p>探して見つかるものは、探して使います。見つからなかったときに、はじめてつくります。
         できたものは自分の授業や校務で使ってみて、<b>使えたものだけ</b>をここに置いています。
         もともとが自分用なので、宣伝も課金もありません。同じことで困っている方がいれば、
@@ -303,19 +327,19 @@
           週案簿のテンプレートは、いまも note で配っています。</p>
         </li>
         <li class="profile-step">
-          <p class="profile-step__when">2025年10月</p>
+          <p class="profile-step__when">2025年10月<span class="profile-step__count">10 本</span></p>
           <p class="profile-step__what">はじめて公開したのは「デジタルワードローブ」。この月に 10 本。多くは学級のあそびに使う対戦ゲームでした。</p>
         </li>
         <li class="profile-step">
-          <p class="profile-step__when">2026年1月〜3月</p>
+          <p class="profile-step__when">2026年1月〜3月<span class="profile-step__count">24 本</span></p>
           <p class="profile-step__what">24 本。オンライン原稿用紙、週案エディタ、デジタル教科書メーカーなど、授業と校務で毎日使うものが中心になりました。Chrome 拡張機能も 3 本。</p>
         </li>
         <li class="profile-step">
-          <p class="profile-step__when">2026年6月〜8月</p>
+          <p class="profile-step__when">2026年6月〜8月<span class="profile-step__count">7 本</span></p>
           <p class="profile-step__what">7 本。九九カード、さんすうブロックなどの算数の練習と、教科書の単元に合わせたものが増えました。</p>
         </li>
         <li class="profile-step">
-          <p class="profile-step__when">いま</p>
+          <p class="profile-step__when">いま<span class="profile-step__count">38 本</span></p>
           <p class="profile-step__what">アプリ 38 本、拡張機能・ツール 3 本。紹介の記事は 31 本になりました。</p>
         </li>
       </ol>

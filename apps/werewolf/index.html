@@ -131,6 +131,7 @@
       <h1 class="article__title">「先生が司会をしなくていい」ふりがなつきで1台からできる人狼ゲームアプリ「人狼ゲーム」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://werewolf.giga-school.com/">人狼ゲーム を開く</a>
@@ -138,8 +139,23 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">🎭 6つの役職と、夜に起こること</a></li>
+          <li><a href="#s-4">🖥️ 電子黒板と、音を出せない教室のために</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a></li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>「話し合いの学習」と聞くと、少し身構えてしまうことはありませんか。テーマを決めて、グループを分けて、司会を立てて、時間を計る。準備にそれなりの手間がかかるわりに、いざ始めてみると数人だけが話していて、あとの子はじっと座っているだけ。そんな時間になってしまうことがあります。</p>
 <p>雨の日の昼休みや、行事のあとにぽっかり空いた15分も似ています。何か全員でできることをやりたいのに、道具を出して、ルールを説明して、というところで時間が尽きてしまう。結局いつもの自習になってしまった、という日があるのではないでしょうか。</p>
 <p>今回作ったのは、タブレットを1台だけ用意すれば始められる人狼ゲームのアプリです。ブラウザで開いて、遊ぶ人数を選んで、ボタンをひとつ押すだけで始まります。名前は入れなくてもかまいません。進行のアナウンスはアプリが自動で読み上げるので、先生が司会をする必要もありません。</p>
@@ -148,7 +164,7 @@
 <p>遊べるのは4人から12人まで、1ゲームはだいたい10分から20分です。漢字にはすべてふりがなが付いているので、中学年くらいから読めるはずです。</p>
 <p>以前この連載で計算のドリルアプリを紹介しましたが、今回は勉強のアプリではありません。学級の時間や、雨の日の教室で使えるものを作りたくて手を動かしました。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/01-home.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/01-home.png" alt="ホーム画面" loading="lazy" decoding="async"></a><figcaption>最初の画面。遊ぶ人数と役職と名前が、上から順にひとつの画面にならんでいます。</figcaption></figure>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>準備は、ブラウザで上のページを開くところから始まります。開いた画面には「遊ぶ人数を選んでね」と大きく出ていて、4人から12人までのボタンがならんでいます。押した人数に合わせて、村人や人狼といった役職の内訳が自動で決まります。</p>
 <p>名前を入れる欄には、はじめから「プレイヤー1」「プレイヤー2」と入っています。時間がないときは、ここを触らずにそのまま「ゲーム開始」を押して構いません。名簿の名前をそのまま入れてもいいですし、班の番号でも動きます。ここで止まってほしくなかったので、空欄のままでも先に進める作りにしました。</p>
 <p>ひとりに1台ずつ配る形にはしませんでした。人数ぶんの端末をそろえて、全員をつないで、はぐれた子を待って、というところで、遊ぶ前に時間が溶けてしまうからです。1台を手渡しでまわす形なら、用意するものはタブレット1台と机のまわりのスペースだけで足ります。それに、渡すときにどうしても相手の顔を見ることになります。画面ごしに疑い合うより、そのほうが人狼らしいと思いました。</p>
@@ -165,7 +181,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/14-vote-result.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/14-vote-result.png" alt="投票結果" loading="lazy" decoding="async"></a><figcaption>誰が何票入れられたかが一覧で出て、そのあとに追放された人が発表されます。</figcaption></figure>
 <p>同じ票数で並んだときは、自動で決選投票になります。決選投票では、候補になった2人は投票できません。それでもまた並んだときは、くじ引きで決まります。教室でいちばんもめるところなので、迷いが出ないように全部アプリの側で決めるようにしました。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/15-runoff.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/15-runoff.png" alt="決選投票" loading="lazy" decoding="async"></a><figcaption>同数のときの決選投票。候補になった人だけがボタンとして出ます。</figcaption></figure>
-<h2>🎭 6つの役職と、夜に起こること</h2>
+<h2 id="s-3">🎭 6つの役職と、夜に起こること</h2>
 <p>このアプリには、村人、人狼、占い師、霊能者、狩人、狂人の6つの役職があります。人数を選ぶと内訳は自動で決まりますが、「役職のカスタマイズ」で自由に増やしたり減らしたりできます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/03-roles-custom.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/03-roles-custom.png" alt="役職のカスタマイズ" loading="lazy" decoding="async"></a><figcaption>6人で、6つの役職をひとつずつにしたところ。人狼の数が多すぎるときは、始めるボタンが押せなくなります。</figcaption></figure>
 <p>はじめての学級では、自動で決まった内訳のまま1回遊んでみるのがおすすめです。慣れてきたら、狩人や狂人を足すと話し合いの手ざわりが変わります。</p>
@@ -184,19 +200,19 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/22-morning.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/22-morning.png" alt="夜が明けた朝" loading="lazy" decoding="async"></a><figcaption>全員の行動が終わると、夜が明けます。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/23-guarded-morning.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/23-guarded-morning.png" alt="誰も襲撃されなかった朝" loading="lazy" decoding="async"></a><figcaption>狩人が守りきった朝。誰も襲撃されなかったことだけが伝えられ、誰が守ったかは分かりません。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/24-result.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/24-result.png" alt="ゲーム終了" loading="lazy" decoding="async"></a><figcaption>決着がつくと、全員の役職が公開されます。追放された人や襲撃された人には、ドクロと取り消し線が付きます。色だけで生き死にを表すと、色の見えかたに特性のある子に伝わらないので、印と線と読み上げの3つで示すようにしました。</figcaption></figure>
-<h2>🖥️ 電子黒板と、音を出せない教室のために</h2>
+<h2 id="s-4">🖥️ 電子黒板と、音を出せない教室のために</h2>
 <p>画面の上には小さなボタンがならんでいます。どれも、教室で実際に困りそうなことに合わせて付けたものです。</p>
 <p>いちばん左のスピーカーのボタンで、読み上げと効果音を止められます。隣の学級に声が聞こえてしまうときや、図書室で遊ぶときに使ってください。音が消えても進行に支障はありません。画面の文字だけで最後まで遊べます。</p>
 <p>その隣のいなずまのボタンは、背景の動きを減らします。このアプリは昼になると青空、夜になると星空へと背景が変わりますが、画面の動きが苦手な子にはそれがつらいことがあります。1回押しておけば、次に開いたときも覚えています。</p>
 <p>右側にある広がる矢印のボタンは、電子黒板に映すときのものです。押すと文字とボタンがひとまわり大きくなり、後ろの席からも読めるようになります。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/25-presentation.png"><img src="https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/25-presentation.png" alt="提示モード" loading="lazy" decoding="async"></a><figcaption>電子黒板に映したときの見えかた。相談タイマーは学級全体で共有したい情報なので、いちばん大きく出るようにしました。</figcaption></figure>
 <p>このボタンには、ひとつだけ制限を付けました。役職の確認中と夜の行動中には出てきません。文字が大きいと隣の席から役職が見えてしまい、ゲームそのものが成り立たなくなるからです。押せなくしたのではなく、その2つの画面ではボタン自体を消しています。</p>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、先生が進行から解放されることです。順番の指示も、時間の計測も、票の集計も、同数のときの決選投票も、全部アプリの側でやります。先生は教室の後ろから、子どもたちが話しているのを見ていられます。話し合いの学習でいちばん見たいのは子どもの様子のはずなのに、司会をしているとそこが見られません。その時間を返せるものにしたいと思って作りました。</p>
 <p>二つ目は、全員に話す理由が生まれることです。人狼ゲームでは、黙っていると疑われます。ふだん発言しない子にも「わたしは村人です」と言う必要が出てきますし、「なんでそう思ったの」と聞かれれば理由を答えることになります。話す練習をしましょうと言われて話すのは難しいですが、ゲームの中でなら自然に口が動くのではないかと思っています。</p>
 <p>三つ目は、準備がいらないことです。用意するのはタブレット1台だけ。プリントの印刷も、カードの用意も、名簿の登録もありません。ログインもないので、パスワードを忘れた子を待つ時間も発生しません。5時間目が10分早く終わったから、というくらいの思いつきで始められます。続けられるかどうかは、結局この手軽さで決まると思っています。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に聞かれそうなことを、先にまとめておきます。</p>
 <p>このアプリはサーバーを持っていません。子どもが入力した名前は、その端末の画面の中にあるだけで、どこにも送られません。ゲームを終えるか画面を閉じると消えます。端末に残るのは「音を消しているか」「動きを減らしているか」の2つの設定だけです。成績も正誤も記録していません。名簿の名前をそのまま入れて使っていただけます。</p>
 <p>校内フィルタリングで許可が必要なのは、次のひとつだけです。</p>
@@ -212,13 +228,13 @@
 <p>ルールを紙で配りたいときは、「あそびかた」の画面を開いた状態でブラウザの印刷を押してください。背景と操作ボタンが消えて、白地に黒字でA4たて1枚に出るようにしてあります。印刷の前にプレビューで確認していただけると安心です。</p>
 <p>先生向けの手引きは、次のページにもう少し詳しく置いてあります。</p>
 <p><a href="https://github.com/GIGAyama/Werewolf/blob/main/MANUAL.md" rel="noopener">https://github.com/GIGAyama/Werewolf/blob/main/MANUAL.md</a></p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>子どもたちに渡す前に、先生が一度通してみるのがおすすめです。いちばん少ない4人にしておくと、ひととおりの流れを短い時間で確かめられます。</p>
 <ol><li>ブラウザで <a href="https://werewolf.giga-school.com/" rel="noopener">https://werewolf.giga-school.com/</a> を開きます。</li><li>「遊ぶ人数を選んでね」から、遊ぶ人数を押します。</li><li>名前を入れます。そのままでも遊べるので、時間がないときは飛ばして構いません。</li><li>画面を下までスクロールして、「ゲーム開始」を押します。</li><li>役職の確認です。名前が出た人がタブレットを受け取り、「あなたの役職を見る」を押して自分の役職を見ます。見終わったら「確認しました」を押して、次の人に渡します。</li><li>全員が見終わると昼になります。「相談する時間を決めてね」から1分、3分、5分のどれかを押すと、話し合いが始まります。</li><li>時間が来たら「投票へ進む」を押します。ひとりずつ受け取って、追放したい人を選びます。</li><li>投票結果が出たら、「夜の行動へ進む」を押します。</li><li>夜です。また順番に受け取って、人狼は襲撃する人を、占い師は占う人を選びます。特別な力がない人はOKを押すだけです。</li><li>全員が終わると「昼を迎える」が出ます。押すと朝になり、昨夜のできごとが伝えられます。</li><li>人狼が全員いなくなるか、人狼の数が人間の数と同じになるまで、6から10をくり返します。</li><li>決着がつくと全員の役職が公開されます。「もう一度遊ぶ」で最初の画面に戻ります。</li></ol>
 <p>始める前に、子どもたちと約束しておきたいことが3つあります。</p>
 <ul><li>役職を見終わったら、必ず画面を伏せて次の人に渡すこと。</li><li>投票が同じ数になったらくじ引きになることがあるので、そうなっても文句を言わないこと。</li><li>ゲームの中でつくうそは、ゲームが終わったら引きずらないこと。</li></ul>
 <p>3つ目がいちばん大事だと思っています。人狼ゲームは、うそをつくことがルールに組みこまれた、めずらしいゲームです。だからこそ、始める前に「これはゲームの中の話」と全員で確認しておく時間をとってください。追放された子が手持ちぶさたにならないよう、「見ている人は口を出さずに観察する係」という役割を渡しておくのも効きそうです。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>このアプリを作りながらずっと考えていたのは、先生がタブレットの操作に追われずにすむにはどうしたらいいか、ということでした。</p>
 <p>順番を指示するのも、時間を計るのも、票を数えるのも、機械のほうが得意です。それを機械に渡してしまえば、先生の手は空きます。空いた手で何をするかというと、たぶん、子どもたちの顔を見ることです。ふだん発言しない子が、疑われて必死に言い訳しているところ。仲のいい子どうしが疑い合って、笑いながら困っているところ。そういう場面は、司会をしていると見のがしてしまいます。</p>
 <p>ICTを使うのは、効率よく進めるためだけではないと思っています。手が空いたぶんだけ、子どもと向き合う時間が増える。そのために使えるものであってほしいと思って作りました。</p>

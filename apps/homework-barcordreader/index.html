@@ -131,6 +131,7 @@
       <h1 class="article__title">「宿題出した？」を毎朝聞いて回らない。提出も朝のきもちも十秒で終わる記録アプリ「宿題ポスト」</h1>
       <p class="article__meta">
         <time datetime="2026-08-23">2026/08/23</time> 現在
+        <span class="article__len">読むのに約 15 分</span>
       </p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://homework-barcordreader.giga-school.com/">宿題ポスト を開く</a>
@@ -138,15 +139,30 @@
       </p>
     </header>
 
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">🏫 はじめに</a></li>
+          <li><a href="#s-2">📱 このアプリでできること</a></li>
+          <li><a href="#s-3">🌙 出していない宿題を、未提出にしない</a></li>
+          <li><a href="#s-4">🤝 気づいたことを、その子への一手までつなぐ</a></li>
+          <li><a href="#s-5">✨ 導入のメリット</a></li>
+          <li><a href="#s-6">🛠️ 【管理者向け】導入手順</a></li>
+          <li><a href="#s-7">📖 【利用者向け】使い方のガイド</a></li>
+          <li><a href="#s-8">📝 まとめ</a></li>
+        </ol>
+      </nav>
+    </details>
     <div class="prose prose--article">
-<h2>🏫 はじめに</h2>
+<h2 id="s-1">🏫 はじめに</h2>
 <p>朝の会が始まるまでの十分間、教室でいちばん時間を取られているのは宿題の確認ではないでしょうか。名簿を片手に「音読カードは出した？」「自主学習をやってきた人」と声をかけて回り、返事のなかった子をもう一度さがしにいく。ようやく全員ぶんの丸が付いたころには、子どもたちの顔をゆっくり見る時間がほとんど残っていない、ということはありませんか。</p>
 <p>それに、確認したいのは宿題だけではないはずです。今朝はいつもより口数が少ない、なんとなく落ち着かない。そういう小さな変化のほうが、その日いちばん大事な情報だったりします。それなのに丸付けに追われているあいだに、いちばん見たいものが後回しになってしまう。この順番を入れかえられないかと考えて作ったのが、宿題ポストです。</p>
 <p>宿題ポストは、宿題の提出確認と朝のきもちの記録を、子ども自身の手で終わらせるためのアプリです。教室のiPadやChromebookで開いておくと、登校した子が自分の出席番号を打ち、今日出すものを選び、今のきもちを選んで席に着きます。先生の手もとには、誰が何を出したか、今日の教室がどんな空気かが、朝の会が始まる時点でそろっています。</p>
 <p><a href="https://homework-barcordreader.giga-school.com/" rel="noopener">https://homework-barcordreader.giga-school.com/</a></p>
 <p>ブラウザで開くだけで使えます。アプリストアからの導入も、学校でのサーバーの準備も要りません。申請を出して、許可を待って、業者に設定してもらって、という工程を一つも挟まずに、明日の朝から試せることを最優先にしました。</p>
 <p>学校で使うものは、ネットワークが不安定なときに動かないと意味がないとも思っていました。教室のWi-Fiは、一学級が一斉に使えば重くなります。だからこのアプリは、一度開いたあとはインターネットにつながっていなくても動くようにしてあります。記録はその端末の中に貯まり、次に開いたときに続きから使えます。回線が切れた瞬間に受付の列が止まる、ということは起きません。</p>
-<h2>📱 このアプリでできること</h2>
+<h2 id="s-2">📱 このアプリでできること</h2>
 <p>まず、子どもがする操作を見てください。教室の端末には、この画面をずっと出しておきます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/01-standby.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/01-standby.png" alt="受付画面" loading="lazy" decoding="async"></a><figcaption>受付画面。出すのは大きなテンキーだけです。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/02-keypad.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/02-keypad.png" alt="出席番号を入れたところ" loading="lazy" decoding="async"></a><figcaption>自分の出席番号を打って、OKを押します。</figcaption></figure>
@@ -165,7 +181,7 @@
 <p>授業中に見つかることも記録できます。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/13-forgotten-form.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/13-forgotten-form.png" alt="忘れ物の記録" loading="lazy" decoding="async"></a></figure>
 <p>児童、教科、時限、忘れた物、授業への影響、その場の対応を、選ぶだけで記録します。忘れた物は筆箱や教科書など九つ、対応は貸し出しや友達と共有など六つを用意しました。授業を止めずに数タップで終わるようにするためです。この記録は子どもを評価するためのものではなく、時間割や持ち物案内を見直すためのものだと考えています。</p>
-<h2>🌙 出していない宿題を、未提出にしない</h2>
+<h2 id="s-3">🌙 出していない宿題を、未提出にしない</h2>
 <p>作っていていちばん気になったのが、提出率という数字の危うさでした。</p>
 <p>行事があった日、テスト前で宿題を出さなかった日。そういう日まで「必要だった回数」に数えてしまうと、提出率は実態よりずっと低く出ます。その数字をもとに「最近がんばっていないね」と声をかけたら、子どもにとってはたまったものではありません。</p>
 <p>そこで、アプリのほうから「この日は宿題を出していなかったのではありませんか」と提案する仕組みを入れました。</p>
@@ -175,7 +191,7 @@
 <p>過去六十日をさかのぼり、その日の提出率がクラス全体の二十パーセントに満たなかった日を自動で洗い出します。画面の例では、六月二日の音読が二十八人中三人、十一パーセントでした。校外学習の日です。この日をおやすみ日にすれば、必要回数から外れます。一件ずつでも、まとめてでも採用できます。</p>
 <p>母数は在籍している児童から、その日の欠席者を引いた人数です。遅刻は登校しているので母数に入れています。週の回数指定の課題は、日によって提出が偏るのがふつうの運用なので、提案は出しません。</p>
 <p>数字を良く見せるための機能ではありません。実際には提出が必要でなかった日を、あとから不当な未提出にしないための機能です。記録が正しくない可能性を、記録する側が先に認めておく。この機能は、そのために付けました。提出率という数字を子どもに見せるなら、そこまでやってからにしたいと思っています。</p>
-<h2>🤝 気づいたことを、その子への一手までつなぐ</h2>
+<h2 id="s-4">🤝 気づいたことを、その子への一手までつなぐ</h2>
 <p>朝のきもちを記録しても、それが引き出しの中で眠っていては意味がありません。記録から次の一手までを、同じ画面の中でつなげたいと思いました。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/14-support-candidates.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/14-support-candidates.png" alt="今日の確認候補" loading="lazy" decoding="async"></a><figcaption>最近の記録と振り返りの期限から、今日確認したい子の候補が並びます。診断でも順位付けでもなく、先生が確認するきっかけを出すだけの表示です。件数だけで決めないでほしいという注意書きも、画面の中に入れました。</figcaption></figure>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/15-support-record.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/15-support-record.png" alt="支援を記録する" loading="lazy" decoding="async"></a><figcaption>記録するときは、確認した事実、学校で試すこと、目指す状態、振り返りの予定日を分けて書きます。分けて書く形にしたのは、「気になる子」で終わらせないためです。何をしたのかが残っていれば、次の担任にも引き継げます。</figcaption></figure>
@@ -185,7 +201,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/18-family.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/18-family.png" alt="家庭連携" loading="lazy" decoding="async"></a></figure>
 <p>家庭とのやり取りも、学校から共有した事実、家庭から聞いたこと、合意した対応、次回の確認日に分けて残します。家庭から聞いたことは校内限定として扱い、保護者へ渡す資料にも子どものタイムラインにも出しません。ここは分けておかないと、いつか事故になると思いました。</p>
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/12-class-insights.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/12-class-insights.png" alt="学級改善" loading="lazy" decoding="async"></a><figcaption>学級全体については、直近十四日を前の十四日と比べて、変化と試せる一手を出します。子どもの名前も個人の順位も出しません。出てきた候補は、期限付きの改善プランに変えて残せます。分析して終わりではなく、小さな改善を積み上げるための画面です。</figcaption></figure>
-<h2>✨ 導入のメリット</h2>
+<h2 id="s-5">✨ 導入のメリット</h2>
 <p>三つのいいことが期待できます。</p>
 <p>一つ目は、朝の十分がまるごと手もとに戻ってくることです。宿題の確認は子どもが自分で終わらせ、先生はその結果を一覧で受けとります。名簿に丸を付けながら教室を歩き回る必要がなくなるので、そのぶんの時間を、朝いちばんに気になった子と話すことに使えます。丸付けをしながらでは、こちらから声をかけにいくのは難しいものです。手が空いていることそのものが、教室では意味を持つのだと思います。</p>
 <p>二つ目は、気づきが記録として残ることです。「今日は元気がなかった気がする」という感覚は、その日のうちに消えてしまいます。四つのボタンで残しておけば、二週間後に振り返ったときに「そういえば先週も同じ選択だった」と気づけます。子どもが自分で選んだ記録なので、先生の主観も混ざりません。学級を持ち上がらない年や、途中で担任が替わる年にも、この記録は残ります。引き継ぎのときに「気になる子です」としか言えなかったところを、いつ何があって何を試したかまで渡せるようになります。</p>
@@ -194,7 +210,7 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/25-report-print.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/25-report-print.png" alt="保護者面談サマリー" loading="lazy" decoding="async"></a></figure>
 <p>保護者へ渡すものには、集計と学校での取り組みだけを載せます。先生の内部の観察メモや振り返りの予定日は自動的に外れます。校内で検討する資料には取扱注意を明示したうえで、事実から次回の確認までを一続きで載せます。渡す相手ごとに何を出さないかを、アプリの側で決めている形です。</p>
 <p>前の晩に手書きで作っていた面談資料が、印刷ボタンひとつになれば、その時間はほかのことに使えると思います。</p>
-<h2>🛠️ 【管理者向け】導入手順</h2>
+<h2 id="s-6">🛠️ 【管理者向け】導入手順</h2>
 <p>情報担当の先生に確認されることを、先に書いておきます。</p>
 <p>はじめに、データがどこにあるかです。名簿も記録も、アプリを開いている端末のブラウザの中だけに保存されます。開発者のサーバーには送られません。名簿に入れるのは名前と出席番号だけで、住所も生年月日も扱いません。外に出るのは、Googleドライブ同期を先生が自分で有効にしたときと、生成AIの機能を設定したうえで送信に同意したときだけです。どちらも既定では止まっています。</p>
 <p>校内のフィルタリングで許可が要るのは、多くても三か所です。文字の書体を読むために fonts.googleapis.com と fonts.gstatic.com を使いますが、ここは塞がれていても、端末に入っている書体で表示されるだけで動作には影響しません。複数の端末でデータを共有したいときだけ、accounts.google.com と www.googleapis.com が必要になります。生成AIの機能を使う場合は、学校または設置者が用意した窓口のアドレスを許可します。この三つ目は学校ごとに違うので、置いた方に聞いてください。何も使わない場合は、最初の二つが塞がれていても困りません。</p>
@@ -209,13 +225,13 @@
 <figure class="prose__fig"><a class="prose__zoom" href="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/23-ai-panel.png"><img src="https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/23-ai-panel.png" alt="AI教師支援" loading="lazy" decoding="async"></a></figure>
 <p>使う場合も、APIキーをこのアプリに入れることはできない作りにしてあります。学校または設置者が管理する窓口を別に置き、鍵はそちらに預けます。送る内容は画面にそのまま出て、先生が確認してチェックを入れるまで送信されません。子どもの名前と連絡先は仮名に置きかえてから送り、実名が残っていれば送信を止めます。出てくるのは下書きだけで、診断も順位付けも自動送信もしません。使う前に、学校や自治体の生成AIの決まりと、保護者への説明を必ず確認してください。</p>
 <p>アプリが新しくなったときは、画面の下に案内が出ます。押すまで切りかわりません。朝の受付中に切りかわって、打ちかけの入力が消えるのを防ぐためです。休み時間か放課後に押してください。</p>
-<h2>📖 【利用者向け】使い方のガイド</h2>
+<h2 id="s-7">📖 【利用者向け】使い方のガイド</h2>
 <p>子どもたちに伝えるのは、この三つだけです。</p>
 <ol><li>教室の端末の前に立ち、自分の出席番号を打ってOKを押す</li><li>今日出したものを選んで、つぎへを押す。出すものが無い日は、何も選ばずにつぎへを押す</li><li>今のきもちを四つから選ぶ</li></ol>
 <p>先生の毎日は、この四つです。</p>
 <ol><li>朝の会のあと、先生用メニューの「今日の校務」を開く</li><li>未確認の子がいたら、ダッシュボードで欠席か遅刻を記録するか、提出のバッジを押して埋める</li><li>授業中に忘れ物があったら、その場で「忘れ物・準備」に選ぶだけの記録を残す</li><li>期限を迎えた振り返りが出ていたら、放課後に開いて結果を書く</li></ol>
 <p>慣れるまでは、一つ目と二つ目だけで十分だと思います。三つ目と四つ目は、続けられそうだと感じてから足してください。</p>
-<h2>📝 まとめ</h2>
+<h2 id="s-8">📝 まとめ</h2>
 <p>このアプリで減らしたかったのは、作業そのものよりも「確認に追われている感じ」でした。</p>
 <p>朝の十分間に名簿とにらめっこしていると、目の前を通り過ぎていく子の表情が見えません。宿題を出したかどうかは、子どもが自分で入力できることです。だとしたら、その十分は先生でなければできないことに使うほうがいいはずです。ICTで効率化すること自体が目的ではなくて、効率化した先に、子どもと向き合う時間が増えることのほうが大事だと思っています。</p>
 <p>機能はずいぶん増えましたが、全部を使ってほしいとは思っていません。受付とダッシュボードだけでも、朝の形は変わります。忘れ物の記録も、支援の振り返りも、家庭との連携も、必要になったときに開けばいい引き出しとして置いてあるだけです。学校のICTは、増えた機能のぶんだけ先生の仕事が増えることがよくあります。そうならないように、使わない機能は目に入らないところで静かにしていてほしいと考えて並べました。</p>

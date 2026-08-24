@@ -43,6 +43,9 @@ jobs:
       # 台帳が壊れると「配る先が0本」でも緑になりうるので、ここで見ておく。
       - name: 配布の台帳と突き合わせの仕組みのテスト
         run: node --test tools/check-distribution.test.mjs
+      # 目次が壊れると、朝の組み直しで 31 本の紹介ページが一斉に同じ形で崩れる
+      - name: 紹介ページの目次と読了時間のテスト
+        run: node --test tools/lib/article-toc.test.mjs
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
