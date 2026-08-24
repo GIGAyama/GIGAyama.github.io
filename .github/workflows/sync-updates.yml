@@ -92,3 +92,17 @@ jobs:
           git add data/apps.json data/articles.json data/devlog.json index.html sitemap.xml sw.js apps/ devlog/
           git commit -m "chore: 更新情報を書き直す（自動）"
           git push
+
+      # ⚠️ コミットの「あと」に見る。ここで止めると、その日の紹介ページの
+      #    組み直しごと落ちてしまう。赤は「やり残しの一覧」として読む
+      #    （配布のとりのこし検査と同じ考え方）。
+      #
+      # なぜここに要るか。この流れは GITHUB_TOKEN で push するので、GitHub の
+      # 仕様で standards-ci が起動しない。新しい紹介記事が入った朝は、共有の絵と
+      # 画面写真の控えがまだ無いまま main に入り、**誰にも気づかれずに main が
+      # 赤い状態**になる。2026-08-24 に quarto でそれが起きた。
+      # 作るには Pillow が要るので、ここでは足りないことを言うだけにする。
+      - name: 共有の絵と画面写真がそろっているか
+        run: |
+          python3 tools/build-og.py --check
+          python3 tools/build-article-images.py --check
