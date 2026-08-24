@@ -8,7 +8,7 @@
 
 import { esc } from './article-md.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
-import { CATEGORY_LABEL, CATEGORY_COLOR, USE_LABEL, gradeLabel } from './categories.mjs';
+import { ACCOUNT_LABEL, CATEGORY_LABEL, CATEGORY_COLOR, STORAGE_LABEL, USE_LABEL, gradeLabel } from './categories.mjs';
 
 /** 記事の題につけてある連載名。ページでは見出しから外し、上に小さく添える。 */
 export const SERIES_RE = /^教室で使えるかもしれないもの作り\s*#\S*\s*/;
@@ -213,6 +213,12 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
       : '',
     ...use.filter((u) => USE_LABEL[u])
       .map((u) => `<a class="chip" href="/?use=${u}#apps">${esc(USE_LABEL[u])}</a>`),
+    /* 学校で使うかを決める人が、いちばん先に確かめること。
+       記事のどこかに書いてはあるが、読まないと分からなかった。 */
+    ACCOUNT_LABEL[app.account]
+      ? `<span class="chip chip--plain">${esc(ACCOUNT_LABEL[app.account])}</span>` : '',
+    STORAGE_LABEL[app.storage]
+      ? `<span class="chip chip--plain">${esc(STORAGE_LABEL[app.storage])}</span>` : '',
   ].filter(Boolean);
 
   return `<!DOCTYPE html>

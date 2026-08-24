@@ -54,3 +54,27 @@ export function gradeLabel(grades) {
     .map((r) => (r.length >= 2 ? `${r[0]}〜${r[r.length - 1]}` : `${r[0]}`))
     .join('・') + '年生';
 }
+
+/**
+ * 導入を決めるときに、いちばん先に確かめられることの表。
+ *
+ * どちらも、紹介記事の本文に書いてあることをそのまま項目にしたもの。
+ * 書いていないアプリには付けない（推測で「アカウント不要」と出すと、
+ * 学校が誤った前提で判断することになる）。
+ *
+ * ⚠️ Google Apps Script で動いているかどうかからは決められない。
+ *    GAS のウェブアプリでも、公開の設定によってはログインが要らない。
+ *    実際、パクパクゴブレットとオンライン原稿用紙 Pro は GAS だが、
+ *    記事には「アカウントもログインもいりません」と書いてある。
+ */
+export const ACCOUNT_LABEL = {
+  none: 'アカウント不要',
+  google: 'Google アカウントが必要',
+  teacher: '先生だけ Google アカウント',
+};
+
+export const STORAGE_LABEL = {
+  device: '記録は端末の中だけ',
+  none: '記録を残さない',
+  google: '記録は Google に保存',
+};
