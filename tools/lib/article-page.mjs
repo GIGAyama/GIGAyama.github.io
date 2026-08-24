@@ -8,7 +8,7 @@
 
 import { esc } from './article-md.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
-import { CATEGORY_LABEL, CATEGORY_COLOR } from './categories.mjs';
+import { CATEGORY_LABEL, CATEGORY_COLOR, USE_LABEL } from './categories.mjs';
 
 /** 記事の題につけてある連載名。ページでは見出しから外し、上に小さく添える。 */
 export const SERIES_RE = /^教室で使えるかもしれないもの作り\s*#\S*\s*/;
@@ -141,9 +141,10 @@ export function relatedOf(slug, all) {
  * @param {object} o
  * @param {{name: string, slug: string, repo: string, publishedAt: string, updatedAt: string}} o.app
  * @param {{title: string, html: string, images: object[], lead: string}} o.article
+ * @param {string[]} [o.use] つかいかたの id。index.html のカードの data-use と同じ
  * @returns {string} ページ 1 枚ぶんの HTML
  */
-export function articlePage({ app, article, related = [], prev = null, next = null }) {
+export function articlePage({ app, article, related = [], prev = null, next = null, use = [] }) {
   const url = `${SITE}/apps/${app.slug}/`;
   const appUrl = `https://${app.slug}.giga-school.com/`;
   const headline = headlineOf(article.title);
@@ -198,6 +199,17 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
   const { html: body, headings } = withAnchors(article.html);
   const toc = tocOf(headings);
   const reading = readingOf(body);
+
+  /* 何の時間に使うアプリなのかを、題のすぐ下で分かるようにする。
+     押すとトップの同じ分類だけが出る。トップの絞り込みと同じ 2 本の軸
+     （教科・分野と、つかいかた）をそのまま使う。 */
+  const tags = [
+    CATEGORY_LABEL[app.category]
+      ? `<a class="chip" href="/?cat=${app.category}#apps">${esc(CATEGORY_LABEL[app.category])}</a>`
+      : '',
+    ...use.filter((u) => USE_LABEL[u])
+      .map((u) => `<a class="chip" href="/?use=${u}#apps">${esc(USE_LABEL[u])}</a>`),
+  ].filter(Boolean);
 
   return `<!DOCTYPE html>
 <html lang="ja">
@@ -256,7 +268,7 @@ ${HEADER}
         <time datetime="${app.updatedAt}">${app.updatedAt.replace(/-/g, '/')}</time> 現在
         <span class="article__len">読むのに約 ${reading.minutes} 分</span>
       </p>
-      <p class="article__actions">
+${tags.length ? `      <p class="article__tags">${tags.join('')}</p>\n` : ''}      <p class="article__actions">
         <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
         <a class="btn btn--ghost" href="https://github.com/GIGAyama/${esc(app.repo)}" rel="noopener">コードを見る</a>
       </p>
@@ -266,12 +278,32 @@ ${toc}    <div class="prose prose--article">
 ${body}
     </div>
 
+    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。position: sticky なので、
+         本文を読み終えるとこの位置に収まり、下の「開く」と重ならない -->
+    <p class="article__sticky">
+      <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
+    </p>
+
     <aside class="article__end">
       <p class="article__end-lead">${esc(app.name)} は、ブラウザだけで動く無償のアプリです。</p>
       <p class="article__actions">
         <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
         <a class="btn btn--ghost" href="/apps/">ほかの紹介を読む</a>
       </p>
+    </aside>
+
+    <!-- だれが書いたのかは、学校で使うかを決めるときの材料になる。
+         自己紹介のページには書いてあるのに、紹介記事からは 1 本もつながっていなかった -->
+    <aside class="article__author">
+      <img class="article__author-face" src="/assets/profile.webp"
+           srcset="/assets/profile-sm.webp 256w, /assets/profile.webp 512w" sizes="72px"
+           width="512" height="512" loading="lazy" decoding="async" alt="">
+      <div>
+        <p class="article__author-name">GIGA山</p>
+        <p class="article__author-role">小学校教員／このサイトのアプリをつくっている人</p>
+        <p class="article__author-text">教室で「これがあれば」と思ったものをつくって、
+        無償で公開しています。<a href="/profile/">自己紹介を読む</a></p>
+      </div>
     </aside>
 ${more}
   </main>

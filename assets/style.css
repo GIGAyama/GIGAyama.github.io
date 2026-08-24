@@ -1897,6 +1897,75 @@
   .article__end-lead { color: var(--ink-2); }
   .article__end .article__actions { margin-block-start: var(--s-4); }
 
+  /* だれが書いたのか。学校で使うかを決めるときの材料になるので、
+     読み終わりに置いて、自己紹介のページへつなぐ */
+  .article__author {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--s-4);
+    align-items: start;
+    max-width: var(--measure-text);
+    margin-block-start: var(--s-5);
+    padding: var(--s-5);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .article__author-face {
+    inline-size: 72px;
+    block-size: 72px;
+    border-radius: 50%;
+    background: var(--surface-2);
+  }
+  .article__author-name { font-weight: 700; }
+  .article__author-role {
+    margin-block-start: 2px;
+    font-size: .8125rem;
+    color: var(--ink-3);
+  }
+  .article__author-text {
+    margin-block-start: var(--s-3);
+    font-size: .875rem;
+    line-height: 1.85;
+    color: var(--ink-2);
+  }
+  @media (max-width: 520px) {
+    .article__author { grid-template-columns: minmax(0, 1fr); }
+    .article__author-face { inline-size: 56px; block-size: 56px; }
+  }
+
+  /* 読んでいるあいだ、下に貼り付く「開く」。
+     ⚠️ 狭い画面だけ。広い画面は窓が高く、上下の「開く」で足りる。
+     position: sticky なので、本文を読み終えるとこの位置に収まって止まり、
+     すぐ下の「開く」と二重に見えることはない。 */
+  .article__sticky { display: none; }
+  @media (max-width: 720px) {
+    .article__sticky {
+      display: block;
+      position: sticky;
+      inset-block-end: 0;
+      z-index: 40;
+      margin-block-start: var(--s-6);
+      padding-block: var(--s-3);
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+    }
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+      .article__sticky {
+        -webkit-backdrop-filter: saturate(180%) blur(14px);
+        backdrop-filter: saturate(180%) blur(14px);
+      }
+    }
+    .article__sticky .btn { inline-size: 100%; }
+  }
+
+  /* 何の時間に使うアプリか。トップの絞り込みと同じ 2 本の軸をそのまま出す */
+  .article__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin-block-start: var(--s-4);
+  }
+  .article__tags .chip { text-decoration: none; padding: 5px 13px; font-size: .8125rem; }
+
   /* ---------- 掲載用の資料（/press/） ----------
      媒体の担当者が拾いに来るページ。読み物ではないので、
      どこに何があるかが見て分かることを優先する。 */
