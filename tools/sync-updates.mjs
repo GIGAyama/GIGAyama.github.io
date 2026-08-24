@@ -13,6 +13,7 @@ import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { CATEGORY_LABEL, CATEGORY_COLOR } from './lib/categories.mjs';
 import { articleIndexPage } from './lib/article-page.mjs';
 import { CATEGORY_BASE, categoryPage, groupByCategory } from './lib/category-page.mjs';
+import { filteringPage } from './lib/filtering-page.mjs';
 import { searchIndex } from './lib/search-index.mjs';
 import { pressPage } from './lib/press-page.mjs';
 
@@ -311,6 +312,9 @@ function sitemap(data, articles = []) {
     entries.push(url(`https://giga-school.com/${CATEGORY_BASE}/${id}/`,
       data.generatedAt, 'weekly', '0.7'));
   });
+  /* 校内のフィルタリングの一覧。「アプリ名 フィルタリング 許可」で探す
+     情報担当の先生の着地点になる */
+  entries.push(url('https://giga-school.com/filtering/', data.generatedAt, 'weekly', '0.6'));
   /* 自己紹介。だれがつくっているのかは、学校で使うかどうかの判断材料になる */
   entries.push(url('https://giga-school.com/profile/', data.generatedAt, 'monthly', '0.5'));
   /* 掲載用の資料。めったに変わらないが、媒体の担当者に見つけてほしい */
@@ -412,6 +416,16 @@ const main = async () => {
       categoryPage({ id, groups, generatedAt: data.generatedAt }));
     cats++;
   }
+
+  /* 校内のフィルタリングに出す「許可するアドレス」の一覧。
+     29 本の記事がそれぞれ書いていたものを 1 枚にまとめる。
+     data/apps.json の hosts から組み立てるので、アプリが増えても書き忘れない。
+     ⚠️ Web アプリだけ。Chrome の拡張機能（kind: tool）は
+        サブドメインから配られないので、許可するアドレスという話にならない。 */
+  const webApps = data.items.filter((a) => a.slug && a.kind === 'app' && a.hidden !== true);
+  await mkdir(new URL('filtering/', ROOT), { recursive: true });
+  await writeFile(new URL('filtering/index.html', ROOT),
+    filteringPage({ apps: webApps, generatedAt: data.generatedAt }));
 
   /* 紹介記事の中を探すための索引。書き出し済みのページから作るので、
      GitHub を見に行かなくても作り直せる。検索の欄に触れるまで読み込まれない。 */
