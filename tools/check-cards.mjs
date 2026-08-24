@@ -16,6 +16,7 @@
  * ここでは index.html だけを読んで確かめる。ブラウザは要らない。
  * ===================================================================== */
 import { readFileSync } from 'node:fs';
+import { CATEGORY_LABEL, USE_LABEL } from './lib/categories.mjs';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
@@ -106,6 +107,24 @@ for (const id of CATS) {
 for (const id of USES) {
   ok(profileCount('use', id) === realUse(id), `つかいかた：${id} は ${realUse(id)} 本`,
      `自己紹介ページには ${profileCount('use', id)} と書いてある`);
+}
+
+/* -----------------------------------------------------------------
+ * 分類の表示名は tools/lib/categories.mjs を正本にして、紹介ページの
+ * チップでも使っている。index.html の選択肢は手で書くので、
+ * 言い回しを変えたときに片方だけ古くなる。ここで突き合わせておく。
+ * --------------------------------------------------------------- */
+console.log('\n■ 分類の表示名が、正本（categories.mjs）と同じ');
+const optionLabel = (name, id) =>
+  selectOf(name).match(new RegExp(`<option value="${id}">([^（<]*)`))?.[1]?.trim();
+
+for (const [id, label] of Object.entries(CATEGORY_LABEL)) {
+  ok(optionLabel('cat', id) === label, `教科・分野：${id} は「${label}」`,
+     `index.html には「${optionLabel('cat', id)}」と書いてある`);
+}
+for (const [id, label] of Object.entries(USE_LABEL)) {
+  ok(optionLabel('use', id) === label, `つかいかた：${id} は「${label}」`,
+     `index.html には「${optionLabel('use', id)}」と書いてある`);
 }
 
 console.log(failed === 0 ? '\n✅ すべて通りました' : `\n❌ ${failed} 件 通りませんでした`);

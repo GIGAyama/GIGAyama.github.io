@@ -133,6 +133,7 @@
         <time datetime="2026-08-23">2026/08/23</time> 現在
         <span class="article__len">読むのに約 15 分</span>
       </p>
+      <p class="article__tags"><a class="chip" href="/?cat=game#apps">ゲーム・対戦</a><a class="chip" href="/?use=minna#apps">みんなでやる</a></p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://ice-slide-puzzle.giga-school.com/">南極スライダー を開く</a>
         <a class="btn btn--ghost" href="https://github.com/GIGAyama/Ice_slide-puzzle" rel="noopener">コードを見る</a>
@@ -241,12 +242,32 @@
 <p>一歩踏み出そうとする先生を、私はいつでも全力で応援しています。</p>
     </div>
 
+    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。position: sticky なので、
+         本文を読み終えるとこの位置に収まり、下の「開く」と重ならない -->
+    <p class="article__sticky">
+      <a class="btn btn--primary" href="https://ice-slide-puzzle.giga-school.com/">南極スライダー を開く</a>
+    </p>
+
     <aside class="article__end">
       <p class="article__end-lead">南極スライダー は、ブラウザだけで動く無償のアプリです。</p>
       <p class="article__actions">
         <a class="btn btn--primary" href="https://ice-slide-puzzle.giga-school.com/">南極スライダー を開く</a>
         <a class="btn btn--ghost" href="/apps/">ほかの紹介を読む</a>
       </p>
+    </aside>
+
+    <!-- だれが書いたのかは、学校で使うかを決めるときの材料になる。
+         自己紹介のページには書いてあるのに、紹介記事からは 1 本もつながっていなかった -->
+    <aside class="article__author">
+      <img class="article__author-face" src="/assets/profile.webp"
+           srcset="/assets/profile-sm.webp 256w, /assets/profile.webp 512w" sizes="72px"
+           width="512" height="512" loading="lazy" decoding="async" alt="">
+      <div>
+        <p class="article__author-name">GIGA山</p>
+        <p class="article__author-role">小学校教員／このサイトのアプリをつくっている人</p>
+        <p class="article__author-text">教室で「これがあれば」と思ったものをつくって、
+        無償で公開しています。<a href="/profile/">自己紹介を読む</a></p>
+      </div>
     </aside>
 
     <nav class="article-more" aria-labelledby="more-title">

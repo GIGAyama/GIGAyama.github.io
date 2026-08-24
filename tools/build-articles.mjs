@@ -114,6 +114,21 @@ async function fetchArticle(repo) {
   return { path: hit.path, markdown: Buffer.from(json.content, 'base64').toString('utf8') };
 }
 
+/**
+ * トップページのカードから、slug ごとの「つかいかた」を読み取る。
+ * @param {string} page index.html の中身
+ * @returns {Map<string, string[]>}
+ */
+function usesOf(page) {
+  const out = new Map();
+  for (const card of page.match(/<li class="card"[^>]*>/g) ?? []) {
+    const slug = card.match(/data-slug="([^"]+)"/)?.[1];
+    if (!slug) continue;
+    out.set(slug, (card.match(/data-use="([^"]*)"/)?.[1] ?? '').split(' ').filter(Boolean));
+  }
+  return out;
+}
+
 const main = async () => {
   const dry = process.argv.includes('--dry-run');
   const data = JSON.parse(await readFile(DATA, 'utf8'));
@@ -206,9 +221,14 @@ const main = async () => {
     .sort((x, y) => (y.publishedAt || '').localeCompare(x.publishedAt || '')
       || String(x.name).localeCompare(String(y.name), 'ja'));
 
+  /* 「つかいかた」はトップページのカードにしか無い（data-use）。
+     data/apps.json には教科・分野しか持たせていないので、ここで読み取って渡す。
+     正本を増やさないための読み取りなので、見つからなければチップを出さないだけ。 */
+  const uses = usesOf(await readFile(PAGE, 'utf8'));
+
   for (const { app, article } of pages) {
     const { related, prev, next } = relatedOf(app.slug, all);
-    const html = articlePage({ app, article, related, prev, next });
+    const html = articlePage({ app, article, related, prev, next, use: uses.get(app.slug) ?? [] });
     if (!dry) {
       const dir = new URL(`${app.slug}/`, APPS_DIR);
       await mkdir(dir, { recursive: true });
