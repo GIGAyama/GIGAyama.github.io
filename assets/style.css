@@ -1970,6 +1970,34 @@
     .article__sticky .btn { inline-size: 100%; }
   }
 
+  /* 分類ページ（/apps/category/<id>/）と、紹介の一覧の見出し */
+  .cat-title {
+    margin-block: var(--s-8) var(--s-4);
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  .cat-title:first-of-type { margin-block-start: var(--s-6); }
+  .cat-apps {
+    display: grid;
+    gap: var(--s-2);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cat-app {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .cat-app__open { font-weight: 700; }
+  .cat-app__note { font-size: .8125rem; color: var(--ink-3); }
+
   /* 何の時間に使うアプリか。トップの絞り込みと同じ 2 本の軸をそのまま出す */
   .article__tags {
     display: flex;

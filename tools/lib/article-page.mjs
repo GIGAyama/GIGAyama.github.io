@@ -339,6 +339,17 @@ ${FOOTER}
  * @param {string} o.generatedAt
  * @returns {string} ページ 1 枚ぶんの HTML
  */
+/** 分野ごとの入口へのリンク。数はアプリの本数（記事の本数ではない）。 */
+function catChips(apps) {
+  const shown = apps.filter((a) => a.hidden !== true && a.slug);
+  return Object.entries(CATEGORY_LABEL).map(([id, label]) => {
+    const n = shown.filter((a) => (CATEGORY_LABEL[a.category] ? a.category : 'other') === id).length;
+    if (!n) return '';
+    return `<a class="chip" href="/apps/category/${id}/">${esc(label)}`
+      + `<span class="count">${n}</span></a>`;
+  }).filter(Boolean).join('');
+}
+
 export function articleIndexPage({ articles, apps, generatedAt }) {
   const url = `${SITE}/apps/`;
   const byslug = new Map(apps.map((a) => [a.slug, a]));
@@ -463,6 +474,12 @@ ${HEADER}
       </p>
     </header>
 
+    <!-- 分類の入口。押すと、その分類のアプリと紹介だけのページに移る。
+         トップの絞り込みと違って JavaScript は要らない -->
+    <h2 class="cat-title">分野から探す</h2>
+    <div class="chips">${catChips(apps)}</div>
+
+    <h2 class="cat-title">新しい順にすべて</h2>
     <ul class="article-list">
 ${rows}
     </ul>
