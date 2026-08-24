@@ -15,7 +15,7 @@
  *
  * ここでは index.html だけを読んで確かめる。ブラウザは要らない。
  * ===================================================================== */
-import { readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { ACCOUNT_LABEL, CATEGORY_LABEL, STORAGE_LABEL, USE_LABEL } from './lib/categories.mjs';
 import { HOST_INFO } from './lib/hosts.mjs';
 
@@ -217,6 +217,67 @@ ok(missingHost.length === 0, '/filtering/ に、要るアドレスがすべて�
 
 console.log(`  info 外部が要らないアプリ ${webApps.filter((a) => !(a.hosts ?? []).length).length} 本`
   + ` / アドレスの種類 ${Object.keys(HOST_INFO).length}`);
+
+/* -----------------------------------------------------------------
+ * 開発記録（/devlog/）。
+ *
+ * ここに出るのはプロンプトの原文である。書いた本人には見えなくなっている
+ * ものが混ざる。セッションのリンクは本人しか開けないので、載っていても
+ * 画面を見て気づけない。**目で気づけないものだけを機械で止める。**
+ *
+ * ⚠️ 公開が 0 本のときは /devlog/ ごと無い。それは壊れではないので通す。
+ *    build-devlog.mjs が「1 本も無ければディレクトリを消す」ようにしてある。
+ * --------------------------------------------------------------- */
+console.log('\n■ 開発記録が正しい');
+const devlogIndexUrl = new URL('../data/devlog.json', import.meta.url);
+const devlog = existsSync(devlogIndexUrl)
+  ? JSON.parse(readFileSync(devlogIndexUrl, 'utf8')).items ?? []
+  : [];
+
+/* フッターは全ページから /devlog/ へ張ってある。0 本のときにディレクトリごと
+   消すと、サイト中のフッターが 404 に飛ぶ。ここは本数に関係なく見る */
+ok(existsSync(new URL('../devlog/index.html', import.meta.url)),
+   '/devlog/index.html がある（フッターの行き先）');
+
+if (!devlog.length) {
+  console.log('  info 公開されている開発記録は 0 本');
+} else {
+  const bySlugAll = new Map(apps.map((a) => [a.slug, a]));
+  const noField = devlog.filter((e) => !e.slug || !e.title || !e.date)
+    .map((e) => e.name ?? '(名前が無い)');
+  ok(noField.length === 0, `記録 ${devlog.length} 本すべてに app / title / date がある`, noField.join(', '));
+
+  /* site はサイト自身の記録の枠。data/apps.json には載せていない
+     （載せるとカードにも分類にも出てしまう）。build-devlog.mjs の SITE_APP と対。 */
+  const unknownApp = [...new Set(devlog.map((e) => e.slug))]
+    .filter((s2) => s2 !== 'site' && !bySlugAll.has(s2));
+  ok(unknownApp.length === 0, 'app が data/apps.json に実在する（site を除く）', unknownApp.join(', '));
+
+  /* 出してはいけないもの。組んだあとの HTML を見る。
+     Markdown の側で消し忘れても、ここで最後に止まる */
+  const pages = [];
+  const walk = (dir) => {
+    for (const ent of readdirSync(dir, { withFileTypes: true })) {
+      if (ent.isDirectory()) walk(new URL(`${ent.name}/`, dir));
+      else if (ent.name === 'index.html') pages.push(new URL(ent.name, dir));
+    }
+  };
+  const devlogDir = new URL('../devlog/', import.meta.url);
+  if (existsSync(devlogDir)) walk(devlogDir);
+  ok(pages.length > 0, `/devlog/ のページが ${pages.length} 枚ある`);
+
+  const leaked = pages.filter((u) => /claude\.ai\/code\/session_|\bsession_[0-9A-Za-z]{6,}/
+    .test(readFileSync(u, 'utf8'))).map((u) => u.pathname.split('/').slice(-3, -1).join('/'));
+  ok(leaked.length === 0, 'セッションのリンクが 1 件も無い', leaked.join(', '));
+
+  const mailed = pages.filter((u) => /\b[\w.+-]+@[\w.-]+\.[a-z]{2,}\b/i
+    .test(readFileSync(u, 'utf8').replace(/<[^>]+>/g, ' ')))
+    .map((u) => u.pathname.split('/').slice(-3, -1).join('/'));
+  ok(mailed.length === 0, 'メールアドレスが 1 件も無い', mailed.join(', '));
+
+  const appCount = new Set(devlog.map((e) => e.slug)).size;
+  console.log(`  info 記録 ${devlog.length} 本 / アプリ ${appCount} 本`);
+}
 
 /* -----------------------------------------------------------------
  * 導入を決めるための項目（account / storage）。

@@ -55,6 +55,7 @@ export const FOOTER = `  <footer class="site-footer">
         <a href="/#about">このサイトについて</a>
         <a href="/#contact">お問い合わせ</a>
         <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
         <a href="/press/">掲載用の資料</a>
         <a href="/feed.xml">更新を受け取る（RSS）</a>
       </nav>
@@ -148,7 +149,7 @@ export function relatedOf(slug, all) {
  * @param {string} [o.changelog] アプリのリポジトリの docs/CHANGELOG.md。無ければ空文字
  * @returns {string} ページ 1 枚ぶんの HTML
  */
-export function articlePage({ app, article, related = [], prev = null, next = null, use = [], ogCard = '', changelog = '' }) {
+export function articlePage({ app, article, related = [], prev = null, next = null, use = [], ogCard = '', changelog = '', devlogCount = 0 }) {
   const url = `${SITE}/apps/${app.slug}/`;
   const appUrl = `https://${app.slug}.giga-school.com/`;
   const headline = headlineOf(article.title);
@@ -198,6 +199,15 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
       },
     ],
   };
+
+  /* 記録が 0 本のアプリでは、まるごと出さない。空の入口は行き止まりになる */
+  const devlogLink = devlogCount > 0 ? `    <div class="article__devlog">
+      <p class="article__devlog-lead">このアプリを、生成 AI を使ってどう作ったかの記録が ${devlogCount} 本あります。
+        出したプロンプトをそのまま載せています。</p>
+      <p><a class="btn btn--ghost" href="/devlog/${app.slug}/">${esc(app.name)} のつくり方を読む</a></p>
+    </div>
+
+` : '';
 
   const more = moreNav({ related, prev, next });
 
@@ -309,7 +319,13 @@ ${changelogSection(changesOf(changelog), esc)}    <!-- 狭い画面でだけ、�
       </p>
     </aside>
 
-    <!-- だれが書いたのかは、学校で使うかを決めるときの材料になる。
+    <!-- 開発記録（/devlog/）への入口。記録のあるアプリにだけ出る。
+         ⚠️ ここは先生向けではない。導入を決める材料の列に混ぜないよう、
+            「開く」と「ほかの紹介」より下、自己紹介より上に置いてある。
+         ⚠️ 本数は data/devlog.json から来る。書き出すのは build-devlog.mjs で、
+            朝の流れでは build-articles.mjs より先に走らせる。順を入れ替えると、
+            公開した当日だけ本数が 1 日ぶん古くなる。 -->
+${devlogLink}    <!-- だれが書いたのかは、学校で使うかを決めるときの材料になる。
          自己紹介のページには書いてあるのに、紹介記事からは 1 本もつながっていなかった。
          ⚠️ aside にしない。すぐ上の .article__end も aside で、名前のない
             complementary の目印が 2 つ並ぶと、読み上げで見分けがつかなくなる -->

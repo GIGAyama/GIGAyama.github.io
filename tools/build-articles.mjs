@@ -258,6 +258,16 @@ const main = async () => {
      正本を増やさないための読み取りなので、見つからなければチップを出さないだけ。 */
   const uses = usesOf(await readFile(PAGE, 'utf8'));
 
+  /* 開発記録の本数。記事の末尾に「このアプリのつくり方」を出すかの判断に使う。
+     ⚠️ data/devlog.json は tools/build-devlog.mjs が書く。朝の流れでは
+        こちらより先に走らせてある。まだ無くても記事は組める（入口が出ないだけ）。 */
+  const devlogCounts = new Map();
+  try {
+    for (const e of JSON.parse(await readFile(new URL('data/devlog.json', ROOT), 'utf8')).items ?? []) {
+      devlogCounts.set(e.slug, (devlogCounts.get(e.slug) ?? 0) + 1);
+    }
+  } catch { /* まだ 1 本も公開していない */ }
+
   for (const { app, article } of pages) {
     const { related, prev, next } = relatedOf(app.slug, all);
     /* 記事の画面写真がサブドメインから読めないアプリのために、
@@ -268,7 +278,8 @@ const main = async () => {
     try { await access(card); ogCard = `https://giga-school.com/assets/og/${app.slug}.jpg`; }
     catch (e) { /* まだ作っていない */ }
     const html = articlePage({ app, article, related, prev, next,
-      use: uses.get(app.slug) ?? [], ogCard, changelog: await fetchChangelog(app.repo) });
+      use: uses.get(app.slug) ?? [], ogCard, changelog: await fetchChangelog(app.repo),
+      devlogCount: devlogCounts.get(app.slug) ?? 0 });
     if (!dry) {
       const dir = new URL(`${app.slug}/`, APPS_DIR);
       await mkdir(dir, { recursive: true });

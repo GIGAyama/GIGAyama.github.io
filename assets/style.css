@@ -1923,6 +1923,66 @@
   /* 最近の更新。アプリのリポジトリの docs/CHANGELOG.md を書いたときだけ出る。
      「まだ手入れされている」ことが、使い続けてよいかの判断材料になる */
 
+
+  /* ---------- 開発記録の一覧（/devlog/） ---------- */
+  /* 紹介の一覧（.article-item）とは分ける。あちらは画面写真つきのカードだが、
+     開発記録に画面写真は無い。題と日付と 1〜2 文だけの、読む順に並べた行にする。 */
+  .devlog-list { list-style: none; margin: var(--s-4) 0 var(--s-7); padding: 0; }
+  .devlog-item {
+    padding-block: var(--s-4);
+    border-block-start: 1px solid var(--line);
+  }
+  .devlog-item:last-child { border-block-end: 1px solid var(--line); }
+  .devlog-item__top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin: 0 0 4px;
+    font-size: .8125rem;
+    color: var(--ink-2);
+  }
+  .devlog-item__app { font-weight: 700; color: var(--ink); }
+  .devlog-item__title { margin: 0 0 6px; font-size: 1.0625rem; line-height: 1.5; }
+  .devlog-item__title a { color: var(--ink); text-decoration: none; }
+  .devlog-item__title a:hover { color: var(--brand); text-decoration: underline; }
+  .devlog-item__lead { margin: 0; font-size: .9375rem; color: var(--ink-2); line-height: 1.75; }
+
+  /* 記事の下。もとになった変更と、前後の記録 */
+  .devlog__source {
+    margin-block: var(--s-5);
+    padding: var(--s-4);
+    background: var(--surface-2);
+    border-radius: var(--r-2);
+    font-size: .9375rem;
+    color: var(--ink-2);
+  }
+  .devlog__nav {
+    display: grid;
+    gap: var(--s-3);
+    margin-block: var(--s-5);
+  }
+  @media (min-width: 640px) { .devlog__nav { grid-template-columns: 1fr 1fr; } }
+  .devlog__nav-item {
+    display: block;
+    padding: var(--s-4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-2);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: .9375rem;
+    line-height: 1.6;
+  }
+  .devlog__nav-item:hover { border-color: var(--brand); }
+  .devlog__nav-item span {
+    display: block;
+    margin-block-end: 4px;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+  }
+  .devlog__back { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+
   /* ---------- 校内のフィルタリングの一覧（/filtering/） ---------- */
   /* ⚠️ 表は横に長い。ページ全体に横スクロールを出さないよう、
         この枠の中だけで流す（ヒートマップと同じ考え方）。 */
@@ -2037,6 +2097,24 @@
     .article__author { grid-template-columns: minmax(0, 1fr); }
     .article__author-face { inline-size: 56px; block-size: 56px; }
   }
+
+  /* 紹介ページの末尾に出る、開発記録への入口。
+     ⚠️ 自己紹介の枠と並ぶので、同じ枠線・同じ角丸にそろえる。
+        ここだけ目立たせると、先生向けの導線に見えてしまう。 */
+  .article__devlog {
+    max-width: var(--measure-text);
+    margin-block-start: var(--s-5);
+    padding: var(--s-5);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .article__devlog-lead {
+    margin: 0 0 var(--s-4);
+    font-size: .9375rem;
+    line-height: 1.85;
+    color: var(--ink-2);
+  }
+  .article__devlog p:last-child { margin: 0; }
 
   /* 読んでいるあいだ、下に貼り付く「開く」。
      ⚠️ 狭い画面だけ。広い画面は窓が高く、上下の「開く」で足りる。

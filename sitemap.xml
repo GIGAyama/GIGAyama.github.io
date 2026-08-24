@@ -74,6 +74,24 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://giga-school.com/devlog/site/2026-08-24-filtering-list/</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://giga-school.com/devlog/</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://giga-school.com/devlog/site/</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://giga-school.com/profile/</loc>
     <lastmod>2026-08-24</lastmod>
     <changefreq>monthly</changefreq>
