@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>開発記録｜GIGA school</title>
+  <meta name="description" content="小学校の教員が、生成 AI を使って学校向けの Web アプリを作った記録です。出したプロンプトをそのまま載せているので、同じことを試せます。">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://giga-school.com/devlog/">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="開発記録">
+  <meta property="og:description" content="小学校の教員が、生成 AI を使って学校向けの Web アプリを作った記録です。出したプロンプトをそのまま載せているので、同じことを試せます。">
+  <meta property="og:url" content="https://giga-school.com/devlog/">
+  <meta property="og:image" content="https://giga-school.com/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap article">
+    <nav class="crumbs" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">開発記録</span>
+    </nav>
+
+    <header class="article__head">
+      <h1 class="article__title">開発記録</h1>
+      <p class="article__meta">記録 1 本 ・ アプリ 1 本</p>
+    </header>
+
+    <div class="prose prose--article">
+      <p>学校向けの Web アプリを、生成 AI を使って作っています。ここはその記録です。
+        出したプロンプトをそのまま載せているので、同じことを自分のリポジトリで試せます。</p>
+      <p>うまくいったことだけでなく、行き止まりも書いています。
+        そちらのほうが、次に同じことをする人の役に立つと思うからです。</p>
+      <p>アプリそのものを探しに来た方は<a href="/">アプリの一覧</a>へ、
+        使い方を知りたい方は<a href="/apps/">紹介の記事</a>へどうぞ。</p>
+    </div>
+
+    <h2 class="cat-title">アプリごとに読む</h2>
+    <ul class="cat-apps">
+      <li class="cat-app">
+        <a class="cat-app__open" href="/devlog/site/">giga-school.com</a>
+        <span class="cat-app__note">1 本</span>
+      </li>
+    </ul>
+
+    <h2 class="cat-title">新しい順に読む</h2>
+    <ul class="devlog-list">
+        <li class="devlog-item">
+          <p class="devlog-item__top"><span class="devlog-item__app">giga-school.com</span><time datetime="2026-08-24">2026/08/24</time></p>
+          <h3 class="devlog-item__title"><a href="/devlog/site/2026-08-24-filtering-list/">記事の文章から拾おうとして、31 本のうち 22 本で何も取れなかった</a></h3>
+          <p class="devlog-item__lead">giga-school.com の紹介記事は 31 本あります。そのうち 29 本が、校内のフィルタリングの話を書いていました。「このアドレスを許可してください」という案内です。</p>
+        </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/profile/">自己紹介</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+        <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
+        <a href="/press/">掲載用の資料</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -31,6 +31,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/sync-updates.mjs --fetch
 
+      # 各アプリのリポジトリにある docs/devlog/*.md を取ってきて、
+      # giga-school.com/devlog/ に組み直す。published: true のものだけ出る。
+      # ⚠️ 紹介ページより先に走らせる。紹介ページの末尾に出す
+      #    「このアプリのつくり方（記録 N 本）」が data/devlog.json を読むため。
+      #    順を入れ替えると、公開した当日だけ本数が 1 日ぶん古くなる。
+      - name: 開発記録を組み直す
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/build-devlog.mjs
+
       # 各アプリのリポジトリにある note 記事を取ってきて、
       # giga-school.com/apps/<slug>/ の紹介ページとして書き出す。
       # 日付を先に取り直しておくのは、ページに出す「最終更新」に使うため。
@@ -72,13 +82,13 @@ jobs:
 
       - name: 変わっていたらコミットする
         run: |
-          if git diff --quiet -- data/apps.json data/articles.json index.html sitemap.xml sw.js apps/ \
-             && [ -z "$(git status --porcelain -- apps/)" ]; then
+          if git diff --quiet -- data/apps.json data/articles.json data/devlog.json index.html sitemap.xml sw.js apps/ devlog/ \
+             && [ -z "$(git status --porcelain -- apps/ devlog/)" ]; then
             echo "変更なし。コミットしない。"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/apps.json data/articles.json index.html sitemap.xml sw.js apps/
+          git add data/apps.json data/articles.json data/devlog.json index.html sitemap.xml sw.js apps/ devlog/
           git commit -m "chore: 更新情報を書き直す（自動）"
           git push

@@ -288,7 +288,7 @@ ${body}
 `;
 }
 
-function sitemap(data, articles = []) {
+function sitemap(data, articles = [], devlog = []) {
   const url = (loc, lastmod, changefreq, priority) =>
     `  <url>
     <loc>${loc}</loc>
@@ -315,6 +315,20 @@ function sitemap(data, articles = []) {
   /* 校内のフィルタリングの一覧。「アプリ名 フィルタリング 許可」で探す
      情報担当の先生の着地点になる */
   entries.push(url('https://giga-school.com/filtering/', data.generatedAt, 'weekly', '0.6'));
+  /* 開発記録。読み手が違う（生成 AI でアプリを作っている人）ので、
+     アプリの一覧より低い優先度にしてある。
+     ⚠️ 公開されている記事だけを載せる。下書きを載せると 404 が並ぶ */
+  for (const e of devlog) {
+    entries.push(url(`https://giga-school.com/devlog/${e.slug}/${e.name}/`, e.date, 'yearly', '0.4'));
+  }
+  /* /devlog/ は 0 本でも存在する。全ページのフッターが張ってあるので、
+     build-devlog.mjs が空の入口だけは必ず書く（あちらのコメントと対）。 */
+  entries.push(url('https://giga-school.com/devlog/', data.generatedAt, 'weekly', '0.5'));
+  if (devlog.length) {
+    for (const slug of new Set(devlog.map((e) => e.slug))) {
+      entries.push(url(`https://giga-school.com/devlog/${slug}/`, data.generatedAt, 'monthly', '0.4'));
+    }
+  }
   /* 自己紹介。だれがつくっているのかは、学校で使うかどうかの判断材料になる */
   entries.push(url('https://giga-school.com/profile/', data.generatedAt, 'monthly', '0.5'));
   /* 掲載用の資料。めったに変わらないが、媒体の担当者に見つけてほしい */
@@ -383,8 +397,13 @@ const main = async () => {
   try {
     articles = JSON.parse(await readFile(ARTICLES, 'utf8')).items ?? [];
   } catch (e) { /* data/articles.json が無い。アプリの行だけで組む */ }
+  /* 開発記録。tools/build-devlog.mjs が書き出す。公開 0 本のこともある */
+  let devlog = [];
+  try {
+    devlog = JSON.parse(await readFile(new URL('data/devlog.json', ROOT), 'utf8')).items ?? [];
+  } catch (e) { /* data/devlog.json が無い。開発記録なしで組む */ }
 
-  await writeFile(MAP, sitemap(data, articles));
+  await writeFile(MAP, sitemap(data, articles, devlog));
   await writeFile(FEED, feed(data, articles));
 
   /* 紹介ページの一覧（/apps/）。記事が 1 本も無いときは作らない。

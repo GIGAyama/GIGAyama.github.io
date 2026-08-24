@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>記事の文章から拾おうとして、31 本のうち 22 本で何も取れなかった｜GIGA school</title>
+  <meta name="description" content="giga-school.com の紹介記事は 31 本あります。そのうち 29 本が、校内のフィルタリングの話を書いていました。「このアドレスを許可してください」という案内です。">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://giga-school.com/devlog/site/2026-08-24-filtering-list/">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="記事の文章から拾おうとして、31 本のうち 22 本で何も取れなかった">
+  <meta property="og:description" content="giga-school.com の紹介記事は 31 本あります。そのうち 29 本が、校内のフィルタリングの話を書いていました。「このアドレスを許可してください」という案内です。">
+  <meta property="og:url" content="https://giga-school.com/devlog/site/2026-08-24-filtering-list/">
+  <meta property="og:image" content="https://giga-school.com/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap article">
+    <nav class="crumbs" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/devlog/">開発記録</a>
+      <span aria-hidden="true">›</span>
+      <a href="/devlog/site/">giga-school.com</a>
+    </nav>
+
+    <header class="article__head">
+      <h1 class="article__title">記事の文章から拾おうとして、31 本のうち 22 本で何も取れなかった</h1>
+      <p class="article__meta"><time datetime="2026-08-24">2026/08/24</time><span aria-hidden="true"> ・ </span><a href="/devlog/site/">giga-school.com</a><span class="article__len">読むのに約 5 分</span></p>
+    </header>
+
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">何をしようとしたか</a></li>
+          <li><a href="#s-2">出したプロンプト</a></li>
+          <li><a href="#s-3">うまくいかなかったこと</a></li>
+          <li><a href="#s-4">新しく知ったこと</a></li>
+          <li><a href="#s-5">できあがったもの</a></li>
+          <li><a href="#s-6">次に同じことをする人へ</a></li>
+        </ol>
+      </nav>
+    </details>
+    <div class="prose prose--article">
+<h2 id="s-1">何をしようとしたか</h2>
+<p>giga-school.com の紹介記事は 31 本あります。そのうち 29 本が、校内のフィルタリングの話を 書いていました。「このアドレスを許可してください」という案内です。</p>
+<p>ただし、それぞれの記事の中だけでした。一覧はどこにもありません。</p>
+<p>先生が情報担当に申請を出すには、38 本の記事を開いて拾い集めることになります。しかも アプリごとに要るものが違う。書体だけのもの、Google のログインが要るもの、端末どうしを つなぐもの。集め落とすと、許可は通ったのにアプリが開かない、という形になります。</p>
+<p>これを 1 枚にまとめ、印刷して情報担当に渡せる形にしたいと思いました。 作りはじめる前に数えたところ、フィルタリングに触れている記事は 29 本。 一覧のあるページは 0 枚でした。</p>
+<h2 id="s-2">出したプロンプト</h2>
+<p>材料はもう記事の中にあると思っていたので、はじめはこう出しました。リポジトリを 読ませたあとです。</p>
+<pre tabindex="0"><code>31 本の紹介記事から、フィルタリングで許可が要るアドレスを拾って、
+アプリごとの一覧ページを作って。</code></pre>
+<p>これで作ったものは使えませんでした。理由は次の節に書きます。</p>
+<p>作り直すときに出したのがこれです。</p>
+<pre tabindex="0"><code>記事の文章からは拾わないで。アプリが実際に読み込んでいるものを見て。
+配られるファイルの中の script src、link rel=stylesheet、img の src、
+CSS の url()、fetch、それから CSP の宣言も見る。</code></pre>
+<p>これは効きました。書いてあることではなく、動いているものを見る。今回いちばん 再利用できる言い回しはここだと思います。</p>
+<p>もうひとつ、途中で足したのがこれです。</p>
+<pre tabindex="0"><code>a href は数えないで。遷移であってブラウザは取りに行かない。
+og:image と canonical も、SNS のクローラ向けなので数えない。</code></pre>
+<p>数え方の線引きは、頼まなければ勝手には引かれません。何を数えないかを言うほうが、 何を数えるかを言うより効きました。</p>
+<p>効かなかったものも書いておきます。途中でこう出しています。</p>
+<pre tabindex="0"><code>アプリごとに、フィルタリングで許可が要るアドレスを調べて一覧にして。</code></pre>
+<p>これだと調べ方が指定されていないので、また記事の文章を読みに行きました。 「調べて」は、どこを見るかを決めていない頼み方です。見る場所を先に決めて渡すと、 同じ作業でも結果が変わりました。</p>
+<p>もうひとつ、最後に出したのがこれです。</p>
+<pre tabindex="0"><code>一覧はページに直接書かないで。data/apps.json から組み立てて、
+ずれていたら検査で落ちるようにして。</code></pre>
+<p>手で書いた一覧はアプリが増えたときに古くなります。データから組み立てておくと、 書き忘れが検査で止まります。</p>
+<h2 id="s-3">うまくいかなかったこと</h2>
+<p>最初のプロンプトで作った一覧は、31 本のうち 22 本から何も取れていませんでした。 拾えたのは 9 本だけです。</p>
+<pre tabindex="0"><code>kana-master      fonts.googleapis.com, fonts.gstatic.com, gigayama.github.io
+keisan-block     keisan-block.giga-school.com
+qalc             0.peerjs.com, stun.l.google.com, us-0.turn.peerjs.com
+（残り 22 本は空）</code></pre>
+<p>記事の書き方は本ごとに違います。文章から拾う方法では取りこぼす。しかも記事は 毎朝アプリ側の Markdown から組み直されるので、言い回しが変わると翌日から中身がずれます。 拾えたはずのものが黙って消える。これがいちばん困る壊れ方でした。</p>
+<p>そこで、配信されるファイルを直接読む方法に変えました。ここで 2 回外しました。</p>
+<p>ひとつめ。ファイル名をホスト名として数えていました。</p>
+<pre tabindex="0"><code>jidosha-zukan  app.js, car-art.js, car3d.css, cars-data.js, index.css,
+               kansatsu.js, kansatsu3d.js, parts-data.js, ...</code></pre>
+<p><code>app.js</code> が <code>[a-z0-9.-]+\.[a-z]{2,}</code> を満たしてしまいます。拡張子を除く条件を足して直しました。</p>
+<p>ふたつめが今回いちばんの見落としです。道徳ノートの一覧に <code>www.google.com</code> が出てきました。 おかしいと思って中を見ると、これでした。</p>
+<pre tabindex="0"><code>UrlFetchApp.fetch(&quot;https://www.google.com&quot;);</code></pre>
+<p>Google Apps Script の疎通確認でした。このコードが動くのは Google のサーバーの中です。 教室の端末からは出て行かないので、校内のフィルタリングには関係しません。これを載せると、 先生に要らないアドレスまで申請させることになります。<code>.gs</code> を走査の対象から外しました。</p>
+<p>逆に足りなかったものもあります。まなびクエストは Google Apps Script で動いていますが、 <code>script.google.com</code> が出てきませんでした。iframe の行き先を実行時に決めているので、 配られるファイルの中に文字列として存在しません。走査だけでは足りず、CSP の宣言も 見ることにしました。それでも出ないアプリが 1 本残ったので、そこは手で足しています。</p>
+<h2 id="s-4">新しく知ったこと</h2>
+<p>書いてあることと、動いていることは別物でした。29 本の記事が親切に書いていたので、 そこから拾えば済むと思い込みます。実際には 22 本で何も取れず、しかも拾えた 9 本も 記事の言い回し次第で明日には変わる。</p>
+<p>一次情報がどこにあるかを先に決める。今回なら、配られるファイルと CSP です。</p>
+<p>証拠は 2 つ以上そろえないと片方に落ちます。走査だけだと GAS のアプリが抜け、 CSP だけだと実行時に組み立てる通信が抜けた。どちらか片方で足りると思ったのが 間違いで、両方見てはじめて全部そろいます。</p>
+<p>「サーバー側で動く」と「端末から出て行く」は違う。<code>UrlFetchApp</code> で 1 回外しています。 外部への通信を数えるときは、誰の環境から出て行くのかを毎回確かめる必要があります。 学校のフィルタリングに関係するのは、端末から出て行くものだけです。</p>
+<p>数える対象を決めるときは、何を数えないかを先に言うほうが早く決まりました。 <code>a href</code> を数えない、<code>og:image</code> を数えない、<code>.gs</code> を見ない。数える側の条件は いくらでも広げられますが、除く側の条件は理由とセットでしか書けません。 理由が言えないものは、そもそも境界が決まっていないということでした。</p>
+<p>もうひとつ、生成した一覧を手で確かめる方法も変わりました。38 本を目で見ても、 足りないものには気づけません。載っているものが正しいかは見て分かりますが、 載っていないものは画面に出ないからです。データから組み立てて検査で突き合わせる 形にしたのは、この見えなさへの対処でもありました。</p>
+<h2 id="s-5">できあがったもの</h2>
+<p>38 本ぶんの一覧ができました。外部が一切要らないアプリが 5 本、いちばん多いのは書体で 30 本、ただしこれは塞いでも動きます。アドレスの種類は 23 でした。</p>
+<p>検査を 5 つ足しています。とくに「説明の書かれていないアドレスが無い」は、知らない アドレスを黙って一覧に載せないためのものです。アドレスが増えたのに説明を書き忘れると、 先生は用途の分からない申請を出すことになります。</p>
+<p>横に流れる表には <code>tabindex=&quot;0&quot;</code> と <code>role=&quot;region&quot;</code> を付けました。付けないと キーボードだけで使う人が表の中を動かせません。これは axe が止めてくれています。</p>
+<h2 id="s-6">次に同じことをする人へ</h2>
+<ul><li>文章から拾う仕組みは作らない。書き方が変わると黙って壊れる</li><li>外部への通信を数えるときは、サーバー側で動くものを外す。GAS の <code>UrlFetchApp</code> が典型</li><li>走査と宣言（CSP）の両方を見る。片方では必ず落ちる</li><li>ファイル名がホスト名の形に当たる。<code>app.js</code> は <code>[a-z0-9.-]+\.[a-z]{2,}</code> を満たす</li><li>一覧を人手で書かない。データから組み立てて、ずれを検査で止める</li><li>「調べて」と頼まない。どこを見るかを先に決めて渡す</li><li>横に流れる表には <code>tabindex=&quot;0&quot;</code> を付ける。無いとキーボードで中を動かせない</li></ul>
+<p>いちばん効いたのは、記事を読むのをやめて配信物を読むことに切り替えた一手です。 遠回りに見えて、結果としては早く終わりました。</p>
+    </div>
+
+      <p class="devlog__source">
+        この記事のもとになった変更は
+        <a href="https://github.com/GIGAyama/GIGAyama.github.io/pull/78">GIGAyama.github.io #78</a>
+        です。
+      </p>
+    <div class="article__end">
+      <p class="devlog__back">
+        <a class="btn btn--primary" href="/">アプリの一覧を見る</a>
+        
+        <a class="btn btn--ghost" href="/devlog/">ほかの開発記録</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/profile/">自己紹介</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+        <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
+        <a href="/press/">掲載用の資料</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>

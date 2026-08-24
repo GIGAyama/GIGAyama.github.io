@@ -204,7 +204,10 @@ export function renderArticle(markdown, { imageUrl }) {
         return;
 
       case 'code':
-        out.push(`<pre><code>${esc(b.lines.join('\n'))}</code></pre>`);
+        /* ⚠️ tabindex="0" が要る。長い行があると <pre> は横に流れるので、
+           付けないとキーボードだけで使う人が中を動かせない（axe が拾う）。
+           開発記録はプロンプトを囲みで出すので、ここが効く。 */
+        out.push(`<pre tabindex="0"><code>${esc(b.lines.join('\n'))}</code></pre>`);
         return;
     }
   });
