@@ -55,6 +55,10 @@ jobs:
       # 索引が静かに空になっても、画面には「見つかりません」と出るだけで気づけない
       - name: 記事の中を探す索引のテスト
         run: node --test tools/lib/search-index.test.mjs
+      # 共有されたときの絵。足りないと、そのアプリだけ中身と関係ない絵で貼られる。
+      # 見るだけなので Pillow は要らない
+      - name: 共有の絵がそろっているか
+        run: python3 tools/build-og.py --check
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査

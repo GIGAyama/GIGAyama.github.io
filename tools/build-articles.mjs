@@ -39,7 +39,7 @@
  * 確かめて決めておけば、直したその翌朝から自動で戻る。
  */
 
-import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, rm, access } from 'node:fs/promises';
 import { renderArticle } from './lib/article-md.mjs';
 import { articlePage, headlineOf, linkCards, relatedOf, summaryOf } from './lib/article-page.mjs';
 
@@ -228,7 +228,15 @@ const main = async () => {
 
   for (const { app, article } of pages) {
     const { related, prev, next } = relatedOf(app.slug, all);
-    const html = articlePage({ app, article, related, prev, next, use: uses.get(app.slug) ?? [] });
+    /* 記事の画面写真がサブドメインから読めないアプリのために、
+       カードのサムネイルから作った絵を置いてある（tools/build-og.py）。
+       あれば使う。無ければサイト共通の絵に落ちる（これまでどおり）。 */
+    const card = new URL(`assets/og/${app.slug}.jpg`, ROOT);
+    let ogCard = '';
+    try { await access(card); ogCard = `https://giga-school.com/assets/og/${app.slug}.jpg`; }
+    catch (e) { /* まだ作っていない */ }
+    const html = articlePage({ app, article, related, prev, next,
+      use: uses.get(app.slug) ?? [], ogCard });
     if (!dry) {
       const dir = new URL(`${app.slug}/`, APPS_DIR);
       await mkdir(dir, { recursive: true });
