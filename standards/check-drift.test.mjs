@@ -34,6 +34,9 @@ function fakeFs(tree) {
 
 const STANDARDS = {
   lib: { 'giga-v5-checks.mjs': '', 'giga-v5-checks.test.mjs': '', 'run-giga-checks.mjs': '' },
+  // スキルの中には capture.mjs / serve.mjs のような、どこにでもある名前が入っている。
+  // basename の索引に入れると、関係のないファイルが「未登録コピー」に見える
+  skills: { 'note-article': { scripts: { 'serve.mjs': '', 'capture.mjs': '' } } },
   gas: { 'Gemini.gs': '', 'gas-deploy.mjs': '', 'deploy.yml': '' },
   records: { 'records-export.js': '', 'records-export.html': '' },
   // docs には読み物のほかに例示の HTML が置かれることがある。
@@ -43,6 +46,22 @@ const STANDARDS = {
 };
 
 // ── 正本の索引 ──────────────────────────────────────────────
+
+test('skills/ は索引に入れない（どこにでもある名前で誤検知するため）', () => {
+  // ⚠️ 2026-08-25 に実測した誤検知。note-article スキルに serve.mjs を入れたところ、
+  //    KANA_Master の tools/serve.mjs が「未登録のコピー」として 4 本で出た。
+  //    スキルは dirs と unregisteredSkills がパスで見るので、名前から探す必要がない
+  const { readdir, stat } = fakeFs({ s: STANDARDS });
+  const index = canonicalIndex('s', readdir, stat);
+  assert.equal(index.get('serve.mjs'), undefined);
+  assert.equal(index.get('capture.mjs'), undefined);
+});
+
+test('skills/ を外しても、ほかの正本は索引に残る', () => {
+  const { readdir, stat } = fakeFs({ s: STANDARDS });
+  const index = canonicalIndex('s', readdir, stat);
+  assert.equal(index.get('giga-v5-checks.mjs'), 'lib/giga-v5-checks.mjs');
+});
 
 test('配るファイルだけを索引にする', () => {
   const { readdir, stat } = fakeFs({ s: STANDARDS });
