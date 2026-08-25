@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>自己紹介｜GIGA school</title>
-  <meta name="description" content="小学校の教員 GIGA山（GIGAyama）の自己紹介です。子どもが自分で学べるようにする道具と、先生の手を空ける道具を、Google Apps Script と Web アプリでつくって無償で公開しています。">
+  <meta name="description" content="小学校の教員 GIGA山（GIGAyama）の自己紹介です。1996 年生まれ、京都育ち。大学で国語を学び、いまは小学校で働きながら、アドレスを開くだけで動く Web アプリと Google Apps Script の道具をつくって無償で公開しています。">
   <meta name="author" content="GIGA山（GIGAyama）">
   <meta name="theme-color" content="#ffffff">
   <meta name="color-scheme" content="light dark">
@@ -20,7 +20,7 @@
   <meta property="og:site_name" content="GIGA school">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="自己紹介｜GIGA school">
-  <meta property="og:description" content="小学校の教員 GIGA山（GIGAyama）の自己紹介です。子どもが自分で学べるようにする道具と、先生の手を空ける道具を、Google Apps Script と Web アプリでつくって無償で公開しています。">
+  <meta property="og:description" content="小学校の教員 GIGA山（GIGAyama）の自己紹介です。1996 年生まれ、京都育ち。大学で国語を学び、いまは小学校で働きながら、アドレスを開くだけで動く Web アプリと Google Apps Script の道具をつくって無償で公開しています。">
   <meta property="og:url" content="https://giga-school.com/profile/">
   <meta property="og:image" content="https://giga-school.com/assets/og-profile.jpg">
   <meta property="og:image:width" content="1200">
@@ -66,9 +66,11 @@
       "email": "basstar.1102@gmail.com",
       "url": "https://giga-school.com/profile/",
       "image": "https://giga-school.com/assets/profile.webp",
-      "description": "小学校の教員。子どもが自分で学べるようにする道具と、先生の手を空ける道具をつくり、無償で公開している。",
+      "description": "小学校の教員。1996 年生まれ、京都府出身。子どもが自分で学べるようにする道具と、先生の手を空ける道具を、ブラウザだけで動く Web アプリと Google Apps Script でつくり、無償で公開している。",
       "knowsAbout": [
         "個別最適な学びと協働的な学び",
+        "Web アプリケーションの開発",
+        "JavaScript",
         "Google Apps Script",
         "Google Workspace",
         "教育の情報化"
@@ -137,11 +139,13 @@
       <div>
         <p class="section__eyebrow">PROFILE</p>
         <h1 class="profile-name">GIGA山</h1>
-        <p class="profile-role">小学校教員／Google Workspace と GAS で校務改善</p>
+        <p class="profile-role">小学校教員。ブラウザだけで動く Web アプリと Google Apps Script をつくっています</p>
         <p class="profile-text">
+          1996 年生まれ、京都の育ちです。大学で学んだのは国語でした。いまは小学校で働きながら、
           教室で「これがあれば」と思ったものを自分でつくっています。向いている先は 2 つで、
           <b>子どもが自分で学べるようにする道具</b>と、<b>先生の手を空ける道具</b>です。
-          できたものは無償で公開しています。GitHub とこのサイトでは <b>GIGAyama</b> の名前を使っています。
+          アドレスを開けばその場で動く形にして、無償で公開しています。
+          GitHub とこのサイトでは <b>GIGAyama</b> の名前を使っています。
         </p>
         <p class="profile-links">
           <a href="https://x.com/gigayama_edu" rel="noopener me">X（@gigayama_edu）</a>
@@ -165,10 +169,13 @@
       <p class="profile-jump__label">このページに書いてあること</p>
       <div class="chips">
         <a class="chip" href="#who-title">していること</a>
+        <a class="chip" href="#person-title">どんな人か</a>
         <a class="chip" href="#belief-title">目指していること</a>
+        <a class="chip" href="#time-title">先生の時間のこと</a>
         <a class="chip" href="#what-title">つくっているもの</a>
         <a class="chip" href="#rules-title">決めていること</a>
         <a class="chip" href="#how-title">つくりかた</a>
+        <a class="chip" href="#devlog-title">つくり方の記録</a>
         <a class="chip" href="#history-title">これまで</a>
         <a class="chip" href="#qa-title">よくいただく質問</a>
         <a class="chip" href="#contact-title">連絡先</a>
@@ -199,9 +206,33 @@
       </div>
       <div class="profile-body">
         <p>探して見つかるものは、探して使います。見つからなかったときに、はじめてつくります。
-        できたものは自分の授業や校務で使ってみて、<b>使えたものだけ</b>をここに置いています。
-        もともとが自分用なので、宣伝も課金もありません。同じことで困っている方がいれば、
-        そのまま持っていってください。</p>
+        できたものは自分の授業や校務で使ってみて、<b>使えたものだけ</b>をここに置いています。</p>
+        <p>形を決めるときに外さないのは、<b>アドレス 1 本で開けること</b>です。
+        インストールも、管理者に配ってもらう手続きも要りません。だれかに教えるときも、
+        アドレスを渡せば終わります。もともとが自分用なので、宣伝も課金もありません。
+        同じことで困っている方がいれば、そのまま持っていってください。</p>
+      </div>
+    </section>
+
+    <!-- 学校で使うかどうかを決める人は、道具より先につくった人を見る。
+         経歴の列挙ではなく、なぜこの形なのかにつながる話だけを置いている -->
+    <section class="profile-section" aria-labelledby="person-title">
+      <h2 class="profile-title" id="person-title">どんな人か</h2>
+      <div class="profile-body">
+        <p>1996 年生まれ、京都府の出身です。大学では国語を学びました。
+        ことばがどう使われてきたのかを 4 年かけて読んでいた人間が、
+        いま Web アプリをつくっているのは、自分でもふしぎな気がします。</p>
+        <p>MBTI は INTP です。この手の分類を信じきっているわけではありませんが、
+        <b>考えている時間がいちばん楽しい</b>というところは当たっていると思います。
+        目の前の面倒を 1 回ずつ手で片づけるより、どんな形にすれば次から起きないのかを
+        考えているほうが好きです。このサイトにあるものは、たいていその考えごとの結果です。</p>
+        <p>プログラミングの知識は、ほとんどありません。高校生のころ、図書館で
+        JavaScript と C 言語の本を借りたことがあります。興味だけはあったのだと思います。
+        ただ、開いても何が書いてあるのかまるで分からず、そのまま返しました。
+        そのあと勉強し直すこともないまま、大学に行きました。</p>
+        <p>いま道具をつくれているのは、コードが書けるようになったからではありません。
+        学校で何がどう面倒なのかが自分に見えていて、それを言葉にできるからだと思っています。
+        書くところは<a href="/devlog/">生成 AI にずいぶん助けてもらっています</a>。</p>
       </div>
     </section>
 
@@ -226,6 +257,25 @@
         <p>考え方のもとにしているのは、「個別最適な学び（指導の個別化と学習の個性化）」と
         「協働的な学び」を切り離さずに考える、という整理です。奈須正裕さんの本から多くを学びました。
         アプリを「教え込むため」ではなく「子どもが学ぶ環境をつくるため」に置いているのは、そのためです。</p>
+      </div>
+    </section>
+
+    <!-- 子どもに向けた物差しが「自律した学習者」なら、先生に向けた物差しがこちら。
+         2 つで 1 組なので、belief の直後に置いている -->
+    <section class="profile-section" aria-labelledby="time-title">
+      <h2 class="profile-title" id="time-title">先生の時間のこと</h2>
+      <div class="profile-body">
+        <p>道具をつくっている理由の、もう半分です。</p>
+        <p>教員の仕事は、やろうと思えばいくらでも時間をかけられます。残業代という歯止めがなく、
+        子どものために遅くまで働くことがよしとされる空気も、まだ残っています。
+        時間をかけて資料にあたり、丁寧に授業を準備できるなら、それはいい仕事です。私もそうしたい。
+        ただ、<b>そうできてしまう働き方が当たり前になっている状態</b>は、
+        自分の生活にとっても、教育全体にとってもよくないと思っています。</p>
+        <p>そこで、授業の準備と校務の手間が少しでも軽くなるものをつくっています。
+        浮いた時間で早く帰ってもいいし、そのぶんを教材を考えることに回してもいい。
+        どちらに使うかは、使う先生が決めることです。私がつくれるのは、
+        選べる状態にするところまでだと思っています。それを使ってくださる方が増えたら、
+        とてもうれしいです。</p>
       </div>
     </section>
 
@@ -268,7 +318,7 @@
     <section class="profile-section" aria-labelledby="rules-title">
       <h2 class="profile-title" id="rules-title">つくるときに決めていること</h2>
       <div class="profile-body">
-        <p>学校で使ってもらうものなので、次の 6 つは崩さないことにしています。</p>
+        <p>学校で使ってもらうものなので、次の 7 つは崩さないことにしています。</p>
       </div>
       <div class="info-grid">
         <div class="info-card">
@@ -276,8 +326,12 @@
           <p>子どもが自分で進められるように、進み方を選べること、途中でやり直せること、あとから見返せることを先に考えます。</p>
         </div>
         <div class="info-card">
-          <h3>ブラウザだけで動くこと</h3>
-          <p>アドレスを開けばその場で使えます。インストールも、管理者による配布の作業も要りません。</p>
+          <h3>入れるまでが短いこと</h3>
+          <p>アドレスを開けばその場で使えます。インストールも、管理者による配布の作業も要りません。やめるときは、閉じるだけです。</p>
+        </div>
+        <div class="info-card">
+          <h3>使わなくてもいいこと</h3>
+          <p>全員が使わなければならない道具にはしません。一度使ってみて、無かったころに戻りたくないと思えたときだけ、使い続けてください。</p>
         </div>
         <div class="info-card">
           <h3>費用をかけないこと</h3>
@@ -303,7 +357,7 @@
       <div class="profile-body">
         <ul>
           <li><b>子どもが使うもの</b>は HTML・CSS・JavaScript で書き、GitHub Pages から配信しています。
-          アドレスを開くだけで動き、サーバーの管理も要りません。</li>
+          アドレスを開くだけで動き、サーバーの管理も要りません。ソースコードは GitHub にそのまま置いています。</li>
           <li><b>校務のもの</b>は、学校にすでにある Google Workspace の中で完結させます。
           スプレッドシートと Google Apps Script（週案簿など）。新しい道具を増やすより、
           いま使っているものの上に載せたほうが、現場では続きます。</li>
@@ -328,13 +382,35 @@
       </div>
     </section>
 
+    <!-- 年表に書いた過去の本数は、そのときの事実なので直さない（README「自己紹介のページ」） -->
     <section class="profile-section" aria-labelledby="history-title">
       <h2 class="profile-title" id="history-title">これまで</h2>
       <ol class="profile-steps">
         <li class="profile-step">
-          <p class="profile-step__when">はじまり</p>
+          <p class="profile-step__when">大学生のころ</p>
+          <p class="profile-step__what">部活動の日程を合わせるために、Google スプレッドシートでカレンダーのようなシートをつくりました。
+          自分ひとりのメモではなく、人が使うものになったとたん、関数の書き方や管理のしかたを覚えるのが面白くなりました。入口はここです。</p>
+        </li>
+        <li class="profile-step">
+          <p class="profile-step__when">教員になって</p>
+          <p class="profile-step__what">クラウドでつくれるデータは、クラウドでつくる。そう決めて、YouTube を見ながらスプレッドシートを覚えました。
+          QUERY や ARRAYFORMULA で、必要なデータを必要なだけ取り出せたときがいちばんうれしかったです。</p>
+        </li>
+        <li class="profile-step">
+          <p class="profile-step__when">週案簿をつくる</p>
           <p class="profile-step__what">「もっとスマートに、効率よく働きたい」。そう思って独学で Google Apps Script を学び、
           スプレッドシートの週案簿をつくりました。思った以上に業務が楽になったのが、いまに続いています。</p>
+        </li>
+        <li class="profile-step">
+          <p class="profile-step__when">1人1台端末が来て</p>
+          <p class="profile-step__what">Google Workspace とスプレッドシートをひととおり触れるというだけで、周りの先生から頼られることが増え、
+          校内で ICT のことを任される立場になりました。自分の書いたスクリプトを載せた教材や、データを集めるシートを、学校で使ってもらうためにつくりました。</p>
+        </li>
+        <li class="profile-step">
+          <p class="profile-step__when">行き止まり</p>
+          <p class="profile-step__what">つくり込むほど、維持する人が要ります。ふつうにスプレッドシートを使うより一段ハードルが上がるので、
+          続けて使ってもらうのは難しい。しかも教員は数年で異動します。私がいるからできる道具をいくら広げても、最後は自己満足で終わる。
+          そう感じて、だれでもどこでも、アドレス 1 本で開けるものに切り替えました。</p>
         </li>
         <li class="profile-step">
           <p class="profile-step__when">2025年3月</p>
