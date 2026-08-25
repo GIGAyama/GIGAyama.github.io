@@ -58,6 +58,10 @@ jobs:
       # 更新の記録。書いていないアプリに何かが出ると、31 本ぶんを目で確かめることになる
       - name: 更新の記録のテスト
         run: node --test tools/lib/changelog.test.mjs
+      # 数字の表記（A10）。書き手が読む検査なので、嘘の警告が出ると本物が読み飛ばされる。
+      # note 版と開発記録版で助数詞と除外がそろっていることも、ここで見る
+      - name: 数量の表記の検査のテスト
+        run: node --test standards/skills/note-article/scripts/lint-article.test.mjs
       # 共有されたときの絵。足りないと、そのアプリだけ中身と関係ない絵で貼られる。
       # 見るだけなので Pillow は要らない
       - name: 共有の絵がそろっているか
