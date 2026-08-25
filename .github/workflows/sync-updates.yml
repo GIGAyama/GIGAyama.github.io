@@ -81,15 +81,29 @@ jobs:
           node tools/build-sw.mjs --check
 
       - name: 変わっていたらコミットする
+        # ⚠️ ここに並べた道だけがコミットに入る。組み直したのに並べ忘れた
+        #    ページは、毎朝つくり直されては毎朝捨てられる。リポジトリには
+        #    古い数字が残り続け、しかも検査は組み直したあとの新しいページを
+        #    見るので緑のままになる。**目でも検査でも気づけない**。
+        #    上の各手順が書き出す先を、ひとつ残らずここに並べる。
+        #      tools/sync-updates.mjs  data/apps.json / index.html / sitemap.xml /
+        #                              feed.xml / apps/ / filtering/ / press/ /
+        #                              data/search-index.json
+        #      tools/build-devlog.mjs  data/devlog.json / devlog/
+        #      tools/build-articles.mjs data/articles.json / apps/
+        #      tools/build-sw.mjs      sw.js
         run: |
-          if git diff --quiet -- data/apps.json data/articles.json data/devlog.json index.html sitemap.xml sw.js apps/ devlog/ \
-             && [ -z "$(git status --porcelain -- apps/ devlog/)" ]; then
+          PATHS="data/apps.json data/articles.json data/devlog.json data/search-index.json \
+                 index.html sitemap.xml feed.xml sw.js apps/ devlog/ filtering/ press/"
+          # git diff は追跡ずみのものしか見ない。新しく増えたページ（新しい
+          # 紹介ページ、新しい分野の入口）は git status のほうで拾う。
+          if git diff --quiet -- $PATHS && [ -z "$(git status --porcelain -- $PATHS)" ]; then
             echo "変更なし。コミットしない。"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/apps.json data/articles.json data/devlog.json index.html sitemap.xml sw.js apps/ devlog/
+          git add -- $PATHS
           git commit -m "chore: 更新情報を書き直す（自動）"
           git push
 

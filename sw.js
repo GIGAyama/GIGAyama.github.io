@@ -23,7 +23,7 @@ const VERSION = 've41a4351'; /* __APP_VERSION__ */
 const SHELL = `giga-school-shell-${VERSION}`;   // 骨組み（毎回使うもの）
 const PAGES = `giga-school-pages-${VERSION}`;   // 開いたページ。アドレスごとに持つ
 const RUNTIME = `giga-school-media-${VERSION}`; // 画像など、使った分だけためるもの
-const PAGE_LIMIT = 40;                          // ためこむページの上限（紹介ページ 31 本＋余裕）
+const PAGE_LIMIT = 40;                          // ためこむページの上限（紹介ページ 32 本＋余裕）
 const MEDIA_LIMIT = 140;                        // ためこむ画像の上限
 
 const SHELL_FILES = [

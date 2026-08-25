@@ -148,6 +148,82 @@ for (const id of USES) {
 }
 
 /* -----------------------------------------------------------------
+ * 総数（アプリ・拡張機能とツール・紹介記事）
+ * -----------------------------------------------------------------
+ * ⚠️ 同じ 3 つの数字が、機械が書く場所と手で書く場所に散らばっている。
+ *    tools/sync-updates.mjs が数え直すのは index.html の <dl class="stats">
+ *    と、まるごと組み直す /apps/・/press/ だけ。見出しの「公開中のアプリ
+ *    （◯ 本）」も <meta name="description"> も、自己紹介ページの数字も手で書く。
+ *    片方だけ動くと、同じサイトの中で数が食い違ったまま静かに残る。
+ *
+ *    2026-08-25 に、紹介記事が 32 本になったのに /profile/ だけ 31 本のまま
+ *    だったのがそれである。/apps/ は機械が書くので 32 本に変わっていた。
+ *    どちらも「本数が書いてある」ようにしか見えないので、目では気づけない。
+ * --------------------------------------------------------------- */
+console.log('\n■ 総数の表記が、data/ の数と合っている');
+const articles = existsSync(new URL('../data/articles.json', import.meta.url))
+  ? JSON.parse(readFileSync(new URL('../data/articles.json', import.meta.url), 'utf8')).items
+  : [];
+/* 数え方は tools/sync-updates.mjs と同じにする。hidden は転送のためだけに
+   残してあるもので、サイトには出さない */
+const listed = apps.filter((a) => a.hidden !== true);
+const nApp = listed.filter((a) => a.kind === 'app').length;
+const nTool = listed.filter((a) => a.kind === 'tool').length;
+const nArticle = articles.length;
+
+const page = (rel) => {
+  const url = new URL(`../${rel}`, import.meta.url);
+  return existsSync(url) ? readFileSync(url, 'utf8') : null;
+};
+
+/* [ページ, どこに書いてあるか, 正しい数, 数字を拾う正規表現]
+   正規表現が当たらないときは「見つからない」で止める。文言を書き直したときに
+   検査だけが静かに素通りするのを防ぐ。 */
+const totals = [
+  ['index.html', 'ページの説明（description）', nApp, /<meta name="description" content="[^"]*Web アプリを (\d+) 本公開/],
+  ['index.html', '共有されたときの説明（og:description）', nApp, /<meta property="og:description" content="[^"]*Web アプリを (\d+) 本公開/],
+  ['index.html', '構造化データの numberOfItems', nApp, /"numberOfItems": (\d+)/],
+  ['index.html', 'ヒーローの「公開中のアプリ」', nApp, /<dt>公開中のアプリ<\/dt><dd>(\d+)/],
+  ['index.html', 'ヒーローの「拡張機能・ツール」', nTool, /<dt>拡張機能・ツール<\/dt><dd>(\d+)/],
+  ['index.html', '見出し「公開中のアプリ（◯ 本）」', nApp, /公開中のアプリ（(\d+) 本）/],
+  ['index.html', '更新情報のはじめの一文（アプリ）', nApp, /いま公開しているのは Web アプリ (\d+) 本/],
+  ['index.html', '更新情報のはじめの一文（ツール）', nTool, /いま公開しているのは Web アプリ \d+ 本と、拡張機能・ツール (\d+) 本/],
+  ['index.html', '簡易版の自己紹介「いまは ◯ 本」', nApp + nTool, /2025 年 10 月にはじめて、いまは (\d+) 本/],
+
+  ['profile/index.html', '内訳の「公開中のアプリ」', nApp, /<dt>公開中のアプリ<\/dt><dd>(\d+)/],
+  ['profile/index.html', '内訳の「拡張機能・ツール」', nTool, /<dt>拡張機能・ツール<\/dt><dd>(\d+)/],
+  ['profile/index.html', '内訳の「紹介の記事」', nArticle, /<dt>紹介の記事<\/dt><dd>(\d+)/],
+  ['profile/index.html', '「つくっているもの」の拡張機能とツール', nTool, /ブラウザの拡張機能とツールが (\d+) 本あります/],
+  ['profile/index.html', '年表の「いま」の脇の本数', nApp, /<p class="profile-step__when">いま<span class="profile-step__count">(\d+) 本/],
+  ['profile/index.html', '年表の「いま」の本文（アプリ）', nApp, /アプリ (\d+) 本、拡張機能・ツール \d+ 本。紹介の記事は \d+ 本/],
+  ['profile/index.html', '年表の「いま」の本文（ツール）', nTool, /アプリ \d+ 本、拡張機能・ツール (\d+) 本。紹介の記事は \d+ 本/],
+  ['profile/index.html', '年表の「いま」の本文（記事）', nArticle, /アプリ \d+ 本、拡張機能・ツール \d+ 本。紹介の記事は (\d+) 本/],
+];
+
+/* 機械が書き出すページも見る。組み直したのに配り忘れた（コミットに入れ忘れた）
+   ときは、ここだけが古い数字のまま残る。手で書く場所と同じ形で止める。 */
+if (nArticle) {
+  totals.push(
+    ['apps/index.html', '題「アプリの紹介（◯ 本）」', nArticle, /<title>アプリの紹介（(\d+) 本）/],
+    ['apps/index.html', '本文の「記事が ◯ 本あります」', nArticle, /まとめた記事が (\d+) 本あります/],
+  );
+}
+totals.push(
+  ['press/index.html', '数字の「公開中のアプリ」', nApp, /<dt>公開中のアプリ<\/dt><dd>(\d+) 本/],
+  ['press/index.html', '数字の「Chrome 拡張機能ほか」', nTool, /<dt>Chrome 拡張機能ほか<\/dt><dd>(\d+) 本/],
+  ['press/index.html', '数字の「紹介記事」', nArticle, /<dt>紹介記事<\/dt><dd>(\d+) 本/],
+);
+
+console.log(`  info アプリ ${nApp} 本 / 拡張機能・ツール ${nTool} 本 / 紹介記事 ${nArticle} 本`);
+for (const [rel, where, want, re] of totals) {
+  const src = page(rel);
+  if (src === null) { ok(false, `${rel}：${where}`, 'ページが無い'); continue; }
+  const found = src.match(re)?.[1];
+  if (found === undefined) { ok(false, `${rel}：${where} は ${want} 本`, '書いてある場所が見つからない（文言が変わった？）'); continue; }
+  ok(Number(found) === want, `${rel}：${where} は ${want} 本`, `${found} と書いてある`);
+}
+
+/* -----------------------------------------------------------------
  * 分類の表示名は tools/lib/categories.mjs を正本にして、紹介ページの
  * チップでも使っている。index.html の選択肢は手で書くので、
  * 言い回しを変えたときに片方だけ古くなる。ここで突き合わせておく。
