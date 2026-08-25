@@ -99,6 +99,13 @@ export function canonicalIndex(standardsDir, readdir = fs.readdirSync, stat = fs
       if (stat(full).isDirectory()) {
         // standards/docs/ は読み物であって配布物ではない
         if (!rel && name === 'docs') continue;
+        /* ⚠️ standards/skills/ も索引に入れない。ここは basename の索引で、
+           スキルの中には capture.mjs や serve.mjs のような、どこにでもある名前が
+           入っている。索引に入れると KANA_Master の tools/serve.mjs が
+           「note-article スキルの未登録コピー」に見える（2026-08-25 に 4 本で実測）。
+           スキルは dirs と unregisteredSkills が**パスで**見ているので、
+           ここで名前から探す必要がない。docs/ と同じ理由で外す。 */
+        if (!rel && name === 'skills') continue;
         walk(full, relPath);
         continue;
       }
