@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-devlog.mjs が書き出す。手で直さない。",
- "generatedAt": "2026-08-24",
+ "generatedAt": "2026-08-25",
  "items": [
   {
    "repo": "GIGAyama.github.io",
@@ -13,7 +13,11 @@
    "summary": "giga-school.com の紹介記事は 31 本あります。そのうち 29 本が、校内のフィルタリングの話を書いていました。「このアドレスを許可してください」という案内です。",
    "hasArticle": false,
    "isSite": true,
-   "stat": null
+   "stat": {
+    "additions": 1729,
+    "deletions": 253,
+    "files": 290
+   }
   }
  ]
 }

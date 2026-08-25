@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-24",
+ "generatedAt": "2026-08-25",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -13,7 +13,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 4832,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "digital-textbook",
@@ -26,7 +26,7 @@
    "images": 23,
    "imageHost": "mirror",
    "charCount": 8059,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "digitalcloset",
@@ -39,7 +39,7 @@
    "images": 21,
    "imageHost": "mirror",
    "charCount": 6094,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "gamification",
@@ -52,7 +52,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 7165,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "gobblet",
@@ -65,7 +65,7 @@
    "images": 22,
    "imageHost": "subdomain",
    "charCount": 6166,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "haiku-meeting",
@@ -78,7 +78,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6543,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "homework-barcordreader",
@@ -91,7 +91,7 @@
    "images": 25,
    "imageHost": "mirror",
    "charCount": 5442,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "ice-slide-puzzle",
@@ -104,7 +104,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 6004,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "kake-master",
@@ -117,7 +117,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5839,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "kana-master",
@@ -130,20 +130,20 @@
    "images": 28,
    "imageHost": "subdomain",
    "charCount": 7055,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "kanji-town",
    "repo": "KANJI_Town",
    "name": "マイ漢字タウン",
-   "title": "教室で使えるかもしれないもの作り #◯ 「なぞれた」で終わらせない。書き順まで見てくれる漢字学習アプリ「マイ漢字タウン」",
-   "headline": "「なぞれた」で終わらせない。書き順まで見てくれる漢字学習アプリ「マイ漢字タウン」",
-   "summary": "漢字の丸付けをしていて、こんなふうに迷ったことはありませんか。",
+   "title": "教室で使えるかもしれないもの作り #◯ 「一度合格したら、それで終わり」にしない。忘れたころに戻ってくる漢字学習アプリ「マイ漢字タウン」",
+   "headline": "「一度合格したら、それで終わり」にしない。忘れたころに戻ってくる漢字学習アプリ「マイ漢字タウン」",
+   "summary": "漢字のデジタルドリル、二学期の終わりごろには、もう開かれなくなっていた。そんなことはありませんか。合格したら終わりにせず、忘れたころにまた出てくる。そういう漢字の学習を作りたくて、マイ漢字タウンというアプリを作りました。",
    "source": "docs/note/kanji-town-note-article.md",
-   "images": 16,
+   "images": 24,
    "imageHost": "mirror",
-   "charCount": 6664,
-   "updatedAt": "2026-08-24"
+   "charCount": 7446,
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "keisan-block",
@@ -156,7 +156,7 @@
    "images": 26,
    "imageHost": "subdomain",
    "charCount": 6249,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "keisan-card",
@@ -169,7 +169,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6464,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "mirai-compass",
@@ -179,10 +179,10 @@
    "headline": "「先生、つぎ何やればいいですか」が減る。子どもが自分で計画を立てる自由進度学習アプリ「みらいコンパス」",
    "summary": "自由進度学習を、一度はやってみたいと思ったことはありませんか。",
    "source": "docs/note/mirai-compass-note-article.md",
-   "images": 27,
+   "images": 26,
    "imageHost": "subdomain",
-   "charCount": 7056,
-   "updatedAt": "2026-08-24"
+   "charCount": 7684,
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "notebooksample-generator",
@@ -195,7 +195,7 @@
    "images": 20,
    "imageHost": "mirror",
    "charCount": 6511,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "online-100square-calculation",
@@ -208,7 +208,7 @@
    "images": 19,
    "imageHost": "mirror",
    "charCount": 8297,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "online-manuscript-paper-lite",
@@ -221,7 +221,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 5792,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "online-manuscript-paper-pro",
@@ -234,7 +234,7 @@
    "images": 29,
    "imageHost": "subdomain",
    "charCount": 5467,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "online-publisher-pro",
@@ -247,20 +247,20 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6283,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "qalc",
    "repo": "Qalc",
    "name": "Qalc（カルク）",
-   "title": "教室で使えるかもしれないもの作り #◯ 「せんせい、わかりません」で止まらない。考える図が出てくる計算学習アプリ「Qalc（カルク）」",
-   "headline": "「せんせい、わかりません」で止まらない。考える図が出てくる計算学習アプリ「Qalc（カルク）」",
-   "summary": "計算練習の時間になると、教室はだいたい三つに分かれませんか。",
+   "title": "教室で使えるかもしれないもの作り #◯ 「４択」じゃ届かない定着を。筆算まで手書きできる計算学習アプリ「Qalc（カルク）」",
+   "headline": "「４択」じゃ届かない定着を。筆算まで手書きできる計算学習アプリ「Qalc（カルク）」",
+   "summary": "タブレットでクイズ形式の学習サービスを使うと、教室の空気が変わる。",
    "source": "docs/note/qalc-note-article.md",
-   "images": 21,
+   "images": 23,
    "imageHost": "mirror",
-   "charCount": 6467,
-   "updatedAt": "2026-08-24"
+   "charCount": 7933,
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "quarto",
@@ -271,9 +271,9 @@
    "summary": "テストやプリントが早く終わった子に、「読書していてね」と言うしかない5分。 雨の日の休み時間、教室でもてあましてしまう時間。 次の準備をしているあいだ、手持ちぶさたにさせてしまう数分間。 そういう時間に、…",
    "source": "docs/note/quarto-note-article.md",
    "images": 17,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 6052,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "quoridor",
@@ -286,7 +286,7 @@
    "images": 21,
    "imageHost": "mirror",
    "charCount": 5461,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "reading-books",
@@ -299,7 +299,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 5949,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "reflection-journal",
@@ -312,7 +312,7 @@
    "images": 22,
    "imageHost": "subdomain",
    "charCount": 7401,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "reversi",
@@ -325,20 +325,20 @@
    "images": 22,
    "imageHost": "mirror",
    "charCount": 5697,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "schoolplan-editor",
    "repo": "SchoolPlan_Editor",
    "name": "週案エディタ",
-   "title": "教室で使えるかもしれないもの作り #◯ 「週案がまだ書けていない」から抜け出す。時数も振り返りもまとめて引き受ける校務アプリ「週案エディタ」",
-   "headline": "「週案がまだ書けていない」から抜け出す。時数も振り返りもまとめて引き受ける校務アプリ「週案エディタ」",
-   "summary": "日曜の夜にパソコンを開いて、来週の週案を書きはじめる。教科書を開いて単元名をたしかめ、固定時間割を写し、行事の変更にあわせて書き直す。ふと時計を見たら一時間が過ぎている。そんな夜を過ごしたことはありませんか。",
+   "title": "教室で使えるかもしれないもの作り #◯ 「週案は紙のほうが早い」と感じている先生へ。印刷の形まで選べる校務アプリ「週案エディタ」",
+   "headline": "「週案は紙のほうが早い」と感じている先生へ。印刷の形まで選べる校務アプリ「週案エディタ」",
+   "summary": "週案は紙で書くのがいちばん早い。そう感じている先生は、けっこう多いのではないでしょうか。私が作った「週案エディタ」は、その紙の週案を、ブラウザで書いて印刷までするための道具です。",
    "source": "docs/note/schoolplan-editor-note-article.md",
    "images": 23,
    "imageHost": "subdomain",
-   "charCount": 7414,
-   "updatedAt": "2026-08-24"
+   "charCount": 8878,
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "townmap-mikke",
@@ -351,7 +351,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5980,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "tsubomi-learning",
@@ -364,7 +364,7 @@
    "images": 21,
    "imageHost": "subdomain",
    "charCount": 6407,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "typa",
@@ -377,7 +377,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 6056,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "werewolf",
@@ -390,7 +390,7 @@
    "images": 25,
    "imageHost": "mirror",
    "charCount": 5743,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "word-basket",
@@ -403,7 +403,7 @@
    "images": 21,
    "imageHost": "mirror",
    "charCount": 5718,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   },
   {
    "slug": "xxx-automatic",
@@ -416,7 +416,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 7341,
-   "updatedAt": "2026-08-24"
+   "updatedAt": "2026-08-25"
   }
  ]
 }
