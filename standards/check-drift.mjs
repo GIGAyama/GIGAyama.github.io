@@ -35,6 +35,24 @@
  *
  * 既定では未登録は報告するだけで exit 0（全リポジトリを一度に赤くしても
  * 直せないため）。宣言を済ませたリポジトリから --strict を付けていく。
+ *
+ * ── ディレクトリまるごとを配る（dirs）──────────────────────
+ * files は 1 ファイルずつ並べる。スキル（.claude/skills/<名前>/）のように
+ * 中身が増えたり減ったりするものには向かない。正本にファイルを1本足したとき、
+ * 42本ぶんの対応表を直し忘れれば**黙って配られない**。
+ *
+ *   {
+ *     "dirs": [
+ *       { "canonical": "skills/devlog-article", "local": ".claude/skills/devlog-article" }
+ *     ]
+ *   }
+ *
+ * dirs は両方向に見る。正本にあってローカルに無ければ「欠け」、
+ * ローカルにあって正本に無ければ「余り」。だから正本にファイルを足した瞬間、
+ * 配布先ぜんぶが赤くなる。
+ *
+ * ⚠️ files と違って normalize は無い。スキルにアプリ固有の1行は無いので、
+ *    ずらしてよい場所を作らない。要るようになったら files に並べ直すこと。
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -111,6 +129,79 @@ export function findLookalikes(repoDir, index, readdir = fs.readdirSync, stat = 
 }
 
 /**
+ * ディレクトリの中のファイルを、相対パスで並べる。
+ *
+ * ⚠️ 隠しファイルも数える。配布先にだけ置かれた .DS_Store や .gitkeep は
+ *    正本に無いので「余り」として出したい。ここで飛ばすと黙って通る。
+ */
+export function listFiles(dir, readdir = fs.readdirSync, stat = fs.statSync) {
+  const out = [];
+  const walk = (abs, rel) => {
+    let names;
+    try { names = readdir(abs); } catch { return; }
+    for (const name of names) {
+      const full = path.join(abs, name);
+      const relPath = rel ? path.posix.join(rel, name) : name;
+      if (stat(full).isDirectory()) walk(full, relPath);
+      else out.push(relPath);
+    }
+  };
+  walk(dir, '');
+  return out.sort();
+}
+
+/**
+ * dirs の 1 件を突き合わせる。ずれの説明の配列を返す（空なら一致）。
+ *
+ * 正本にあってローカルに無い → 欠け（配り忘れ）
+ * ローカルにあって正本に無い → 余り（正本で消したのに配布先に残っている）
+ * 中身が違う                 → ずれ
+ */
+export function compareDir({ canonical, local }, standardsDir, repoDir, deps = {}) {
+  const { read = fs.readFileSync, exists = fs.existsSync, readdir, stat } = deps;
+  const ls = (d) => listFiles(d, readdir ?? fs.readdirSync, stat ?? fs.statSync);
+  const cAbs = path.join(standardsDir, canonical);
+  const lAbs = path.resolve(repoDir, local);
+  if (!exists(cAbs)) return [`${local}: 正本 standards/${canonical} がありません（正本で消したのなら、対応表からも外してください）`];
+  if (!exists(lAbs)) return [`${local}: ローカルコピーがありません（standards/${canonical} をまるごとコピーしてください）`];
+
+  const here = ls(cAbs);
+  const there = new Set(ls(lAbs));
+  const problems = [];
+  for (const f of here) {
+    if (!there.has(f)) { problems.push(`${local}/${f}: 配布先にありません（正本 standards/${canonical}/${f}）`); continue; }
+    if (read(path.join(cAbs, f), 'utf8') !== read(path.join(lAbs, f), 'utf8')) {
+      problems.push(`${local}/${f}: 正本 standards/${canonical}/${f} とずれています`);
+    }
+  }
+  const hereSet = new Set(here);
+  for (const f of there) {
+    if (!hereSet.has(f)) problems.push(`${local}/${f}: 正本 standards/${canonical}/ にありません（余分なファイル）`);
+  }
+  return problems;
+}
+
+/**
+ * 対応表に載っていないスキルを探す。
+ *
+ * ⚠️ findLookalikes は "." で始まる名前を飛ばす（.git や .github まで歩かないため）。
+ *    つまり .claude/ の中は一度も見ていない。スキルを置いたのに対応表へ書かなければ、
+ *    照合 0 件のまま緑になる。「見ていない」を「きれい」と読ませないための検査。
+ *
+ * ⚠️ basename の索引（canonicalIndex）は使わない。スキルの中身はほとんど .md で、
+ *    あれに .md を足すと README.md がどのリポジトリでも当たる。ここはパスで見る。
+ */
+export function unregisteredSkills(repoDir, registeredLocals, unmanagedLocals, readdir = fs.readdirSync) {
+  let names;
+  try { names = readdir(path.join(repoDir, '.claude', 'skills')); } catch { return []; }
+  const trim = (l) => String(l).replace(/\/+$/, '');
+  const known = new Set([...registeredLocals, ...unmanagedLocals].map(trim));
+  return names
+    .map((name) => `.claude/skills/${name}`)
+    .filter((local) => !known.has(local));
+}
+
+/**
  * 見つかったコピーのうち、対応表にも unmanaged にも載っていないものを返す。
  * @returns {Array<{local: string, canonical: string}>}
  */
@@ -141,6 +232,7 @@ function main() {
   const mapPath = path.resolve('standards-map.json');
   const map = fs.existsSync(mapPath) ? JSON.parse(fs.readFileSync(mapPath, 'utf8')) : {};
   const entries = Array.isArray(map.files) ? map.files : [];
+  const dirEntries = Array.isArray(map.dirs) ? map.dirs : [];
   const unmanagedList = Array.isArray(map.unmanaged) ? map.unmanaged : [];
 
   const drifted = [];
@@ -159,6 +251,11 @@ function main() {
     if (c !== l) drifted.push(`${local}: 正本 standards/${canonical} とずれています`);
   }
 
+  // ディレクトリまるごと（スキルなど）。欠け・余り・ずれを両方向に見る
+  for (const entry of dirEntries) {
+    drifted.push(...compareDir(entry, standardsDir, repoDir));
+  }
+
   // 対応表に載っていないコピーを探す。
   // 正本そのものを持つリポジトリ（ポータル）は、standards/ の中身が原本なので対象外。
   const standardsInsideRepo = path.resolve(standardsDir).startsWith(repoDir + path.sep);
@@ -171,6 +268,16 @@ function main() {
       unmanagedList.map((u) => u.local)
     );
   }
+
+  /* 対応表に書かずに置かれたスキル。ポータルも見る。
+     ⚠️ ポータルの .claude/skills/ は正本へのシンボリックリンクなので、
+        dirs に書かなくてよいように unmanaged で宣言してある。
+        「見ていない」ではなく「見たうえで外してある」に寄せる。 */
+  const looseSkills = unregisteredSkills(
+    repoDir,
+    dirEntries.map((e) => e.local),
+    unmanagedList.map((u) => u.local)
+  );
 
   if (drifted.length) {
     console.error('❌ 正本とのずれを検知しました:');
@@ -191,11 +298,30 @@ function main() {
     say('      { "local": "…", "reason": "…（いつ・なぜ）" }');
   }
 
-  if (drifted.length || (strict && strays.length)) process.exit(1);
+  /* ⚠️ ここは strays と違って、はじめから赤くする。
+     未登録のコピー（strays）は 2026-08-22 の時点で各リポジトリに散らばっていたので
+     段階的に締める必要があったが、スキルは今回まとめて配る。
+     はじめから締めておかないと、締めるきっかけが二度と来ない。 */
+  if (looseSkills.length) {
+    console.error(`❌ 対応表に無いスキルが ${looseSkills.length} 件あります:`);
+    for (const l of looseSkills) console.error('  - ' + l);
+    console.error('');
+    console.error('照合されていないので、正本を直してもここには届きません。次のどちらかを行ってください:');
+    console.error('  ・正本のコピーなら standards-map.json の dirs に足す');
+    console.error('      { "canonical": "skills/<名前>", "local": ".claude/skills/<名前>" }');
+    console.error('  ・意図して別物を持っているなら unmanaged に理由つきで書く');
+  }
+
+  if (drifted.length || looseSkills.length || (strict && strays.length)) process.exit(1);
 
   const declared = unmanagedList.length ? `、別物として宣言 ${unmanagedList.length} 件` : '';
-  if (entries.length > 0) {
-    console.log(`✅ 正本と一致しています（${entries.length} ファイル${declared}）`);
+  const dirCount = dirEntries.reduce(
+    (n, e) => n + listFiles(path.join(standardsDir, e.canonical)).length, 0);
+  const withDirs = dirEntries.length
+    ? `${entries.length + dirCount} ファイル（うちスキル ${dirEntries.length} 組 ${dirCount} ファイル）`
+    : `${entries.length} ファイル`;
+  if (entries.length > 0 || dirEntries.length > 0) {
+    console.log(`✅ 正本と一致しています（${withDirs}${declared}）`);
   } else if (unmanagedList.length > 0) {
     // 照合するものは無いが、別物を持っていることは宣言してある。
     // 「コピーは見つかりませんでした」と言うと事実と食い違う。

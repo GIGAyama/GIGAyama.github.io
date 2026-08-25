@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   ledgerProblems, missingFromLedger, goneFromGitHub,
-  normalized, parseSymref, namesFromRepoPage,
+  normalized, parseSymref, namesFromRepoPage, skillsOf,
 } from './check-distribution.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -82,4 +82,81 @@ test('大文字小文字の違いは同じリポジトリとして扱う（GitHu
 test('大文字小文字だけ違う2つを台帳に書いたら、2回書いたと言う', () => {
   const problems = ledgerProblems({ owner: 'x', targets: ['Typa', 'typa'], excluded: [] });
   assert.ok(problems.some((p) => p.includes('2回')), problems.join('\n'));
+});
+
+// ── スキルの軸 ───────────────────────────────────────────────
+//
+// 台帳は軸を2つ持つ。targets はコードの正本（ゲート・SW・受け渡し口）を配る先、
+// skills.extra はコードは配らないがスキルは配る先。
+// excluded の理由はどれも「正本のコピーを1つも持たない」で、これはコードの話。
+// 開発はどのリポジトリでも起きるので、スキルはそちらにも配る。
+
+test('skillsOf: skills が無い台帳でも空で返す（落ちない）', () => {
+  assert.deepEqual(skillsOf({}), { required: [], extra: [] });
+});
+
+test('skillsOf: required と extra を取り出す', () => {
+  const got = skillsOf({ skills: { required: ['note-article'], extra: ['Werewolf'] } });
+  assert.deepEqual(got, { required: ['note-article'], extra: ['Werewolf'] });
+});
+
+test('excluded と skills.extra の両方に載っているのは、二重登録ではない', () => {
+  // ⚠️ ここを二重登録として弾くと、スキルだけ配る形が台帳に書けなくなる
+  const ledger = {
+    owner: 'GIGAyama', targets: ['Typa'],
+    excluded: [{ repo: 'Werewolf', reason: 'コードの正本を持たない' }],
+    skills: { required: [], extra: ['Werewolf'] },
+  };
+  assert.deepEqual(ledgerProblems(ledger), []);
+});
+
+test('targets にあるものを skills.extra に書いたら言う', () => {
+  const ledger = {
+    owner: 'GIGAyama', targets: ['Typa'], excluded: [],
+    skills: { required: [], extra: ['Typa'] },
+  };
+  assert.match(ledgerProblems(ledger).join('\n'), /Typa: targets にあるので/);
+});
+
+test('台帳のどこにも無いものを skills.extra に書いたら言う', () => {
+  // 書き忘れると、GitHub との突き合わせ（missingFromLedger）からこぼれる
+  const ledger = {
+    owner: 'GIGAyama', targets: ['Typa'], excluded: [],
+    skills: { required: [], extra: ['Nazo'] },
+  };
+  assert.match(ledgerProblems(ledger).join('\n'), /Nazo: skills\.extra にありますが/);
+});
+
+test('required に書いたスキルが正本に無ければ言う', () => {
+  // 綴り違いを、配布先ぜんぶの「まだ配っていません」で気づくのは遅い
+  const ledger = {
+    owner: 'GIGAyama', targets: ['Typa'], excluded: [],
+    skills: { required: ['devlog-artcile'], extra: [] },
+  };
+  const out = ledgerProblems(ledger, ['devlog-article', 'note-article']).join('\n');
+  assert.match(out, /devlog-artcile が正本/);
+});
+
+test('required が正本にそろっていれば、何も言わない', () => {
+  const ledger = {
+    owner: 'GIGAyama', targets: ['Typa'], excluded: [],
+    skills: { required: ['devlog-article'], extra: [] },
+  };
+  assert.deepEqual(ledgerProblems(ledger, ['devlog-article', 'note-article']), []);
+});
+
+test('正本の一覧を渡さなければ、名前の確認はしない（純粋な台帳の検査として使える）', () => {
+  const ledger = {
+    owner: 'GIGAyama', targets: ['Typa'], excluded: [],
+    skills: { required: ['なんでも'], extra: [] },
+  };
+  assert.deepEqual(ledgerProblems(ledger), []);
+});
+
+test('実際の台帳を、正本にあるスキル名と突き合わせても不備が無い', () => {
+  const skills = fs.readdirSync(path.join(REPO_ROOT, 'standards/skills'), { withFileTypes: true })
+    .filter((d) => d.isDirectory()).map((d) => d.name);
+  assert.deepEqual(ledgerProblems(ledger, skills), []);
+  // スキルは 42 本に配る（targets 32 ＋ skills.extra 10）
+  assert.equal(ledger.targets.length + skillsOf(ledger).extra.length, 42);
 });
