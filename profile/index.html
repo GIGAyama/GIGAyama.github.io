@@ -152,11 +152,13 @@
       </div>
     </header>
 
-    <!-- 数字は手で直す。トップページのヒーローや絞り込みの件数と同じ扱い（README「アプリを追加・変更するとき」） -->
+    <!-- 数字は手で直す。トップページのヒーローや絞り込みの件数と同じ扱い（README「本数の数字はどこから来るか」）。
+         ⚠️ 紹介の記事だけは、アプリではなく記事が増えたときに動く。/apps/ は機械が数え直すので、
+            ここを直し忘れると 2 つの数がサイトの中で並ぶ。node tools/check-cards.mjs が止める -->
     <dl class="stats">
       <div><dt>公開中のアプリ</dt><dd>38<span class="unit">本</span></dd></div>
       <div><dt>拡張機能・ツール</dt><dd>3<span class="unit">本</span></dd></div>
-      <div><dt>紹介の記事</dt><dd>31<span class="unit">本</span></dd></div>
+      <div><dt>紹介の記事</dt><dd>32<span class="unit">本</span></dd></div>
     </dl>
 
     <!-- 読みたい節が人によって違うページなので、上に入口をまとめる。
@@ -355,7 +357,7 @@
         </li>
         <li class="profile-step">
           <p class="profile-step__when">いま<span class="profile-step__count">38 本</span></p>
-          <p class="profile-step__what">アプリ 38 本、拡張機能・ツール 3 本。紹介の記事は 31 本になりました。</p>
+          <p class="profile-step__what">アプリ 38 本、拡張機能・ツール 3 本。紹介の記事は 32 本になりました。</p>
         </li>
       </ol>
     </section>
