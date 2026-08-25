@@ -37,7 +37,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
-import { NORMALIZERS } from '../standards/check-drift.mjs';
+import { NORMALIZERS, listFiles } from '../standards/check-drift.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -46,7 +46,7 @@ const REPO_ROOT = path.resolve(HERE, '..');
 /* ── 台帳を読むところ（ここは純粋な関数にしてテストから直に呼ぶ）── */
 
 /** 台帳そのものの不備を返す。空配列なら問題なし。 */
-export function ledgerProblems(ledger) {
+export function ledgerProblems(ledger, knownSkills = null) {
   const problems = [];
   if (typeof ledger.owner !== 'string' || ledger.owner === '') problems.push('owner がありません');
   const targets = Array.isArray(ledger.targets) ? ledger.targets : null;
@@ -65,6 +65,28 @@ export function ledgerProblems(ledger) {
     }
   }
 
+  /* スキルの軸。required に書いたスキルが正本に無ければ、配布先ぜんぶが
+     「まだ配っていません」になる。台帳の綴り違いを、そこで気づくのは遅い */
+  const { required, extra } = skillsOf(ledger);
+  const targetKeys = new Set(targets.filter((t) => typeof t === 'string').map(key));
+  const excludedKeys = new Set(excluded.map((e) => e?.repo).filter((r) => typeof r === 'string').map(key));
+  for (const name of extra) {
+    if (typeof name !== 'string' || name === '') { problems.push('skills.extra に名前の無い項目があります'); continue; }
+    /* targets には最初から配るので、書くと二重になる */
+    if (targetKeys.has(key(name))) problems.push(`${name}: targets にあるので skills.extra に書く必要はありません`);
+    /* ⚠️ excluded に載っていないと、GitHub との突き合わせ（missingFromLedger）から
+       こぼれる。スキルだけ配る先も、台帳のどこかには必ず名前を出しておく */
+    else if (!excludedKeys.has(key(name))) problems.push(`${name}: skills.extra にありますが、targets にも excluded にもありません`);
+  }
+  for (const name of required) {
+    if (typeof name !== 'string' || name === '') { problems.push('skills.required に名前の無い項目があります'); continue; }
+    if (knownSkills && !knownSkills.includes(name)) {
+      problems.push(`skills.required の ${name} が正本（standards/skills/）にありません`);
+    }
+  }
+
+  /* ⚠️ ここに extra を混ぜない。スキルだけ配る先は excluded にも載るのが
+     正しい形（コードは配らない／スキルは配る）で、二重登録ではない */
   const seen = new Set();
   for (const name of [...targets, ...excluded.map((e) => e?.repo)]) {
     if (typeof name !== 'string') continue;
@@ -73,6 +95,26 @@ export function ledgerProblems(ledger) {
     seen.add(key(name));
   }
   return problems;
+}
+
+/**
+ * スキルの配る先と、配るスキルの名前。
+ *
+ * 台帳は軸を 2 つ持つ。
+ *
+ *   targets        コードの正本（ゲート・SW・受け渡し口）を配る先
+ *   skills.extra   コードは配らないが、スキルは配る先
+ *
+ * excluded の理由はどれも「正本のコピーを1つも持たない」で、これはコードの話。
+ * スキルには当てはまらない（開発はどのリポジトリでも起きる）ので、
+ * 理由を書き替えずに、別の軸を足してある。
+ */
+export function skillsOf(ledger) {
+  const skills = ledger.skills ?? {};
+  return {
+    required: Array.isArray(skills.required) ? skills.required : [],
+    extra: Array.isArray(skills.extra) ? skills.extra : [],
+  };
 }
 
 /**
@@ -166,7 +208,7 @@ async function listRepos(owner) {
  * 既定ブランチの先端 SHA を先に取り、その SHA で中身を取る。
  * ブランチ名で取ると CDN の控えが数分残り、配った直後に「まだ古い」と誤って言う。
  */
-async function checkRepo(owner, repo, standardsDir) {
+async function checkRepo(owner, repo, standardsDir, requiredSkills = []) {
   const { sha } = parseSymref(
     (await execFileAsync('git', ['ls-remote', '--symref', `https://github.com/${owner}/${repo}.git`, 'HEAD'])).stdout
   );
@@ -181,6 +223,7 @@ async function checkRepo(owner, repo, standardsDir) {
   catch (error) { return { repo, sha, compared: 0, problems: [`standards-map.json を読めません: ${error.message}`] }; }
 
   const entries = Array.isArray(map.files) ? map.files : [];
+  const dirEntries = Array.isArray(map.dirs) ? map.dirs : [];
   const problems = [];
   let compared = 0;
 
@@ -201,8 +244,39 @@ async function checkRepo(owner, repo, standardsDir) {
     if (here !== there) problems.push(`${local}: 正本 standards/${canonical} を配っていません`);
   }
 
-  if (entries.length === 0 && !Array.isArray(map.unmanaged)) {
-    problems.push('standards-map.json に files も unmanaged もありません');
+  /* ディレクトリまるごと（スキル）。
+     正本の側は手元にあるので列挙できる。配布先は 1 本ずつ raw から取る。
+     ⚠️ 配布先の「余分なファイル」はここからは見えない。ディレクトリを
+        列挙する手だてが無いため（API は使わない約束）。そちらは配布先の
+        check-drift が見る。役割を分けてあることを、両方に書いてある。 */
+  for (const { canonical, local } of dirEntries) {
+    const canonicalDir = path.join(standardsDir, canonical);
+    if (!fs.existsSync(canonicalDir)) {
+      problems.push(`${local}: 正本 standards/${canonical} がありません（正本で消したのなら、配布先の対応表からも外してください）`);
+      continue;
+    }
+    for (const rel of listFiles(canonicalDir)) {
+      const copy = await fetchText(raw(`${local}/${rel}`));
+      if (copy === null) { problems.push(`${local}/${rel}: 配布先にコピーがありません`); continue; }
+      compared++;
+      if (fs.readFileSync(path.join(canonicalDir, rel), 'utf8') !== copy) {
+        problems.push(`${local}/${rel}: 正本 standards/${canonical}/${rel} を配っていません`);
+      }
+    }
+  }
+
+  /* 台帳が「このリポジトリにも配る」と言っているスキルが、対応表に無い。
+     これが「まだ 1 本も配っていない」を赤くする唯一の signal。
+     対応表に書かれていないものは照合されないので、これが無いと
+     配り忘れたリポジトリが緑のまま残る。 */
+  for (const name of requiredSkills) {
+    if (!dirEntries.some((e) => e.canonical === `skills/${name}`)) {
+      problems.push(`スキル ${name} が standards-map.json の dirs にありません（まだ配っていません）`);
+    }
+  }
+
+  if (entries.length === 0 && dirEntries.length === 0 && !Array.isArray(map.unmanaged)) {
+    problems.push('standards-map.json に files も dirs も unmanaged もありません');
   }
   return { repo, sha, compared, problems };
 }
@@ -229,7 +303,14 @@ async function main() {
 
   const fatal = [];
 
-  const bad = ledgerProblems(ledger);
+  /* 正本に実在するスキルの名前。台帳の綴り違いをここで止める。
+     渡さないと「required に書いたのに正本に無い」が配布先ぜんぶの
+     「まだ配っていません」として出て、原因が分からなくなる */
+  const knownSkills = fs.existsSync(path.join(standardsDir, 'skills'))
+    ? fs.readdirSync(path.join(standardsDir, 'skills'), { withFileTypes: true })
+      .filter((d) => d.isDirectory()).map((d) => d.name)
+    : [];
+  const bad = ledgerProblems(ledger, knownSkills);
   if (bad.length) {
     console.error('❌ 台帳（tools/distribution.json）に不備があります:');
     for (const line of bad) console.error(`  - ${line}`);
@@ -254,8 +335,17 @@ async function main() {
     console.log(`GitHub の ${ledger.owner} には ${remote.length} 本。台帳は targets ${ledger.targets.length} 本＋除外 ${ledger.excluded.length} 本。`);
   }
 
-  const results = await pool(ledger.targets, 6, (repo) =>
-    checkRepo(ledger.owner, repo, standardsDir).catch((error) => ({ repo, compared: 0, problems: [`見にいけませんでした: ${error.message}`] }))
+  /* スキルの配る先は targets ＋ skills.extra。
+     ⚠️ コードの正本（ゲートや SW）と配る先が違う。excluded の 10 本が外れて
+        いる理由は「そのコピーを持たない」で、スキルには当てはまらない。
+        開発はどのリポジトリでも起きるので、スキルはそちらにも配る。 */
+  const requiredSkills = skillsOf(ledger).required;
+  const skillOnly = skillsOf(ledger).extra;
+  const everyone = [...ledger.targets, ...skillOnly];
+
+  const results = await pool(everyone, 6, (repo) =>
+    checkRepo(ledger.owner, repo, standardsDir, requiredSkills)
+      .catch((error) => ({ repo, compared: 0, problems: [`見にいけませんでした: ${error.message}`] }))
   );
 
   const stale = results.filter((r) => r.problems.length > 0);
@@ -280,7 +370,8 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`✅ 配布先 ${results.length} 本、${compared} ファイルが正本と一致しています。`);
+  console.log(`✅ 配布先 ${results.length} 本（うちスキルだけ ${skillOnly.length} 本）、`
+    + `${compared} ファイルが正本と一致しています。`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

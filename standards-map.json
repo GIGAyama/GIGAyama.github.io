@@ -1,8 +1,19 @@
 {
-  "files": [
-    {
-      "canonical": "sw/build-sw-static.mjs",
-      "local": "tools/build-sw.mjs"
-    }
-  ]
+ "files": [
+  {
+   "canonical": "sw/build-sw-static.mjs",
+   "local": "tools/build-sw.mjs"
+  }
+ ],
+ "_note": "ポータル自身の対応表。standards/ の中身は原本なので、スキルは写しを作らず .claude/skills/ からシンボリックリンクを張ってある。2 つになった時点でどちらが正本か分からなくなるため。",
+ "unmanaged": [
+  {
+   "local": ".claude/skills/devlog-article",
+   "reason": "正本 standards/skills/devlog-article へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-25）"
+  },
+  {
+   "local": ".claude/skills/note-article",
+   "reason": "正本 standards/skills/note-article へのシンボリックリンク。同上（2026-08-25）"
+  }
+ ]
 }

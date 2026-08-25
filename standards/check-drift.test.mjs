@@ -11,7 +11,10 @@
  * ===================================================================== */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { NORMALIZERS, canonicalIndex, findLookalikes, unregistered } from './check-drift.mjs';
+import path from 'node:path';
+import {
+  NORMALIZERS, canonicalIndex, compareDir, findLookalikes, listFiles, unregistered, unregisteredSkills,
+} from './check-drift.mjs';
 
 /** メモリ上の疑似ファイル木から readdir / statSync を作る */
 function fakeFs(tree) {
@@ -171,4 +174,127 @@ test('records-export-import: 別のファイルを読みこんでいたら、ず
   const canonical = NORMALIZERS['records-export-import'](HTML('x', './records-export.js'));
   const other = NORMALIZERS['records-export-import'](HTML('x', './records-hub-client.js'));
   assert.notEqual(other, canonical);
+});
+
+// ── ディレクトリまるごと（dirs）──────────────────────────────
+//
+// スキル（.claude/skills/<名前>/）は中身が増えたり減ったりする。
+// files に 1 本ずつ並べる方式だと、正本にファイルを足したとき 42 本ぶんの
+// 対応表を直し忘れれば黙って配られない。dirs は両方向に見るので、
+// 足した瞬間に配布先ぜんぶが赤くなる。ここではその両方向を固定する。
+
+/**
+ * compareDir に渡す、メモリ上の読み手一式を作る。
+ *
+ * ⚠️ compareDir は local を path.resolve で絶対パスに直す（本物の挙動）。
+ *    疑似ファイル木は相対の鍵で引くので、絶対パスで来たら cwd からの
+ *    相対に戻してから引く。ここを合わせないと、テストのほうが
+ *    「ローカルコピーがありません」しか見なくなる。
+ */
+function fakeDir(tree) {
+  const { readdir: rd, stat: st } = fakeFs(tree);
+  const rel = (p) => (path.isAbsolute(p) ? path.relative(process.cwd(), p) : p);
+  const at = (p) => rel(p).split('/').filter(Boolean).reduce((n, k) => n?.[k], tree);
+  return {
+    readdir: (p) => rd(rel(p)),
+    stat: (p) => st(rel(p)),
+    exists: (p) => at(p) !== undefined,
+    read: (p) => at(p),
+  };
+}
+
+const SKILL = { 'SKILL.md': 'A', references: { 'style.md': 'B' } };
+
+test('dirs: 中身がそろっていれば、ずれとして出ない', () => {
+  const deps = fakeDir({ s: { skills: { note: SKILL } }, r: { '.claude': { skills: { note: SKILL } } } });
+  const out = compareDir({ canonical: 'skills/note', local: '.claude/skills/note' }, 's', 'r', deps);
+  assert.deepEqual(out, []);
+});
+
+test('dirs: 中身が1バイト違えば、ずれとして出る', () => {
+  const changed = { 'SKILL.md': 'A', references: { 'style.md': 'B です' } };
+  const deps = fakeDir({ s: { skills: { note: SKILL } }, r: { '.claude': { skills: { note: changed } } } });
+  const out = compareDir({ canonical: 'skills/note', local: '.claude/skills/note' }, 's', 'r', deps);
+  assert.equal(out.length, 1);
+  assert.match(out[0], /style\.md: 正本 .* とずれています/);
+});
+
+test('dirs: 正本にあって配布先に無いファイルを「欠け」として出す', () => {
+  // ⚠️ これが files 方式との違い。正本にファイルを足したとき、
+  //    対応表を直さなくても配布先が赤くなる
+  const missing = { 'SKILL.md': 'A', references: {} };
+  const deps = fakeDir({ s: { skills: { note: SKILL } }, r: { '.claude': { skills: { note: missing } } } });
+  const out = compareDir({ canonical: 'skills/note', local: '.claude/skills/note' }, 's', 'r', deps);
+  assert.equal(out.length, 1);
+  assert.match(out[0], /style\.md: 配布先にありません/);
+});
+
+test('dirs: 正本に無いファイルが配布先にあれば「余り」として出す', () => {
+  // 正本で消したのに配布先に残っている形。消し忘れは目で気づけない
+  const extra = { 'SKILL.md': 'A', references: { 'style.md': 'B', 'memo.md': 'C' } };
+  const deps = fakeDir({ s: { skills: { note: SKILL } }, r: { '.claude': { skills: { note: extra } } } });
+  const out = compareDir({ canonical: 'skills/note', local: '.claude/skills/note' }, 's', 'r', deps);
+  assert.equal(out.length, 1);
+  assert.match(out[0], /memo\.md: 正本 .* にありません（余分なファイル）/);
+});
+
+test('dirs: 隠しファイルも「余り」として数える', () => {
+  // .DS_Store や .gitkeep を飛ばすと、配布先にだけあるファイルが黙って通る
+  const extra = { 'SKILL.md': 'A', references: { 'style.md': 'B' }, '.DS_Store': 'x' };
+  const deps = fakeDir({ s: { skills: { note: SKILL } }, r: { '.claude': { skills: { note: extra } } } });
+  const out = compareDir({ canonical: 'skills/note', local: '.claude/skills/note' }, 's', 'r', deps);
+  assert.equal(out.length, 1);
+  assert.match(out[0], /\.DS_Store/);
+});
+
+test('dirs: 配布先にディレクトリごと無ければ、そう言う', () => {
+  const deps = fakeDir({ s: { skills: { note: SKILL } }, r: { '.claude': { skills: {} } } });
+  const out = compareDir({ canonical: 'skills/note', local: '.claude/skills/note' }, 's', 'r', deps);
+  assert.equal(out.length, 1);
+  assert.match(out[0], /ローカルコピーがありません/);
+});
+
+test('dirs: 正本のほうが無ければ、対応表から外すよう言う', () => {
+  const deps = fakeDir({ s: { skills: {} }, r: { '.claude': { skills: { note: SKILL } } } });
+  const out = compareDir({ canonical: 'skills/note', local: '.claude/skills/note' }, 's', 'r', deps);
+  assert.equal(out.length, 1);
+  assert.match(out[0], /正本 standards\/skills\/note がありません/);
+});
+
+test('listFiles: 入れ子の中まで、相対パスで並べる', () => {
+  const { readdir, stat } = fakeFs({ d: { a: 'x', sub: { b: 'y', deep: { c: 'z' } } } });
+  assert.deepEqual(listFiles('d', readdir, stat), ['a', 'sub/b', 'sub/deep/c']);
+});
+
+// ── 対応表に書かずに置かれたスキル ───────────────────────────
+//
+// findLookalikes は "." で始まる名前を飛ばすので、.claude/ の中は
+// 一度も歩かれない。スキルを置いたのに対応表へ書かなければ、
+// 照合 0 件のまま緑になる。それを塞ぐ検査。
+
+test('未登録のスキル: 対応表に無いものを見つける', () => {
+  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {}, devlog: {} } } } });
+  const out = unregisteredSkills('r', ['.claude/skills/note'], [], readdir);
+  assert.deepEqual(out, ['.claude/skills/devlog']);
+});
+
+test('未登録のスキル: dirs に載っていれば出さない', () => {
+  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
+  assert.deepEqual(unregisteredSkills('r', ['.claude/skills/note'], [], readdir), []);
+});
+
+test('未登録のスキル: unmanaged に理由つきで書いてあれば出さない', () => {
+  // ポータル自身は正本へのシンボリックリンクなので、この形で外してある
+  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
+  assert.deepEqual(unregisteredSkills('r', [], ['.claude/skills/note'], readdir), []);
+});
+
+test('未登録のスキル: 末尾の / の有無で取りちがえない', () => {
+  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
+  assert.deepEqual(unregisteredSkills('r', ['.claude/skills/note/'], [], readdir), []);
+});
+
+test('未登録のスキル: .claude/skills が無いリポジトリでは何も言わない', () => {
+  const { readdir } = fakeFs({ r: { src: {} } });
+  assert.deepEqual(unregisteredSkills('r', [], [], readdir), []);
 });

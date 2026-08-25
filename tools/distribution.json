@@ -1,81 +1,100 @@
 {
-  "owner": "GIGAyama",
-  "self": "GIGAyama.github.io",
-  "_note": "正本（standards/）を配る先の台帳。tools/check-distribution.mjs が読む。ここに無いリポジトリが GIGAyama に現れたら赤くなる。",
-  "targets": [
-    "app_launcher",
-    "Digital-Newspaper",
-    "DigitalCloset",
-    "Gamification",
-    "Gobblet",
-    "Haiku-meeting",
-    "Homework_barcordreader",
-    "Ice_slide-puzzle",
-    "KAKE_Master",
-    "KANA_Master",
-    "KANJI_Town",
-    "KEISAN-BLOCK",
-    "Keisan-Card",
-    "Linker-Clipper",
-    "MIRAI-Compass",
-    "Moral_note",
-    "online-100square-calculation",
-    "online-manuscript-paper-lite",
-    "online-manuscript-paper-pro",
-    "Online-Publisher-pro",
-    "PhysicalEducation_note",
-    "Qalc",
-    "Quarto",
-    "Quoridor",
-    "Reading-Books",
-    "Reflection_Journal",
-    "Reversi",
-    "SchoolPlan_Editor",
-    "Shiritori_fighter",
-    "Townmap_Mikke",
-    "Typa",
-    "XXX_automatic"
+ "owner": "GIGAyama",
+ "self": "GIGAyama.github.io",
+ "_note": "正本（standards/）を配る先の台帳。tools/check-distribution.mjs が読む。ここに無いリポジトリが GIGAyama に現れたら赤くなる。",
+ "_note_skills": "スキル（.claude/skills/）は targets ＋ skills.extra の 42 本に配る。excluded の理由は「正本のコード（ゲート・SW・受け渡し口）のコピーを持たない」で、スキルには当てはまらない。開発はどのリポジトリでも起きるので、そちらにも配る。",
+ "targets": [
+  "app_launcher",
+  "Digital-Newspaper",
+  "DigitalCloset",
+  "Gamification",
+  "Gobblet",
+  "Haiku-meeting",
+  "Homework_barcordreader",
+  "Ice_slide-puzzle",
+  "KAKE_Master",
+  "KANA_Master",
+  "KANJI_Town",
+  "KEISAN-BLOCK",
+  "Keisan-Card",
+  "Linker-Clipper",
+  "MIRAI-Compass",
+  "Moral_note",
+  "online-100square-calculation",
+  "online-manuscript-paper-lite",
+  "online-manuscript-paper-pro",
+  "Online-Publisher-pro",
+  "PhysicalEducation_note",
+  "Qalc",
+  "Quarto",
+  "Quoridor",
+  "Reading-Books",
+  "Reflection_Journal",
+  "Reversi",
+  "SchoolPlan_Editor",
+  "Shiritori_fighter",
+  "Townmap_Mikke",
+  "Typa",
+  "XXX_automatic"
+ ],
+ "skills": {
+  "required": [
+   "devlog-article",
+   "note-article"
   ],
-  "excluded": [
-    {
-      "repo": "Blackboard_Timer",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。配るものができたら targets へ移す"
-    },
-    {
-      "repo": "Digital_textbook",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。ゲートは v4 世代の自前で、正本移行はこれから"
-    },
-    {
-      "repo": "JIDOSHA_ZUKAN",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
-    },
-    {
-      "repo": "Music-production_studio",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。検査そのものが無いので、まず入れるところから"
-    },
-    {
-      "repo": "NotebookSample_Generator",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
-    },
-    {
-      "repo": "SekigaeMaker",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
-    },
-    {
-      "repo": "Shared-Folder-Sync",
-      "reason": "正本のコピーを1つも持たない。運営者がリポジトリごと削除する予定のため、配る対象にしない（2026-08-22）"
-    },
-    {
-      "repo": "tsubomi-learning",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
-    },
-    {
-      "repo": "Werewolf",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
-    },
-    {
-      "repo": "word_basket",
-      "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。検査そのものが無いので、まず入れるところから"
-    }
+  "extra": [
+   "Blackboard_Timer",
+   "Digital_textbook",
+   "JIDOSHA_ZUKAN",
+   "Music-production_studio",
+   "NotebookSample_Generator",
+   "SekigaeMaker",
+   "Shared-Folder-Sync",
+   "tsubomi-learning",
+   "Werewolf",
+   "word_basket"
   ]
+ },
+ "excluded": [
+  {
+   "repo": "Blackboard_Timer",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。配るものができたら targets へ移す"
+  },
+  {
+   "repo": "Digital_textbook",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。ゲートは v4 世代の自前で、正本移行はこれから"
+  },
+  {
+   "repo": "JIDOSHA_ZUKAN",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
+  },
+  {
+   "repo": "Music-production_studio",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。検査そのものが無いので、まず入れるところから"
+  },
+  {
+   "repo": "NotebookSample_Generator",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
+  },
+  {
+   "repo": "SekigaeMaker",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
+  },
+  {
+   "repo": "Shared-Folder-Sync",
+   "reason": "正本のコピーを1つも持たない。運営者がリポジトリごと削除する予定のため、配る対象にしない（2026-08-22）"
+  },
+  {
+   "repo": "tsubomi-learning",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
+  },
+  {
+   "repo": "Werewolf",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）"
+  },
+  {
+   "repo": "word_basket",
+   "reason": "正本のコピーを1つも持たない（2026-08-22 に check-drift で確認）。検査そのものが無いので、まず入れるところから"
+  }
+ ]
 }
