@@ -279,7 +279,7 @@ ${JSON.stringify(ld, null, 2)}
 <body>
 ${HEADER}
 
-  <main class="wrap article">
+  <main class="wrap article article--read">
     <nav class="crumbs" aria-label="パンくず">
       <a href="/">トップ</a>
       <span aria-hidden="true">›</span>

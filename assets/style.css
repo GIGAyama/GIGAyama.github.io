@@ -77,6 +77,9 @@
 
     /* --- 版面 --- */
     --measure: 1160px;
+    /* 読むためのページの版面。いまの本文（68ch ≒ 578px）に合わせてある。
+       本文を広げたくなったら、ここだけ変えれば外枠も一緒に動く */
+    --measure-read: 36rem;
     --measure-text: 68ch;
     --gutter: clamp(20px, 5vw, 48px);
 
@@ -1452,6 +1455,20 @@
   /* ---------- アプリの紹介ページ ---------- */
   .article { padding-block-end: var(--s-8); }
 
+  /* 読むためのページ（紹介記事・開発記録・掲載用の資料・自己紹介）は、
+     外枠そのものを読む列の幅に寄せて、画面の中央に置く。
+     以前は外枠が 1160px のまま、中の枠だけが 68ch（≒ 578px）で止まっていたので、
+     本文の右に 580px ほど空きが出て、上限を書き忘れていた目次だけが
+     画面幅いっぱいに伸びていた。幅を決める場所を外枠 1 つにまとめる。
+     ⚠️ 中の枠の 68ch は外す。ch は要素ごとの文字の大きさで変わるため、
+        .article__head（16px → 544px）と .prose（17px → 578px）で右端が割れる。
+     ⚠️ 一覧のページ（/apps/、分類、/devlog/）と /filtering/ には付けない。
+        あちらは並べる枠と 3 列の表に幅が要る。 */
+  .article--read { --measure: var(--measure-read); }
+  /* 詳しさを 2 つにしてあるのは、外す相手（.prose や .article-more など）が
+     この行より下に書かれていて、同じ詳しさだと後ろ勝ちで残ってしまうため */
+  .article.article--read > * { max-width: none; }
+
   .article__head {
     max-width: var(--measure-text);
     margin-block-end: var(--s-7);
@@ -2407,12 +2424,13 @@
     margin-block-start: var(--s-5);
   }
 
-  /* 自己紹介ページの見出しまわり */
+  /* 自己紹介ページの見出しまわり。
+     似顔絵は縦に積む。版面が読む列の幅（--measure-read）になったので、
+     横に並べると名前の脇が 360px ほどしか残らず、肩書きが数語で折り返す。 */
   .profile-hero {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: clamp(20px, 4vw, 40px);
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
     margin-block: var(--s-5) var(--s-6);
   }
   .profile-hero .profile-name { font-size: clamp(1.55rem, 1.2rem + 1.6vw, 2.1rem); }
@@ -2547,9 +2565,9 @@
   }
   .profile-brief .profile-avatar { inline-size: clamp(88px, 12vw, 132px); }
 
-  /* 狭い画面では似顔絵を上に置く。横に並べたままだと、本文が数語で折り返す */
+  /* 狭い画面では似顔絵を上に置く。横に並べたままだと、本文が数語で折り返す。
+     （自己紹介ページの見出しは、画面の広さによらず積むようにした） */
   @media (max-width: 560px) {
-    .profile-hero,
     .profile-brief { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
   }
 
