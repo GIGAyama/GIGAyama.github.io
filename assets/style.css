@@ -77,9 +77,11 @@
 
     /* --- 版面 --- */
     --measure: 1160px;
-    /* 読むためのページの版面。いまの本文（68ch ≒ 578px）に合わせてある。
-       本文を広げたくなったら、ここだけ変えれば外枠も一緒に動く */
-    --measure-read: 36rem;
+    /* 読むためのページの本文の幅。640px は 17px 送りで 1 行 37 全角字。
+       日本語の長文が読みやすいとされる 35〜45 字の下のほうに置いてある。
+       36rem（34 字）だと狭く、画面の中央に細長く残って場所を持て余していた。
+       ここだけ変えれば、外枠も目次の柱の位置も一緒に動く */
+    --measure-read: 40rem;
     --measure-text: 68ch;
     --gutter: clamp(20px, 5vw, 48px);
 
@@ -1468,6 +1470,53 @@
   /* 詳しさを 2 つにしてあるのは、外す相手（.prose や .article-more など）が
      この行より下に書かれていて、同じ詳しさだと後ろ勝ちで残ってしまうため */
   .article.article--read > * { max-width: none; }
+
+  /* 広い画面では、目次を本文の横の柱に出して貼り付ける。
+     紹介記事は 1 本が縦 28,000px あり、節が平均 9.3 個ある。畳める箱のままだと、
+     読んでいる途中で別の節へ跳ぶのに、いちど先頭まで戻るしかない。
+     左右に空いていた場所を、読む助けに変える。
+     ⚠️ 目次のあるページに限る（:has）。/press/ と /profile/ には目次が無いので、
+        柱の場所だけ空いて、本文が画面の中央からずれて見える。
+     ⚠️ HTML は変えない。見出しの行から下まで伸ばすと、開いた時点で目次が見え、
+        そのまま本文の終わりまで貼り付く。本文の行からにすると、
+        開いた画面のいちばん下に来て、跳ぶ手段があることに気づかれない。
+     ⚠️ grid-template-rows を書くのが要点。書かないと、負の行番号（-1）が数える
+        「明示的な格子」が 0 行になって -1 が 1 行目を指し、2 / -1 が 1 / 2 に
+        化ける。目次がパンくずの高さぶんしか伸びず、少し送るだけで流れていく。
+     ⚠️ 1100px から。これより狭いと、柱を出すと本文が読める幅を割る。
+        そこから下は今までどおり、本文の上の畳める箱のまま。 */
+  @media (min-width: 1100px) {
+    .article--read:has(> .toc) {
+      /* 上に貼り付く見出し（67px）の下に、少しだけ空けて止める */
+      --toc-top: 5.5rem;
+      --toc-col: 17rem;
+      --measure: calc(var(--measure-read) + var(--toc-col) + var(--s-7));
+      display: grid;
+      grid-template-columns: minmax(0, var(--measure-read)) var(--toc-col);
+      /* パンくず / 見出し / 本文（ここから下は行が自動で増える） */
+      grid-template-rows: auto auto 1fr;
+      column-gap: var(--s-7);
+      align-items: start;
+    }
+    .article--read:has(> .toc) > * { grid-column: 1; }
+    .article--read:has(> .toc) > .toc {
+      grid-column: 2;
+      grid-row: 2 / -1;
+      position: sticky;
+      inset-block-start: var(--toc-top);
+      max-block-size: calc(100vh - var(--toc-top) - var(--s-5));
+      overflow: auto;
+      overscroll-behavior: contain;
+      margin-block: 0;
+      font-size: .875rem;
+    }
+    .article--read:has(> .toc) > .toc .toc__head { padding: var(--s-3) var(--s-4); }
+    /* 「読みたいところから読めます」は、柱に出ていれば言わなくても分かる */
+    .article--read:has(> .toc) > .toc .toc__hint { display: none; }
+    .article--read:has(> .toc) > .toc .toc__list {
+      padding: 0 var(--s-4) var(--s-4) calc(var(--s-4) + 1.4em);
+    }
+  }
 
   .article__head {
     max-width: var(--measure-text);
