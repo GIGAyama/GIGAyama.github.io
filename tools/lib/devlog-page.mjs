@@ -115,7 +115,7 @@ export function devlogPost({ entry, html, headings, prev, next }) {
   const nav = (prev || next) ? `    <nav class="devlog__nav" aria-label="このアプリのほかの記録">
 ${prev ? `      <a class="devlog__nav-item" href="/${DEVLOG_BASE}/${prev.slug}/${prev.name}/"><span>前の記録</span>${esc(prev.title)}</a>\n` : ''}${next ? `      <a class="devlog__nav-item" href="/${DEVLOG_BASE}/${next.slug}/${next.name}/"><span>次の記録</span>${esc(next.title)}</a>\n` : ''}    </nav>\n` : '';
 
-  const body = `  <main class="wrap article">
+  const body = `  <main class="wrap article article--read">
     <nav class="crumbs" aria-label="パンくず">
       <a href="/">トップ</a>
       <span aria-hidden="true">›</span>
