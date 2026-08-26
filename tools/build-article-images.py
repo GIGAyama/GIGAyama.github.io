@@ -60,6 +60,7 @@ ROOT = Path(__file__).resolve().parent.parent
 APPS = ROOT / 'apps'
 OUT = ROOT / 'assets' / 'article'
 DATA = ROOT / 'data' / 'apps.json'
+NEEDS = ROOT / 'data' / 'article-images.json'
 
 RAW = 'https://raw.githubusercontent.com/'
 # 記事のページに残っている GitHub 直リンク
@@ -72,14 +73,74 @@ TIMEOUT = 30
 
 
 def targets() -> dict[str, list[str]]:
-    """書き出し済みのページから、GitHub を指している画像を拾う。"""
+    """どの記事の、どの画像を移すのかを決める。
+
+    build-articles.mjs が書き出す data/article-images.json を使う。
+    ここには「サブドメインから画像が読めなかった記事」と、その画像ぜんぶの
+    元 URL が入っている。
+
+    ⚠️ 以前はここで、書き出し済みのページから raw の URL を拾っていた。
+       それだと、いちど控えに載った記事はページに raw が 1 つも出なくなるので、
+       あとから足した画像も撮り直した画像も、二度と対象に入らない。
+       2026-08-25 に qalc で、足した 2 枚が出ず、撮り直した 5 枚が古いまま
+       残っているのが見つかった。
+    """
     out: dict[str, list[str]] = {}
+
+    # 1. build-articles.mjs が書き出した一覧
+    if NEEDS.exists():
+        data = json.loads(NEEDS.read_text(encoding='utf-8'))
+        for slug, v in data.get('apps', {}).items():
+            if v.get('images'):
+                out.setdefault(slug, []).extend(v['images'])
+
+    # 2. 書き出し済みのページに残っている raw の URL。
+    #    一覧がまだ無いとき、一覧に載っていない記事があるときの補い。
+    #    どちらか片方だけを見ると、その分だけ穴が空く。
     for page in sorted(APPS.glob('*/index.html')):
         slug = page.parent.name
-        urls = sorted(set(SRC_RE.findall(page.read_text(encoding='utf-8'))))
+        urls = SRC_RE.findall(page.read_text(encoding='utf-8'))
         if urls:
-            out[slug] = urls
-    return out
+            out.setdefault(slug, []).extend(urls)
+
+    return {slug: sorted(set(urls)) for slug, urls in sorted(out.items())}
+
+
+def sources_path(slug: str) -> Path:
+    """作ったときの元の大きさを控えておく場所。"""
+    return OUT / slug / '.sources.json'
+
+
+def load_sources(slug: str) -> dict:
+    try:
+        return json.loads(sources_path(slug).read_text(encoding='utf-8'))
+    except Exception:                                # noqa: BLE001
+        return {}
+
+
+def remote_size(url: str) -> int | None:
+    """元の大きさを HEAD で聞く。分からなければ None。"""
+    req = urllib.request.Request(url, method='HEAD',
+                                 headers={'User-Agent': 'giga-school-build'})
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+            n = r.headers.get('Content-Length')
+            return int(n) if n is not None else None
+    except Exception:                                # noqa: BLE001
+        return None
+
+
+def is_stale(url: str, name: str, seen: dict) -> bool:
+    """元が差しかわっていないか。控えの大きさと今の大きさを比べる。
+
+    撮り直した画像は、名前が同じまま中身だけ変わる。ここを見ないと、
+    古い写真がページに出たまま誰も気づかない。
+    """
+    was = seen.get(name, {}).get('bytes')
+    if not isinstance(was, int):
+        return True            # いつの控えか分からないものは、作り直して控えを取る
+    now = remote_size(url)
+    return now is not None and now != was
 
 
 def local_name(url: str) -> str:
@@ -92,8 +153,8 @@ def local_name(url: str) -> str:
     return re.sub(r'\.[a-z0-9]+$', '.webp', url.rsplit('/', 1)[-1], flags=re.I)
 
 
-def build(url: str, dst: Path) -> int:
-    """1 枚を取ってきて WebP にする。戻り値はバイト数。"""
+def build(url: str, dst: Path) -> tuple[int, int]:
+    """1 枚を取ってきて WebP にする。戻り値は（WebP のバイト数, 元のバイト数）。"""
     # Pillow は絵を作るときだけ要る。--check は入っていなくても通す
     try:
         from PIL import Image
@@ -103,6 +164,7 @@ def build(url: str, dst: Path) -> int:
     req = urllib.request.Request(url, headers={'User-Agent': 'giga-school-build'})
     with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
         raw = r.read()
+    src_bytes = len(raw)
 
     import io
     with Image.open(io.BytesIO(raw)) as im:
@@ -110,7 +172,7 @@ def build(url: str, dst: Path) -> int:
             im = im.resize((MAX_W, round(im.height * MAX_W / im.width)), Image.LANCZOS)
         dst.parent.mkdir(parents=True, exist_ok=True)
         im.convert('RGB').save(dst, 'WEBP', quality=QUALITY, method=6)
-    return dst.stat().st_size
+    return dst.stat().st_size, src_bytes
 
 
 def main() -> int:
@@ -123,27 +185,49 @@ def main() -> int:
     todo = targets()
     made = kept = total = 0
     missing: list[str] = []
+    stale: list[str] = []
 
     for slug, urls in todo.items():
+        seen = load_sources(slug)
+        changed = False
         for url in urls:
-            dst = OUT / slug / local_name(url)
+            name = local_name(url)
+            dst = OUT / slug / name
             if dst.exists() and not force:
-                kept += 1
-                total += dst.stat().st_size
+                # 名前が同じまま中身が差しかわっていないかを見る
+                if not is_stale(url, name, seen):
+                    kept += 1
+                    total += dst.stat().st_size
+                    continue
+                if check:
+                    stale.append(f'{slug}/{name}')
+                    continue
+            elif not dst.exists() and check:
+                missing.append(f'{slug}/{name}')
                 continue
-            if check:
-                missing.append(f'{slug}/{local_name(url)}')
-                continue
+            elif check:
+                continue                       # --force と --check を同時に渡したとき
             try:
-                total += build(url, dst)
+                size, src_bytes = build(url, dst)
+                total += size
                 made += 1
+                seen[name] = {'url': url, 'bytes': src_bytes}
+                changed = True
             except Exception as e:                       # noqa: BLE001
                 print(f'⚠️ 取れなかった {url}: {e}')
+        if changed:
+            sources_path(slug).write_text(
+                json.dumps(seen, ensure_ascii=False, indent=1, sort_keys=True) + '\n',
+                encoding='utf-8')
 
     if check:
-        if missing:
-            print(f'❌ 自分のドメインに無い画面写真が {len(missing)} 枚あります')
-            print(f'   例: {", ".join(missing[:5])}')
+        if missing or stale:
+            if missing:
+                print(f'❌ 自分のドメインに無い画面写真が {len(missing)} 枚あります')
+                print(f'   例: {", ".join(missing[:5])}')
+            if stale:
+                print(f'❌ 元が差しかわった画面写真が {len(stale)} 枚あります')
+                print(f'   例: {", ".join(stale[:5])}')
             print('   python3 tools/build-article-images.py で作れます')
             return 1
         print(f'✅ 記事の画面写真はそろっています（{kept} 枚）')

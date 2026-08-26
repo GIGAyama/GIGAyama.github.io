@@ -39,14 +39,17 @@
  * 確かめて決めておけば、直したその翌朝から自動で戻る。
  */
 
-import { mkdir, readFile, writeFile, rm, access } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile, rm, access } from 'node:fs/promises';
 import { renderArticle } from './lib/article-md.mjs';
 import { articlePage, headlineOf, linkCards, relatedOf, summaryOf } from './lib/article-page.mjs';
+import { pickImageUrl } from './lib/article-images.mjs';
 
 const OWNER = 'GIGAyama';
 const ROOT = new URL('..', import.meta.url);
 const DATA = new URL('data/apps.json', ROOT);
 const INDEX = new URL('data/articles.json', ROOT);
+const MIRROR_NEEDS = new URL('data/article-images.json', ROOT);
+const RAW = 'https://raw.githubusercontent.com/';
 const PAGE = new URL('index.html', ROOT);
 const APPS_DIR = new URL('apps/', ROOT);
 
@@ -156,6 +159,7 @@ const main = async () => {
 
   const built = [];
   const pages = [];     // 2 周目で書き出すための材料
+  const mirrorNeeds = {};   // 控えが要る記事と、その元の URL（build-article-images.py が読む）
   let missing = 0;
   let failed = 0;
 
@@ -198,16 +202,25 @@ const main = async () => {
 
     let article = renderArticle(got.markdown, { imageUrl: onSubdomain });
     let imageHost = 'subdomain';
+    let needMirror = null;
     const first = article.images[0]?.src;
     if (first && !(await reachable(first))) {
-      /* 移してあるかどうかは、1 枚目があるかで見る。
-         記事 1 本ぶんはまとめて移すので、1 枚あれば全部ある。 */
-      const probe = onMirror(article.images[0].src.replace(/^.*\/note\//, ''));
-      const mirrored = await access(new URL(`.${probe}`, ROOT)).then(() => true, () => false);
-      article = renderArticle(got.markdown, { imageUrl: mirrored ? onMirror : onRaw });
-      imageHost = mirrored ? 'mirror' : 'raw';
+      /* 控えがあるかは 1 枚ずつ見る。理由は pickImageUrl のところに書いてある。 */
+      const inMirror = new Set(
+        await readdir(new URL(`assets/article/${app.slug}/`, ROOT)).catch(() => []));
+      const pick = pickImageUrl({ inMirror, onMirror, onRaw });
+      const seen = [];                       // 出てきた順に、記事の中での指し先
+      article = renderArticle(got.markdown,
+        { imageUrl: (target) => { seen.push(target); return pick(target); } });
+      imageHost = inMirror.size ? 'mirror' : 'raw';
+      /* 控えを作る側（build-article-images.py）に渡す一覧。
+         ページから raw の URL を拾う作りだと、いちど控えに載った記事は
+         raw が 1 つも出なくなり、足した画像も撮り直した画像も対象に入らない。 */
+      needMirror = seen.map(onRaw);
+      const onRawCount = article.images.filter((i) => i.src.startsWith(RAW)).length;
       console.warn(`  画像はサブドメインから読めない ${app.repo} → `
-        + (mirrored ? '自分のドメインの控えを使う' : 'raw に切り替えた（控えが無い）'));
+        + (inMirror.size ? '自分のドメインの控えを使う' : 'raw に切り替えた（控えが無い）')
+        + (onRawCount ? `。うち ${onRawCount} 枚は控えが無く raw` : ''));
     }
     if (!article.title || article.charCount < 1200) {
       console.warn(`  中身が足りない ${app.repo}（題:${article.title ? 'あり' : 'なし'} / ${article.charCount}字）`);
@@ -218,6 +231,7 @@ const main = async () => {
     /* ここでは書き出さない。「ほかの紹介」を出すには 31 本ぶんの題が要るので、
        全部そろってから 2 周目で書き出す（下の「ページを書き出す」）。 */
     pages.push({ app, article });
+    if (needMirror) mirrorNeeds[app.slug] = { repo: app.repo, images: needMirror };
 
     built.push({
       slug: app.slug,
@@ -301,6 +315,16 @@ const main = async () => {
       _comment: 'tools/build-articles.mjs が書き出す。手で書き足さない。',
       generatedAt: data.generatedAt,
       items: built,
+    }, null, 1) + '\n');
+
+    /* 控えが要る記事の一覧。tools/build-article-images.py がこれを読んで作る。
+       書き出したページから raw の URL を拾う作りだと、いちど控えに載った記事は
+       raw が 1 つも出なくなり、足した画像も撮り直した画像も対象から外れる。 */
+    await writeFile(MIRROR_NEEDS, JSON.stringify({
+      _comment: 'tools/build-articles.mjs が書き出す。手で書き足さない。'
+        + ' サブドメインから画像が読めない記事と、その元の URL。',
+      generatedAt: data.generatedAt,
+      apps: Object.fromEntries(Object.entries(mirrorNeeds).sort(([a], [b]) => a.localeCompare(b))),
     }, null, 1) + '\n');
 
     const page = await readFile(PAGE, 'utf8');
