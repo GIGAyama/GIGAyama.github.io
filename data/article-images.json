@@ -1,0 +1,34 @@
+{
+ "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。 サブドメインから画像が読めない記事と、その元の URL。",
+ "generatedAt": "2026-08-25",
+ "apps": {
+  "qalc": {
+   "repo": "Qalc",
+   "images": [
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/01-home.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/02-drill-select.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03-game.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03b-memo-pad.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03c-memo-landscape.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/04-tool-hissan.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/05-tool-sakuranbo.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/06-tool-tokei.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/07-tool-warai.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/08-tool-mihaji.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/09-result.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/10-mistakes-box.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/11-room-qr.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/12-member-waiting.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/13-approve.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/14-boss-start.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/15-boss-attack.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/16-boss-result.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/17-territory-board.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/18-territory-result.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/19-presentation-mode.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/21-course-manager.png",
+    "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/20-shop.png"
+   ]
+  }
+ }
+}

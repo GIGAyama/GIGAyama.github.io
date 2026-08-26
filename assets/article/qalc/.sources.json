@@ -1,0 +1,94 @@
+{
+ "01-home.webp": {
+  "bytes": 254621,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/01-home.png"
+ },
+ "02-drill-select.webp": {
+  "bytes": 124398,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/02-drill-select.png"
+ },
+ "03-game.webp": {
+  "bytes": 93338,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03-game.png"
+ },
+ "03b-memo-pad.webp": {
+  "bytes": 104232,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03b-memo-pad.png"
+ },
+ "03c-memo-landscape.webp": {
+  "bytes": 170525,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/03c-memo-landscape.png"
+ },
+ "04-tool-hissan.webp": {
+  "bytes": 92231,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/04-tool-hissan.png"
+ },
+ "05-tool-sakuranbo.webp": {
+  "bytes": 104723,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/05-tool-sakuranbo.png"
+ },
+ "06-tool-tokei.webp": {
+  "bytes": 125488,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/06-tool-tokei.png"
+ },
+ "07-tool-warai.webp": {
+  "bytes": 126486,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/07-tool-warai.png"
+ },
+ "08-tool-mihaji.webp": {
+  "bytes": 127763,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/08-tool-mihaji.png"
+ },
+ "09-result.webp": {
+  "bytes": 113252,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/09-result.png"
+ },
+ "10-mistakes-box.webp": {
+  "bytes": 131217,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/10-mistakes-box.png"
+ },
+ "11-room-qr.webp": {
+  "bytes": 166870,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/11-room-qr.png"
+ },
+ "12-member-waiting.webp": {
+  "bytes": 105322,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/12-member-waiting.png"
+ },
+ "13-approve.webp": {
+  "bytes": 173424,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/13-approve.png"
+ },
+ "14-boss-start.webp": {
+  "bytes": 156692,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/14-boss-start.png"
+ },
+ "15-boss-attack.webp": {
+  "bytes": 268197,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/15-boss-attack.png"
+ },
+ "16-boss-result.webp": {
+  "bytes": 229981,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/16-boss-result.png"
+ },
+ "17-territory-board.webp": {
+  "bytes": 220325,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/17-territory-board.png"
+ },
+ "18-territory-result.webp": {
+  "bytes": 335569,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/18-territory-result.png"
+ },
+ "19-presentation-mode.webp": {
+  "bytes": 177139,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/19-presentation-mode.png"
+ },
+ "20-shop.webp": {
+  "bytes": 155619,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/20-shop.png"
+ },
+ "21-course-manager.webp": {
+  "bytes": 269337,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/note/images/21-course-manager.png"
+ }
+}
