@@ -19,7 +19,7 @@ import {
 /** メモリ上の疑似ファイル木から readdir / statSync を作る */
 function fakeFs(tree) {
   const at = (p) => {
-    const parts = p.split('/').filter(Boolean);
+    const parts = p.replace(/\\/g, '/').split('/').filter(Boolean);
     let node = tree;
     for (const part of parts) node = node?.[part];
     return node;
@@ -213,7 +213,7 @@ test('records-export-import: 別のファイルを読みこんでいたら、ず
 function fakeDir(tree) {
   const { readdir: rd, stat: st } = fakeFs(tree);
   const rel = (p) => (path.isAbsolute(p) ? path.relative(process.cwd(), p) : p);
-  const at = (p) => rel(p).split('/').filter(Boolean).reduce((n, k) => n?.[k], tree);
+  const at = (p) => rel(p).replace(/\\/g, '/').split('/').filter(Boolean).reduce((n, k) => n?.[k], tree);
   return {
     readdir: (p) => rd(rel(p)),
     stat: (p) => st(rel(p)),

@@ -1,0 +1,57 @@
+name: 正本を全リポジトリへ自動配布
+
+# standards/ 配下の正本が main にマージされたとき、または手動実行時に、
+# 全配布先リポジトリ（tools/distribution.json）へ正本をコピーし、
+# PR 作成と自動マージまでを一括実行する。
+# これにより「配布のとりのこし」がゼロになる。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'standards/**'
+      - 'tools/distribute.mjs'
+      - 'tools/distribution.json'
+      - '.agents/rules/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  distribute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Git 認証設定
+        run: |
+          git config --global user.name "GIGA山"
+          git config --global user.email "229759963+GIGAyama@users.noreply.github.com"
+
+      - name: 全ターゲットリポジトリのクローン
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p ../repos
+          cd ..
+          gh repo list GIGAyama --limit 100 --json name --jq '.[].name' | while read -r repo; do
+            if [ "$repo" != "GIGAyama.github.io" ] && [ ! -d "$repo" ]; then
+              echo "Cloning $repo..."
+              gh repo clone "GIGAyama/$repo" "$repo" || true
+            fi
+          done
+          cd GIGAyama.github.io
+
+      - name: 正本の自動配布とPRマージを実行
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          node tools/distribute.mjs
