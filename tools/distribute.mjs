@@ -89,6 +89,23 @@ for (const repoName of targetRepos) {
     const mapPath = path.join(repoDir, 'standards-map.json');
     if (fs.existsSync(mapPath)) {
       const map = JSON.parse(fs.readFileSync(mapPath, 'utf-8'));
+      if (!Array.isArray(map.dirs)) map.dirs = [];
+
+      // Ensure all required skills are present in standards-map.json dirs
+      const requiredSkills = ledger.skills?.required || [];
+      let mapChanged = false;
+      for (const skillName of requiredSkills) {
+        const canonical = `skills/${skillName}`;
+        const local = `.claude/skills/${skillName}`;
+        if (!map.dirs.some(d => d.canonical === canonical)) {
+          map.dirs.push({ canonical, local });
+          mapChanged = true;
+        }
+      }
+      if (mapChanged) {
+        fs.writeFileSync(mapPath, JSON.stringify(map, null, 2) + '\n', 'utf-8');
+      }
+
       if (Array.isArray(map.files)) {
         for (const item of map.files) {
           const srcFile = path.join(STANDARDS_DIR, item.canonical);
