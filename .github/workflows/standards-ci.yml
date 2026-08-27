@@ -73,11 +73,13 @@ jobs:
       # 11 本の記事の画像が 21 枚まとめて出なくなる。見るだけなので Pillow は要らない
       - name: 記事の画面写真がそろっているか
         run: python3 tools/build-article-images.py --check
+      - name: GIGA標準検査のテスト
+        run: node --test standards/skills/giga-reviewer/scripts/*.test.mjs
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
         run: |
-          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js; do
+          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/skills/giga-reviewer/scripts/*.mjs; do
             node --check "$f"
           done
           # .gs は Node が拡張子を知らないので、写してから見る
