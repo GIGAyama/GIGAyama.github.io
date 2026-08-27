@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-25",
+ "generatedAt": "2026-08-27",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -138,11 +138,11 @@
    "name": "マイ漢字タウン",
    "title": "教室で使えるかもしれないもの作り #◯ 「一度合格したら、それで終わり」にしない。忘れたころに戻ってくる漢字学習アプリ「マイ漢字タウン」",
    "headline": "「一度合格したら、それで終わり」にしない。忘れたころに戻ってくる漢字学習アプリ「マイ漢字タウン」",
-   "summary": "漢字のデジタルドリル、二学期の終わりごろには、もう開かれなくなっていた。そんなことはありませんか。合格したら終わりにせず、忘れたころにまた出てくる。そういう漢字の学習を作りたくて、マイ漢字タウンというアプリを作りました。",
+   "summary": "漢字のデジタルドリル、二学期の終わりごろには、もう開かれなくなっていた。そんなことはありませんか。合格したら終わりにせず、忘れたころにまた出てくる。そういう漢字の学習システムを作りたくて、…",
    "source": "docs/note/kanji-town-note-article.md",
    "images": 24,
    "imageHost": "mirror",
-   "charCount": 7446,
+   "charCount": 7352,
    "updatedAt": "2026-08-25"
   },
   {
@@ -207,8 +207,8 @@
    "source": "docs/note/square100-note-article.md",
    "images": 19,
    "imageHost": "mirror",
-   "charCount": 8297,
-   "updatedAt": "2026-08-25"
+   "charCount": 8768,
+   "updatedAt": "2026-08-26"
   },
   {
    "slug": "online-manuscript-paper-lite",
@@ -333,12 +333,12 @@
    "name": "週案エディタ",
    "title": "教室で使えるかもしれないもの作り #◯ 「週案は紙のほうが早い」と感じている先生へ。印刷の形まで選べる校務アプリ「週案エディタ」",
    "headline": "「週案は紙のほうが早い」と感じている先生へ。印刷の形まで選べる校務アプリ「週案エディタ」",
-   "summary": "週案は紙で書くのがいちばん早い。そう感じている先生は、けっこう多いのではないでしょうか。私が作った「週案エディタ」は、その紙の週案を、ブラウザで書いて印刷までするための道具です。",
+   "summary": "週案は紙で書くのがいちばん早い。そう感じている先生は、けっこう多いのではないでしょうか。",
    "source": "docs/note/schoolplan-editor-note-article.md",
    "images": 23,
    "imageHost": "subdomain",
-   "charCount": 8878,
-   "updatedAt": "2026-08-25"
+   "charCount": 9129,
+   "updatedAt": "2026-08-26"
   },
   {
    "slug": "townmap-mikke",
