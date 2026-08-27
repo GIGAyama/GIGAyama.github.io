@@ -194,29 +194,40 @@ for (const repoName of targetRepos) {
 
     // Create PR
     try {
-      run(`gh pr create --title "${PR_TITLE}" --body "${PR_BODY}" --base "${defaultBranch}"`);
+      run(`gh pr create --repo GIGAyama/${repoName} --title "${PR_TITLE}" --body "${PR_BODY}" --base "${defaultBranch}"`);
     } catch (e) {
       console.log(`  PR creation note: ${e.message}`);
     }
 
     // Merge PR
+    let merged = false;
     const mergeCmds = [
-      'gh pr merge --admin --merge --delete-branch',
-      'gh pr merge --merge --delete-branch',
-      'gh pr merge --squash --delete-branch',
-      'gh pr merge --auto --merge'
+      `gh pr merge ${BRANCH_NAME} --repo GIGAyama/${repoName} --admin --merge --delete-branch`,
+      `gh pr merge ${BRANCH_NAME} --repo GIGAyama/${repoName} --merge --delete-branch`,
+      `gh pr merge ${BRANCH_NAME} --repo GIGAyama/${repoName} --squash --delete-branch`,
+      `gh pr merge ${BRANCH_NAME} --repo GIGAyama/${repoName} --auto --merge`
     ];
 
     for (const mCmd of mergeCmds) {
       try {
         run(mCmd);
         console.log(`  [MERGED] PR successfully merged for ${repoName}`);
+        merged = true;
         break;
       } catch {}
     }
 
     run(`git checkout ${defaultBranch}`, true);
-    run('git pull', true);
+    if (!merged) {
+      // Direct merge fallback for forked repos
+      try {
+        run(`git merge ${BRANCH_NAME} --no-edit`);
+        run(`git push origin ${defaultBranch}`);
+        console.log(`  [DIRECT MERGE] Merged directly to origin/${defaultBranch} for ${repoName}`);
+      } catch {}
+    } else {
+      run('git pull', true);
+    }
 
     results.updated.push(repoName);
   } catch (err) {
