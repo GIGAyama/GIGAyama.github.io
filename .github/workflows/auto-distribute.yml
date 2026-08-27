@@ -32,9 +32,12 @@ jobs:
           node-version: 20
 
       - name: Git 認証設定
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "GIGA山"
           git config --global user.email "229759963+GIGAyama@users.noreply.github.com"
+          gh auth setup-git
 
       - name: 全ターゲットリポジトリのクローン
         env:

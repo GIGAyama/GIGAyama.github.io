@@ -260,3 +260,7 @@ console.log(`Updated/Merged: ${results.updated.length}`);
 console.log(`Already Synced: ${results.noChange.length}`);
 console.log(`Failed        : ${results.failed.length}`);
 console.log('========================================');
+
+if (results.failed.length > 0) {
+  process.exit(1);
+}
