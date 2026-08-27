@@ -40,7 +40,9 @@
  "skills": {
   "required": [
    "devlog-article",
-   "note-article"
+   "note-article",
+   "giga-scaffold",
+   "giga-reviewer"
   ],
   "extra": [
    "Blackboard_Timer",
