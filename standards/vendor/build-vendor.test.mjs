@@ -370,3 +370,33 @@ test('⚠️ 短い生成物名でも、まわりの語を巻きこまない', (
   const cfg = loadConfig(repo);
   assert.deepEqual(collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'ms'), ['search']);
 });
+
+test('⚠️ アイコン名の _ を切り落とさない（check_circle が check になる）', () => {
+  const repo = makeRepo({
+    config: { targets: [{ out: 'icons.html', icons: '@material-symbols/svg-400' }] },
+    files: { 'index.html': '<span class="ms ms-check_circle"></span><span class="ms ms-search_off"></span>' },
+  });
+  const cfg = loadConfig(repo);
+  assert.deepEqual(
+    collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'ms'),
+    ['check_circle', 'search_off'],
+  );
+});
+
+test('実行時に決まるアイコンは extra に書けば入る', async () => {
+  const repo = makeRepo({
+    config: {
+      wrap: 'none',
+      targets: [{ out: 'icons.css', icons: '@material-symbols/svg-400', extra: ['warning', 'delete'] }],
+    },
+    files: { 'index.html': '<span class="ms ms-add"></span>' },
+    deps: {
+      '@material-symbols/svg-400/rounded/add-fill.svg': SVG('M0 0'),
+      '@material-symbols/svg-400/rounded/warning-fill.svg': SVG('M1 1'),
+      '@material-symbols/svg-400/rounded/delete-fill.svg': SVG('M2 2'),
+    },
+  });
+  await buildVendor(repo, { log: () => {}, warn: () => {} });
+  const css = fs.readFileSync(path.join(repo, 'icons.css'), 'utf8');
+  for (const n of ['add', 'warning', 'delete']) assert.match(css, new RegExp(`\\.ms-${n}\\{`), n);
+});

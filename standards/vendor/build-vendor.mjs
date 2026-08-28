@@ -82,7 +82,10 @@ export function readDep(nodeModules, rel) {
 export function collectIconNames(repoRoot, cfg, prefix, deps = {}) {
   const { readdir = fs.readdirSync, read = fs.readFileSync, stat = fs.statSync } = deps;
   const used = new Set();
-  const re = new RegExp(`\\b${prefix}-([a-z0-9-]+)`, 'g');
+  // ⚠️ _ を入れること。Material Symbols の名前は check_circle のように _ を使う。
+  //    入れ忘れると ms-check_circle が "check" として拾われ、**別の絵が出るか、
+  //    何も出ない**。実際に踏んだ（2026-08-28）。
+  const re = new RegExp(`\\b${prefix}-([a-z0-9_-]+)`, 'g');
   const generated = new Set(
     (cfg.targets || []).map((t) => path.resolve(repoRoot, t.out)),
   );
@@ -261,7 +264,10 @@ export async function buildVendor(repoRoot, { log = console.log, warn = console.
     } else if (t.icons) {
       const pack = ICON_PACKS[t.icons];
       if (!pack) throw new Error(`知らないアイコンの出どころ: ${t.icons}`);
-      const names = collectIconNames(repoRoot, cfg, pack.prefix);
+      /* ⚠️ 実行時に決まるアイコン（`ms-${cond ? 'a' : 'b'}` のような書き方）は
+         走査では見つからない。設定の extra に並べること。
+         並べ忘れると、その場面でだけ絵が消える。 */
+      const names = [...new Set([...collectIconNames(repoRoot, cfg, pack.prefix), ...(t.extra || [])])].sort();
       const { css, count, missing } = renderIconCss(names, {
         prefix: pack.prefix,
         baseClass: pack.baseClass,
