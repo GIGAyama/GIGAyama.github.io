@@ -33,6 +33,7 @@
  * unmanaged と同じ考え方。
  */
 import fs from 'node:fs';
+import { SKILL_ROOTS } from '../standards/check-drift.mjs';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -270,8 +271,14 @@ async function checkRepo(owner, repo, standardsDir, requiredSkills = []) {
      対応表に書かれていないものは照合されないので、これが無いと
      配り忘れたリポジトリが緑のまま残る。 */
   for (const name of requiredSkills) {
-    if (!dirEntries.some((e) => e.canonical === `skills/${name}`)) {
-      problems.push(`スキル ${name} が standards-map.json の dirs にありません（まだ配っていません）`);
+    /* ⚠️ 置き場ごとに見る。canonical だけで「もう書いてある」と判定していたころは、
+          .claude/ の行が 1 本あるだけで .agents/ を配り忘れていても緑だった。
+          Claude Code と Antigravity のどちらか片方だけ動く状態が、
+          ポータル側からは見えないまま残る。 */
+    for (const root of SKILL_ROOTS) {
+      if (!dirEntries.some((e) => e.local === `${root}/${name}`)) {
+        problems.push(`スキル ${name} が standards-map.json の dirs にありません（${root}/ にまだ配っていません）`);
+      }
     }
   }
 

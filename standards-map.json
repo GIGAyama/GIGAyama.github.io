@@ -5,15 +5,47 @@
    "local": "tools/build-sw.mjs"
   }
  ],
- "_note": "ポータル自身の対応表。standards/ の中身は原本なので、スキルは写しを作らず .claude/skills/ からシンボリックリンクを張ってある。2 つになった時点でどちらが正本か分からなくなるため。",
+ "_note": "ポータル自身の対応表。standards/ の中身が原本なので、スキルと Workspace Rules は写しを作らず .claude/skills/ と .agents/skills/ と .agents/rules/ からシンボリックリンクを張ってある。2 つになった時点でどちらが正本か分からなくなるため。",
  "unmanaged": [
   {
    "local": ".claude/skills/devlog-article",
-   "reason": "正本 standards/skills/devlog-article へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-25）"
+   "reason": "正本 standards/skills/devlog-article へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
+  },
+  {
+   "local": ".agents/skills/devlog-article",
+   "reason": "正本 standards/skills/devlog-article へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
   },
   {
    "local": ".claude/skills/note-article",
-   "reason": "正本 standards/skills/note-article へのシンボリックリンク。同上（2026-08-25）"
+   "reason": "正本 standards/skills/note-article へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
+  },
+  {
+   "local": ".agents/skills/note-article",
+   "reason": "正本 standards/skills/note-article へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
+  },
+  {
+   "local": ".claude/skills/giga-scaffold",
+   "reason": "正本 standards/skills/giga-scaffold へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
+  },
+  {
+   "local": ".agents/skills/giga-scaffold",
+   "reason": "正本 standards/skills/giga-scaffold へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
+  },
+  {
+   "local": ".claude/skills/giga-reviewer",
+   "reason": "正本 standards/skills/giga-reviewer へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
+  },
+  {
+   "local": ".agents/skills/giga-reviewer",
+   "reason": "正本 standards/skills/giga-reviewer へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-28）"
+  },
+  {
+   "local": ".agents/skills/README.md",
+   "reason": "正本 standards/skills/README.md へのシンボリックリンク。同上（2026-08-28）"
+  },
+  {
+   "local": ".agents/rules/gigaschool-standards.md",
+   "reason": "正本 standards/agents/rules/gigaschool-standards.md へのシンボリックリンク。配布元をポータルのローカルコピーにしていたのをやめ、standards/ 配下へ移した（2026-08-28）"
   }
  ]
 }

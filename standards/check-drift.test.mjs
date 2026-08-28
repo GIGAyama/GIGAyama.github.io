@@ -292,28 +292,67 @@ test('listFiles: 入れ子の中まで、相対パスで並べる', () => {
 // 照合 0 件のまま緑になる。それを塞ぐ検査。
 
 test('未登録のスキル: 対応表に無いものを見つける', () => {
-  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {}, devlog: {} } } } });
-  const out = unregisteredSkills('r', ['.claude/skills/note'], [], readdir);
+  const { readdir, stat } = fakeFs({ r: { '.claude': { skills: { note: {}, devlog: {} } } } });
+  const out = unregisteredSkills('r', ['.claude/skills/note'], [], readdir, stat);
   assert.deepEqual(out, ['.claude/skills/devlog']);
 });
 
 test('未登録のスキル: dirs に載っていれば出さない', () => {
-  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
-  assert.deepEqual(unregisteredSkills('r', ['.claude/skills/note'], [], readdir), []);
+  const { readdir, stat } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
+  assert.deepEqual(unregisteredSkills('r', ['.claude/skills/note'], [], readdir, stat), []);
 });
 
 test('未登録のスキル: unmanaged に理由つきで書いてあれば出さない', () => {
   // ポータル自身は正本へのシンボリックリンクなので、この形で外してある
-  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
-  assert.deepEqual(unregisteredSkills('r', [], ['.claude/skills/note'], readdir), []);
+  const { readdir, stat } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
+  assert.deepEqual(unregisteredSkills('r', [], ['.claude/skills/note'], readdir, stat), []);
 });
 
 test('未登録のスキル: 末尾の / の有無で取りちがえない', () => {
-  const { readdir } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
-  assert.deepEqual(unregisteredSkills('r', ['.claude/skills/note/'], [], readdir), []);
+  const { readdir, stat } = fakeFs({ r: { '.claude': { skills: { note: {} } } } });
+  assert.deepEqual(unregisteredSkills('r', ['.claude/skills/note/'], [], readdir, stat), []);
 });
 
-test('未登録のスキル: .claude/skills が無いリポジトリでは何も言わない', () => {
-  const { readdir } = fakeFs({ r: { src: {} } });
-  assert.deepEqual(unregisteredSkills('r', [], [], readdir), []);
+test('未登録のスキル: 置き場が無いリポジトリでは何も言わない', () => {
+  const { readdir, stat } = fakeFs({ r: { src: {} } });
+  assert.deepEqual(unregisteredSkills('r', [], [], readdir, stat), []);
+});
+
+/* ── Antigravity（.agents/）も同じ目で見る ──────────────────────
+   2026-08-28 まで unregisteredSkills は .claude/skills しか読んでいなかった。
+   .agents/skills は配布物なのに一度も照合されず、書き替えても緑のままだった。 */
+
+test('未登録のスキル: .agents/skills も見る', () => {
+  const { readdir, stat } = fakeFs({ r: { '.agents': { skills: { note: {}, rogue: {} } } } });
+  const out = unregisteredSkills('r', ['.agents/skills/note'], [], readdir, stat);
+  assert.deepEqual(out, ['.agents/skills/rogue']);
+});
+
+test('未登録のスキル: .claude と .agents の両方を並べて返す', () => {
+  const { readdir, stat } = fakeFs({
+    r: { '.claude': { skills: { note: {} } }, '.agents': { skills: { note: {} } } },
+  });
+  assert.deepEqual(unregisteredSkills('r', [], [], readdir, stat), [
+    '.claude/skills/note', '.agents/skills/note',
+  ]);
+});
+
+test('未登録のスキル: 片方だけ対応表にあっても、もう片方は出す', () => {
+  // 「.claude には配ったが .agents には配っていない」を取りこぼさないため
+  const { readdir, stat } = fakeFs({
+    r: { '.claude': { skills: { note: {} } }, '.agents': { skills: { note: {} } } },
+  });
+  assert.deepEqual(
+    unregisteredSkills('r', ['.claude/skills/note'], [], readdir, stat),
+    ['.agents/skills/note'],
+  );
+});
+
+test('未登録のスキル: 置き場に直に置かれたファイルはスキルではない', () => {
+  // README.md は説明であってスキルではない。以前は数えていたので、
+  // distribute.mjs が .claude/skills/README.md を消して回っていた
+  const { readdir, stat } = fakeFs({
+    r: { '.agents': { skills: { note: {}, 'README.md': '' } } },
+  });
+  assert.deepEqual(unregisteredSkills('r', ['.agents/skills/note'], [], readdir, stat), []);
 });

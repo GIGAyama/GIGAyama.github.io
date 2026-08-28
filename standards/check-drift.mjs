@@ -189,23 +189,51 @@ export function compareDir({ canonical, local }, standardsDir, repoDir, deps = {
 }
 
 /**
+ * スキルの置き場。エージェントごとに読む場所が違うので、両方を見る。
+ *
+ * ⚠️ .agents/ を足し忘れると、そちらは一度も照合されない。2026-08-28 に実測した:
+ *    .agents/skills/note-article/SKILL.md を書き替えても、
+ *    .agents/skills/ に見知らぬスキルを置いても、check-drift は緑のままだった。
+ *    同じ壊し方を .claude/ で行えば赤くなる。つまり「配ったものの半分を
+ *    誰も見ていない」状態で「正本と一致しています」と言っていた。
+ */
+export const SKILL_ROOTS = ['.claude/skills', '.agents/skills'];
+
+/**
  * 対応表に載っていないスキルを探す。
  *
  * ⚠️ findLookalikes は "." で始まる名前を飛ばす（.git や .github まで歩かないため）。
- *    つまり .claude/ の中は一度も見ていない。スキルを置いたのに対応表へ書かなければ、
- *    照合 0 件のまま緑になる。「見ていない」を「きれい」と読ませないための検査。
+ *    つまり .claude/ と .agents/ の中は一度も見ていない。スキルを置いたのに
+ *    対応表へ書かなければ、照合 0 件のまま緑になる。
+ *    「見ていない」を「きれい」と読ませないための検査。
  *
  * ⚠️ basename の索引（canonicalIndex）は使わない。スキルの中身はほとんど .md で、
  *    あれに .md を足すと README.md がどのリポジトリでも当たる。ここはパスで見る。
+ *
+ * ⚠️ スキルは必ずディレクトリ。置き場に直に置かれたファイル（README.md など）は
+ *    スキルではないので数えない。以前は数えていたので、distribute.mjs が
+ *    .claude/skills/README.md をわざわざ消して回っていた。原因のほうを直す。
  */
-export function unregisteredSkills(repoDir, registeredLocals, unmanagedLocals, readdir = fs.readdirSync) {
-  let names;
-  try { names = readdir(path.join(repoDir, '.claude', 'skills')); } catch { return []; }
+export function unregisteredSkills(
+  repoDir, registeredLocals, unmanagedLocals, readdir = fs.readdirSync, stat = fs.statSync,
+) {
   const trim = (l) => String(l).replace(/\/+$/, '');
   const known = new Set([...registeredLocals, ...unmanagedLocals].map(trim));
-  return names
-    .map((name) => `.claude/skills/${name}`)
-    .filter((local) => !known.has(local));
+  const out = [];
+  for (const root of SKILL_ROOTS) {
+    let names;
+    try { names = readdir(path.join(repoDir, ...root.split('/'))); } catch { continue; }
+    for (const name of names) {
+      // スキルはディレクトリだけ。判定できないときは従来どおりスキル扱いにして、
+      // 「見落とすより余計に言う」側へ倒す。
+      let isDir = true;
+      try { isDir = stat(path.join(repoDir, ...root.split('/'), name)).isDirectory(); } catch { /* 判定不能 */ }
+      if (!isDir) continue;
+      const local = `${root}/${name}`;
+      if (!known.has(local)) out.push(local);
+    }
+  }
+  return out;
 }
 
 /**
@@ -277,7 +305,7 @@ function main() {
   }
 
   /* 対応表に書かずに置かれたスキル。ポータルも見る。
-     ⚠️ ポータルの .claude/skills/ は正本へのシンボリックリンクなので、
+     ⚠️ ポータルの .claude/skills/ と .agents/skills/ は正本へのシンボリックリンクなので、
         dirs に書かなくてよいように unmanaged で宣言してある。
         「見ていない」ではなく「見たうえで外してある」に寄せる。 */
   const looseSkills = unregisteredSkills(
@@ -316,6 +344,7 @@ function main() {
     console.error('照合されていないので、正本を直してもここには届きません。次のどちらかを行ってください:');
     console.error('  ・正本のコピーなら standards-map.json の dirs に足す');
     console.error('      { "canonical": "skills/<名前>", "local": ".claude/skills/<名前>" }');
+    console.error('      { "canonical": "skills/<名前>", "local": ".agents/skills/<名前>" }');
     console.error('  ・意図して別物を持っているなら unmanaged に理由つきで書く');
   }
 
