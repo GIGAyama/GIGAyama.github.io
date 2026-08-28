@@ -33,7 +33,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { buildCharset } from './chars.mjs';
+import { buildCharset, stripComments } from './chars.mjs';
 import { oflText } from './ofl.mjs';
 
 // Google Fonts の CSS API は User-Agent で返す形式を変える。
@@ -52,11 +52,17 @@ export const DEFAULT_CONFIG = {
   extra: '', // 追加で必ず入れたい字
   scan: [], // 画面に出る字を拾うファイル / ディレクトリ
   scanExt: ['.html', '.css', '.js', '.jsx', '.ts', '.tsx'],
+  // コメントの字を収録しない。既定で入れる（画面に出ない字を配る理由がない）
+  stripComments: true,
   outDir: 'fonts', // woff2 の置き場（embed: true のときは使わない）
   cssPath: 'fonts.css', // 生成する CSS
   hrefPrefix: './fonts/', // CSS から woff2 をどう指すか
   bucketSize: DEFAULT_BUCKET_SIZE,
   embed: false, // true: woff2 を base64 の data: URI で CSS に埋める（GAS 用）
+  // 出力を <style> で包むか。既定は cssPath が .html なら包む。
+  // GAS の include() は中身を **HTML として読み直して組み立て直す**ので、
+  // 素の CSS を置くと文字として扱われる。.html に出す以上は必ず包むこと。
+  wrapStyle: null,
   slug: null, // ファイル名の頭。既定は family から作る
   license: '', // CSS の頭に書く著作権表記
   copyright: '', // OFL.txt の先頭に置く著作権表示（例: "Copyright 2021 The …"）
@@ -222,7 +228,8 @@ export function collectSources(repoRoot, cfg, deps = {}) {
     }
     if (!cfg.scanExt.includes(path.extname(p))) return;
     try {
-      chunks.push(read(p, 'utf8'));
+      const text = read(p, 'utf8');
+      chunks.push(cfg.stripComments === false ? text : stripComments(text));
     } catch {
       /* 読めないものは飛ばす */
     }
@@ -290,7 +297,11 @@ export async function buildFonts(repoRoot, { fetchImpl = fetch, log = console.lo
     license: cfg.license,
     generator: cfg.generator,
   });
-  fs.writeFileSync(path.join(repoRoot, cfg.cssPath), css);
+  const wrap =
+    cfg.wrapStyle === null || cfg.wrapStyle === undefined
+      ? path.extname(cfg.cssPath) === '.html'
+      : cfg.wrapStyle;
+  fs.writeFileSync(path.join(repoRoot, cfg.cssPath), wrap ? `<style>\n${css}</style>\n` : css);
   log(
     `✅ ${cfg.cssPath} と ${oflPath} を更新した（@font-face ${faces.length} 面 / ` +
       `フォント計 ${(total / 1024).toFixed(1)} KB${cfg.embed ? '・CSS に埋め込み' : ''}）`,

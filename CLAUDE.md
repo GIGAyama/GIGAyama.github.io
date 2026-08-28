@@ -28,6 +28,8 @@ node --test standards/gas/*.test.mjs
 node --test standards/check-drift.test.mjs
 node --test standards/sw/*.test.mjs
 node --test standards/web/*.test.mjs
+node --test standards/fonts/*.test.mjs
+node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
 node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs

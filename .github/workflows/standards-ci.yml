@@ -45,6 +45,10 @@ jobs:
       # 端末フォントに落ちたまま「ビルド成功」になる（2026-08-28 実測）
       - name: 自己ホストするフォントの取り寄せのテスト
         run: node --test standards/fonts/*.test.mjs
+      # ライブラリの取りこみ。走査の取りこぼしは「その画面だけアイコンが消える」
+      # という形で出て、ビルドも静的解析も通ってしまう（MIRAI-Compass で実際に起きた）。
+      - name: 自己ホストするライブラリの取りこみのテスト
+        run: node --test standards/vendor/*.test.mjs
       # 学習ログを「誰に渡してよいか」を決めている場所。配布先では走っていたが、
       # 正本そのものでは一度も走っていなかった（置き場を js/ 決め打ちにしていたため）。
       - name: 学習ログの受け渡し口のテスト
@@ -98,7 +102,7 @@ jobs:
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
         run: |
-          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/fonts/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/skills/giga-reviewer/scripts/*.mjs; do
+          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/fonts/*.mjs standards/vendor/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/skills/giga-reviewer/scripts/*.mjs; do
             node --check "$f"
           done
           # .gs は Node が拡張子を知らないので、写してから見る
