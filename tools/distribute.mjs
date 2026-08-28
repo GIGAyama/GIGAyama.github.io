@@ -43,13 +43,37 @@ const DISTRIBUTION_JSON = path.join(HERE, 'distribution.json');
  * 変えたり 1 本やめたりすると、古いほうが配布先に残りつづける。
  * check-drift は「余分なファイル」として赤くするので、配布のたびに
  * 全リポジトリが赤くなり、しかも直し方が配布では届かない。
+ *
+ * ⚠️ ただし、配布先が `unmanaged` に理由つきで宣言しているものは消さない。
+ *    unmanaged は「ここは意図して別物を持っている」という宣言で、
+ *    check-drift はそれを見て見逃す。配る側が問答無用で消すと、
+ *    宣言したものほど黙って失われる。宣言の意味が逆になってしまう。
+ *
+ * @param {string[]} keep 消してはいけない相対名（unmanaged で宣言された分）
  */
-function pruneRemoved(srcDir, dstDir) {
+function pruneRemoved(srcDir, dstDir, keep = []) {
   if (!fs.existsSync(dstDir)) return;
+  const keepSet = new Set(keep);
   for (const name of fs.readdirSync(dstDir)) {
     if (fs.existsSync(path.join(srcDir, name))) continue;
+    if (keepSet.has(name)) continue;
     fs.rmSync(path.join(dstDir, name), { recursive: true, force: true });
   }
+}
+
+/** standards-map.json の unmanaged から、その置き場の直下の名前を拾う */
+function unmanagedUnder(repoDir, root) {
+  const mapPath = path.join(repoDir, 'standards-map.json');
+  if (!fs.existsSync(mapPath)) return [];
+  let map;
+  try { map = JSON.parse(fs.readFileSync(mapPath, 'utf8')); } catch { return []; }
+  const rows = Array.isArray(map.unmanaged) ? map.unmanaged : [];
+  const prefix = `${root}/`;
+  return rows
+    .map((u) => (u && typeof u.local === 'string' ? u.local.replace(/\/+$/, '') : ''))
+    .filter((l) => l.startsWith(prefix))
+    .map((l) => l.slice(prefix.length))
+    .filter((n) => n && !n.includes('/'));
 }
 
 const args = process.argv.slice(2);
@@ -203,7 +227,9 @@ for (const repoName of targetRepos) {
     for (const root of SKILL_ROOTS) {
       const dest = path.join(repoDir, ...root.split('/'));
       fs.mkdirSync(dest, { recursive: true });
-      pruneRemoved(STANDARDS_SKILLS_DIR, dest);
+      // その置き場について unmanaged で宣言されているものは残す
+      const declared = unmanagedUnder(repoDir, root);
+      pruneRemoved(STANDARDS_SKILLS_DIR, dest, declared);
       fs.cpSync(STANDARDS_SKILLS_DIR, dest, { recursive: true });
     }
 

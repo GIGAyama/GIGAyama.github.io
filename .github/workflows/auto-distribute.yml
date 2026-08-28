@@ -31,6 +31,26 @@ jobs:
         with:
           node-version: 20
 
+      # ⚠️ ここで止めないと、原因の見えない 403 が 42 本ぶん並ぶ。
+      #
+      # 下の各ステップは `secrets.PAT_TOKEN || secrets.GITHUB_TOKEN` と書いてある。
+      # PAT_TOKEN が無いと GITHUB_TOKEN に落ちるが、**GITHUB_TOKEN はそのリポジトリ
+      # にしか書けない**ので、他の 42 本への push は必ず 403 になる。
+      # 2026-08-28 の実行がまさにこれで、
+      #   remote: Permission to GIGAyama/word_basket.git denied to github-actions[bot].
+      #   Failed : 42
+      # と出た。42 本ぶんの 403 のどこにも「PAT_TOKEN が無い」とは書かれない。
+      # 落ちる場所を先頭に移して、理由をそのまま出す。
+      - name: PAT_TOKEN があるか先に確かめる
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          if [ -z "$PAT_TOKEN" ]; then
+            echo "::error title=PAT_TOKEN が設定されていません::他のリポジトリへ push するには、リポジトリをまたげるトークンが要ります。GITHUB_TOKEN は自分のリポジトリにしか書けないため、このまま進めても 42 本すべてが 403 で失敗します。Settings → Secrets and variables → Actions に PAT_TOKEN（contents:write と pull-requests:write を持つ PAT、または GitHub App のトークン）を登録してください。"
+            exit 1
+          fi
+          echo "PAT_TOKEN は設定されています"
+
       - name: Git 認証設定
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
