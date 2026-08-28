@@ -45,8 +45,9 @@ export const UA =
 export const DEFAULT_BUCKET_SIZE = 780;
 
 export const DEFAULT_CONFIG = {
-  family: null, // 例: "Zen Maru Gothic"（必須）
+  family: null, // 例: "Zen Maru Gothic"（families を使わないなら必須）
   weights: [400, 700],
+  families: null, // 複数の書体を使うとき: [{ family, weights }, …]
   grades: [1, 2], // 学年別漢字のどこまでを入れるか
   extra: '', // 追加で必ず入れたい字
   scan: [], // 画面に出る字を拾うファイル / ディレクトリ
@@ -147,7 +148,7 @@ ${license ? ` * ${license}\n` : ''} *
   const body = faces
     .map(
       (f) => `@font-face {
-  font-family: '${family}';
+  font-family: '${f.family || family}';
   font-style: normal;
   font-weight: ${f.weight};
   font-display: swap;
@@ -170,11 +171,19 @@ export function loadConfig(repoRoot, readFile = fs.readFileSync) {
     throw new Error(`fonts.config.json が無い: ${p}`);
   }
   const cfg = { ...DEFAULT_CONFIG, ...JSON.parse(raw) };
-  if (!cfg.family) throw new Error('fonts.config.json に family がない');
-  if (!Array.isArray(cfg.weights) || cfg.weights.length === 0) {
-    throw new Error('fonts.config.json の weights が空');
+  // 1 書体でも複数でも、内部では families の並びとして扱う
+  if (!Array.isArray(cfg.families) || cfg.families.length === 0) {
+    if (!cfg.family) throw new Error('fonts.config.json に family も families もない');
+    cfg.families = [{ family: cfg.family, weights: cfg.weights }];
   }
-  cfg.slug = cfg.slug || slugify(cfg.family);
+  for (const f of cfg.families) {
+    if (!f.family) throw new Error('fonts.config.json の families に family がない');
+    if (!Array.isArray(f.weights) || f.weights.length === 0) {
+      throw new Error(`fonts.config.json の ${f.family} の weights が空`);
+    }
+    f.slug = f.slug || slugify(f.family);
+  }
+  cfg.slug = cfg.slug || cfg.families[0].slug;
   return cfg;
 }
 
@@ -230,7 +239,9 @@ export async function buildFonts(repoRoot, { fetchImpl = fetch, log = console.lo
   const chars = buildCharset({ grades: cfg.grades, extra: cfg.extra, sources });
   const buckets = splitBuckets(chars, cfg.bucketSize);
 
-  log(`書体: ${cfg.family}  ウェイト: ${cfg.weights.join(', ')}`);
+  log(
+    `書体: ${cfg.families.map((f) => `${f.family}(${f.weights.join('/')})`).join('  ')}`,
+  );
   log(`収録する字: ${chars.length} 字 → ${buckets.length} 束（1 束 ${cfg.bucketSize} 字まで）`);
 
   const outDir = path.join(repoRoot, cfg.outDir);
@@ -238,10 +249,11 @@ export async function buildFonts(repoRoot, { fetchImpl = fetch, log = console.lo
 
   const faces = [];
   let total = 0;
-  for (const weight of cfg.weights) {
+  for (const fam of cfg.families) {
+  for (const weight of fam.weights) {
     for (const [i, text] of buckets.entries()) {
-      const label = `${cfg.family} ${weight} 束${i + 1}`;
-      const cssRes = await fetchImpl(cssApiUrl(cfg.family, weight, text), {
+      const label = `${fam.family} ${weight} 束${i + 1}`;
+      const cssRes = await fetchImpl(cssApiUrl(fam.family, weight, text), {
         headers: { 'User-Agent': UA },
       });
       if (!cssRes.ok) throw new Error(`${label}: CSS の取得に失敗 (${cssRes.status})`);
@@ -257,13 +269,14 @@ export async function buildFonts(repoRoot, { fetchImpl = fetch, log = console.lo
         // GAS は HtmlService でバイナリを配れないので、CSS に焼きこむ
         href = `data:font/woff2;base64,${buf.toString('base64')}`;
       } else {
-        const file = `${cfg.slug}-${weight}-${i + 1}.woff2`;
+        const file = `${fam.slug}-${weight}-${i + 1}.woff2`;
         fs.writeFileSync(path.join(outDir, file), buf);
         href = `${cfg.hrefPrefix}${file}`;
         log(`  ${file}  ${(buf.length / 1024).toFixed(1)} KB`);
       }
-      faces.push({ weight, bucket: i + 1, href, unicodeRange });
+      faces.push({ family: fam.family, weight, bucket: i + 1, href, unicodeRange });
     }
+  }
   }
 
   // OFL のフォントを自分のところから配る条件。フォントだけ置いて本文を置き忘れると
@@ -273,7 +286,7 @@ export async function buildFonts(repoRoot, { fetchImpl = fetch, log = console.lo
   fs.writeFileSync(path.join(repoRoot, oflPath), oflText(cfg.copyright || cfg.license));
 
   const css = renderCss(faces, {
-    family: cfg.family,
+    family: cfg.families.map((f) => f.family).join(' / '),
     license: cfg.license,
     generator: cfg.generator,
   });
