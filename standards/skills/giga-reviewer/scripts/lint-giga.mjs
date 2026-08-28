@@ -58,8 +58,13 @@ const FORBIDDEN_CDN_PATTERNS = FORBIDDEN_CDN_HOSTS.map(
    スキーム付きで直に書かれた別ホストがすり抜ける。ただし
    raw.githubusercontent.com から画像を読むリポジトリ（XXX_automatic）のように
    意図して外を読む例があるので、こちらは warnings にとどめて止めない。 */
+/* ⚠️ 絵や動画も外から取れば同じことが起きる。
+   Moral_note の「先生の合図を待ってね」の画面は、待っているあいだの絵を
+   外部の CDN から取っていた。塞がれると児童には「画像が壊れた印」だけが出る。
+   script/link/iframe しか見ていなかったので、検査は通っていた
+   （2026-08-28、実ブラウザの通信記録で見つけた）。 */
 const EXTERNAL_LOAD_PATTERN =
-  /<(?:script|link|iframe)\b[^>]*\b(?:src|href)\s*=\s*["'](?:https?:)?\/\/[^"']+["']/i;
+  /<(?:script|link|iframe|img|source|video|audio|embed|object)\b[^>]*\b(?:src|href|data|poster)\s*=\s*["'](?:https?:)?\/\/[^"']+["']/i;
 
 /* <link> のうち、実行時に何かを取りに行くもの。
    canonical / alternate / me などは「その URL を指す」だけで読み込みではない。

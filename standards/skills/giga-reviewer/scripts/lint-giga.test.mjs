@@ -326,3 +326,20 @@ test('既知の CDN でなくても、スキームを省いた外部読み込み
   const { warnings } = lintContent('a.html', '<script src="//example.com/x.js"></script>');
   assert.equal(warnings.filter((w) => w.rule === 'external-origin').length, 1);
 });
+
+test('絵を外から取っていれば警告する（塞がれると壊れた印が出る）', () => {
+  const { warnings } = lintContent('a.html', '<img src="https://cdn-icons-png.flaticon.com/512/x.png" width="150">');
+  assert.equal(warnings.filter((w) => w.rule === 'external-origin').length, 1);
+});
+
+test('動画・音も同じように見る', () => {
+  for (const tag of ['<video src="https://x.example/a.mp4">', '<source src="//x.example/a.webm">']) {
+    const { warnings } = lintContent('a.html', tag);
+    assert.equal(warnings.filter((w) => w.rule === 'external-origin').length, 1, tag);
+  }
+});
+
+test('自分のところの絵は拾わない', () => {
+  const { warnings } = lintContent('a.html', '<img src="./icons/logo.png">');
+  assert.equal(warnings.filter((w) => w.rule === 'external-origin').length, 0);
+});
