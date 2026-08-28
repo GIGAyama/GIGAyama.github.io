@@ -77,11 +77,16 @@
 
     /* --- 版面 --- */
     --measure: 1160px;
-    /* 読むためのページの本文の幅。640px は 17px 送りで 1 行 37 全角字。
-       日本語の長文が読みやすいとされる 35〜45 字の下のほうに置いてある。
-       36rem（34 字）だと狭く、画面の中央に細長く残って場所を持て余していた。
-       ここだけ変えれば、外枠も目次の柱の位置も一緒に動く */
-    --measure-read: 40rem;
+    /* 読むためのページの本文の幅。画面の広さに合わせて伸ばす。
+       17px 送りなので、640px で 1 行 37 全角字、768px で 45 字。
+       日本語の長文が読みやすいとされる 35〜45 字を、下端と上端にしてある。
+       42vw なので、1520px あたりで上端に届く。それより広い画面では、
+       余りは柱（--rail-col）と左右の余白に回る。
+       上端を外して画面いっぱいに伸ばすと 1 行 100 字を超え、
+       目が次の行の頭に戻れなくなる。 */
+    --measure-read: clamp(40rem, 42vw, 48rem);
+    /* 右の柱（目次と、伝えるための入口）。本文と同じく画面に合わせて伸びる */
+    --rail-col: clamp(17rem, 20vw, 24rem);
     --measure-text: 68ch;
     --gutter: clamp(20px, 5vw, 48px);
 
@@ -1471,51 +1476,106 @@
      この行より下に書かれていて、同じ詳しさだと後ろ勝ちで残ってしまうため */
   .article.article--read > * { max-width: none; }
 
-  /* 広い画面では、目次を本文の横の柱に出して貼り付ける。
+  /* 広い画面では、目次と「伝える」を本文の右の柱にして貼り付ける。
      紹介記事は 1 本が縦 28,000px あり、節が平均 9.3 個ある。畳める箱のままだと、
      読んでいる途中で別の節へ跳ぶのに、いちど先頭まで戻るしかない。
-     左右に空いていた場所を、読む助けに変える。
-     ⚠️ 目次のあるページに限る（:has）。/press/ と /profile/ には目次が無いので、
-        柱の場所だけ空いて、本文が画面の中央からずれて見える。
-     ⚠️ HTML は変えない。見出しの行から下まで伸ばすと、開いた時点で目次が見え、
-        そのまま本文の終わりまで貼り付く。本文の行からにすると、
-        開いた画面のいちばん下に来て、跳ぶ手段があることに気づかれない。
+     左右に空いていた場所を、読む助けと、渡すための入口に変える。
+     ⚠️ 柱のあるページに限る（:has）。/press/ と /profile/ には柱が無いので、
+        場所だけ空いて、本文が画面の中央からずれて見える。
      ⚠️ grid-template-rows を書くのが要点。書かないと、負の行番号（-1）が数える
         「明示的な格子」が 0 行になって -1 が 1 行目を指し、2 / -1 が 1 / 2 に
-        化ける。目次がパンくずの高さぶんしか伸びず、少し送るだけで流れていく。
+        化ける。柱がパンくずの高さぶんしか伸びず、少し送るだけで流れていく。
      ⚠️ 1100px から。これより狭いと、柱を出すと本文が読める幅を割る。
-        そこから下は今までどおり、本文の上の畳める箱のまま。 */
+        そこから下は 1 列に戻り、柱の中身は本文の前に縦に並ぶ。 */
   @media (min-width: 1100px) {
-    .article--read:has(> .toc) {
+    .article--read:has(> .article__rail) {
       /* 上に貼り付く見出し（67px）の下に、少しだけ空けて止める */
-      --toc-top: 5.5rem;
-      --toc-col: 17rem;
-      --measure: calc(var(--measure-read) + var(--toc-col) + var(--s-7));
+      --rail-top: 5.5rem;
+      --measure: calc(var(--measure-read) + var(--rail-col) + var(--s-7));
       display: grid;
-      grid-template-columns: minmax(0, var(--measure-read)) var(--toc-col);
+      grid-template-columns: minmax(0, var(--measure-read)) var(--rail-col);
       /* パンくず / 見出し / 本文（ここから下は行が自動で増える） */
       grid-template-rows: auto auto 1fr;
       column-gap: var(--s-7);
       align-items: start;
     }
-    .article--read:has(> .toc) > * { grid-column: 1; }
-    .article--read:has(> .toc) > .toc {
+    .article--read:has(> .article__rail) > * { grid-column: 1; }
+    .article--read:has(> .article__rail) > .article__rail {
       grid-column: 2;
       grid-row: 2 / -1;
       position: sticky;
-      inset-block-start: var(--toc-top);
-      max-block-size: calc(100vh - var(--toc-top) - var(--s-5));
+      inset-block-start: var(--rail-top);
+      max-block-size: calc(100vh - var(--rail-top) - var(--s-5));
       overflow: auto;
       overscroll-behavior: contain;
-      margin-block: 0;
+      display: grid;
+      gap: var(--s-4);
+      align-content: start;
       font-size: .875rem;
     }
-    .article--read:has(> .toc) > .toc .toc__head { padding: var(--s-3) var(--s-4); }
+    .article--read > .article__rail .toc { margin-block: 0; }
+    .article--read > .article__rail .toc__head { padding: var(--s-3) var(--s-4); }
     /* 「読みたいところから読めます」は、柱に出ていれば言わなくても分かる */
-    .article--read:has(> .toc) > .toc .toc__hint { display: none; }
-    .article--read:has(> .toc) > .toc .toc__list {
+    .article--read > .article__rail .toc__hint { display: none; }
+    .article--read > .article__rail .toc__list {
       padding: 0 var(--s-4) var(--s-4) calc(var(--s-4) + 1.4em);
     }
+  }
+
+  /* 狭い画面では 1 列に戻る。柱の中身は本文の前に、縦に並ぶ */
+  .article__rail { display: grid; gap: var(--s-4); }
+
+  /* ---------- 記事を伝えるための入口 ----------
+     読んだ先生が同僚に渡してはじめて意味が出る記事なので、渡す手だてを置く。
+     ⚠️ 各社が配っている共有ボタンは貼らない。あれは置いただけで、
+        読んだ人の閲覧が相手先に伝わる。ここはただのリンクで、
+        押したときにだけ、題とアドレスを持って先方の投稿画面が開く。 */
+  .share {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    align-items: center;
+    padding: var(--s-4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .share__label {
+    flex: 1 0 100%;
+    margin: 0;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+  }
+  /* 見た目は .chip に合わせる。サイトの中で「押せる小さなもの」の形をそろえる。
+     色は増やさない（送り先ごとに色を持たせると、7 色の帯になる） */
+  .share__btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px 6px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink-2);
+    font: inherit;
+    font-size: .8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .share__btn:hover {
+    border-color: var(--line-strong);
+    color: var(--brand);
+    text-decoration: none;
+  }
+  .share__btn--copy { inline-size: 100%; justify-content: center; }
+  @media (prefers-reduced-motion: reduce) {
+    .share__btn { transition: none; }
+  }
+  /* 紙に写しても押せないので出さない */
+  @media print {
+    .share { display: none; }
   }
 
   .article__head {
