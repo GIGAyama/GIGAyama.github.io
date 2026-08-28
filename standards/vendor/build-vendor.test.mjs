@@ -12,6 +12,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 import {
   DEFAULT_CONFIG,
@@ -27,7 +28,7 @@ import {
   wrapCss,
   wrapJs,
 } from './build-vendor.mjs';
-import { verifyGenerated } from './verify-generated.mjs';
+import { verifyAgainstCommitted, verifyGenerated } from './verify-generated.mjs';
 
 // --- 使い捨てのリポジトリを作る --------------------------------------------
 
@@ -465,4 +466,77 @@ test('一部だけ見つからないのは、これまでどおり警告で通�
   const [r] = await buildVendor(repo, { log: () => {}, warn: (m) => warns.push(m) });
   assert.deepEqual(r.missingIcons, ['nope']);
   assert.match(warns.join(''), /nope/);
+});
+
+// --- 順番で結果が変わらないこと ---------------------------------------------
+//
+// ここがこの検査のいちばん大事なところ。2026-08-28、艦隊の 10 本が
+// `ci = npm run build && npm run verify` と書いていて、わざと壊した生成物が
+// 全部素通りした。build が控えを取る前に生成物を上書きしてしまうためである。
+
+/** git のあるリポジトリを組み立て、いまの中身をコミットする。 */
+function commitAll(dir) {
+  const git = (...a) => execFileSync('git', ['-C', dir, ...a], { stdio: 'pipe' });
+  git('init', '-q', '-b', 'main');
+  git('config', 'user.email', 'test@example.invalid');
+  git('config', 'user.name', 'test');
+  git('add', '-A');
+  git('commit', '-q', '-m', 'test');
+}
+
+test('⚠️ 先に build を走らせても、コミットが古ければ落ちる（順番に依存しない）', async () => {
+  const repo = makeRepo(FULL);
+  await buildVendor(repo, { log: () => {} });
+  commitAll(repo);
+
+  // 原本を直す（＝コミット済みの生成物はこれで古くなる）
+  fs.writeFileSync(path.join(repo, 'node_modules/fake-bootstrap/b.js'), 'window.B=2');
+
+  // CI が実際にしていた順番。build が生成物を最新にしてしまう。
+  await buildVendor(repo, { log: () => {} });
+
+  const msgs = [];
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: (m) => msgs.push(m) }), 1);
+  assert.match(msgs.join('\n'), /vendor_js\.html が原本と食い違っています/);
+});
+
+test('コミットどおりなら、先に build を何回走らせても通る', async () => {
+  const repo = makeRepo(FULL);
+  await buildVendor(repo, { log: () => {} });
+  commitAll(repo);
+  await buildVendor(repo, { log: () => {} });
+  await buildVendor(repo, { log: () => {} });
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: () => {} }), 0);
+});
+
+test('生成物をコミットし忘れていれば、そう言って落ちる', async () => {
+  const repo = makeRepo(FULL);
+  fs.writeFileSync(path.join(repo, '.gitignore'), 'vendor_js.html\n');
+  await buildVendor(repo, { log: () => {} });
+  commitAll(repo);
+  const msgs = [];
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: (m) => msgs.push(m) }), 1);
+  assert.match(msgs.join('\n'), /vendor_js\.html がコミットされていません/);
+});
+
+test('git が無い場所では、比べ方が順番に依存すると断ってから比べる', async () => {
+  const repo = makeRepo(FULL);
+  await buildVendor(repo, { log: () => {} });
+  const msgs = [];
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: (m) => msgs.push(m) }), 0);
+  assert.match(msgs.join('\n'), /git が使えないので/);
+});
+
+test('verifyAgainstCommitted は vendor 以外の生成物にも使える', async () => {
+  const repo = makeRepo(FULL);
+  fs.writeFileSync(path.join(repo, 'app.html'), 'v1');
+  commitAll(repo);
+  // 作り直したら中身が変わる＝コミットが古い
+  const code = await verifyAgainstCommitted(
+    repo,
+    ['app.html'],
+    () => fs.writeFileSync(path.join(repo, 'app.html'), 'v2'),
+    { log: () => {}, err: () => {} },
+  );
+  assert.equal(code, 1);
 });
