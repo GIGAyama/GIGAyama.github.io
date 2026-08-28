@@ -428,3 +428,41 @@ test('⚠️ SVG が持っている自分の名前（class）を data: URI に�
   assert.doesNotMatch(uri, /width=/, 'マスクでは効かない width が残っている');
   assert.match(uri, /viewBox/, 'viewBox は必要（これが無いと絵が出ない）');
 });
+
+test('⚠️ アイコンのパッケージが無ければ止まる（空の CSS を書いて成功しない）', async () => {
+  // CI に npm ci が無いリポジトリでこれをやったところ、47 個ぜんぶを
+  // 「見つからない」と警告したうえで、アイコン 0 個の 1KB の CSS を
+  // **書き出して成功した**。配れば画面から絵が全部消えるのに、ビルドは緑になる。
+  const repo = makeRepo({
+    config: { wrap: 'none', targets: [{ out: 'icons.css', icons: 'bootstrap-icons' }] },
+    files: { 'index.html': '<i class="bi bi-house"></i>' },
+    // deps を置かない ＝ npm ci をしていない状態
+  });
+  await assert.rejects(() => buildVendor(repo, { log: () => {}, warn: () => {} }), /npm ci/);
+  assert.equal(fs.existsSync(path.join(repo, 'icons.css')), false, '止まる前に書き出している');
+});
+
+test('⚠️ 1 個も引けなければ止まる（版が違う・中身が空）', async () => {
+  const repo = makeRepo({
+    config: { wrap: 'none', targets: [{ out: 'icons.css', icons: 'bootstrap-icons' }] },
+    files: { 'index.html': '<i class="bi bi-house"></i>' },
+    // ディレクトリはあるが、要る SVG が 1 つも無い
+    deps: { 'bootstrap-icons/icons/other.svg': SVG('M0 0') },
+  });
+  await assert.rejects(
+    () => buildVendor(repo, { log: () => {}, warn: () => {} }),
+    /1 個も引けませんでした/,
+  );
+});
+
+test('一部だけ見つからないのは、これまでどおり警告で通す', async () => {
+  const repo = makeRepo({
+    config: { wrap: 'none', targets: [{ out: 'icons.css', icons: 'bootstrap-icons' }] },
+    files: { 'index.html': '<i class="bi bi-house"></i><i class="bi bi-nope"></i>' },
+    deps: { 'bootstrap-icons/icons/house.svg': SVG('M0 0') },
+  });
+  const warns = [];
+  const [r] = await buildVendor(repo, { log: () => {}, warn: (m) => warns.push(m) });
+  assert.deepEqual(r.missingIcons, ['nope']);
+  assert.match(warns.join(''), /nope/);
+});
