@@ -26,6 +26,12 @@ jobs:
         run: node --test standards/gas/*.test.mjs
       - name: ドリフト検知そのもののテスト
         run: node --test standards/check-drift.test.mjs
+      # ⚠️ 上はドリフト検知「の」テストであって、ポータル自身を見てはいない。
+      #    そのせいで tools/build-sw.mjs が正本から離れたまま 2026-08-28 まで
+      #    誰にも気づかれずに残った（正本だけ直して写しを配り忘れた形）。
+      #    配る側が自分の写しを照合していないのでは、配布先に何も言えない。
+      - name: ポータル自身が正本とずれていないか
+        run: node standards/check-drift.mjs --standards standards
       - name: SW の版づけのテスト（実際に走らせて確かめる）
         run: node --test standards/sw/*.test.mjs
       # ポータル自身も同じ標準に従う。版を刻み忘れたままコミットすると、
@@ -34,6 +40,10 @@ jobs:
         run: node tools/build-sw.mjs --check
       - name: 正本のブラウザ側モジュールのテスト
         run: node --test standards/web/*.test.mjs
+      # 学習ログを「誰に渡してよいか」を決めている場所。配布先では走っていたが、
+      # 正本そのものでは一度も走っていなかった（置き場を js/ 決め打ちにしていたため）。
+      - name: 学習ログの受け渡し口のテスト
+        run: node --test standards/records/records-export.test.mjs
       # ポータル自身も同じ標準に従う。正本を配る側が漏らしていては話にならない。
       - name: ポータルに秘密の直書きが無いか
         run: node standards/lib/check-secrets.mjs

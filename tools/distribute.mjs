@@ -20,14 +20,37 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
+/* 置き場の一覧は check-drift.mjs から借りる。配る側と照合する側で別々に
+   持つと、片方だけ直したときに「配ってはいるが誰も見ていない」置き場が生まれる。 */
+import { SKILL_ROOTS } from '../standards/check-drift.mjs';
+
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, '..');
 const BASE_DIR = path.resolve(REPO_ROOT, '..');
 
 const STANDARDS_DIR = path.join(REPO_ROOT, 'standards');
 const STANDARDS_SKILLS_DIR = path.join(STANDARDS_DIR, 'skills');
-const STANDARDS_RULE_FILE = path.join(REPO_ROOT, '.agents', 'rules', 'gigaschool-standards.md');
+/* ⚠️ 正本は standards/ の下に置く（最重要ルール 3）。以前は配布元が
+      .agents/rules/ を指していた。ポータル自身のローカルコピーが同時に正本
+      でもある形で、どちらが正なのか決められなくなっていた。 */
+const STANDARDS_RULE_FILE = path.join(STANDARDS_DIR, 'agents', 'rules', 'gigaschool-standards.md');
 const DISTRIBUTION_JSON = path.join(HERE, 'distribution.json');
+
+/**
+ * 正本から消えたものを配布先からも消す。
+ *
+ * cpSync は重ねるだけで、消えたファイルには触れない。正本でスキルの名前を
+ * 変えたり 1 本やめたりすると、古いほうが配布先に残りつづける。
+ * check-drift は「余分なファイル」として赤くするので、配布のたびに
+ * 全リポジトリが赤くなり、しかも直し方が配布では届かない。
+ */
+function pruneRemoved(srcDir, dstDir) {
+  if (!fs.existsSync(dstDir)) return;
+  for (const name of fs.readdirSync(dstDir)) {
+    if (fs.existsSync(path.join(srcDir, name))) continue;
+    fs.rmSync(path.join(dstDir, name), { recursive: true, force: true });
+  }
+}
 
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
@@ -91,15 +114,22 @@ for (const repoName of targetRepos) {
       const map = JSON.parse(fs.readFileSync(mapPath, 'utf-8'));
       if (!Array.isArray(map.dirs)) map.dirs = [];
 
-      // Ensure all required skills are present in standards-map.json dirs
+      /* Ensure all required skills are present in standards-map.json dirs.
+       *
+       * ⚠️ 置き場ごとに 1 行ずつ要る。canonical だけで「もう書いてある」と
+       *    判定していたころは .claude/ の行があるだけで .agents/ の行が
+       *    足されず、.agents/skills/ は一度も照合されないまま配られていた。
+       *    照合されない配布物は、書き替えても緑のまま通る（2026-08-28 に実測）。 */
       const requiredSkills = ledger.skills?.required || [];
       let mapChanged = false;
       for (const skillName of requiredSkills) {
         const canonical = `skills/${skillName}`;
-        const local = `.claude/skills/${skillName}`;
-        if (!map.dirs.some(d => d.canonical === canonical)) {
-          map.dirs.push({ canonical, local });
-          mapChanged = true;
+        for (const root of SKILL_ROOTS) {
+          const local = `${root}/${skillName}`;
+          if (!map.dirs.some(d => d.local === local)) {
+            map.dirs.push({ canonical, local });
+            mapChanged = true;
+          }
         }
       }
       if (mapChanged) {
@@ -128,27 +158,30 @@ for (const repoName of targetRepos) {
       }
     }
 
-    // 2. Sync .claude/skills and remove any README.md that triggers check-drift false positive
-    const claudeSkillsDir = path.join(repoDir, '.claude', 'skills');
-    if (fs.existsSync(path.join(repoDir, '.claude'))) {
-      fs.mkdirSync(claudeSkillsDir, { recursive: true });
-      fs.cpSync(STANDARDS_SKILLS_DIR, claudeSkillsDir, { recursive: true });
-      const claudeReadme = path.join(claudeSkillsDir, 'README.md');
-      if (fs.existsSync(claudeReadme)) fs.unlinkSync(claudeReadme);
+    /* 2. スキルを置き場ごとに配る。
+     *
+     * Claude Code は .claude/skills/、Antigravity は .agents/skills/ を読む。
+     * どちらも同じ正本の写しなので、同じ手で同じものを置く。
+     * 置き場が増えたら SKILL_ROOTS に足すだけで、配布と照合の両方が付いてくる。
+     *
+     * ⚠️ 以前は .claude/ を「すでにある repo だけ」に配り、.agents/ は無条件に
+     *    作っていた。片方が欠けた repo が黙って生まれるので、扱いをそろえる。
+     * ⚠️ README.md を消して回っていたのもやめた。あれは check-drift が
+     *    ディレクトリでないものまでスキルと数えていたための後始末で、
+     *    原因のほうを直してある（standards/check-drift.mjs の unregisteredSkills）。 */
+    for (const root of SKILL_ROOTS) {
+      const dest = path.join(repoDir, ...root.split('/'));
+      fs.mkdirSync(dest, { recursive: true });
+      pruneRemoved(STANDARDS_SKILLS_DIR, dest);
+      fs.cpSync(STANDARDS_SKILLS_DIR, dest, { recursive: true });
     }
 
-    // 3. Sync .agents/ (Rules & Skills)
-    const agentsDir = path.join(repoDir, '.agents');
-    const agentsRulesDir = path.join(agentsDir, 'rules');
-    const agentsSkillsDir = path.join(agentsDir, 'skills');
-
+    // 3. Antigravity の Workspace Rules
+    const agentsRulesDir = path.join(repoDir, '.agents', 'rules');
     fs.mkdirSync(agentsRulesDir, { recursive: true });
-    fs.mkdirSync(agentsSkillsDir, { recursive: true });
-
     if (fs.existsSync(STANDARDS_RULE_FILE)) {
       fs.copyFileSync(STANDARDS_RULE_FILE, path.join(agentsRulesDir, 'gigaschool-standards.md'));
     }
-    fs.cpSync(STANDARDS_SKILLS_DIR, agentsSkillsDir, { recursive: true });
 
     // 4. Ensure eslint.config.js ignores .agents/** and .claude/**
     const eslintConfigPath = path.join(repoDir, 'eslint.config.js');
