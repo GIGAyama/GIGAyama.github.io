@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-27",
+ "generatedAt": "2026-08-28",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -13,20 +13,20 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 4832,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "digital-textbook",
    "repo": "Digital_textbook",
    "name": "デジタル教科書メーカー",
-   "title": "教室で使えるかもしれないもの作り #◯ 「このプリント、そのまま大きく映したい」PDFに直接書きこめるアプリ「デジタル教科書メーカー」",
-   "headline": "「このプリント、そのまま大きく映したい」PDFに直接書きこめるアプリ「デジタル教科書メーカー」",
+   "title": "教室で使えるかもしれないもの作り #◯ 「このプリント、そのまま大きく映したい」PDFに直接書きこめるアプリ「教材プリントメーカー」",
+   "headline": "「このプリント、そのまま大きく映したい」PDFに直接書きこめるアプリ「教材プリントメーカー」",
    "summary": "印刷室でプリントを刷りながら、こんなふうに思ったことはありませんか。",
    "source": "docs/note/digital-textbook-note-article.md",
    "images": 23,
    "imageHost": "mirror",
-   "charCount": 8059,
-   "updatedAt": "2026-08-25"
+   "charCount": 6375,
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "digitalcloset",
@@ -39,7 +39,7 @@
    "images": 21,
    "imageHost": "mirror",
    "charCount": 6094,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "gamification",
@@ -52,7 +52,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 7165,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "gobblet",
@@ -65,7 +65,7 @@
    "images": 22,
    "imageHost": "subdomain",
    "charCount": 6166,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "haiku-meeting",
@@ -78,7 +78,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6543,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "homework-barcordreader",
@@ -91,7 +91,7 @@
    "images": 25,
    "imageHost": "mirror",
    "charCount": 5442,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "ice-slide-puzzle",
@@ -104,7 +104,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 6004,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "kake-master",
@@ -117,7 +117,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5839,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "kana-master",
@@ -130,7 +130,7 @@
    "images": 28,
    "imageHost": "subdomain",
    "charCount": 7055,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "kanji-town",
@@ -143,7 +143,7 @@
    "images": 24,
    "imageHost": "mirror",
    "charCount": 7352,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "keisan-block",
@@ -156,7 +156,7 @@
    "images": 26,
    "imageHost": "subdomain",
    "charCount": 6249,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "keisan-card",
@@ -169,7 +169,7 @@
    "images": 17,
    "imageHost": "subdomain",
    "charCount": 6464,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "mirai-compass",
@@ -182,7 +182,7 @@
    "images": 26,
    "imageHost": "subdomain",
    "charCount": 7684,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "notebooksample-generator",
@@ -195,20 +195,20 @@
    "images": 20,
    "imageHost": "mirror",
    "charCount": 6511,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "online-100square-calculation",
    "repo": "online-100square-calculation",
    "name": "100ます計算",
-   "title": "教室で使えるかもしれないもの作り #◯ 「40人ぶんの丸つけ、いつやりますか」書いた瞬間に採点される100マス計算アプリ「100マス計算」",
-   "headline": "「40人ぶんの丸つけ、いつやりますか」書いた瞬間に採点される100マス計算アプリ「100マス計算」",
+   "title": "教室で使えるかもしれないもの作り #◯ 「うちのクラスだけ」で終わらせない。開くだけで始められる100マス計算アプリ「100マス計算」",
+   "headline": "「うちのクラスだけ」で終わらせない。開くだけで始められる100マス計算アプリ「100マス計算」",
    "summary": "100マス計算は、やれば力がつくと分かっているものの筆頭ではないでしょうか。朝の会の前の5分、算数のはじめの3分。毎日続けたい、と思って始めた先生は多いと思います。",
    "source": "docs/note/square100-note-article.md",
    "images": 19,
    "imageHost": "mirror",
-   "charCount": 8768,
-   "updatedAt": "2026-08-26"
+   "charCount": 9147,
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "online-manuscript-paper-lite",
@@ -221,7 +221,7 @@
    "images": 18,
    "imageHost": "subdomain",
    "charCount": 5792,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "online-manuscript-paper-pro",
@@ -234,7 +234,7 @@
    "images": 29,
    "imageHost": "subdomain",
    "charCount": 5467,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "online-publisher-pro",
@@ -247,7 +247,7 @@
    "images": 24,
    "imageHost": "subdomain",
    "charCount": 6283,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "qalc",
@@ -260,7 +260,7 @@
    "images": 23,
    "imageHost": "mirror",
    "charCount": 7933,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "quarto",
@@ -273,7 +273,7 @@
    "images": 17,
    "imageHost": "mirror",
    "charCount": 6052,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "quoridor",
@@ -286,7 +286,7 @@
    "images": 21,
    "imageHost": "mirror",
    "charCount": 5461,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "reading-books",
@@ -299,7 +299,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 5949,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "reflection-journal",
@@ -312,7 +312,7 @@
    "images": 22,
    "imageHost": "subdomain",
    "charCount": 7401,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "reversi",
@@ -325,7 +325,7 @@
    "images": 22,
    "imageHost": "mirror",
    "charCount": 5697,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "schoolplan-editor",
@@ -337,8 +337,8 @@
    "source": "docs/note/schoolplan-editor-note-article.md",
    "images": 23,
    "imageHost": "subdomain",
-   "charCount": 9129,
-   "updatedAt": "2026-08-26"
+   "charCount": 9402,
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "townmap-mikke",
@@ -351,7 +351,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 5980,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "tsubomi-learning",
@@ -364,7 +364,7 @@
    "images": 21,
    "imageHost": "subdomain",
    "charCount": 6407,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "typa",
@@ -377,7 +377,7 @@
    "images": 25,
    "imageHost": "subdomain",
    "charCount": 6056,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "werewolf",
@@ -390,7 +390,7 @@
    "images": 25,
    "imageHost": "mirror",
    "charCount": 5743,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "word-basket",
@@ -403,7 +403,7 @@
    "images": 21,
    "imageHost": "mirror",
    "charCount": 5718,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   },
   {
    "slug": "xxx-automatic",
@@ -416,7 +416,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 7341,
-   "updatedAt": "2026-08-25"
+   "updatedAt": "2026-08-28"
   }
  ]
 }
