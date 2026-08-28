@@ -1,0 +1,82 @@
+{
+ "01-home.webp": {
+  "bytes": 350554,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/01-home.png"
+ },
+ "02-kokugo.webp": {
+  "bytes": 358337,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/02-kokugo.png"
+ },
+ "03-macro-help.webp": {
+  "bytes": 426125,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/03-macro-help.png"
+ },
+ "04-header.webp": {
+  "bytes": 330044,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/04-header.png"
+ },
+ "05-sansu.webp": {
+  "bytes": 298377,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/05-sansu.png"
+ },
+ "06-kazari.webp": {
+  "bytes": 331028,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/06-kazari.png"
+ },
+ "07-shapes.webp": {
+  "bytes": 302815,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/07-shapes.png"
+ },
+ "08-drag-select.webp": {
+  "bytes": 377662,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/08-drag-select.png"
+ },
+ "09-drag-applied.webp": {
+  "bytes": 355956,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/09-drag-applied.png"
+ },
+ "10-grid-none.webp": {
+  "bytes": 257997,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/10-grid-none.png"
+ },
+ "11-warning.webp": {
+  "bytes": 363476,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/11-warning.png"
+ },
+ "12-multipage.webp": {
+  "bytes": 561971,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/12-multipage.png"
+ },
+ "13-support-modal.webp": {
+  "bytes": 378219,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/13-support-modal.png"
+ },
+ "14-trace.webp": {
+  "bytes": 346017,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/14-trace.png"
+ },
+ "15-fill.webp": {
+  "bytes": 333767,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/15-fill.png"
+ },
+ "16-genko.webp": {
+  "bytes": 393778,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/16-genko.png"
+ },
+ "17-data-modal.webp": {
+  "bytes": 415259,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/17-data-modal.png"
+ },
+ "18-help.webp": {
+  "bytes": 392217,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/18-help.png"
+ },
+ "19-mobile.webp": {
+  "bytes": 205817,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/19-mobile.png"
+ },
+ "20-mobile-drawer.webp": {
+  "bytes": 114074,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/note/images/20-mobile-drawer.png"
+ }
+}

@@ -6,6 +6,10 @@
 本システムの全体像、アーキテクチャ、データフロー、障害教訓については、以下を参照してください：
 - [SYSTEM_MASTER.md](docs/architecture/SYSTEM_MASTER.md)
 
+## 運用の手順書
+- [PAT_TOKEN の設定と更新](docs/operations/pat-token.md) — 正本の自動配布が
+  42 本まとめて 403 で落ちたら、まずここを読む（トークンの未設定か期限切れ）
+
 ## 開発・改修時の最重要ルール
 1. **Zero External CDN**: 外部CDN（unpkg, cdnjs, Google Fonts等）のランタイム読み込み禁止。
 2. **Zero PII**: 児童の個人情報を一切扱わない（Local First）。

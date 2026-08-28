@@ -1,0 +1,90 @@
+{
+ "01-home.webp": {
+  "bytes": 66283,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/01-home.png"
+ },
+ "02-flip.webp": {
+  "bytes": 67427,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/02-flip.png"
+ },
+ "03-after-move.webp": {
+  "bytes": 68538,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/03-after-move.png"
+ },
+ "04-cannot-place.webp": {
+  "bytes": 70314,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/04-cannot-place.png"
+ },
+ "05-undo.webp": {
+  "bytes": 69254,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/05-undo.png"
+ },
+ "06-rules.webp": {
+  "bytes": 123600,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/06-rules.png"
+ },
+ "07-sound-off.webp": {
+  "bytes": 71013,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/07-sound-off.png"
+ },
+ "08-board-4.webp": {
+  "bytes": 86651,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/08-board-4.png"
+ },
+ "09-size-error.webp": {
+  "bytes": 99562,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/09-size-error.png"
+ },
+ "10-board-12.webp": {
+  "bytes": 61165,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/10-board-12.png"
+ },
+ "11-pass.webp": {
+  "bytes": 95116,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/11-pass.png"
+ },
+ "12-midgame.webp": {
+  "bytes": 113589,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/12-midgame.png"
+ },
+ "13-winner.webp": {
+  "bytes": 144994,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/13-winner.png"
+ },
+ "14-again.webp": {
+  "bytes": 66418,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/14-again.png"
+ },
+ "15-keyboard-focus.webp": {
+  "bytes": 66661,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/15-keyboard-focus.png"
+ },
+ "16-keyboard-placed.webp": {
+  "bytes": 69266,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/16-keyboard-placed.png"
+ },
+ "17-phone.webp": {
+  "bytes": 43506,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/17-phone.png"
+ },
+ "18-chromebook.webp": {
+  "bytes": 65592,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/18-chromebook.png"
+ },
+ "19-narrow-320.webp": {
+  "bytes": 35021,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/19-narrow-320.png"
+ },
+ "20-landscape.webp": {
+  "bytes": 44651,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/20-landscape.png"
+ },
+ "21-offline.webp": {
+  "bytes": 34282,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/21-offline.png"
+ },
+ "22-update.webp": {
+  "bytes": 43377,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Reversi/HEAD/docs/note/images/22-update.png"
+ }
+}
