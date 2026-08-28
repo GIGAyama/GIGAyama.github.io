@@ -33,7 +33,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { buildCharset } from './chars.mjs';
+import { buildCharset, stripComments } from './chars.mjs';
 import { oflText } from './ofl.mjs';
 
 // Google Fonts の CSS API は User-Agent で返す形式を変える。
@@ -52,6 +52,8 @@ export const DEFAULT_CONFIG = {
   extra: '', // 追加で必ず入れたい字
   scan: [], // 画面に出る字を拾うファイル / ディレクトリ
   scanExt: ['.html', '.css', '.js', '.jsx', '.ts', '.tsx'],
+  // コメントの字を収録しない。既定で入れる（画面に出ない字を配る理由がない）
+  stripComments: true,
   outDir: 'fonts', // woff2 の置き場（embed: true のときは使わない）
   cssPath: 'fonts.css', // 生成する CSS
   hrefPrefix: './fonts/', // CSS から woff2 をどう指すか
@@ -222,7 +224,8 @@ export function collectSources(repoRoot, cfg, deps = {}) {
     }
     if (!cfg.scanExt.includes(path.extname(p))) return;
     try {
-      chunks.push(read(p, 'utf8'));
+      const text = read(p, 'utf8');
+      chunks.push(cfg.stripComments === false ? text : stripComments(text));
     } catch {
       /* 読めないものは飛ばす */
     }
