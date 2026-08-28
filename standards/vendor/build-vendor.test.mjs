@@ -12,6 +12,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 import {
   DEFAULT_CONFIG,
@@ -27,7 +28,7 @@ import {
   wrapCss,
   wrapJs,
 } from './build-vendor.mjs';
-import { verifyGenerated } from './verify-generated.mjs';
+import { verifyAgainstCommitted, verifyGenerated } from './verify-generated.mjs';
 
 // --- 使い捨てのリポジトリを作る --------------------------------------------
 
@@ -326,4 +327,216 @@ test('SVG が無いアイコンは、黙って通さず必ず知らせる', asyn
   const results = await buildVendor(repo, { log: () => {}, warn: (m) => warns.push(m) });
   assert.match(warns.join('\n'), /SVG が見つからないアイコン: no-such/);
   assert.deepEqual(results.find((r) => r.out === 'vendor_icons.html').missingIcons, ['no-such']);
+});
+
+test('⚠️ 生成物の「名前」もアイコン名として拾わない', () => {
+  // <link href="./vendor/mdi-icons.css"> と書いてあると、その文字列から
+  // `mdi-icons` というアイコンが使われていると読んでしまう。
+  // ファイルを走査から外すだけでは足りない。読まれる側に名前が出てくるため。
+  const repo = makeRepo({
+    config: { targets: [{ out: 'vendor/mdi-icons.css', icons: '@mdi/svg' }] },
+    files: {
+      'index.html':
+        '<link href="./vendor/mdi-icons.css" rel="stylesheet"><i class="mdi mdi-account"></i>',
+    },
+  });
+  const cfg = loadConfig(repo);
+  assert.deepEqual(collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'mdi'), ['account']);
+});
+
+test('アイコンの出どころは接尾辞を持てる（Material Symbols の -fill）', () => {
+  const pack = ICON_PACKS['@material-symbols/svg-400'];
+  assert.equal(pack.prefix, 'ms');
+  assert.equal(pack.suffix, '-fill');
+});
+
+test('接尾辞つきの出どころから SVG を引く', async () => {
+  const repo = makeRepo({
+    config: { targets: [{ out: 'ms.css', icons: '@material-symbols/svg-400' }], wrap: 'none' },
+    files: { 'index.html': '<span class="ms ms-search"></span>' },
+    deps: { '@material-symbols/svg-400/rounded/search-fill.svg': SVG('M1 1h6v6H1z') },
+  });
+  await buildVendor(repo, { log: () => {}, warn: () => {} });
+  const css = fs.readFileSync(path.join(repo, 'ms.css'), 'utf8');
+  assert.match(css, /\.ms-search\{/);
+});
+
+test('⚠️ 短い生成物名でも、まわりの語を巻きこまない', () => {
+  // 生成物が ms.css のとき、拡張子を外した "ms" で落とすと
+  // class="ms ms-search" の ms まで消え、アイコンが 1 つも見つからなくなる。
+  const repo = makeRepo({
+    config: { targets: [{ out: 'ms.css', icons: '@material-symbols/svg-400' }] },
+    files: { 'index.html': '<link href="./ms.css"><span class="ms ms-search"></span>' },
+  });
+  const cfg = loadConfig(repo);
+  assert.deepEqual(collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'ms'), ['search']);
+});
+
+test('⚠️ アイコン名の _ を切り落とさない（check_circle が check になる）', () => {
+  const repo = makeRepo({
+    config: { targets: [{ out: 'icons.html', icons: '@material-symbols/svg-400' }] },
+    files: { 'index.html': '<span class="ms ms-check_circle"></span><span class="ms ms-search_off"></span>' },
+  });
+  const cfg = loadConfig(repo);
+  assert.deepEqual(
+    collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'ms'),
+    ['check_circle', 'search_off'],
+  );
+});
+
+test('実行時に決まるアイコンは extra に書けば入る', async () => {
+  const repo = makeRepo({
+    config: {
+      wrap: 'none',
+      targets: [{ out: 'icons.css', icons: '@material-symbols/svg-400', extra: ['warning', 'delete'] }],
+    },
+    files: { 'index.html': '<span class="ms ms-add"></span>' },
+    deps: {
+      '@material-symbols/svg-400/rounded/add-fill.svg': SVG('M0 0'),
+      '@material-symbols/svg-400/rounded/warning-fill.svg': SVG('M1 1'),
+      '@material-symbols/svg-400/rounded/delete-fill.svg': SVG('M2 2'),
+    },
+  });
+  await buildVendor(repo, { log: () => {}, warn: () => {} });
+  const css = fs.readFileSync(path.join(repo, 'icons.css'), 'utf8');
+  for (const n of ['add', 'warning', 'delete']) assert.match(css, new RegExp(`\\.ms-${n}\\{`), n);
+});
+
+test('リポジトリごとの読み替えを書ける（出どころに無い名前の受け皿）', async () => {
+  const repo = makeRepo({
+    config: {
+      wrap: 'none',
+      targets: [
+        { out: 'icons.css', icons: '@material-symbols/svg-400', alias: { tips_and_updates: 'lightbulb' } },
+      ],
+    },
+    files: { 'index.html': '<span class="ms ms-tips_and_updates"></span>' },
+    deps: { '@material-symbols/svg-400/rounded/lightbulb-fill.svg': SVG('M3 3') },
+  });
+  const [r] = await buildVendor(repo, { log: () => {}, warn: () => {} });
+  assert.deepEqual(r.missingIcons, [], '読み替えたのに見つからない扱いになっている');
+  // クラス名は「画面が書いている名前」のままでなければならない
+  assert.match(fs.readFileSync(path.join(repo, 'icons.css'), 'utf8'), /\.ms-tips_and_updates\{/);
+});
+
+test('⚠️ SVG が持っている自分の名前（class）を data: URI に残さない', () => {
+  // bootstrap-icons の SVG は class="bi bi-rulers" のように自分の名前を持つ。
+  // 読み替えたアイコン（pencil-ruler → rulers）ではその名前が食い違い、
+  // 走査で「rulers も使われている」と読めてしまう。
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-rulers" viewBox="0 0 16 16"><path d="M1 0"/></svg>';
+  const uri = svgToDataUri(svg);
+  assert.doesNotMatch(uri, /bi-rulers/, 'SVG の中に自分の名前が残っている');
+  assert.doesNotMatch(uri, /width=/, 'マスクでは効かない width が残っている');
+  assert.match(uri, /viewBox/, 'viewBox は必要（これが無いと絵が出ない）');
+});
+
+test('⚠️ アイコンのパッケージが無ければ止まる（空の CSS を書いて成功しない）', async () => {
+  // CI に npm ci が無いリポジトリでこれをやったところ、47 個ぜんぶを
+  // 「見つからない」と警告したうえで、アイコン 0 個の 1KB の CSS を
+  // **書き出して成功した**。配れば画面から絵が全部消えるのに、ビルドは緑になる。
+  const repo = makeRepo({
+    config: { wrap: 'none', targets: [{ out: 'icons.css', icons: 'bootstrap-icons' }] },
+    files: { 'index.html': '<i class="bi bi-house"></i>' },
+    // deps を置かない ＝ npm ci をしていない状態
+  });
+  await assert.rejects(() => buildVendor(repo, { log: () => {}, warn: () => {} }), /npm ci/);
+  assert.equal(fs.existsSync(path.join(repo, 'icons.css')), false, '止まる前に書き出している');
+});
+
+test('⚠️ 1 個も引けなければ止まる（版が違う・中身が空）', async () => {
+  const repo = makeRepo({
+    config: { wrap: 'none', targets: [{ out: 'icons.css', icons: 'bootstrap-icons' }] },
+    files: { 'index.html': '<i class="bi bi-house"></i>' },
+    // ディレクトリはあるが、要る SVG が 1 つも無い
+    deps: { 'bootstrap-icons/icons/other.svg': SVG('M0 0') },
+  });
+  await assert.rejects(
+    () => buildVendor(repo, { log: () => {}, warn: () => {} }),
+    /1 個も引けませんでした/,
+  );
+});
+
+test('一部だけ見つからないのは、これまでどおり警告で通す', async () => {
+  const repo = makeRepo({
+    config: { wrap: 'none', targets: [{ out: 'icons.css', icons: 'bootstrap-icons' }] },
+    files: { 'index.html': '<i class="bi bi-house"></i><i class="bi bi-nope"></i>' },
+    deps: { 'bootstrap-icons/icons/house.svg': SVG('M0 0') },
+  });
+  const warns = [];
+  const [r] = await buildVendor(repo, { log: () => {}, warn: (m) => warns.push(m) });
+  assert.deepEqual(r.missingIcons, ['nope']);
+  assert.match(warns.join(''), /nope/);
+});
+
+// --- 順番で結果が変わらないこと ---------------------------------------------
+//
+// ここがこの検査のいちばん大事なところ。2026-08-28、艦隊の 10 本が
+// `ci = npm run build && npm run verify` と書いていて、わざと壊した生成物が
+// 全部素通りした。build が控えを取る前に生成物を上書きしてしまうためである。
+
+/** git のあるリポジトリを組み立て、いまの中身をコミットする。 */
+function commitAll(dir) {
+  const git = (...a) => execFileSync('git', ['-C', dir, ...a], { stdio: 'pipe' });
+  git('init', '-q', '-b', 'main');
+  git('config', 'user.email', 'test@example.invalid');
+  git('config', 'user.name', 'test');
+  git('add', '-A');
+  git('commit', '-q', '-m', 'test');
+}
+
+test('⚠️ 先に build を走らせても、コミットが古ければ落ちる（順番に依存しない）', async () => {
+  const repo = makeRepo(FULL);
+  await buildVendor(repo, { log: () => {} });
+  commitAll(repo);
+
+  // 原本を直す（＝コミット済みの生成物はこれで古くなる）
+  fs.writeFileSync(path.join(repo, 'node_modules/fake-bootstrap/b.js'), 'window.B=2');
+
+  // CI が実際にしていた順番。build が生成物を最新にしてしまう。
+  await buildVendor(repo, { log: () => {} });
+
+  const msgs = [];
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: (m) => msgs.push(m) }), 1);
+  assert.match(msgs.join('\n'), /vendor_js\.html が原本と食い違っています/);
+});
+
+test('コミットどおりなら、先に build を何回走らせても通る', async () => {
+  const repo = makeRepo(FULL);
+  await buildVendor(repo, { log: () => {} });
+  commitAll(repo);
+  await buildVendor(repo, { log: () => {} });
+  await buildVendor(repo, { log: () => {} });
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: () => {} }), 0);
+});
+
+test('生成物をコミットし忘れていれば、そう言って落ちる', async () => {
+  const repo = makeRepo(FULL);
+  fs.writeFileSync(path.join(repo, '.gitignore'), 'vendor_js.html\n');
+  await buildVendor(repo, { log: () => {} });
+  commitAll(repo);
+  const msgs = [];
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: (m) => msgs.push(m) }), 1);
+  assert.match(msgs.join('\n'), /vendor_js\.html がコミットされていません/);
+});
+
+test('git が無い場所では、比べ方が順番に依存すると断ってから比べる', async () => {
+  const repo = makeRepo(FULL);
+  await buildVendor(repo, { log: () => {} });
+  const msgs = [];
+  assert.equal(await verifyGenerated(repo, { log: () => {}, err: (m) => msgs.push(m) }), 0);
+  assert.match(msgs.join('\n'), /git が使えないので/);
+});
+
+test('verifyAgainstCommitted は vendor 以外の生成物にも使える', async () => {
+  const repo = makeRepo(FULL);
+  fs.writeFileSync(path.join(repo, 'app.html'), 'v1');
+  commitAll(repo);
+  // 作り直したら中身が変わる＝コミットが古い
+  const code = await verifyAgainstCommitted(
+    repo,
+    ['app.html'],
+    () => fs.writeFileSync(path.join(repo, 'app.html'), 'v2'),
+    { log: () => {}, err: () => {} },
+  );
+  assert.equal(code, 1);
 });
