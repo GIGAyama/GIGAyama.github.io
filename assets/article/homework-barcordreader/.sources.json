@@ -1,0 +1,102 @@
+{
+ "01-standby.webp": {
+  "bytes": 30944,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/01-standby.png"
+ },
+ "02-keypad.webp": {
+  "bytes": 31044,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/02-keypad.png"
+ },
+ "03-tasks.webp": {
+  "bytes": 35483,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/03-tasks.png"
+ },
+ "04-tasks-selected.webp": {
+  "bytes": 38081,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/04-tasks-selected.png"
+ },
+ "05-feeling.webp": {
+  "bytes": 29920,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/05-feeling.png"
+ },
+ "06-complete.webp": {
+  "bytes": 25531,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/06-complete.png"
+ },
+ "07-pin.webp": {
+  "bytes": 63284,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/07-pin.png"
+ },
+ "08-dashboard.webp": {
+  "bytes": 126588,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/08-dashboard.png"
+ },
+ "09-dashboard-manual.webp": {
+  "bytes": 137722,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/09-dashboard-manual.png"
+ },
+ "10-operations.webp": {
+  "bytes": 171005,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/10-operations.png"
+ },
+ "11-handover-brief.webp": {
+  "bytes": 212934,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/11-handover-brief.png"
+ },
+ "12-class-insights.webp": {
+  "bytes": 189387,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/12-class-insights.png"
+ },
+ "13-forgotten-form.webp": {
+  "bytes": 124455,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/13-forgotten-form.png"
+ },
+ "14-support-candidates.webp": {
+  "bytes": 154610,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/14-support-candidates.png"
+ },
+ "15-support-record.webp": {
+  "bytes": 182104,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/15-support-record.png"
+ },
+ "16-support-impact.webp": {
+  "bytes": 182554,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/16-support-impact.png"
+ },
+ "17-support-timeline.webp": {
+  "bytes": 161094,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/17-support-timeline.png"
+ },
+ "18-family.webp": {
+  "bytes": 123499,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/18-family.png"
+ },
+ "19-roster.webp": {
+  "bytes": 110444,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/19-roster.png"
+ },
+ "20-task-rules.webp": {
+  "bytes": 60409,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/20-task-rules.png"
+ },
+ "21-rest-suggestion.webp": {
+  "bytes": 76031,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/21-rest-suggestion.png"
+ },
+ "22-settings.webp": {
+  "bytes": 136480,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/22-settings.png"
+ },
+ "23-ai-panel.webp": {
+  "bytes": 149793,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/23-ai-panel.png"
+ },
+ "24-report.webp": {
+  "bytes": 117936,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/24-report.png"
+ },
+ "25-report-print.webp": {
+  "bytes": 176343,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/note/images/25-report-print.png"
+ }
+}

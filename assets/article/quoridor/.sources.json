@@ -1,0 +1,86 @@
+{
+ "01-home.webp": {
+  "bytes": 58322,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/01-home.png"
+ },
+ "02-handicap.webp": {
+  "bytes": 58345,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/02-handicap.png"
+ },
+ "03-game-start.webp": {
+  "bytes": 67629,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/03-game-start.png"
+ },
+ "04-move-hint.webp": {
+  "bytes": 72253,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/04-move-hint.png"
+ },
+ "05-jump-ready.webp": {
+  "bytes": 69315,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/05-jump-ready.png"
+ },
+ "06-after-jump.webp": {
+  "bytes": 69945,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/06-after-jump.png"
+ },
+ "07-wall-mode.webp": {
+  "bytes": 75838,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/07-wall-mode.png"
+ },
+ "08-wall-preview.webp": {
+  "bytes": 79183,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/08-wall-preview.png"
+ },
+ "09-wall-orientation.webp": {
+  "bytes": 79667,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/09-wall-orientation.png"
+ },
+ "10-wall-placed.webp": {
+  "bytes": 68304,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/10-wall-placed.png"
+ },
+ "11-two-walls.webp": {
+  "bytes": 69267,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/11-two-walls.png"
+ },
+ "12-undo.webp": {
+  "bytes": 67301,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/12-undo.png"
+ },
+ "13-help.webp": {
+  "bytes": 144241,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/13-help.png"
+ },
+ "14-big-display.webp": {
+  "bytes": 68480,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/14-big-display.png"
+ },
+ "15-preview-ok.webp": {
+  "bytes": 79197,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/15-preview-ok.png"
+ },
+ "16-blocked-modal.webp": {
+  "bytes": 132314,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/16-blocked-modal.png"
+ },
+ "17-preview-ng.webp": {
+  "bytes": 77398,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/17-preview-ng.png"
+ },
+ "18-setup-5x5.webp": {
+  "bytes": 57461,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/18-setup-5x5.png"
+ },
+ "19-board-5x5.webp": {
+  "bytes": 65145,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/19-board-5x5.png"
+ },
+ "20-win.webp": {
+  "bytes": 89926,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/20-win.png"
+ },
+ "21-landscape.webp": {
+  "bytes": 68699,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quoridor/HEAD/docs/note/images/21-landscape.png"
+ }
+}

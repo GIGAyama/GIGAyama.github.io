@@ -1,0 +1,86 @@
+{
+ "01-setup.webp": {
+  "bytes": 121623,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/01-setup.png"
+ },
+ "02-setup-6nin-10byo.webp": {
+  "bytes": 128318,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/02-setup-6nin-10byo.png"
+ },
+ "03-play-2nin-phone.webp": {
+  "bytes": 181898,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/03-play-2nin-phone.png"
+ },
+ "04-card-selected.webp": {
+  "bytes": 186484,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/04-card-selected.png"
+ },
+ "05-card-played.webp": {
+  "bytes": 181070,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/05-card-played.png"
+ },
+ "06-play-4nin-tablet.webp": {
+  "bytes": 468996,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/06-play-4nin-tablet.png"
+ },
+ "07-play-3nin-tablet.webp": {
+  "bytes": 388330,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/07-play-3nin-tablet.png"
+ },
+ "08-play-6nin-landscape.webp": {
+  "bytes": 407483,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/08-play-6nin-landscape.png"
+ },
+ "09-agari.webp": {
+  "bytes": 167311,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/09-agari.png"
+ },
+ "10-board-wild-line.webp": {
+  "bytes": 174906,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/10-board-wild-line.png"
+ },
+ "11-board-wild-number.webp": {
+  "bytes": 175938,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/11-board-wild-number.png"
+ },
+ "12-rules-tablet.webp": {
+  "bytes": 574332,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/12-rules-tablet.png"
+ },
+ "13-timer-red.webp": {
+  "bytes": 181671,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/13-timer-red.png"
+ },
+ "14-timeout-toast.webp": {
+  "bytes": 209064,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/14-timeout-toast.png"
+ },
+ "15-pass-toast.webp": {
+  "bytes": 199737,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/15-pass-toast.png"
+ },
+ "16-draw-to-hand.webp": {
+  "bytes": 182580,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/16-draw-to-hand.png"
+ },
+ "17-sound-off.webp": {
+  "bytes": 128441,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/17-sound-off.png"
+ },
+ "18-rules-phone.webp": {
+  "bytes": 207120,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/18-rules-phone.png"
+ },
+ "19-rules-special.webp": {
+  "bytes": 221840,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/19-rules-special.png"
+ },
+ "20-reset-confirm.webp": {
+  "bytes": 272249,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/20-reset-confirm.png"
+ },
+ "21-deck-empty.webp": {
+  "bytes": 178900,
+  "url": "https://raw.githubusercontent.com/GIGAyama/word_basket/HEAD/docs/note/images/21-deck-empty.png"
+ }
+}

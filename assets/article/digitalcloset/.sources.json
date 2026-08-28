@@ -1,0 +1,86 @@
+{
+ "01-closet-empty.webp": {
+  "bytes": 69655,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/01-closet-empty.png"
+ },
+ "02-add-choose.webp": {
+  "bytes": 27379,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/02-add-choose.png"
+ },
+ "03-add-photo.webp": {
+  "bytes": 64610,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/03-add-photo.png"
+ },
+ "04-add-form.webp": {
+  "bytes": 132318,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/04-add-form.png"
+ },
+ "05-closet.webp": {
+  "bytes": 291279,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/05-closet.png"
+ },
+ "06-filter.webp": {
+  "bytes": 139575,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/06-filter.png"
+ },
+ "07-closet-outer.webp": {
+  "bytes": 136986,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/07-closet-outer.png"
+ },
+ "08-search.webp": {
+  "bytes": 84559,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/08-search.png"
+ },
+ "09-calendar-month.webp": {
+  "bytes": 112571,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/09-calendar-month.png"
+ },
+ "10-calendar-add.webp": {
+  "bytes": 152972,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/10-calendar-add.png"
+ },
+ "11-calendar-day.webp": {
+  "bytes": 116588,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/11-calendar-day.png"
+ },
+ "12-coord-select.webp": {
+  "bytes": 191883,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/12-coord-select.png"
+ },
+ "13-coord-list.webp": {
+  "bytes": 115282,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/13-coord-list.png"
+ },
+ "14-detail.webp": {
+  "bytes": 126052,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/14-detail.png"
+ },
+ "15-stats.webp": {
+  "bytes": 305995,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/15-stats.png"
+ },
+ "16-settings.webp": {
+  "bytes": 194154,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/16-settings.png"
+ },
+ "17-dispose-confirm.webp": {
+  "bytes": 164481,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/17-dispose-confirm.png"
+ },
+ "18-disposed.webp": {
+  "bytes": 44685,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/18-disposed.png"
+ },
+ "19-ai-add.webp": {
+  "bytes": 79922,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/19-ai-add.png"
+ },
+ "20-ai-stylist.webp": {
+  "bytes": 102561,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/20-ai-stylist.png"
+ },
+ "21-ai-chat.webp": {
+  "bytes": 93054,
+  "url": "https://raw.githubusercontent.com/GIGAyama/DigitalCloset/HEAD/docs/note/images/21-ai-chat.png"
+ }
+}

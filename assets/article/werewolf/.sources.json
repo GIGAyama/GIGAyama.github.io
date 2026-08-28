@@ -1,0 +1,102 @@
+{
+ "01-home.webp": {
+  "bytes": 167404,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/01-home.png"
+ },
+ "02-howto.webp": {
+  "bytes": 154009,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/02-howto.png"
+ },
+ "03-roles-custom.webp": {
+  "bytes": 94984,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/03-roles-custom.png"
+ },
+ "04-rolecheck-turn.webp": {
+  "bytes": 96029,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/04-rolecheck-turn.png"
+ },
+ "05-role-villager.webp": {
+  "bytes": 150148,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/05-role-villager.png"
+ },
+ "06-role-wolf.webp": {
+  "bytes": 154892,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/06-role-wolf.png"
+ },
+ "07-role-seer.webp": {
+  "bytes": 147926,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/07-role-seer.png"
+ },
+ "08-role-hunter.webp": {
+  "bytes": 130809,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/08-role-hunter.png"
+ },
+ "09-role-shaman.webp": {
+  "bytes": 144736,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/09-role-shaman.png"
+ },
+ "10-role-madman.webp": {
+  "bytes": 149586,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/10-role-madman.png"
+ },
+ "11-day.webp": {
+  "bytes": 135068,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/11-day.png"
+ },
+ "12-timer.webp": {
+  "bytes": 132462,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/12-timer.png"
+ },
+ "13-vote.webp": {
+  "bytes": 161622,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/13-vote.png"
+ },
+ "14-vote-result.webp": {
+  "bytes": 98188,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/14-vote-result.png"
+ },
+ "15-runoff.webp": {
+  "bytes": 147963,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/15-runoff.png"
+ },
+ "16-night-turn.webp": {
+  "bytes": 101460,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/16-night-turn.png"
+ },
+ "17-night-wolf.webp": {
+  "bytes": 99679,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/17-night-wolf.png"
+ },
+ "18-night-seer.webp": {
+  "bytes": 92513,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/18-night-seer.png"
+ },
+ "19-night-seer-result.webp": {
+  "bytes": 76298,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/19-night-seer-result.png"
+ },
+ "20-night-hunter.webp": {
+  "bytes": 108428,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/20-night-hunter.png"
+ },
+ "21-night-shaman-result.webp": {
+  "bytes": 82203,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/21-night-shaman-result.png"
+ },
+ "22-morning.webp": {
+  "bytes": 97140,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/22-morning.png"
+ },
+ "23-guarded-morning.webp": {
+  "bytes": 130580,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/23-guarded-morning.png"
+ },
+ "24-result.webp": {
+  "bytes": 179969,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/24-result.png"
+ },
+ "25-presentation.webp": {
+  "bytes": 161465,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Werewolf/HEAD/docs/note/images/25-presentation.png"
+ }
+}

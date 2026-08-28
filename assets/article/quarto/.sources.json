@@ -1,0 +1,70 @@
+{
+ "01-home.webp": {
+  "bytes": 106094,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/01-home.png"
+ },
+ "02-rule-shape.webp": {
+  "bytes": 113646,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/02-rule-shape.png"
+ },
+ "03-rule-color.webp": {
+  "bytes": 114613,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/03-rule-color.png"
+ },
+ "04-rule-height.webp": {
+  "bytes": 113074,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/04-rule-height.png"
+ },
+ "05-rule-hole.webp": {
+  "bytes": 121075,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/05-rule-hole.png"
+ },
+ "06-turn-notice.webp": {
+  "bytes": 129485,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/06-turn-notice.png"
+ },
+ "07-piece-handed.webp": {
+  "bytes": 111245,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/07-piece-handed.png"
+ },
+ "08-midgame.webp": {
+  "bytes": 117856,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/08-midgame.png"
+ },
+ "09-win-line.webp": {
+  "bytes": 118108,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/09-win-line.png"
+ },
+ "10-win-popup.webp": {
+  "bytes": 239907,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/10-win-popup.png"
+ },
+ "11-reset-confirm.webp": {
+  "bytes": 111941,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/11-reset-confirm.png"
+ },
+ "12-sound-off.webp": {
+  "bytes": 112963,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/12-sound-off.png"
+ },
+ "13-landscape.webp": {
+  "bytes": 180694,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/13-landscape.png"
+ },
+ "14-blackboard.webp": {
+  "bytes": 171666,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/14-blackboard.png"
+ },
+ "15-presentation.webp": {
+  "bytes": 177657,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/15-presentation.png"
+ },
+ "16-offline.webp": {
+  "bytes": 100682,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/16-offline.png"
+ },
+ "17-update-toast.webp": {
+  "bytes": 114475,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Quarto/HEAD/docs/note/images/17-update-toast.png"
+ }
+}
