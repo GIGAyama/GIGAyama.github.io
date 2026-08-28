@@ -8,6 +8,7 @@
 
 import { esc } from './article-md.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
+import { shareOf } from './article-share.mjs';
 import { changelogSection, changesOf } from './changelog.mjs';
 import { ACCOUNT_LABEL, CATEGORY_LABEL, CATEGORY_COLOR, STORAGE_LABEL, USE_LABEL, gradeLabel } from './categories.mjs';
 
@@ -216,6 +217,13 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
   const { html: body, headings } = withAnchors(article.html);
   const toc = tocOf(headings);
   const reading = readingOf(body);
+  /* 目次と「伝える」をひとつの枠にまとめる。広い画面では、この枠ごと
+     本文の右の柱になって貼り付く（assets/style.css の .article__rail）。
+     まとめてあるのは、格子の 1 つの場所に 2 つは置けないため。 */
+  const rail = `    <aside class="article__rail" aria-label="この記事の案内">
+${toc}${shareOf({ url, title: headline })}    </aside>
+
+`;
 
   /* 何の時間に使うアプリなのかを、題のすぐ下で分かるようにする。
      押すとトップの同じ分類だけが出る。トップの絞り込みと同じ 2 本の軸
@@ -301,7 +309,7 @@ ${tags.length ? `      <p class="article__tags">${tags.join('')}</p>\n` : ''}   
       </p>
     </header>
 
-${toc}    <div class="prose prose--article">
+${rail}    <div class="prose prose--article">
 ${body}
     </div>
 

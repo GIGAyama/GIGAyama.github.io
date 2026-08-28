@@ -26,6 +26,7 @@
 
 import { esc } from './article-md.mjs';
 import { tocOf, readingOf } from './article-toc.mjs';
+import { shareOf } from './article-share.mjs';
 import { FOOTER, HEADER, OG_FALLBACK, SITE, THEME_SCRIPT } from './article-page.mjs';
 
 export const DEVLOG_BASE = 'devlog';
@@ -102,6 +103,11 @@ export function devlogPost({ entry, html, headings, prev, next }) {
   const url = devlogUrl(entry.slug, entry.name);
   const toc = tocOf(headings);
   const { minutes } = readingOf(html);
+  /* 紹介記事と同じ枠。広い画面では本文の右の柱になる */
+  const rail = `    <aside class="article__rail" aria-label="この記事の案内">
+${toc}${shareOf({ url, title: entry.title })}    </aside>
+
+`;
 
   /* PR があれば、差分の規模と行き先を添える。本文では繰り返さない約束にしてある */
   const source = entry.pr
@@ -129,7 +135,7 @@ ${prev ? `      <a class="devlog__nav-item" href="/${DEVLOG_BASE}/${prev.slug}/$
       <p class="article__meta">${metaLine(entry)}<span class="article__len">読むのに約 ${minutes} 分</span></p>
     </header>
 
-${toc}    <div class="prose prose--article">
+${rail}    <div class="prose prose--article">
 ${html}
     </div>
 
