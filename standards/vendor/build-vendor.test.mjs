@@ -400,3 +400,20 @@ test('実行時に決まるアイコンは extra に書けば入る', async () =
   const css = fs.readFileSync(path.join(repo, 'icons.css'), 'utf8');
   for (const n of ['add', 'warning', 'delete']) assert.match(css, new RegExp(`\\.ms-${n}\\{`), n);
 });
+
+test('リポジトリごとの読み替えを書ける（出どころに無い名前の受け皿）', async () => {
+  const repo = makeRepo({
+    config: {
+      wrap: 'none',
+      targets: [
+        { out: 'icons.css', icons: '@material-symbols/svg-400', alias: { tips_and_updates: 'lightbulb' } },
+      ],
+    },
+    files: { 'index.html': '<span class="ms ms-tips_and_updates"></span>' },
+    deps: { '@material-symbols/svg-400/rounded/lightbulb-fill.svg': SVG('M3 3') },
+  });
+  const [r] = await buildVendor(repo, { log: () => {}, warn: () => {} });
+  assert.deepEqual(r.missingIcons, [], '読み替えたのに見つからない扱いになっている');
+  // クラス名は「画面が書いている名前」のままでなければならない
+  assert.match(fs.readFileSync(path.join(repo, 'icons.css'), 'utf8'), /\.ms-tips_and_updates\{/);
+});

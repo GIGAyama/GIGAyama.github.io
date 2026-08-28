@@ -272,7 +272,11 @@ export async function buildVendor(repoRoot, { log = console.log, warn = console.
         prefix: pack.prefix,
         baseClass: pack.baseClass,
         resolve: (name) => {
-          const file = path.join(nm, pack.dir, (pack.alias[name] || name) + (pack.suffix || '') + '.svg');
+          /* 読み替えは 2 段。出どころが持つ表（版が変わって名前が消えたもの）と、
+             リポジトリが vendor.config.json に書いた表（そのアプリの事情）。
+             後者が優先。読み替えの理由は設定のそばに書けるようにしてある。 */
+          const real = (t.alias && t.alias[name]) || pack.alias[name] || name;
+          const file = path.join(nm, pack.dir, real + (pack.suffix || '') + '.svg');
           return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
         },
       });
