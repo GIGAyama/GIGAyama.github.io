@@ -40,6 +40,11 @@ jobs:
         run: node tools/build-sw.mjs --check
       - name: 正本のブラウザ側モジュールのテスト
         run: node --test standards/web/*.test.mjs
+      # フォントの取り寄せ。text= は約800字で「エラーにならずに」効かなくなる。
+      # そこを見のがすと、狭い範囲だけの 1KB のフォントが書き出され、画面のほとんどが
+      # 端末フォントに落ちたまま「ビルド成功」になる（2026-08-28 実測）
+      - name: 自己ホストするフォントの取り寄せのテスト
+        run: node --test standards/fonts/*.test.mjs
       # 学習ログを「誰に渡してよいか」を決めている場所。配布先では走っていたが、
       # 正本そのものでは一度も走っていなかった（置き場を js/ 決め打ちにしていたため）。
       - name: 学習ログの受け渡し口のテスト
@@ -93,7 +98,7 @@ jobs:
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
         run: |
-          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/skills/giga-reviewer/scripts/*.mjs; do
+          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/fonts/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/skills/giga-reviewer/scripts/*.mjs; do
             node --check "$f"
           done
           # .gs は Node が拡張子を知らないので、写してから見る
