@@ -26,6 +26,8 @@
 | `records/records-export.test.mjs` | 受け渡し口の検査（通してはいけない相手を厚く並べる） | kake_master `tests/records-export.test.mjs` |
 | `records/records-hub-client.js` | 学習ログを記録ハブへ写すクライアント（第2世代） | gamification `records-hub-client.js` |
 | `docs/gas-redeploy.md` | GAS アプリの再デプロイ手順・対象一覧 | 新規 |
+| `web/giga-sw-updater.js` | 児童向けルビ・大ボタン付き PWA 更新通知トースト | 新規 |
+| `web/giga-sw-updater.test.mjs` | 更新通知トーストの単体テスト | 新規 |
 | `skills/devlog-article/` | 開発記録（`/devlog/`）を書くスキル | 新規 |
 | `skills/note-article/` | note の紹介記事を書くスキル | 書き手の手元の版（下記）|
 

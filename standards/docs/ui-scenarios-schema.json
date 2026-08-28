@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GIGASchool UIScenarios Schema",
+  "description": "AI・Playwrightによる自動スクリーンショット撮影のための画面操作シナリオ定義",
+  "type": "object",
+  "required": ["appId", "scenarios"],
+  "properties": {
+    "appId": {
+      "type": "string",
+      "description": "アプリケーションの一意識別子（例: kake_master, ice_slide_puzzle）"
+    },
+    "viewport": {
+      "type": "object",
+      "properties": {
+        "width": { "type": "integer", "default": 1280 },
+        "height": { "type": "integer", "default": 720 }
+      },
+      "default": { "width": 1280, "height": 720 }
+    },
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "capture"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "シナリオのID（英数字・アンダースコア）"
+          },
+          "title": {
+            "type": "string",
+            "description": "シナリオのタイトル（例: 初回起動画面、かけ算プレイ中、100点満点画面）"
+          },
+          "description": {
+            "type": "string",
+            "description": "教育的意図や画面の説明"
+          },
+          "actions": {
+            "type": "array",
+            "description": "撮影前に行う操作のステップ",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["click", "type", "wait", "eval", "hover", "select"]
+                },
+                "selector": { "type": "string" },
+                "text": { "type": "string" },
+                "ms": { "type": "integer" },
+                "code": { "type": "string", "description": "ブラウザ内で実行するJavaScriptコード" }
+              }
+            }
+          },
+          "capture": {
+            "type": "object",
+            "required": ["output"],
+            "properties": {
+              "selector": {
+                "type": "string",
+                "description": "特定要素のみ撮影する場合のCSSセレクタ（省略時は画面全体）"
+              },
+              "output": {
+                "type": "string",
+                "description": "保存先相対パス（例: docs/note/images/screen-01.png）"
+              },
+              "fullPage": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

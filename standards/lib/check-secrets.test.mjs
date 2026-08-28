@@ -77,7 +77,7 @@ test('理由の無い allow は、それ自体を失敗として報告する', (
 
 const fakeFs = (tree) => {
   const at = (p) => {
-    const parts = p.split('/').filter(Boolean);
+    const parts = p.replace(/\\/g, '/').split('/').filter(Boolean);
     let node = tree;
     for (const part of parts) node = node?.[part];
     return node;

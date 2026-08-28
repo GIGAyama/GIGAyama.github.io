@@ -6,7 +6,7 @@
   <link rel="self" type="application/atom+xml" href="https://giga-school.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://giga-school.com/"/>
   <id>https://giga-school.com/</id>
-  <updated>2026-08-25T00:00:00+09:00</updated>
+  <updated>2026-08-27T00:00:00+09:00</updated>
   <author>
     <name>GIGAyama</name>
     <uri>https://giga-school.com/</uri>
@@ -100,7 +100,7 @@
     <published>2026-03-16T00:00:00+09:00</published>
     <updated>2026-08-25T00:00:00+09:00</updated>
     <category term="国語・言葉"/>
-    <summary type="text">漢字のデジタルドリル、二学期の終わりごろには、もう開かれなくなっていた。そんなことはありませんか。合格したら終わりにせず、忘れたころにまた出てくる。そういう漢字の学習を作りたくて、マイ漢字タウンというアプリを作りました。</summary>
+    <summary type="text">漢字のデジタルドリル、二学期の終わりごろには、もう開かれなくなっていた。そんなことはありませんか。合格したら終わりにせず、忘れたころにまた出てくる。そういう漢字の学習システムを作りたくて、…</summary>
   </entry>
   <entry>
     <title>音楽制作スタジオ</title>
