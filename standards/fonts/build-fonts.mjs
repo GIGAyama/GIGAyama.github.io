@@ -65,6 +65,9 @@ export const DEFAULT_CONFIG = {
   wrapStyle: null,
   slug: null, // ファイル名の頭。既定は family から作る
   license: '', // CSS の頭に書く著作権表記
+  // ⚠️ 書体ごとにライセンスが違う。Roboto は Apache-2.0 で、OFL ではない。
+  //    間違えると、書いてあるライセンスと実際のライセンスが食い違ったまま配ることになる。
+  licenseId: 'OFL-1.1',
   copyright: '', // OFL.txt の先頭に置く著作権表示（例: "Copyright 2021 The …"）
   oflPath: null, // OFL 全文の置き場。既定は outDir/OFL.txt。embed のときは必須
   generator: 'tools/fonts/build-fonts.mjs', // CSS に「作り直し方」として書く道具の場所
@@ -290,7 +293,7 @@ export async function buildFonts(repoRoot, { fetchImpl = fetch, log = console.lo
   // ライセンス違反になるので、道具のほうで必ず書き出す。
   const oflPath = cfg.oflPath || path.join(cfg.embed ? '.' : cfg.outDir, 'OFL.txt');
   fs.mkdirSync(path.dirname(path.join(repoRoot, oflPath)), { recursive: true });
-  fs.writeFileSync(path.join(repoRoot, oflPath), oflText(cfg.copyright || cfg.license));
+  fs.writeFileSync(path.join(repoRoot, oflPath), oflText(cfg.copyright || cfg.license, cfg.licenseId));
 
   const css = renderCss(faces, {
     family: cfg.families.map((f) => f.family).join(' / '),
