@@ -59,6 +59,10 @@ export const DEFAULT_CONFIG = {
   hrefPrefix: './fonts/', // CSS から woff2 をどう指すか
   bucketSize: DEFAULT_BUCKET_SIZE,
   embed: false, // true: woff2 を base64 の data: URI で CSS に埋める（GAS 用）
+  // 出力を <style> で包むか。既定は cssPath が .html なら包む。
+  // GAS の include() は中身を **HTML として読み直して組み立て直す**ので、
+  // 素の CSS を置くと文字として扱われる。.html に出す以上は必ず包むこと。
+  wrapStyle: null,
   slug: null, // ファイル名の頭。既定は family から作る
   license: '', // CSS の頭に書く著作権表記
   copyright: '', // OFL.txt の先頭に置く著作権表示（例: "Copyright 2021 The …"）
@@ -293,7 +297,11 @@ export async function buildFonts(repoRoot, { fetchImpl = fetch, log = console.lo
     license: cfg.license,
     generator: cfg.generator,
   });
-  fs.writeFileSync(path.join(repoRoot, cfg.cssPath), css);
+  const wrap =
+    cfg.wrapStyle === null || cfg.wrapStyle === undefined
+      ? path.extname(cfg.cssPath) === '.html'
+      : cfg.wrapStyle;
+  fs.writeFileSync(path.join(repoRoot, cfg.cssPath), wrap ? `<style>\n${css}</style>\n` : css);
   log(
     `✅ ${cfg.cssPath} と ${oflPath} を更新した（@font-face ${faces.length} 面 / ` +
       `フォント計 ${(total / 1024).toFixed(1)} KB${cfg.embed ? '・CSS に埋め込み' : ''}）`,
