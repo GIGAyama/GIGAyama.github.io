@@ -46,7 +46,7 @@ jobs:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           if [ -z "$PAT_TOKEN" ]; then
-            echo "::error title=PAT_TOKEN が設定されていません::他のリポジトリへ push するには、リポジトリをまたげるトークンが要ります。GITHUB_TOKEN は自分のリポジトリにしか書けないため、このまま進めても 42 本すべてが 403 で失敗します。Settings → Secrets and variables → Actions に PAT_TOKEN（contents:write と pull-requests:write を持つ PAT、または GitHub App のトークン）を登録してください。"
+            echo "::error title=PAT_TOKEN が設定されていません::他のリポジトリへ push するには、リポジトリをまたげるトークンが要ります。GITHUB_TOKEN は自分のリポジトリにしか書けないため、このまま進めても 42 本すべてが 403 で失敗します。設定手順は docs/operations/pat-token.md にあります（必要な権限、Workflows 権限を忘れると 9 本だけ落ちる話、期限切れのときの見分け方）。"
             exit 1
           fi
           echo "PAT_TOKEN は設定されています"

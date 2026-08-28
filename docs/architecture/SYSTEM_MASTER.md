@@ -112,6 +112,13 @@ graph TD
 2. **正本側からの自動配布（Push側同期）**:
    - `GIGAyama.github.io` の `standards/` が更新されると、`auto-distribute.yml` が発火。
    - `tools/distribute.mjs` が全リポジトリを走査し、ブランチ作成・コミット・PR発行・自動マージ（`gh pr merge`）を一括実行。
+   - ⚠️ **この経路は `PAT_TOKEN`（リポジトリをまたげるトークン）が無いと 1 本も配れません。**
+     Actions 既定の `GITHUB_TOKEN` は自分のリポジトリにしか書けないため、
+     他の 42 本への push はすべて 403 になります。設定手順と期限切れ時の対処は
+     [`docs/operations/pat-token.md`](../operations/pat-token.md) を参照。
+   - `normalize`（配布先ごとに変えてよい場所）が宣言されているファイルは、
+     正規化したうえで一致していれば上書きしません。ここを見ないと、
+     配布先が入れた値（`APP_ID` など）が配布のたびに消えます。
 3. **正本側からの逆向き監視（漏れ検知）**:
    - `check-distribution.yml` が毎朝定期実行され、全配布先のリポジトリが正本と完全一致しているかを逆向きに監査。
 
@@ -151,6 +158,11 @@ graph TD
 | **2026-08-22** | 正本修正後の配布忘れによる10リポジトリ一斉CI赤落ち | 正本を修正したが、配布先へのコピーを手動で行っていたため同期漏れが発生。 | `distribute.mjs` による完全自動PRマージ機構、および `check-distribution.mjs` による逆向き監視を新設。 |
 | **2026-08-24** | Quarto紹介ページの画像リンク切れ（mainが赤化） | Viteアプリで `dist/` のみを配信しており、`docs/note/images/` がサブドメイン側から読めなかった。 | `build-articles.mjs` 内で画像URLに対して実際にHEADリクエストを送り、到達不能なら `raw.githubusercontent.com` へ自動フォールバックする動的判定を導入。 |
 | **2026-08-25** | GITHUB_TOKENの仕様によるCI未発火問題 | Actions内で `GITHUB_TOKEN` を使ってpushすると、後続のワークフローが起動しない仕様により、検査漏れが発生。 | ワークフロー内でコミット前に `build-sw.mjs --check` などの検査をインラインで完結させる設計に改修。 |
+| **2026-08-28** | `.agents/` が正本照合の外にあり、配布物の半分が無検査だった | Antigravity 対応で全リポジトリへ `.agents/` を配ったが、`check-drift.mjs` は `.claude/skills/` しか見ていなかった。`.agents/skills/` は書き替えても、見知らぬスキルを置いても緑のまま通った（Typa で実測）。 | 置き場を `SKILL_ROOTS` に集約し、`.claude/` と `.agents/` の両方を照合。`standards-map.json` へ置き場ごとに 1 行ずつ登録する（片方だけだともう片方が無検査になる）。 |
+| **2026-08-28** | `giga-reviewer` が Windows で一度も動いていなかった | CLI の入口判定が `` `file://${process.argv[1]}` `` を文字列で組み立てて `import.meta.url` と比較していた。Windows は `file:///C:/…`（スラッシュ3本）、空白や日本語は百分率符号化されるため一致せず、**何も検査せず exit 0** で「合格」に見えていた。 | `pathToFileURL()` で比較。空白を含むパスから実際に起動して exit 1 になることをテストで固定（古い実装に戻すと落ちる）。 |
+| **2026-08-28** | 学習記録が 9 本のアプリで 1 件も届いていなかった | 受け渡し口の `APP_ID` が正本のプレースホルダー `'__APP_ID__'` のまま公開されていた。ポータルの `RECORD_SOURCES` と appId が一致せず、配備済みでも記録が届かない。`distribute.mjs` が `normalize` を見ずに上書きするため、配布先で直しても次の配布で必ず戻っていた。 | 配る側が `normalize` を見るよう修正（正規化して一致するなら上書きしない）。9 本に正しい appId を設定。`Gamification` の `check-bridges.mjs` が本番を叩いてこの形を検知する。 |
+| **2026-08-28** | `auto-distribute` が一度も成立せず、42 本の 403 で終わっていた | ワークフローが `secrets.PAT_TOKEN \|\| secrets.GITHUB_TOKEN` と書かれ、`PAT_TOKEN` 未設定時に**原理的に成功しえない** `GITHUB_TOKEN` へ落ちていた。42 本ぶんの 403 のどこにも原因が書かれない。 | 先頭で `PAT_TOKEN` の有無を検査し、無ければ理由を出して停止。手順は [`docs/operations/pat-token.md`](../operations/pat-token.md)。 |
+| **2026-08-28** | 記事の画面写真の検査が main を止め続けていた | 11 本の記事に `.sources.json`（元の指紋）が無く、比べる相手が存在しないため画像 230 枚が毎回「差しかわった」と数えられていた。実際に違ったのは 9 枚。`--check` しか自動実行されないため自然には直らない。 | `build-article-images.py` を実行して指紋を生成。**この検査は自動では復旧しない**ので、赤くなったら人が作り直す。 |
 
 ---
 
@@ -164,7 +176,14 @@ graph TD
    - タッチボタンは `min-height: 48px`, `min-width: 48px` を確保し、学年別配当漢字には `<ruby>` を付与する。
 2. **共通コード・モジュール修正時**:
    - 個別リポジトリ側のコピーを直接書き換えない。**必ず `GIGAyama.github.io/standards/` の正本を修正**し、`distribute.mjs` を通じて配布する。
-3. **コミット・PR作成前**:
-   - 必ず `npm test` または `node --test` を実行。
-   - `node tools/build-sw.mjs --check` で SW 版数の一致を確認。
-   - `node standards/check-drift.mjs` で正本との整合性を確認。
+3. **コミット・PR作成前**（**そのリポジトリに在るものだけ**を走らせる）:
+   - `npm test` または `node --test`（`scripts.test` があるリポジトリ）。
+     ⚠️ ポータル（`GIGAyama.github.io`）に `package.json` は無い。テストは
+     `.github/workflows/standards-ci.yml` と同じ並びを直接叩く。
+   - `npm run check`（`scripts.check` があるリポジトリ）。
+   - `node tools/build-sw.mjs --check`（`tools/build-sw.mjs` があるリポジトリのみ）。
+   - 正本との整合性:
+     ⚠️ **配布先に `standards/` は無い**。`node standards/check-drift.mjs` は
+     配布先では必ず ENOENT で落ちる。また `--standards` は必須（省くと exit 2）。
+     - 配布先: `node ../GIGAyama.github.io/standards/check-drift.mjs --standards ../GIGAyama.github.io/standards`
+     - ポータル: `node standards/check-drift.mjs --standards standards`
