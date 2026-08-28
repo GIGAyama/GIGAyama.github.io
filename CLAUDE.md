@@ -12,6 +12,13 @@
 
 ## 開発・改修時の最重要ルール
 1. **Zero External CDN**: 外部CDN（unpkg, cdnjs, Google Fonts等）のランタイム読み込み禁止。
+   自己ホストの道具は正本にある。書体は `standards/fonts/`（GAS 向けの `data:` URI 埋めこみ
+   `embed: true` も持つ）、ライブラリとアイコンは `standards/vendor/`。
+   **アイコンは webfont を取りこまない。使っている分の SVG だけを `mask-image` にする**
+   （bootstrap-icons 丸ごと 229KB → 使用分 10〜35KB）。
+   ⚠️ **静的検査が「0 件」でも信じないこと。** 2026-08-28、スキームを省いた `//cdn…`、
+   `<img src>`、印刷ウィンドウの中の `@import` の 3 件が検査を素通りしていた。
+   どれも実ブラウザに読ませて通信を記録して見つけた。
 2. **Zero PII**: 児童の個人情報を一切扱わない（Local First）。
 3. **正本同期の徹底**: 共通コード（SW生成、検査、records等）は `standards/` 配下を正本とし、個別リポジトリを直接修正しない。
 4. **SW版数整合性**: `tools/build-sw.mjs` を通じてファイル内容からキャッシュ版数を刻む。
