@@ -86,6 +86,17 @@ export function collectIconNames(repoRoot, cfg, prefix, deps = {}) {
   const generated = new Set(
     (cfg.targets || []).map((t) => path.resolve(repoRoot, t.out)),
   );
+  /* ⚠️ 生成物の「名前」も落とす。
+     index.html に <link href="./vendor/mdi-icons.css"> と書いてあると、
+     その文字列から `mdi-icons` というアイコンが使われていると読んでしまう。
+     ファイルを走査対象から外すだけでは足りない（読む側ではなく、
+     読まれる側に名前が出てくるため）。2026-08-28、SekigaeMaker で実測。 */
+  const generatedNames = (cfg.targets || []).map((t) => path.basename(t.out).replace(/\.[^.]+$/, ''));
+  const dropNames = (text) => {
+    let out = text;
+    for (const n of generatedNames) out = out.split(n).join('');
+    return out;
+  };
   const visit = (p) => {
     if (generated.has(path.resolve(p))) return;
     let st;
@@ -108,7 +119,7 @@ export function collectIconNames(repoRoot, cfg, prefix, deps = {}) {
     } catch {
       return;
     }
-    for (const m of text.matchAll(re)) used.add(m[1]);
+    for (const m of dropNames(text).matchAll(re)) used.add(m[1]);
   };
   for (const rel of cfg.scan) visit(path.join(repoRoot, rel));
   return [...used].sort();

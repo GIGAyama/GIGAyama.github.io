@@ -327,3 +327,18 @@ test('SVG が無いアイコンは、黙って通さず必ず知らせる', asyn
   assert.match(warns.join('\n'), /SVG が見つからないアイコン: no-such/);
   assert.deepEqual(results.find((r) => r.out === 'vendor_icons.html').missingIcons, ['no-such']);
 });
+
+test('⚠️ 生成物の「名前」もアイコン名として拾わない', () => {
+  // <link href="./vendor/mdi-icons.css"> と書いてあると、その文字列から
+  // `mdi-icons` というアイコンが使われていると読んでしまう。
+  // ファイルを走査から外すだけでは足りない。読まれる側に名前が出てくるため。
+  const repo = makeRepo({
+    config: { targets: [{ out: 'vendor/mdi-icons.css', icons: '@mdi/svg' }] },
+    files: {
+      'index.html':
+        '<link href="./vendor/mdi-icons.css" rel="stylesheet"><i class="mdi mdi-account"></i>',
+    },
+  });
+  const cfg = loadConfig(repo);
+  assert.deepEqual(collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'mdi'), ['account']);
+});
