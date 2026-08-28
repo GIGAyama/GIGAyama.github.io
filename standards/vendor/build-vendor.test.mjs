@@ -342,3 +342,31 @@ test('⚠️ 生成物の「名前」もアイコン名として拾わない', (
   const cfg = loadConfig(repo);
   assert.deepEqual(collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'mdi'), ['account']);
 });
+
+test('アイコンの出どころは接尾辞を持てる（Material Symbols の -fill）', () => {
+  const pack = ICON_PACKS['@material-symbols/svg-400'];
+  assert.equal(pack.prefix, 'ms');
+  assert.equal(pack.suffix, '-fill');
+});
+
+test('接尾辞つきの出どころから SVG を引く', async () => {
+  const repo = makeRepo({
+    config: { targets: [{ out: 'ms.css', icons: '@material-symbols/svg-400' }], wrap: 'none' },
+    files: { 'index.html': '<span class="ms ms-search"></span>' },
+    deps: { '@material-symbols/svg-400/rounded/search-fill.svg': SVG('M1 1h6v6H1z') },
+  });
+  await buildVendor(repo, { log: () => {}, warn: () => {} });
+  const css = fs.readFileSync(path.join(repo, 'ms.css'), 'utf8');
+  assert.match(css, /\.ms-search\{/);
+});
+
+test('⚠️ 短い生成物名でも、まわりの語を巻きこまない', () => {
+  // 生成物が ms.css のとき、拡張子を外した "ms" で落とすと
+  // class="ms ms-search" の ms まで消え、アイコンが 1 つも見つからなくなる。
+  const repo = makeRepo({
+    config: { targets: [{ out: 'ms.css', icons: '@material-symbols/svg-400' }] },
+    files: { 'index.html': '<link href="./ms.css"><span class="ms ms-search"></span>' },
+  });
+  const cfg = loadConfig(repo);
+  assert.deepEqual(collectIconNames(repo, { ...DEFAULT_CONFIG, ...cfg }, 'ms'), ['search']);
+});

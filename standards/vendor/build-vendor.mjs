@@ -91,7 +91,10 @@ export function collectIconNames(repoRoot, cfg, prefix, deps = {}) {
      その文字列から `mdi-icons` というアイコンが使われていると読んでしまう。
      ファイルを走査対象から外すだけでは足りない（読む側ではなく、
      読まれる側に名前が出てくるため）。2026-08-28、SekigaeMaker で実測。 */
-  const generatedNames = (cfg.targets || []).map((t) => path.basename(t.out).replace(/\.[^.]+$/, ''));
+  /* ⚠️ 拡張子まで含めた「ファイル名」で落とすこと。
+     拡張子を外した幹（"ms"）で落とすと、`class="ms ms-search"` の中の
+     ms まで消えてアイコンが 1 つも見つからなくなる。実際に踏んだ。 */
+  const generatedNames = (cfg.targets || []).map((t) => path.basename(t.out));
   const dropNames = (text) => {
     let out = text;
     for (const n of generatedNames) out = out.split(n).join('');
@@ -225,6 +228,17 @@ export const ICON_PACKS = {
     dir: '@mdi/svg/svg',
     alias: {},
   },
+  /* Material Symbols。合字で絵を出す書体としても配れるが、そちらは
+     「その字で綴れる絵ぜんぶ」が返ってくるので重い（実測 289KB）。
+     使っている分の SVG だけを取り出せば 10KB 前後で済む。
+     FILL@1 の見た目に合わせて -fill.svg を採る。 */
+  '@material-symbols/svg-400': {
+    prefix: 'ms',
+    baseClass: 'ms',
+    dir: '@material-symbols/svg-400/rounded',
+    suffix: '-fill',
+    alias: {},
+  },
 };
 
 export async function buildVendor(repoRoot, { log = console.log, warn = console.warn } = {}) {
@@ -252,7 +266,7 @@ export async function buildVendor(repoRoot, { log = console.log, warn = console.
         prefix: pack.prefix,
         baseClass: pack.baseClass,
         resolve: (name) => {
-          const file = path.join(nm, pack.dir, (pack.alias[name] || name) + '.svg');
+          const file = path.join(nm, pack.dir, (pack.alias[name] || name) + (pack.suffix || '') + '.svg');
           return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
         },
       });
