@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 
 /* 置き場の一覧は check-drift.mjs から借りる。配る側と照合する側で別々に
    持つと、片方だけ直したときに「配ってはいるが誰も見ていない」置き場が生まれる。 */
-import { SKILL_ROOTS } from '../standards/check-drift.mjs';
+import { NORMALIZERS, SKILL_ROOTS } from '../standards/check-drift.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, '..');
@@ -140,10 +140,41 @@ for (const repoName of targetRepos) {
         for (const item of map.files) {
           const srcFile = path.join(STANDARDS_DIR, item.canonical);
           const dstFile = path.join(repoDir, item.local);
-          if (fs.existsSync(srcFile)) {
-            fs.mkdirSync(path.dirname(dstFile), { recursive: true });
-            fs.copyFileSync(srcFile, dstFile);
+          if (!fs.existsSync(srcFile)) continue;
+
+          /* ⚠️ normalize を見ずに上書きしない。
+           *
+           * 対応表の normalize は「配布先ごとに変えてよい場所」の宣言で、
+           * check-drift は両側をプレースホルダーへそろえてから比べる。
+           * ところが配布は正本をそのまま被せていたので、配布先が入れた値
+           * （APP_ID、アプリの表示名、受け渡し口の置き場）は次の配布で消える。
+           * 消えても drift は緑のままなので、誰も気づけない。
+           *
+           * 2026-08-28 に実測した被害:
+           *   ・records-export.test.mjs の import 先を配布先で直しても、
+           *     次の配布で '../js/…' に戻った。
+           *   ・9 本すべての records-export.js が APP_ID='__APP_ID__'
+           *     （正本のプレースホルダーそのもの）のまま公開されていた。
+           *     appId が合わないと、配備されていても学習記録は 1 件も届かない。
+           *
+           * そこで「normalize したうえで一致しているなら、そのまま置く」。
+           * 正本が本当に変わったときだけ上書きする。 */
+          if (Array.isArray(item.normalize) && item.normalize.length > 0
+              && fs.existsSync(dstFile)) {
+            let c = fs.readFileSync(srcFile, 'utf8');
+            let l = fs.readFileSync(dstFile, 'utf8');
+            let known = true;
+            for (const n of item.normalize) {
+              const fn = NORMALIZERS[n];
+              if (!fn) { known = false; break; }
+              c = fn(c); l = fn(l);
+            }
+            // 差がプレースホルダーの中だけなら、配布先の値を残す
+            if (known && c === l) continue;
           }
+
+          fs.mkdirSync(path.dirname(dstFile), { recursive: true });
+          fs.copyFileSync(srcFile, dstFile);
         }
       }
       if (Array.isArray(map.dirs)) {
