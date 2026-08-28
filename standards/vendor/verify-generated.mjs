@@ -33,7 +33,6 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
-import { buildVendor, loadConfig, outputs } from './build-vendor.mjs';
 
 export const hashOf = (file) =>
   createHash('sha256').update(fs.readFileSync(file)).digest('hex').slice(0, 16);
@@ -140,6 +139,10 @@ export async function verifyAgainstCommitted(
 }
 
 export async function verifyGenerated(repoRoot, opts = {}) {
+  // build-vendor はここで読む。vendor を持たないリポジトリ（app.html だけを
+  // 作るところ）が verifyAgainstCommitted だけを使えるようにするため、
+  // ファイルの頭では読まない。
+  const { buildVendor, loadConfig, outputs } = await import('./build-vendor.mjs');
   const files = outputs(loadConfig(repoRoot));
   return verifyAgainstCommitted(repoRoot, files, () => buildVendor(repoRoot, { log: () => {} }), opts);
 }
