@@ -417,3 +417,14 @@ test('リポジトリごとの読み替えを書ける（出どころに無い�
   // クラス名は「画面が書いている名前」のままでなければならない
   assert.match(fs.readFileSync(path.join(repo, 'icons.css'), 'utf8'), /\.ms-tips_and_updates\{/);
 });
+
+test('⚠️ SVG が持っている自分の名前（class）を data: URI に残さない', () => {
+  // bootstrap-icons の SVG は class="bi bi-rulers" のように自分の名前を持つ。
+  // 読み替えたアイコン（pencil-ruler → rulers）ではその名前が食い違い、
+  // 走査で「rulers も使われている」と読めてしまう。
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-rulers" viewBox="0 0 16 16"><path d="M1 0"/></svg>';
+  const uri = svgToDataUri(svg);
+  assert.doesNotMatch(uri, /bi-rulers/, 'SVG の中に自分の名前が残っている');
+  assert.doesNotMatch(uri, /width=/, 'マスクでは効かない width が残っている');
+  assert.match(uri, /viewBox/, 'viewBox は必要（これが無いと絵が出ない）');
+});
