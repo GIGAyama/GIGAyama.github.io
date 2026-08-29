@@ -76,6 +76,13 @@ jobs:
       # 試験で固定してある。ここが崩れると、見ていないのに緑を出す道具になる。
       - name: 艦隊の状態を数える仕組みのテスト
         run: node --test tools/fleet-status.test.mjs
+      # 教訓が検査に落ちているかを見る。②「書いた検査が実在しない」が本体で、
+      # これは 2026-08-28 の giga-reviewer（検査項目に書いてあるのに実装が無い）
+      # と同じ型。台帳が嘘をつくと、台帳があるぶんだけ事故が見えにくくなる。
+      - name: 教訓が検査に落ちているか
+        run: |
+          node --test tools/check-lessons.test.mjs
+          node tools/check-lessons.mjs
       # 目次が壊れると、朝の組み直しで 31 本の紹介ページが一斉に同じ形で崩れる
       - name: 紹介ページの目次と読了時間のテスト
         run: node --test tools/lib/article-toc.test.mjs

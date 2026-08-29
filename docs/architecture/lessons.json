@@ -1,0 +1,140 @@
+{
+  "_note": "SYSTEM_MASTER.md の教訓を機械が読める形にしたもの。各件に『どの検査が見張っているか』(guardedBy) を書く。tools/check-lessons.mjs が ①guardedBy も unguarded も無い教訓 ②書いた検査が実在しない教訓 を落とす。②が本体で、『検査 ID を書いたが実在しない』はこの艦隊が繰り返し踏んでいる型そのもの。",
+  "_guard_shape": "{ file, contains } … その file にその文字列が在ることを確かめる。ID の表を別に持つと、名前を変えたときに片方だけ古くなる。",
+  "lessons": [
+    {
+      "date": "2026-08-21",
+      "symptom": "SW のキャッシュ版数を上げ忘れ、児童端末に古い版が残りつづけた",
+      "guardedBy": [
+        { "file": "standards/sw/build-sw-static.mjs", "contains": "--check" },
+        { "file": "standards/sw/build-sw-static.test.mjs", "contains": "test(" }
+      ]
+    },
+    {
+      "date": "2026-08-22",
+      "symptom": "正本を直したのに配り忘れ、10 リポジトリの main が一斉に赤くなった",
+      "guardedBy": [
+        { "file": "tools/check-distribution.mjs", "contains": "配っていません" },
+        { "file": ".github/workflows/check-distribution.yml", "contains": "schedule" }
+      ]
+    },
+    {
+      "date": "2026-08-24",
+      "symptom": "Quarto 紹介ページの画像リンクが切れ、main が赤くなった",
+      "guardedBy": [
+        { "file": "tools/build-articles.mjs", "contains": "raw.githubusercontent.com" }
+      ]
+    },
+    {
+      "date": "2026-08-25",
+      "symptom": "GITHUB_TOKEN による push は後続のワークフローを起動せず、検査が漏れた",
+      "guardedBy": [
+        { "file": ".github/workflows/sync-updates.yml", "contains": "build-sw.mjs" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": ".agents/skills が正本照合の外にあり、書き替えても緑のまま通った",
+      "guardedBy": [
+        { "file": "standards/check-drift.mjs", "contains": "SKILL_ROOTS" },
+        { "file": "standards/check-drift.mjs", "contains": "unregisteredSkills" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "giga-reviewer の入口判定が Windows で一致せず、何も検査せず exit 0 になっていた",
+      "guardedBy": [
+        { "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs", "contains": "pathToFileURL" },
+        { "file": "standards/skills/giga-reviewer/scripts/lint-giga.test.mjs", "contains": "test(" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "受け渡し口の APP_ID がプレースホルダーのままで、9 本の学習記録が 1 件も届いていなかった",
+      "guardedBy": [
+        { "file": "tools/distribute.mjs", "contains": "normalize" },
+        { "file": "standards/check-drift.mjs", "contains": "app-id" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "auto-distribute が PAT_TOKEN 未設定のまま走り、42 本ぶんの 403 で終わっていた",
+      "guardedBy": [
+        { "file": ".github/workflows/auto-distribute.yml", "contains": "PAT_TOKEN があるか先に確かめる" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "記事の画面写真の指紋が無く、画像 230 枚が毎回『差しかわった』と数えられていた",
+      "unguarded": "この検査は自動では復旧しない。赤くなったら人が build-article-images.py を走らせて指紋を作り直す。機械で直せる形が無いので、宣言して残す（2026-08-28）"
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "Google Fonts の text= が約 800 字で、HTTP 200 のまま効かなくなる",
+      "guardedBy": [
+        { "file": "standards/fonts/build-fonts.mjs", "contains": "assertSingleFace" },
+        { "file": "standards/fonts/build-fonts.test.mjs", "contains": "assertSingleFace" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "正本へ足したものを、コミットする前に配布先へ写した（手元だけ緑で、正本が古いまま残る）",
+      "unguarded": "順番の約束であって、コミット前の状態を機械が見張る手だてが無い。CLAUDE.md・skills/giga-fleet・distribute.mjs のコメントの 3 か所に書いてある（2026-08-29）"
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "収録する字に日本語コメントの漢字まで数え、GAS へ埋めこむ CSS が 589KB になっていた",
+      "guardedBy": [
+        { "file": "standards/lib/giga-v5-checks.mjs", "contains": "stripComments" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "静的検査が『0 件』と言い、ブラウザは外を読んでいた（//cdn、<img src>、印刷ウィンドウの @import の 3 件）",
+      "guardedBy": [
+        { "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs", "contains": "(?:https?:)?" },
+        { "file": "standards/web/verify-no-external.mjs", "contains": "context.on('request'" },
+        { "file": ".github/workflows/verify-runtime.yml", "contains": "schedule" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "生成物の検査が、前に npm run build を置くだけで必ず緑になっていた（10 本）",
+      "guardedBy": [
+        { "file": "standards/vendor/verify-generated.mjs", "contains": "git" },
+        { "file": "standards/vendor/verify-generated.mjs", "contains": "コミット" }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "中身を原本へ移したら、検査が見るものを失って緑になった（決め打ちの一覧）",
+      "unguarded": "『決め打ちの一覧を書かない』という書き方の約束で、機械で見張る形にできていない。検査する一覧は入口のファイル自身から読むこと（2026-08-28）"
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": ".agents/rules/gigaschool-standards.md が 42 本へ配られていたのに、どの standards-map.json にも載っておらず、書き替えても check-drift が exit 0 を返した",
+      "guardedBy": [
+        { "file": "tools/distribute.mjs", "contains": "ensureFile('agents/rules/gigaschool-standards.md'" },
+        { "file": "standards/check-drift.test.mjs", "contains": "ルールファイルを 1 行書き替えたら落ちる" },
+        { "file": "tools/check-distribution.mjs", "contains": "agentContextProblems" }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "Claude Code だけが常時ルールを読んでいなかった（.agents/rules は 43 本、CLAUDE.md は 3 本）",
+      "guardedBy": [
+        { "file": "standards/agents/CLAUDE.md", "contains": "@.agents/rules/gigaschool-standards.md" },
+        { "file": "tools/distribute.mjs", "contains": "STANDARDS_CLAUDE_MD" },
+        { "file": "tools/check-distribution.test.mjs", "contains": "取りこみの行" }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "実ブラウザ検査の『0 件を信じない』を要求の数で書いたら、接続できない URL が合格になった（失敗した navigation の要求も記録されるため）",
+      "guardedBy": [
+        { "file": "standards/web/verify-no-external.mjs", "contains": "okResponses" },
+        { "file": "standards/web/verify-no-external.mjs", "contains": "成功した応答" }
+      ]
+    }
+  ]
+}
