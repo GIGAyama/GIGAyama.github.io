@@ -118,6 +118,15 @@ test('リンクは別のタブで開く（iframe の中で戻れなくならな�
   assert.ok(code.includes("a.rel = 'noopener noreferrer'"));
 });
 
+test('閉じタグをそのまま持たない（GAS に取りこめる形であること）', () => {
+  /* ⚠️ GAS のアプリは <script src> が使えないので、このファイルの中身を
+     <script> で囲んで取りこむ。コメントの中であっても閉じタグをそのまま
+     書くと、そこで script が終わり、残りが素の HTML として画面に出る。
+     2026-08-29 に SchoolPlan_Editor の品質ゲートが実際に見つけた。 */
+  assert.ok(!code.includes('</scr' + 'ipt>'),
+    '閉じタグは <\\/script> のように書くこと（コメントの中でも）');
+});
+
 test('アプリ固有の文字を持たない（42 本に同じものが配れる）', () => {
   /* ⚠️ ここが崩れると check-drift に normalize を足すことになり、
      「1 本の正本」ではなくなる。アプリ名や slug を書き足さないこと。 */

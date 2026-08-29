@@ -27,7 +27,13 @@
  *
  * ── 使い方（ふつうのアプリ）─────────────────────────
  *
- *   <script src="./giga-app-links.js" defer></script>
+ *   <script src="./giga-app-links.js" defer><\/script>
+ *
+ * ⚠️ この説明の中の <\/script> に \ が入っているのは、書き間違いではない。
+ *    このファイルは GAS のために <script> で囲んで取りこむことがあり、
+ *    そのとき、コメントの中の閉じタグでも script が終わってしまう。
+ *    実際 2026-08-29 に、囲んだ側が途中で切れて、残りが素の HTML として
+ *    画面に出た。閉じタグをそのまま書かないこと。
  *
  * slug は自分がいるホスト名（<slug>.giga-school.com）から決まるので、
  * たいていのアプリは、この 1 行のほかに書くことがない。
@@ -37,8 +43,8 @@
  * GAS は自分の HTML ファイルしか配れないので <script src> が使えない。
  * このファイルの中身を <script> で囲んで取りこみ、先に slug を渡す。
  *
- *   <script>window.GIGA_APP_LINKS = { slug: '<slug>' };</script>
- *   <script> …このファイルの中身… </script>
+ *   <script>window.GIGA_APP_LINKS = { slug: '<slug>' };<\/script>
+ *   <script> …このファイルの中身… <\/script>
  *
  * ⚠️ ここに本物のアプリ名を例として書かないこと。このファイルは 42 本へ
  *    バイト単位で同じものが配られる。1 本の名前が混ざると、他の 41 本に
