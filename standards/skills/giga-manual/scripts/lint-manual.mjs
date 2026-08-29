@@ -19,8 +19,28 @@
  */
 import { readFileSync } from 'node:fs';
 
-/** ## の並び。references/format.md と同じもの。ここが正本。 */
-export const SECTIONS = ['はじめに', 'さいしょに', '画面の見かた', 'できること', 'こまったとき'];
+/**
+ * 中身の無い見出し。これだけでは何の説明か分からないので落とす。
+ *
+ * ⚠️ 2026-08-29 まで、この検査は「## は はじめに／さいしょに／画面の見かた／
+ *    できること／こまったとき の 5 つだけ」と決め打ちしていた。理由として
+ *    「機械がこの並びを前提に目次と索引を作る」と書いてあったが、それは誤りだった。
+ *    目次も索引も見出しの**位置**（s-1, s-2）しか見ておらず、名前は一度も見ていない。
+ *
+ *    害のほうが大きかった。5 つに押しこむと、機能がいくつあっても全部が
+ *    「できること」の下にぶら下がる。週案エディタでは 16 機能がそうなっていた。
+ *    いまは章立てを自由にし、代わりに**名前の質**を見る。
+ */
+const EMPTY_NAMES = [
+  'できること', 'その他', 'そのほか', '機能', '応用', 'いろいろ', '補足', 'メモ',
+  'はじめに以外', '各種機能', 'その他の設定', 'まとめ',
+];
+
+/** 見出しの短さの下限。参照マニュアルの見出しは平均 14.8 字ある。 */
+const HEADING_MIN = 5;
+
+/** 短くても意味の通る、決まりきった名前。参照マニュアルも「1. はじめに」を使っている。 */
+const CONVENTIONAL = ['はじめに', 'おわりに', 'まとめ以外'];
 
 /** 機械が足す節。手で書かれていたら止める（/filtering/ と食い違うため） */
 const MACHINE_SECTIONS = ['学校で使うときは', '学校で使うときの準備', '変わったこと', '更新履歴'];
@@ -79,42 +99,68 @@ export function lintManual(md) {
     }
   }
 
-  const missing = SECTIONS.filter((s) => !names.includes(s));
-  if (missing.length) {
-    say('error', 1, `## が足りない → ${missing.join('・')}（空でも節ごと消さない。`
-      + '「準備は要りません」と書けるので、無いことも情報になる）');
-  }
-
-  const extra = names.filter((n) => !SECTIONS.includes(n) && !MACHINE_SECTIONS.some((m) => n.includes(m)));
-  extra.forEach((n) => {
-    const hit = h2.find((h) => h.text === n);
-    say('error', hit.line, `知らない ## 「${n}」。増やすものは ### にする`
-      + `（使えるのは ${SECTIONS.join('・')}）`);
-  });
-
-  /* 並び順。目次と索引がこの順を前提にしている */
-  const known = names.filter((n) => SECTIONS.includes(n));
-  const wanted = SECTIONS.filter((s) => known.includes(s));
-  if (known.join('>') !== wanted.join('>')) {
+  /* 章が少なすぎる。機能ごとに章を立てていない形になっている */
+  if (h2.length < 3) {
     say('error', h2[0]?.line ?? 1,
-      `## の並びが違う。${wanted.join(' → ')} の順にする（いまは ${known.join(' → ')}）`);
+      `章（##）が ${h2.length} つしかない。機能のまとまりごとに章を立てる`
+      + '（基準にした実物のマニュアルは 10 章 25 節）');
   }
 
-  /* --- ### は「できること」と「こまったとき」の中だけ ------------- */
-  let current = '';
+  /* 見出しの名前の質。「見出しだけを並べて、何の説明か分かる」が唯一の基準 */
   for (const h of heads) {
-    if (h.level === 2) current = h.text;
-    if (h.level >= 3 && !['できること', 'こまったとき', 'さいしょに'].includes(current)) {
-      say('warn', h.line, `### は「できること」「こまったとき」「さいしょに」の中で使う（いまは「${current || '題の直後'}」の中）`);
+    if (h.level < 2) continue;
+    const name = h.text.replace(/^[【（(]?[!！重要①-⑳\s]*[】）)]?\s*/, '').trim();
+    if (EMPTY_NAMES.includes(name)) {
+      say('error', h.line,
+        `「${h.text}」だけでは何の説明か分からない。`
+        + '何を・どうするのかが分かる名前にする（例「週案のセルから単元を選ぶ」）');
+      continue;
+    }
+    if (name.length < HEADING_MIN && !CONVENTIONAL.includes(name)) {
+      say('warn', h.line,
+        `見出し「${h.text}」が ${name.length} 字と短い。`
+        + '目次に並べたときに中身が分かるか確かめる');
     }
   }
 
-  /* 本体が空のマニュアルを公開しない */
-  const canDo = heads.filter((h, i) => h.level >= 3
-    && heads.slice(0, i).reverse().find((x) => x.level === 2)?.text === 'できること');
-  if (names.includes('できること') && canDo.length === 0) {
-    say('error', h2.find((h) => h.text === 'できること').line,
-      '「できること」の中に ### が 1 つも無い。機能をひとつずつ並べるのがマニュアルの本体');
+  /* 見出しに自分で番号を振らない。ページ側の目次が振るので二重になる */
+  for (const h of heads) {
+    /* 「1. 」「1、」と「3.1 」「3.1. 」を拾う。
+       ⚠️ ただの数字ではじまる見出し（「2 学期のはじめにすること」）は通す。
+          点が無ければ、それは番号ではなく言葉の一部である。 */
+    const NUMBERED = /^\s*(?:\d+[.、][ \u3000]|\d+(?:\.\d+)+[.、]?[ \u3000])/;
+    if (h.level >= 2 && NUMBERED.test(h.text)) {
+      say('error', h.line,
+        `見出しに番号を書かない（「${h.text}」）。ページの目次が自動で振るので二重になる`);
+    }
+  }
+
+  /* 読む前に用意するものが書かれているか。ここが抜けていると、
+     読み手は最初の 1 行で止まる（参照マニュアル 1.3 にあたる） */
+  const body = lines.filter((l, i) => !fenced.has(i)).join('\n');
+  if (!/用意|準備|お手元|必要なもの|そろえ/.test(body)) {
+    say('warn', 1,
+      '読む前に用意するもの（端末・アカウント・URL・権限）が見あたらない。'
+      + '手元に何が要るかが分からないと、最初の 1 行で止まる');
+  }
+
+  /* 章が大きくなりすぎていないか。節が多すぎる章は、章を割るべき形になっている */
+  const perChapter = new Map();
+  let cur = null;
+  for (const h of heads) {
+    if (h.level === 2) { cur = h; perChapter.set(h, []); continue; }
+    if (h.level >= 3 && cur) perChapter.get(cur).push(h);
+  }
+  for (const [chapter, subs] of perChapter) {
+    /* ⚠️ しきい値をきつくしない。「こまったとき」のように、同じ種類のものが
+       9 つ並ぶ章は正しい形である（症状ごとに引けるほうがよい）。
+       止めたいのは「機能を 16 個ぶら下げた 1 章」のほうなので、そこだけ鳴る値にする。 */
+    if (subs.length > 10) {
+      say('warn', chapter.line,
+        `「${chapter.text}」に節が ${subs.length} つある。`
+        + '同じ種類のものが並んでいるなら、このままでよい。'
+        + '別々の機能が並んでいるなら、機能のまとまりで章を割る');
+    }
   }
 
   /* --- 画像 ----------------------------------------------------- */
@@ -138,13 +184,28 @@ export function lintManual(md) {
       say('error', at, `画像は images/ に置く（いまは ${src}）`);
     }
 
-    /* 番号つき手順の途中に画像を置くと、article-md.mjs の解析でリストが切れて
-       番号が 1 に戻る。手元の Markdown 表示では気づけない */
+    /* ⚠️ 2026-08-29 まで、ここは「番号つき手順の途中に画像を置かない」を
+       落としていた。組み立てがそこで番号を切っていたためだが、押す場所の写真は
+       手順のあいだにあるのがいちばん自然なので、組み立ての側を直した
+       （tools/lib/article-md.mjs が <ol start="N"> で続ける）。検査からは外す。
+
+       ただし続くのは「画像と、その説明文だけ」をはさんだときに限るので、
+       手順のあいだにふつうの段落を置いたときだけ、番号が戻ることを知らせる。 */
     const before = lines.slice(0, i).reverse().find((x) => x.trim() !== '');
-    const after = lines.slice(i + 1).find((x) => x.trim() !== '');
-    if (ORDERED.test(before ?? '') && ORDERED.test(after ?? '')) {
-      say('error', at, '番号つき手順の途中に画像を置かない。ここで番号が 1 に戻る。'
-        + '手順の前か、手順を終えてから置く');
+    if (ORDERED.test(before ?? '')) {
+      const rest = lines.slice(i + 1);
+      const nextAt2 = rest.findIndex((x) => x.trim() !== '');
+      const next2 = nextAt2 === -1 ? '' : rest[nextAt2].trim();
+      const isCaption = next2 && !HEADING.test(next2) && !IMAGE_LINE.test(next2)
+        && !ORDERED.test(next2) && next2.length <= CAPTION_MAX;
+      const after2 = isCaption
+        ? rest.slice(nextAt2 + 1).find((x) => x.trim() !== '') ?? ''
+        : next2;
+      if (after2 && !ORDERED.test(after2) && !HEADING.test(after2) && !IMAGE_LINE.test(after2)
+          && after2.trim().length > CAPTION_MAX) {
+        say('warn', at, '手順のあいだに置けるのは、画像と 120 字までの説明文だけ。'
+          + 'それより長い段落を置くと、次の手順の番号が 1 に戻る');
+      }
     }
 
     /* キャプションは、画像の直後の「1 行だけの段落」で、120 字まで
