@@ -1,0 +1,72 @@
+# 公開中の画面を実ブラウザで巡回し、実際に出ていった通信を記録する。
+#
+# ⚠️ この流れが「呼ぶ側」である。standards/web/verify-no-external.mjs を
+#    書いただけでは、誰も走らせない検査が 1 本増えるだけになる。
+#    2026-08-28 に、verify を書いたのにワークフローが一度も呼んでいない
+#    repo が 6 本あった。同じことをしない。
+#
+# 静的検査（giga-reviewer）との役割の違い:
+#   静的検査 … コミット前に、書いてあるものを見る。速いが、実行時に
+#              組み立てられる URL は原理的に見えない
+#   ここ     … 週に 1 回、児童の端末が実際に読むものを見る。遅いが嘘がない
+#
+# ⚠️ 落ちても直しにいくのは人。自動で data/apps.json を書き替えない。
+#    巡回が 1 回こけただけで全アプリの hosts が空になる、という壊し方を
+#    できないようにしてある。
+name: 実ブラウザで通信を記録する
+
+on:
+  schedule:
+    - cron: '13 20 * * 0'      # UTC 日 20:13 ＝ 日本時間 月曜 朝 5:13
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: '1 本だけ測る（例: typa）。空なら全部'
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-runtime
+  cancel-in-progress: true
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 突き合わせの計算そのものを先に確かめる。
+      # 計算が壊れていたら、巡回の結果は読む価値がない。
+      - name: 検査そのもののテスト
+        run: |
+          node --test standards/web/verify-no-external.test.mjs
+          node --test tools/verify-runtime.test.mjs
+
+      # ポータルには package.json が無い（意図的）。
+      # playwright はこの流れの中だけで使うので、--no-save で入れる。
+      - name: playwright を入れる
+        run: |
+          npm i --no-save --prefix "$RUNNER_TEMP/pw" playwright
+          npx --yes --prefix "$RUNNER_TEMP/pw" playwright install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
+
+      - name: 公開中の画面を巡回する
+        env:
+          NODE_PATH: ${{ env.NODE_PATH }}
+        run: |
+          node tools/verify-runtime.mjs ${{ inputs.slug && format('--slug {0}', inputs.slug) || '' }} \
+            | tee "$RUNNER_TEMP/runtime.txt"
+
+      - name: 結果を残す
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-hosts
+          path: ${{ runner.temp }}/runtime.txt
+          if-no-files-found: ignore

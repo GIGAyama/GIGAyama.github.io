@@ -1,0 +1,9 @@
+{
+  "_note": "ポータルだけが持つ。艦隊を横断して見る問いは、正本を持つこちら側でしか答えられないため（配布先には distribution.json も data/apps.json も無い）。中身は tools/fleet-status.mjs を呼ぶ薄い皮で、正本はスクリプト側にある。依存は足していない（stdio の JSON-RPC を Node 標準だけで書いてある）。",
+  "mcpServers": {
+    "giga-fleet": {
+      "command": "node",
+      "args": ["tools/mcp/giga-fleet-mcp.mjs"]
+    }
+  }
+}

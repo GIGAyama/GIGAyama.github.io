@@ -25,6 +25,9 @@ Claude Code はこの取りこみを通して読む。以下はポータル固�
    ⚠️ **静的検査が「0 件」でも信じないこと。** 2026-08-28、スキームを省いた `//cdn…`、
    `<img src>`、印刷ウィンドウの中の `@import` の 3 件が検査を素通りしていた。
    どれも実ブラウザに読ませて通信を記録して見つけた。
+   **その手順は `standards/web/verify-no-external.mjs` にしてある**（2026-08-29）。
+   実行時に組み立てた URL は静的検査には原理的に見えないので、こちらでしか出ない。
+   週次の巡回は `.github/workflows/verify-runtime.yml`。
 2. **Zero PII**: 児童の個人情報を一切扱わない（Local First）。
 3. **正本同期の徹底**: 共通コード（SW生成、検査、records等）は `standards/` 配下を正本とし、個別リポジトリを直接修正しない。
 4. **SW版数整合性**: `tools/build-sw.mjs` を通じてファイル内容からキャッシュ版数を刻む。
@@ -51,16 +54,21 @@ node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
 node --test standards/agents/hooks/*.test.mjs
-node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs
+node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs tools/fleet-status.test.mjs tools/check-lessons.test.mjs tools/mcp/*.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
 
 # 正本ドリフト検査（--standards は必須。省くと exit 2）
 node standards/check-drift.mjs --standards standards
+node tools/check-lessons.mjs           # 教訓が検査に落ちているか（書いた検査が実在するか）
 
 # SW版数検査 / 配布状況監査 / 正本一括配布
 node tools/build-sw.mjs --check
 node tools/check-distribution.mjs --skip-repo-list
 node tools/distribute.mjs --dry-run
+
+# 艦隊の状態（42本を1回で読む。1本ずつ歩くと文脈が埋まる）
+node tools/fleet-status.mjs --todo     # 違反 → 直し方 → 使う正本の道具
+node tools/verify-runtime.mjs          # 公開中の画面を実ブラウザで巡回して実測
 ```
 
 ## エージェントの置き場（Claude Code と Antigravity）
@@ -72,6 +80,13 @@ node tools/distribute.mjs --dry-run
 | `.agents/rules/gigaschool-standards.md` | Antigravity | 正本 `standards/agents/rules/` へのシンボリックリンク |
 | `CLAUDE.md`（リポジトリ直下） | Claude Code | 上のルールを `@` で取りこむ。正本は `standards/agents/CLAUDE.md` |
 | `.claude/settings.json` ＋ `.claude/hooks/` | Claude Code | 正本 `standards/agents/`。配布先でだけ働く（下記） |
+| `.claude/agents/` | Claude Code | 正本 `standards/agents/subagents/`。`giga-auditor`（疑う側に立って調べる）と `giga-migrator`（v5 ゲートを 1 本ずつ移行する） |
+| `.mcp.json` ＋ `tools/mcp/` | Claude Code | **ポータルだけ**。艦隊を横断する問いは正本を持つ側でしか答えられない |
+
+**MCP は `tools/fleet-status.mjs` の薄い皮。正本はスクリプト側に置く。**
+逆順に作ると、正本を持たないラッパだけが増えて食い違う。
+`@modelcontextprotocol/sdk` は入れていない（ポータルに `package.json` を持たない方針を崩さないため、
+stdio の JSON-RPC を Node 標準だけで書いてある）。
 
 **ルール 3 は、配布先では hook が機械的に止める。**
 `guard-canonical.mjs`（PreToolUse）が `standards-map.json` を読み、正本のコピーを
