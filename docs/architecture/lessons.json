@@ -6,61 +6,100 @@
       "date": "2026-08-21",
       "symptom": "SW のキャッシュ版数を上げ忘れ、児童端末に古い版が残りつづけた",
       "guardedBy": [
-        { "file": "standards/sw/build-sw-static.mjs", "contains": "--check" },
-        { "file": "standards/sw/build-sw-static.test.mjs", "contains": "test(" }
+        {
+          "file": "standards/sw/build-sw-static.mjs",
+          "contains": "--check"
+        },
+        {
+          "file": "standards/sw/build-sw-static.test.mjs",
+          "contains": "test("
+        }
       ]
     },
     {
       "date": "2026-08-22",
       "symptom": "正本を直したのに配り忘れ、10 リポジトリの main が一斉に赤くなった",
       "guardedBy": [
-        { "file": "tools/check-distribution.mjs", "contains": "配っていません" },
-        { "file": ".github/workflows/check-distribution.yml", "contains": "schedule" }
+        {
+          "file": "tools/check-distribution.mjs",
+          "contains": "配っていません"
+        },
+        {
+          "file": ".github/workflows/check-distribution.yml",
+          "contains": "schedule"
+        }
       ]
     },
     {
       "date": "2026-08-24",
       "symptom": "Quarto 紹介ページの画像リンクが切れ、main が赤くなった",
       "guardedBy": [
-        { "file": "tools/build-articles.mjs", "contains": "raw.githubusercontent.com" }
+        {
+          "file": "tools/build-articles.mjs",
+          "contains": "raw.githubusercontent.com"
+        }
       ]
     },
     {
       "date": "2026-08-25",
       "symptom": "GITHUB_TOKEN による push は後続のワークフローを起動せず、検査が漏れた",
       "guardedBy": [
-        { "file": ".github/workflows/sync-updates.yml", "contains": "build-sw.mjs" }
+        {
+          "file": ".github/workflows/sync-updates.yml",
+          "contains": "build-sw.mjs"
+        }
       ]
     },
     {
       "date": "2026-08-28",
       "symptom": ".agents/skills が正本照合の外にあり、書き替えても緑のまま通った",
       "guardedBy": [
-        { "file": "standards/check-drift.mjs", "contains": "SKILL_ROOTS" },
-        { "file": "standards/check-drift.mjs", "contains": "unregisteredSkills" }
+        {
+          "file": "standards/check-drift.mjs",
+          "contains": "SKILL_ROOTS"
+        },
+        {
+          "file": "standards/check-drift.mjs",
+          "contains": "unregisteredSkills"
+        }
       ]
     },
     {
       "date": "2026-08-28",
       "symptom": "giga-reviewer の入口判定が Windows で一致せず、何も検査せず exit 0 になっていた",
       "guardedBy": [
-        { "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs", "contains": "pathToFileURL" },
-        { "file": "standards/skills/giga-reviewer/scripts/lint-giga.test.mjs", "contains": "test(" }
+        {
+          "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs",
+          "contains": "pathToFileURL"
+        },
+        {
+          "file": "standards/skills/giga-reviewer/scripts/lint-giga.test.mjs",
+          "contains": "test("
+        }
       ]
     },
     {
       "date": "2026-08-28",
       "symptom": "受け渡し口の APP_ID がプレースホルダーのままで、9 本の学習記録が 1 件も届いていなかった",
       "guardedBy": [
-        { "file": "tools/distribute.mjs", "contains": "normalize" },
-        { "file": "standards/check-drift.mjs", "contains": "app-id" }
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "normalize"
+        },
+        {
+          "file": "standards/check-drift.mjs",
+          "contains": "app-id"
+        }
       ]
     },
     {
       "date": "2026-08-28",
       "symptom": "auto-distribute が PAT_TOKEN 未設定のまま走り、42 本ぶんの 403 で終わっていた",
       "guardedBy": [
-        { "file": ".github/workflows/auto-distribute.yml", "contains": "PAT_TOKEN があるか先に確かめる" }
+        {
+          "file": ".github/workflows/auto-distribute.yml",
+          "contains": "PAT_TOKEN があるか先に確かめる"
+        }
       ]
     },
     {
@@ -72,8 +111,14 @@
       "date": "2026-08-28",
       "symptom": "Google Fonts の text= が約 800 字で、HTTP 200 のまま効かなくなる",
       "guardedBy": [
-        { "file": "standards/fonts/build-fonts.mjs", "contains": "assertSingleFace" },
-        { "file": "standards/fonts/build-fonts.test.mjs", "contains": "assertSingleFace" }
+        {
+          "file": "standards/fonts/build-fonts.mjs",
+          "contains": "assertSingleFace"
+        },
+        {
+          "file": "standards/fonts/build-fonts.test.mjs",
+          "contains": "assertSingleFace"
+        }
       ]
     },
     {
@@ -85,24 +130,42 @@
       "date": "2026-08-28",
       "symptom": "収録する字に日本語コメントの漢字まで数え、GAS へ埋めこむ CSS が 589KB になっていた",
       "guardedBy": [
-        { "file": "standards/lib/giga-v5-checks.mjs", "contains": "stripComments" }
+        {
+          "file": "standards/lib/giga-v5-checks.mjs",
+          "contains": "stripComments"
+        }
       ]
     },
     {
       "date": "2026-08-28",
       "symptom": "静的検査が『0 件』と言い、ブラウザは外を読んでいた（//cdn、<img src>、印刷ウィンドウの @import の 3 件）",
       "guardedBy": [
-        { "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs", "contains": "(?:https?:)?" },
-        { "file": "standards/web/verify-no-external.mjs", "contains": "context.on('request'" },
-        { "file": ".github/workflows/verify-runtime.yml", "contains": "schedule" }
+        {
+          "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs",
+          "contains": "(?:https?:)?"
+        },
+        {
+          "file": "standards/web/verify-no-external.mjs",
+          "contains": "context.on('request'"
+        },
+        {
+          "file": ".github/workflows/verify-runtime.yml",
+          "contains": "schedule"
+        }
       ]
     },
     {
       "date": "2026-08-28",
       "symptom": "生成物の検査が、前に npm run build を置くだけで必ず緑になっていた（10 本）",
       "guardedBy": [
-        { "file": "standards/vendor/verify-generated.mjs", "contains": "git" },
-        { "file": "standards/vendor/verify-generated.mjs", "contains": "コミット" }
+        {
+          "file": "standards/vendor/verify-generated.mjs",
+          "contains": "git"
+        },
+        {
+          "file": "standards/vendor/verify-generated.mjs",
+          "contains": "コミット"
+        }
       ]
     },
     {
@@ -114,35 +177,86 @@
       "date": "2026-08-29",
       "symptom": ".agents/rules/gigaschool-standards.md が 42 本へ配られていたのに、どの standards-map.json にも載っておらず、書き替えても check-drift が exit 0 を返した",
       "guardedBy": [
-        { "file": "tools/distribute.mjs", "contains": "ensureFile('agents/rules/gigaschool-standards.md'" },
-        { "file": "standards/check-drift.test.mjs", "contains": "ルールファイルを 1 行書き替えたら落ちる" },
-        { "file": "tools/check-distribution.mjs", "contains": "agentContextProblems" }
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "ensureFile('agents/rules/gigaschool-standards.md'"
+        },
+        {
+          "file": "standards/check-drift.test.mjs",
+          "contains": "ルールファイルを 1 行書き替えたら落ちる"
+        },
+        {
+          "file": "tools/check-distribution.mjs",
+          "contains": "agentContextProblems"
+        }
       ]
     },
     {
       "date": "2026-08-29",
       "symptom": "Claude Code だけが常時ルールを読んでいなかった（.agents/rules は 43 本、CLAUDE.md は 3 本）",
       "guardedBy": [
-        { "file": "standards/agents/CLAUDE.md", "contains": "@.agents/rules/gigaschool-standards.md" },
-        { "file": "tools/distribute.mjs", "contains": "STANDARDS_CLAUDE_MD" },
-        { "file": "tools/check-distribution.test.mjs", "contains": "取りこみの行" }
+        {
+          "file": "standards/agents/CLAUDE.md",
+          "contains": "@.agents/rules/gigaschool-standards.md"
+        },
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "STANDARDS_CLAUDE_MD"
+        },
+        {
+          "file": "tools/check-distribution.test.mjs",
+          "contains": "取りこみの行"
+        }
       ]
     },
     {
       "date": "2026-08-29",
       "symptom": "配布のとりのこし検査が、配布と同じ push で起動して競走に負け、マージのたびに必ず赤くなっていた（2026-08-27 以降ほぼ全部）",
       "guardedBy": [
-        { "file": ".github/workflows/check-distribution.yml", "contains": "workflow_run" },
-        { "file": "tools/check-distribution.test.mjs", "contains": "配布のとりのこしは push で起動しない" },
-        { "file": "tools/check-distribution.test.mjs", "contains": "workflow_run が指す名前が、配布ワークフローの name と一致する" }
+        {
+          "file": ".github/workflows/check-distribution.yml",
+          "contains": "workflow_run"
+        },
+        {
+          "file": "tools/check-distribution.test.mjs",
+          "contains": "配布のとりのこしは push で起動しない"
+        },
+        {
+          "file": "tools/check-distribution.test.mjs",
+          "contains": "workflow_run が指す名前が、配布ワークフローの name と一致する"
+        }
       ]
     },
     {
       "date": "2026-08-29",
       "symptom": "実ブラウザ検査の『0 件を信じない』を要求の数で書いたら、接続できない URL が合格になった（失敗した navigation の要求も記録されるため）",
       "guardedBy": [
-        { "file": "standards/web/verify-no-external.mjs", "contains": "okResponses" },
-        { "file": "standards/web/verify-no-external.mjs", "contains": "成功した応答" }
+        {
+          "file": "standards/web/verify-no-external.mjs",
+          "contains": "okResponses"
+        },
+        {
+          "file": "standards/web/verify-no-external.mjs",
+          "contains": "成功した応答"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "fleet-status が古い手元のクローンを数え、配り終えた直後に「CLAUDE.md 3/42」と出した（GitHub 上は 42/42）",
+      "guardedBy": [
+        {
+          "file": "tools/fleet-status.mjs",
+          "contains": "cloneState"
+        },
+        {
+          "file": "tools/fleet-status.mjs",
+          "contains": "staleWarning"
+        },
+        {
+          "file": "tools/fleet-status.test.mjs",
+          "contains": "警告には「上の数字はその古い写しを数えたもの」と書く"
+        }
       ]
     }
   ]

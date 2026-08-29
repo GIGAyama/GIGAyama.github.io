@@ -13,6 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   inspectRepo, cdnViolations, fixFor, fleetRepos, buildStatus, todoLines,
+  cloneState, staleWarning,
 } from './fleet-status.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -133,4 +134,65 @@ test('検査そのものが無いリポジトリを、別立てで出す', () =>
     unmeasured: [], cdn: [],
   };
   assert.ok(todoLines(status).join('\n').includes('検査そのものが無い'));
+});
+
+/* ── 古い写しを数えていないか ─────────────────────────
+ *
+ * 2026-08-29 の回帰試験。艦隊へ CLAUDE.md と hook を配り終えた直後、
+ * GitHub 上では 42 本すべてに在るのに、この道具は
+ *
+ *   CLAUDE.md 3  ・ hook 3
+ *
+ * と出した。手元のクローンが配布前のままだったため。数字そのものは
+ * 正しく数えているので、**どこにも間違いが出ない形で誤解だけが生まれる。**
+ * 読んだ人は「配布が失敗した」と判断する。
+ */
+
+test('手元と origin が同じなら、古くない', () => {
+  const run = (_d, args) => (args[1] === 'HEAD' ? 'abc123' : 'abc123');
+  assert.deepEqual(cloneState('/x', run), { stale: false });
+});
+
+test('手元が origin と違えば、古いとして印を付ける', () => {
+  const run = (_d, args) => (args[1] === 'HEAD' ? 'old111' : 'new222');
+  assert.deepEqual(cloneState('/x', run), { stale: true });
+});
+
+test('origin/HEAD が無ければ origin/main を見る', () => {
+  const run = (_d, args) => {
+    if (args[1] === 'HEAD') return 'abc123';
+    if (args[1] === 'origin/HEAD') return null;   // 設定されていないクローンがある
+    if (args[1] === 'origin/main') return 'abc123';
+    return null;
+  };
+  assert.deepEqual(cloneState('/x', run), { stale: false });
+});
+
+test('比べる相手がまったく無ければ、古いとは言わない（判断しない）', () => {
+  const run = (_d, args) => (args[1] === 'HEAD' ? 'abc123' : null);
+  assert.deepEqual(cloneState('/x', run), { stale: false });
+});
+
+test('git リポジトリでなければ null', () => {
+  assert.equal(cloneState('/x', () => null), null);
+});
+
+test('古い写しがあれば、buildStatus が stale に集める', () => {
+  const status = buildStatus(['A', 'B'], { items: [] },
+    () => ({ v5Gate: true, check: true }),
+    (r) => ({ stale: r === 'B' }));
+  assert.deepEqual(status.stale, ['B']);
+});
+
+test('古い写しが無ければ、警告は 1 文字も出さない', () => {
+  assert.equal(staleWarning({ stale: [] }), '');
+  assert.equal(staleWarning({}), '');
+});
+
+test('警告には「上の数字はその古い写しを数えたもの」と書く', () => {
+  const text = staleWarning({ stale: ['Typa', 'Qalc'] });
+  assert.ok(text.includes('Typa'));
+  assert.ok(text.includes('古い写しを数えたもの'), '数字が疑わしいことを言っていない');
+  assert.ok(text.includes('git -C'), '取得のしかたを示していない');
+  assert.ok(text.includes('fetch していません'), 'この警告自体の限界を言っていない');
 });

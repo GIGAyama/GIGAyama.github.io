@@ -26,6 +26,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 /* 止めたい CDN の一覧は giga-reviewer の正本から借りる。
@@ -59,6 +60,42 @@ export function inspectRepo(repoDir, deps = {}) {
   };
 }
 
+/**
+ * 手元のクローンが、最後に取得した origin/main と同じところに居るか。
+ *
+ * ⚠️ これが無いと、この道具は**古い写しを見て自信たっぷりに嘘をつく。**
+ *    2026-08-29 に実測した: 艦隊へ CLAUDE.md と hook を配り終えた直後、
+ *    GitHub 上では 42 本すべてに在るのに、この表は
+ *
+ *      CLAUDE.md 3  ・ hook 3
+ *
+ *    と出した。手元のクローンが配布前のままだったため。読んだ人は
+ *    「配布が失敗した」と判断する。数字そのものは正しく数えているので、
+ *    どこにも間違いが出ない形で誤解だけが生まれる。
+ *
+ * ⚠️ ここで fetch はしない。42 本を取りにいくと遅いうえ、道具が黙って
+ *    ネットワークを使うのは驚きになる。**最後の取得の時点で古いかどうか**
+ *    だけを見て、古ければ人に取得を促す。
+ *    （取得そのものが古い可能性は残るので、文言でもそう言う）
+ *
+ * @returns {{stale: boolean}|null} git リポジトリでなければ null
+ */
+export function cloneState(repoDir, run = defaultRun) {
+  const head = run(repoDir, ['rev-parse', 'HEAD']);
+  if (head === null) return null;
+  // 既定の枝は main とはかぎらない。origin/HEAD → origin/main の順で見る
+  const remote = run(repoDir, ['rev-parse', 'origin/HEAD'])
+    ?? run(repoDir, ['rev-parse', 'origin/main']);
+  if (remote === null) return { stale: false };   // 比べる相手が無い＝判断しない
+  return { stale: head !== remote };
+}
+
+function defaultRun(cwd, args) {
+  try {
+    return execFileSync('git', ['-C', cwd, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch { return null; }
+}
+
 /** data/apps.json の hosts から Zero-CDN 違反を拾う */
 export function cdnViolations(apps, forbidden = FORBIDDEN_CDN_HOSTS) {
   const bad = new Set(forbidden.map((h) => h.toLowerCase()));
@@ -87,15 +124,19 @@ export function fleetRepos(ledger) {
 }
 
 /** 行列を組む。measured / unmeasured を分けて返す（推測で埋めない） */
-export function buildStatus(repos, apps, inspect) {
+export function buildStatus(repos, apps, inspect, cloneOf = () => null) {
   const measured = [];
   const unmeasured = [];
+  const stale = [];
   for (const repo of repos) {
     const info = inspect(repo);
     if (info === null) { unmeasured.push(repo); continue; }
     measured.push({ repo, ...info });
+    /* ⚠️ 古い写しを数えていないか。ここを見ないと、配り終えた直後に
+          「配られていない」と読める表を出してしまう（2026-08-29 に実測）。 */
+    if (cloneOf(repo)?.stale) stale.push(repo);
   }
-  return { measured, unmeasured, cdn: cdnViolations(apps) };
+  return { measured, unmeasured, stale, cdn: cdnViolations(apps) };
 }
 
 /** 作業待ち行列。何をすればよいかまで書く */
@@ -121,11 +162,42 @@ export function todoLines(status) {
   return out;
 }
 
+/**
+ * 古い写しを見ていることを、必ず目立つ場所で言う。
+ *
+ * ⚠️ 数字そのものは正しく数えている。だからこそ、古い写しを数えたときは
+ *    「どこにも間違いが出ない形で誤解だけが生まれる」。黙って出さないこと。
+ */
+export function staleWarning(status) {
+  if (!status.stale?.length) return '';
+  return [
+    '',
+    `⚠️⚠️ 手元のクローンが古いものが ${status.stale.length} 本あります。`,
+    '   **上の数字は、その古い写しを数えたものです。**',
+    `   ${status.stale.join(', ')}`,
+    '',
+    '   取得してから、もう一度走らせてください:',
+    `     for r in ${status.stale.slice(0, 3).join(' ')}${status.stale.length > 3 ? ' …' : ''}; do git -C ../$r pull; done`,
+    '',
+    '   （ここは fetch していません。最後に取得した origin と比べているだけなので、',
+    '     取得そのものが古ければ、この警告さえ出ないことがあります）',
+  ].join('\n');
+}
+
+function printStale(status) {
+  const text = staleWarning(status);
+  if (text) console.log(text);
+}
+
 function main() {
   const ledger = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'tools/distribution.json'), 'utf8'));
   const apps = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data/apps.json'), 'utf8'));
   const repos = fleetRepos(ledger);
-  const status = buildStatus(repos, apps, (r) => inspectRepo(path.join(BASE_DIR, r)));
+  const status = buildStatus(
+    repos, apps,
+    (r) => inspectRepo(path.join(BASE_DIR, r)),
+    (r) => cloneState(path.join(BASE_DIR, r)),
+  );
 
   if (process.argv.includes('--json')) {
     console.log(JSON.stringify(status, null, 2));
@@ -148,6 +220,7 @@ function main() {
       console.log(`⚠️ 手元に無くて調べられなかった: ${status.unmeasured.length} 本`);
       console.log('   （「きれい」ではなく「調べていない」。隣に clone してから、もう一度）');
     }
+    printStale(status);
     return 0;
   }
 
@@ -169,6 +242,7 @@ function main() {
   if (status.unmeasured.length) {
     console.log(`  ⚠️ 手元に無くて調べられなかった ${status.unmeasured.length} 本（調べていない、であって、きれい、ではありません）`);
   }
+  printStale(status);
   return 0;
 }
 
