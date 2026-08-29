@@ -231,3 +231,47 @@ test('正本の CLAUDE.md 自身に、取りこみの 1 行が在る', () => {
   const canonical = fs.readFileSync(path.join(REPO_ROOT, 'standards/agents/CLAUDE.md'), 'utf8');
   assert.ok(canonical.includes(RULES_IMPORT_LINE), '正本から取りこみ行が消えている');
 });
+
+/* ── ワークフローの起動条件 ─────────────────────────────
+ *
+ * 2026-08-29 の回帰試験。check-distribution は push で起動していたが、
+ * auto-distribute も同じ push で起動するため、2 つが同時に走って
+ * **検査のほうが必ず先に終わっていた**（#104 で 検査 04:15 / 配布 04:20）。
+ * 配る前の艦隊を見るので毎回かならず赤くなり、2026-08-27 以降ほぼ全部の
+ * マージが赤かった。毎回赤い検査は、赤いことに意味が無くなる。
+ */
+
+const wf = (name) => fs.readFileSync(path.join(REPO_ROOT, '.github/workflows', name), 'utf8');
+
+/* ⚠️ YAML を解析しない（Node に解析器が無く、依存を足さない方針のため）。
+      見たいのは「その行が在るか」だけなので文字列で足りる。 */
+const triggerBlock = (text) => text.slice(text.indexOf('\non:'), text.indexOf('\npermissions:'));
+
+test('配布のとりのこしは push で起動しない（配布と競走して必ず負ける）', () => {
+  const on = triggerBlock(wf('check-distribution.yml'));
+  assert.ok(!/^\s*push:/m.test(on),
+    'push で起動すると auto-distribute と同時に走り、配る前の艦隊を見て毎回赤くなる');
+});
+
+test('配布のとりのこしは、配布が終わってから起動する', () => {
+  const on = triggerBlock(wf('check-distribution.yml'));
+  assert.ok(on.includes('workflow_run'), 'workflow_run で配布の完了を待つこと');
+  assert.ok(on.includes('types: [completed]'),
+    '成功でも失敗でも見る（配布が落ちた日ほど、何が配られていないかを知りたい）');
+});
+
+test('workflow_run が指す名前が、配布ワークフローの name と一致する', () => {
+  /* ⚠️ ここがこの形のいちばん弱いところ。workflow_run は**表示名**で相手を
+        指すので、auto-distribute の name: を変えると、check-distribution は
+        二度と起動しないのに誰も気づかない（エラーも警告も出ない）。
+        名前を変えたらここで落ちるようにしておく。 */
+  const distributeName = (wf('auto-distribute.yml').match(/^name:\s*(.+)$/m) ?? [])[1]?.trim();
+  assert.ok(distributeName, 'auto-distribute.yml に name: がありません');
+  const on = triggerBlock(wf('check-distribution.yml'));
+  assert.ok(on.includes(distributeName),
+    `workflow_run が「${distributeName}」を指していません（名前を変えたら、こちらも直すこと）`);
+});
+
+test('毎朝の巡回は残す（配布以外の理由で生まれたずれを拾う唯一の口）', () => {
+  assert.ok(triggerBlock(wf('check-distribution.yml')).includes('schedule'));
+});
