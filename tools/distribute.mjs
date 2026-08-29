@@ -53,6 +53,10 @@ const AGENT_RUNTIME_FILES = [
   ['agents/settings.json', '.claude/settings.json'],
   ['agents/hooks/guard-canonical.mjs', '.claude/hooks/guard-canonical.mjs'],
   ['agents/hooks/announce-checks.mjs', '.claude/hooks/announce-checks.mjs'],
+  /* サブエージェント。大量のファイルを読むが結論だけ要る作業を、
+     親のセッションの文脈を埋めずに回すため。 */
+  ['agents/subagents/giga-auditor.md', '.claude/agents/giga-auditor.md'],
+  ['agents/subagents/giga-migrator.md', '.claude/agents/giga-migrator.md'],
 ];
 const DISTRIBUTION_JSON = path.join(HERE, 'distribution.json');
 

@@ -54,7 +54,7 @@ node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
 node --test standards/agents/hooks/*.test.mjs
-node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs tools/fleet-status.test.mjs tools/check-lessons.test.mjs
+node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs tools/fleet-status.test.mjs tools/check-lessons.test.mjs tools/mcp/*.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
 
 # 正本ドリフト検査（--standards は必須。省くと exit 2）
@@ -80,6 +80,13 @@ node tools/verify-runtime.mjs          # 公開中の画面を実ブラウザで
 | `.agents/rules/gigaschool-standards.md` | Antigravity | 正本 `standards/agents/rules/` へのシンボリックリンク |
 | `CLAUDE.md`（リポジトリ直下） | Claude Code | 上のルールを `@` で取りこむ。正本は `standards/agents/CLAUDE.md` |
 | `.claude/settings.json` ＋ `.claude/hooks/` | Claude Code | 正本 `standards/agents/`。配布先でだけ働く（下記） |
+| `.claude/agents/` | Claude Code | 正本 `standards/agents/subagents/`。`giga-auditor`（疑う側に立って調べる）と `giga-migrator`（v5 ゲートを 1 本ずつ移行する） |
+| `.mcp.json` ＋ `tools/mcp/` | Claude Code | **ポータルだけ**。艦隊を横断する問いは正本を持つ側でしか答えられない |
+
+**MCP は `tools/fleet-status.mjs` の薄い皮。正本はスクリプト側に置く。**
+逆順に作ると、正本を持たないラッパだけが増えて食い違う。
+`@modelcontextprotocol/sdk` は入れていない（ポータルに `package.json` を持たない方針を崩さないため、
+stdio の JSON-RPC を Node 標準だけで書いてある）。
 
 **ルール 3 は、配布先では hook が機械的に止める。**
 `guard-canonical.mjs`（PreToolUse）が `standards-map.json` を読み、正本のコピーを
