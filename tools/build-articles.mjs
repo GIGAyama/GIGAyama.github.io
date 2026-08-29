@@ -41,7 +41,7 @@
 
 import { mkdir, readFile, readdir, writeFile, rm, rmdir, access } from 'node:fs/promises';
 import { renderArticle } from './lib/article-md.mjs';
-import { articlePage, headlineOf, linkCards, relatedOf, summaryOf } from './lib/article-page.mjs';
+import { articlePage, headlineOf, relatedOf, summaryOf } from './lib/article-page.mjs';
 import { pickImageUrl } from './lib/article-images.mjs';
 import { ghApi, ghFindDoc, imageResolvers, reachable, servesFromDocs } from './lib/gh.mjs';
 
@@ -50,6 +50,7 @@ const ROOT = new URL('..', import.meta.url);
 const DATA = new URL('data/apps.json', ROOT);
 const INDEX = new URL('data/articles.json', ROOT);
 const MIRROR_NEEDS = new URL('data/article-images.json', ROOT);
+const MANUALS = new URL('data/manuals.json', ROOT);
 const RAW = 'https://raw.githubusercontent.com/';
 const PAGE = new URL('index.html', ROOT);
 const APPS_DIR = new URL('apps/', ROOT);
@@ -111,6 +112,14 @@ const main = async () => {
   /* hidden は載せない。すでに作ってある紹介ページは、下の後始末で消える。 */
   const apps = data.items.filter((a) =>
     a.hidden !== true && a.slug && a.publishedAt && a.updatedAt);
+
+  /* 使い方マニュアルのあるアプリ。記事から入口を出すかどうかに使う。
+     まだ組んでいなければ「無い」として進む（明日の朝には入る）。 */
+  let manualSlugs = new Set();
+  try {
+    const list = JSON.parse(await readFile(MANUALS, 'utf8')).items ?? [];
+    manualSlugs = new Set(list.map((m) => m.slug).filter(Boolean));
+  } catch (e) { /* data/manuals.json がまだ無い */ }
 
   const built = [];
   const pages = [];     // 2 周目で書き出すための材料
@@ -241,7 +250,11 @@ const main = async () => {
     catch (e) { /* まだ作っていない */ }
     const html = articlePage({ app, article, related, prev, next,
       use: uses.get(app.slug) ?? [], ogCard, changelog: await fetchChangelog(app.repo),
-      devlogCount: devlogCounts.get(app.slug) ?? 0 });
+      devlogCount: devlogCounts.get(app.slug) ?? 0,
+      /* ⚠️ tools/build-manuals.mjs より「あと」に走らせること。先に走ると、
+         マニュアルを公開した当日だけ、記事から入口が出ない
+         （build-devlog.mjs を先に置いてあるのと同じ理由）。 */
+      hasManual: manualSlugs.has(app.slug) });
     if (!dry) {
       const dir = new URL(`${app.slug}/`, APPS_DIR);
       await mkdir(dir, { recursive: true });
@@ -306,10 +319,11 @@ const main = async () => {
       apps: Object.fromEntries(Object.entries(mirrorNeeds).sort(([a], [b]) => a.localeCompare(b))),
     }, null, 1) + '\n');
 
-    const page = await readFile(PAGE, 'utf8');
-    const { html: linked, added } = linkCards(page, keep);
-    await writeFile(PAGE, linked);
-    console.log(`  カードに貼ったリンク: ${added} 本`);
+    /* ⚠️ トップのカードへのリンク貼りは tools/sync-updates.mjs へ移した。
+       index.html を書くのは元々あちらの役目で、書き手が 2 人いること自体が
+       順番の罠になっていた。しかも紹介とマニュアルは card__actions を
+       丸ごと入れ替える作りなので、別々に貼ると、あとから貼ったほうが
+       前のを消す。1 回でまとめて貼る（2026-08-29）。 */
   }
 
   console.log(`\n紹介ページ ${built.length} 本 / 記事なし ${missing} 本 / 作れず ${failed} 本`

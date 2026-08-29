@@ -31,7 +31,7 @@
  * 途中で失敗した日でも、索引だけが古いまま取り残されることがない。
  */
 
-/** 本文の始まりと終わり。build-articles.mjs が書き出す形と同じ。 */
+/** 本文の始まりと終わり。build-articles.mjs / build-manuals.mjs が書き出す形と同じ。 */
 const BODY_RE = /<div class="prose prose--article">\n([\s\S]*?)\n    <\/div>/;
 /** 目次で id を振ってある見出し。節の切れ目になる。 */
 const SECTION_RE = /<h2 id="(s-\d+)">([\s\S]*?)<\/h2>/g;
@@ -55,10 +55,11 @@ const flatten = (html) => strip(html)
  * 紹介ページ 1 枚から、節ごとの索引を取り出す。
  *
  * @param {string} html apps/<slug>/index.html の中身
- * @param {{slug: string, name: string}} app
+ * @param {{slug: string, name: string, url?: string}} app
+ *        url は、紹介ページ以外（使い方マニュアルなど）のときだけ渡す
  * @returns {{s: string, n: string, i: string, h: string, t: string}[]}
  */
-export function sectionsOf(html, { slug, name }) {
+export function sectionsOf(html, { slug, name, url = '' }) {
   const body = BODY_RE.exec(String(html ?? ''))?.[1];
   if (!body) return [];
 
@@ -72,6 +73,11 @@ export function sectionsOf(html, { slug, name }) {
       i: m[1],
       h: flatten(m[2]),
       t: flatten(body.slice(from, to)),
+      /* 行き先。紹介ページ（/apps/<slug>/）のときは入れない。
+         索引は 663KB あり、同じ文字列を 254 回書くと目に見えて重くなる。
+         入っていない項目は、読む側（assets/search.js）が既定の
+         /apps/<slug>/ に落とす。使い方マニュアルのときだけ入る。 */
+      ...(url ? { u: url } : {}),
     };
   }).filter((x) => x.t.length > 0);
 }
@@ -79,7 +85,7 @@ export function sectionsOf(html, { slug, name }) {
 /**
  * 索引ぜんたい。
  *
- * @param {{slug: string, name: string, html: string}[]} pages
+ * @param {{slug: string, name: string, html: string, url?: string}[]} pages
  * @param {string} generatedAt
  * @returns {string} 書き出す JSON
  */

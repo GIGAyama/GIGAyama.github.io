@@ -1,0 +1,42 @@
+{
+ "_note": "朝の組み直し（.github/workflows/sync-updates.yml）で、どの道具が何を書き出すかの台帳。tools/check-outputs.mjs が、ここに書いた道が PATHS に並んでいるかを見る。並べ忘れた道は毎朝つくり直されては毎朝捨てられ、リポジトリには古いものが残る。しかも検査は組み直したあとの新しいページを見るので緑のまま通る。ワークフローのコメントに「目でも検査でも気づけない」と書いてあった穴。",
+ "_note_書き方": "道具のパス → その道具が書き出す先。ディレクトリは末尾に / を付ける。PATHS 側が上位のディレクトリ（apps/ など）で覆っていれば、その下は書かなくてよい。",
+ "workflow": ".github/workflows/sync-updates.yml",
+ "tools": {
+  "tools/sync-updates.mjs": [
+   "data/apps.json",
+   "index.html",
+   "sitemap.xml",
+   "feed.xml",
+   "apps/",
+   "filtering/",
+   "press/",
+   "data/search-index.json"
+  ],
+  "tools/build-devlog.mjs": [
+   "data/devlog.json",
+   "devlog/"
+  ],
+  "tools/build-articles.mjs": [
+   "data/articles.json",
+   "apps/",
+   "data/article-images.json"
+  ],
+  "tools/build-manuals.mjs": [
+   "data/manuals.json",
+   "apps/",
+   "data/manual-images.json"
+  ],
+  "tools/build-sw.mjs": [
+   "sw.js"
+  ]
+ },
+ "_note_checks": "何も書き出さない道具（検査）。名前で見分けない。名前で決めると、check- で始まる組み立ての道具を足したときに素通りする。どちらの表にも無い道具があれば落ちるので、足すときに必ずどちらかを選ぶことになる。",
+ "checks": [
+  "tools/check-cards.mjs",
+  "tools/check-404-redirect.mjs",
+  "tools/check-outputs.mjs",
+  "tools/check-lessons.mjs",
+  "tools/check-distribution.mjs"
+ ]
+}

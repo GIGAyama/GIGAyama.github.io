@@ -150,7 +150,7 @@ export function relatedOf(slug, all) {
  * @param {string} [o.changelog] アプリのリポジトリの docs/CHANGELOG.md。無ければ空文字
  * @returns {string} ページ 1 枚ぶんの HTML
  */
-export function articlePage({ app, article, related = [], prev = null, next = null, use = [], ogCard = '', changelog = '', devlogCount = 0 }) {
+export function articlePage({ app, article, related = [], prev = null, next = null, use = [], ogCard = '', changelog = '', devlogCount = 0, hasManual = false }) {
   const url = `${SITE}/apps/${app.slug}/`;
   const appUrl = `https://${app.slug}.giga-school.com/`;
   const headline = headlineOf(article.title);
@@ -200,6 +200,17 @@ export function articlePage({ app, article, related = [], prev = null, next = nu
       },
     ],
   };
+
+  /* 使い方マニュアルへの入口。
+     ⚠️ マニュアルが無いアプリでは 1 文字も出さない。/apps/<slug>/manual/ は
+        まだ存在しないので、押すと 404 になる。空の入口は行き止まりになる
+        （devlogLink が同じ考えで書いてある）。
+     ⚠️ 「コードを見る」より上に置く。3 本のうちいちばん押されないのがコードで、
+        先生向けのサイトなのに開発者向けの入口が使う人向けより上に在るのは
+        順番が逆になる。 */
+  const manualLink = hasManual
+    ? `        <a class="btn btn--ghost" href="/apps/${app.slug}/manual/">使い方マニュアル</a>\n`
+    : '';
 
   /* 記録が 0 本のアプリでは、まるごと出さない。空の入口は行き止まりになる */
   const devlogLink = devlogCount > 0 ? `    <div class="article__devlog">
@@ -306,7 +317,7 @@ ${HEADER}
       </p>
 ${tags.length ? `      <p class="article__tags">${tags.join('')}</p>\n` : ''}      <p class="article__actions">
         <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
-        <a class="btn btn--ghost" href="https://github.com/GIGAyama/${esc(app.repo)}" rel="noopener">コードを見る</a>
+${manualLink}        <a class="btn btn--ghost" href="https://github.com/GIGAyama/${esc(app.repo)}" rel="noopener">コードを見る</a>
       </p>
     </header>
 
@@ -324,7 +335,7 @@ ${changelogSection(changesOf(changelog), esc)}    <!-- 狭い画面でだけ、�
       <p class="article__end-lead">${esc(app.name)} は、ブラウザだけで動く無償のアプリです。</p>
       <p class="article__actions">
         <a class="btn btn--primary" href="${appUrl}">${esc(app.name)} を開く</a>
-        <a class="btn btn--ghost" href="/apps/">ほかの紹介を読む</a>
+${manualLink}        <a class="btn btn--ghost" href="/apps/">ほかの紹介を読む</a>
       </p>
     </aside>
 
@@ -551,7 +562,7 @@ ${FOOTER}
  * 目印は class="card__actions"。この段落だけを外して入れ直すので、
  * 何度走らせても同じ形になる。
  */
-export function linkCards(html, slugs) {
+export function linkCards(html, { articles, manuals = new Set() }) {
   const CARD = /<li class="card"[\s\S]*?<\/li>/g;
   let added = 0;
 
@@ -567,21 +578,43 @@ export function linkCards(html, slugs) {
     let out = card
       .replace(/\s*<p class="card__actions">[\s\S]*?<\/p>/g, '')
       .replace(/\s*<a class="card__note"[\s\S]*?<\/a>/g, '');
-    if (!slug || !slugs.has(slug)) return out;
+    if (!slug) return out;
+
+    /* ⚠️ 紹介記事とマニュアルは、1 回でまとめて貼る。
+       別々に呼ぶと、card__actions を丸ごと入れ替える作りなので、
+       あとから呼んだほうが前のを消す。 */
+    const links = [
+      articles.has(slug)
+        ? `<a class="card__note" href="/apps/${slug}/">`
+          + '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>'
+          + '<span>紹介を読む</span></a>'
+        : '',
+      /* 使い方は、紹介記事が無いアプリでも出す。マニュアルだけあるアプリの
+         入口が、トップのカードのほかに無くなるため。 */
+      manuals.has(slug)
+        ? `<a class="card__note card__note--manual" href="/apps/${slug}/manual/">`
+          + '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg>'
+          + '<span>使い方を見る</span></a>'
+        : '',
+    ].filter(Boolean);
+    if (!links.length) return out;
 
     /* 文字は span で包む。ボタンの中は「絵・文字・矢印」の 3 つで、
        文字の両側に余白を寄せて中央に置き、矢印だけを右端に逃がす。 */
-    const link = '<p class="card__actions">'
-      + `<a class="card__note" href="/apps/${slug}/">`
-      + '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>'
-      + '<span>紹介を読む</span></a></p>';
+    const link = `<p class="card__actions">${links.join('')}</p>`;
 
     /* card__foot の手前に、独立した行として置く。
-       プライバシーや利用規約と同じ大きさの文字リンクにすると埋もれる。 */
+       プライバシーや利用規約と同じ大きさの文字リンクにすると埋もれる。
+
+       ⚠️ 字下げは、もともと card__foot に付いていたものをそのまま使う。
+          決め打ちの空白を入れると、1 回目と 2 回目で結果が変わる
+          （1 回目に card__foot が 2 字ぶん右へずれ、2 回目でようやく落ち着く）。
+          朝の流れは毎日ここを通るので、通すたびに変わる形にしない。 */
     const at = out.indexOf('<p class="card__foot">');
     if (at === -1) return out;
-    added++;
-    return out.slice(0, at) + link + '\n            ' + out.slice(at);
+    const indent = out.slice(0, at).match(/\n([ \t]*)$/)?.[1] ?? '            ';
+    added += links.length;
+    return out.slice(0, at) + link + '\n' + indent + out.slice(at);
   });
 
   return { html: next, added };

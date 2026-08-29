@@ -377,6 +377,63 @@ console.log(`  info アカウント ${shown.length - noAccount.length} 本 / `
 if (noAccount.length) console.log(`       アカウント未記入 → ${noAccount.map((a) => a.slug).join(', ')}`);
 
 /* -----------------------------------------------------------------
+ * 使い方マニュアルが、一覧と食い違っていないか。
+ *
+ * マニュアルが増えたのに、トップのカードにも sitemap にも出ない、という
+ * 壊れ方は画面を見ても分からない。カードは 38 枚あって、1 枚に
+ * リンクが 1 本足りないことに目で気づける人はいない。数で見る。
+ *
+ * 逆向きも見る。台帳から消えたのにページだけ残ると、sitemap に無い
+ * ページが公開され続ける（紹介ページで同じことが起きないよう、
+ * build-articles.mjs が後始末をしているのと同じ考え方）。
+ * --------------------------------------------------------------- */
+console.log('\n■ 使い方マニュアルが一覧と食い違っていない');
+{
+  const manualsUrl = new URL('../data/manuals.json', import.meta.url);
+  const manuals = existsSync(manualsUrl)
+    ? JSON.parse(readFileSync(manualsUrl, 'utf8')).items ?? []
+    : [];
+  const bySlug = new Map(apps.map((a) => [a.slug, a]));
+
+  if (!manuals.length) {
+    console.log('  info 使い方マニュアルは 0 本');
+  } else {
+    const unknown = manuals.filter((m) => !bySlug.has(m.slug)).map((m) => m.slug);
+    ok(unknown.length === 0, `${manuals.length} 本の slug が data/apps.json に実在する`,
+       unknown.join(', '));
+
+    const hiddenOnes = manuals.filter((m) => bySlug.get(m.slug)?.hidden === true).map((m) => m.slug);
+    ok(hiddenOnes.length === 0, 'サイトから外したアプリのマニュアルが残っていない',
+       hiddenOnes.join(', '));
+
+    const noPage = manuals.filter((m) =>
+      !existsSync(new URL(`../apps/${m.slug}/manual/index.html`, import.meta.url))).map((m) => m.slug);
+    ok(noPage.length === 0, '台帳にある分だけページが書き出されている', noPage.join(', '));
+
+    const sitemapXml = readFileSync(new URL('../sitemap.xml', import.meta.url), 'utf8');
+    const inMap = manuals.filter((m) =>
+      sitemapXml.includes(`https://giga-school.com/apps/${m.slug}/manual/`)).length;
+    ok(inMap === manuals.length, `sitemap.xml に ${manuals.length} 本ぶんの行がある`,
+       `${inMap} 本しかない`);
+
+    /* トップのカードのリンク。手で書くのではなく sync-updates.mjs が貼るが、
+       貼り忘れ（順番の入れ替え、呼び出しの消失）はここでしか出ない */
+    const onCards = (html.match(/class="card__note card__note--manual"/g) ?? []).length;
+    ok(onCards === manuals.length, `トップのカードに ${manuals.length} 本ぶんのリンクがある`,
+       `${onCards} 枚しかない`);
+  }
+
+  /* 逆向き。台帳に無いのにページだけ残っていないか */
+  const appsDir = new URL('../apps/', import.meta.url);
+  const stray = readdirSync(appsDir, { withFileTypes: true })
+    .filter((e) => e.isDirectory()
+      && existsSync(new URL(`${e.name}/manual/index.html`, appsDir))
+      && !manuals.some((m) => m.slug === e.name))
+    .map((e) => e.name);
+  ok(stray.length === 0, '台帳に無いマニュアルのページが残っていない', stray.join(', '));
+}
+
+/* -----------------------------------------------------------------
  * ボタンを拾う側が、そのページに読み込まれているか。
  *
  * 2026-08-29 まで、紹介ページ 32 本すべてで「リンクをコピー」が死んでいた。

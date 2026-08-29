@@ -12,6 +12,7 @@
    ── 当たったところへ直接つなぐ ────────────────
    索引は見出し（h2）ごとに切ってある。当たった節の名前を出し、
    /apps/<slug>/#s-3 のように、その節へ直接つなぐ。
+   使い方マニュアルの節は /apps/<slug>/manual/#s-3 へ（項目の u に入っている）。
    21,000 字の記事を頭から探し直させない。
 
    依存ライブラリなし。外へは何も送らない。
@@ -66,6 +67,9 @@
       .then(function (data) {
         index = (data.items || []).map(function (it) {
           return { s: it.s, n: it.n, i: it.i, h: it.h, t: it.t,
+                   /* 行き先。持っていない項目は紹介ページ。索引を軽くするため、
+                      /apps/<slug>/ のときは書き出す側で省いてある */
+                   u: it.u || ('/apps/' + it.s + '/'),
                    f: fold(it.t), fh: fold(it.h + ' ' + it.n) };
         });
         return index;
@@ -121,7 +125,7 @@
     results.innerHTML = shown.map(function (h) {
       var it = h.it;
       return '<li class="hit">'
-        + '<a class="hit__link" href="/apps/' + it.s + '/#' + it.i + '">'
+        + '<a class="hit__link" href="' + it.u + '#' + it.i + '">'
         + '<span class="hit__app">' + esc(it.n) + '</span>'
         + '<span class="hit__head">' + esc(it.h) + '</span></a>'
         + '<p class="hit__text">'

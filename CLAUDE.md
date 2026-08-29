@@ -63,6 +63,7 @@ node tools/check-lessons.mjs           # 教訓が検査に落ちているか（
 
 # SW版数検査 / 配布状況監査 / 正本一括配布
 node tools/build-sw.mjs --check
+node tools/check-outputs.mjs           # 組み直したものが朝の PATHS に並んでいるか
 node tools/check-distribution.mjs --skip-repo-list
 node tools/distribute.mjs --dry-run
 

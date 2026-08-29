@@ -110,6 +110,14 @@ jobs:
       # 投稿画面に途中までしか渡らず、しかも画面上は普通に見える
       - name: 記事を伝える入口のテスト
         run: node --test tools/lib/article-share.test.mjs
+      # 使い方マニュアルのページ。紹介ページと骨組みを共有しているので、
+      # ここが崩れると両方に一斉に出る
+      - name: 使い方マニュアルのページのテスト
+        run: node --test tools/lib/manual-page.test.mjs
+      # GitHub の取り口。記事・開発記録・マニュアルの 3 つが同じ道を通るので、
+      # 壊れると 3 つ同時に、しかも「置いていないアプリ」と区別のつかない形で落ちる
+      - name: GitHub の取り口のテスト
+        run: node --test tools/lib/gh.test.mjs
       # 数字の表記（A10）。書き手が読む検査なので、嘘の警告が出ると本物が読み飛ばされる。
       # note 版と開発記録版で助数詞と除外がそろっていることも、ここで見る
       - name: 数量の表記の検査のテスト
@@ -128,6 +136,12 @@ jobs:
       # 外しても手元では何も起きず、気づくのは翌朝ページが崩れてからになる
       - name: 使い方マニュアルの書式の検査のテスト
         run: node --test standards/skills/giga-manual/scripts/*.test.mjs
+      # 書き出し先の台帳。PATHS に並べ忘れた道は、毎朝つくられては毎朝捨てられ、
+      # しかも検査は組み直したあとを見るので緑のまま通る
+      - name: 書き出し先が PATHS に並んでいるか
+        run: |
+          node --test tools/check-outputs.test.mjs
+          node tools/check-outputs.mjs
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
