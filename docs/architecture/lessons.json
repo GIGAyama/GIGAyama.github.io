@@ -444,6 +444,24 @@
      "contains": "フッターの 1 行に収まる形になっている"
     }
    ]
+  },
+  {
+   "date": "2026-08-29",
+   "symptom": "置き場所へ移した時点で見張りを畳んでいたので、画面によって出し入れされる React のフッター（宿題ポストの view!=='admin'、教材プリントメーカーの !currentTextbookId）では、画面を 1 回切り替えるとリンクが二度と戻らなかった。置き場所ごと消えるのに、消えたことを誰も見ていない。実ブラウザで往復させて気づいた",
+   "guardedBy": [
+    {
+     "file": "standards/web/giga-app-links.js",
+     "contains": "置き場所へ移したあとも見張りをやめないこと"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "置き場所ごと消えたら、出しなおす"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "isConnected だけで決めない"
+    }
+   ]
   }
  ]
 }
