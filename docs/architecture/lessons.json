@@ -409,7 +409,39 @@
     },
     {
      "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "後から来ても待つ"
+     "contains": "後から来たら、出しなおして移す"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-29",
+   "symptom": "後から描くアプリへの手当てを「置き場所を待ってから出す」と書いたせいで、置き場所を持たないアプリでリンクが 1.5 秒あとに出るようになっていた。フッターの無いアプリのほうが数が多いので、直したつもりが広いほうを遅くしていた。実ブラウザで 400ms の時点を測って気づいた",
+   "guardedBy": [
+    {
+     "file": "standards/web/giga-app-links.js",
+     "contains": "まず出す。待たせない"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "まず出して、あとで移す"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-29",
+   "symptom": "行き先のリンクを高さ 48px のボタンとして出したせいで、フッターが 2 行 115px に太り、アプリの表示領域を押しつぶしていた。押せる大きさは要るが、見えている高さまで 48px にする必要は無かった。見た目は 26px のままにして、当たり判定だけを ::after で外へ広げる",
+   "guardedBy": [
+    {
+     "file": "standards/web/giga-app-links.js",
+     "contains": "min-inline-size:48px を外さないこと"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "見えている高さは細いまま"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "フッターの 1 行に収まる形になっている"
     }
    ]
   }
