@@ -55,6 +55,23 @@
  * 画面に <div data-giga-links></div> があれば、その中に出す。
  * ヘッダーに置けばヘッダーに、フッターに置けばフッターに出る。
  *
+ * ── 出すものを絞る ─────────────────────────────────
+ *
+ * data-links は、次のどこに書いても効く。
+ *
+ *   <script src="./giga-app-links.js" data-links="article,terms,privacy" defer><\/script>
+ *   <div data-giga-links data-links="article,terms,privacy"></div>
+ *   window.GIGA_APP_LINKS = { links: 'article,terms,privacy' };
+ *
+ * ⚠️ 2026-08-29 まで、<div> のほうに書いても効かなかった。しかも**黙って
+ *    4 つとも出る**ので、絞ったつもりの側は気づけない。置き場所のすぐ隣に
+ *    書くほうが自然なので、読む側を増やして罠を消した。
+ *
+ * マニュアルがまだ無いアプリでは "article,terms,privacy" にする。
+ * 既定のまま出すと、行き止まりの「つかいかた」が 1 本増える。
+ *
+ * 並び順は、書いた順ではなく下の LINKS の順になる。
+ *
  * 置き場所が無ければ、画面のいちばん下に控えめな行として出す。
  * **フッターを持たないアプリでも行き先ができる**ようにするため。
  * 「フッターに足して」と場所で頼んだせいで 9 本が取り残された、という
@@ -157,9 +174,16 @@
        DOMContentLoaded を待ったあとでは null になるので、先に取っておく。 */
     var el = self.__gigaAppLinksScript || null;
     var data = (el && el.dataset) || {};
+    /* 置き場所の <div data-giga-links> の data-* も見る。
+       ⚠️ 2026-08-29、data-links をこちらへ書いて効かず、しかも黙って 4 つとも
+          出た。絞ったつもりの側は気づけない。書く人にとっては、置き場所の
+          すぐ隣に書くほうが自然なので、罠を消す側で解いた。
+       ここは start() から呼ぶので、<div> はもう在る。 */
+    var slotEl = document.querySelector('[data-giga-links]');
+    var slot = (slotEl && slotEl.dataset) || {};
     return {
-      slug: conf.slug || data.slug || '',
-      links: conf.links || data.links || '',
+      slug: conf.slug || data.slug || slot.slug || '',
+      links: conf.links || data.links || slot.links || '',
       hostname: window.location && window.location.hostname
     };
   }
