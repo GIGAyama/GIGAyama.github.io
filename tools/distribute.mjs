@@ -34,6 +34,11 @@ const STANDARDS_SKILLS_DIR = path.join(STANDARDS_DIR, 'skills');
       .agents/rules/ を指していた。ポータル自身のローカルコピーが同時に正本
       でもある形で、どちらが正なのか決められなくなっていた。 */
 const STANDARDS_RULE_FILE = path.join(STANDARDS_DIR, 'agents', 'rules', 'gigaschool-standards.md');
+/* Claude Code の常時ルール。中身はルール正本を 1 行で取りこむだけの殻で、
+   ルール本文は持たない（同じ文を 2 か所に置かないため）。
+   Antigravity は .agents/rules/ を直接読むが、Claude Code は
+   リポジトリ直下の CLAUDE.md しか読まないので、入口だけを別に配る。 */
+const STANDARDS_CLAUDE_MD = path.join(STANDARDS_DIR, 'agents', 'CLAUDE.md');
 const DISTRIBUTION_JSON = path.join(HERE, 'distribution.json');
 
 /**
@@ -156,6 +161,38 @@ for (const repoName of targetRepos) {
           }
         }
       }
+
+      /* エージェントの常時ルールも対応表へ載せる。
+       *
+       * ⚠️ 配っているのに照合されていなかった。2026-08-29 に実測した:
+       *    Typa の .agents/rules/gigaschool-standards.md に 1 行足しても
+       *    check-drift は「✅ 正本と一致しています」で exit 0 を返した。
+       *    理由が 3 つ重なっている。
+       *      ・canonicalIndex の DISTRIBUTED_EXT に .md が無い
+       *      ・findLookalikes は "." で始まる名前を歩かない（.agents/ を見ない）
+       *      ・unregisteredSkills は skills/ の下しか見ない
+       *    そして 42 本のどの standards-map.json にも、この行が無かった。
+       *    2026-08-28 の「.agents/skills が無検査だった」とまったく同じ型で、
+       *    あのときスキルは塞いだが、ルールファイル自身が取り残されていた。
+       *
+       *    files に明示登録すれば照合される（check-drift の files ループは
+       *    拡張子を見ない。.md を外しているのは未登録さがしのほうだけ）。
+       *
+       * ⚠️ CLAUDE.md は「既に在るなら上書きしない」。独自の手引きを持つ
+       *    リポジトリがあるので、その中身を配布で消さない。そのぶん
+       *    対応表にも載せず、unmanaged への宣言を促す（下の step 3b）。 */
+      if (!Array.isArray(map.files)) map.files = [];
+      const ensureFile = (canonical, local) => {
+        if (map.files.some((f) => f && f.local === local)) return;
+        if ((map.unmanaged || []).some((u) => u && u.local === local)) return;
+        map.files.push({ canonical, local });
+        mapChanged = true;
+      };
+      ensureFile('agents/rules/gigaschool-standards.md', '.agents/rules/gigaschool-standards.md');
+      if (!fs.existsSync(path.join(repoDir, 'CLAUDE.md'))) {
+        ensureFile('agents/CLAUDE.md', 'CLAUDE.md');
+      }
+
       if (mapChanged) {
         fs.writeFileSync(mapPath, JSON.stringify(map, null, 2) + '\n', 'utf-8');
       }
@@ -238,6 +275,23 @@ for (const repoName of targetRepos) {
     fs.mkdirSync(agentsRulesDir, { recursive: true });
     if (fs.existsSync(STANDARDS_RULE_FILE)) {
       fs.copyFileSync(STANDARDS_RULE_FILE, path.join(agentsRulesDir, 'gigaschool-standards.md'));
+    }
+
+    /* 3b. Claude Code の常時ルール（CLAUDE.md）。
+     *
+     * ⚠️ 2026-08-29 まで、ここに Claude Code 向けの同等物が無かった。
+     *    .agents/rules/ は 43 本にあるのに CLAUDE.md は 3 本しかなく、
+     *    40 本で Claude Code は Zero-CDN も Zero-PII も正本同期ルールも
+     *    知らないままセッションを始めていた。スキルは配ってあるが、
+     *    スキルは「呼ばれたときだけ」読まれるので代わりにならない。
+     *
+     * ⚠️ 既に在るものは上書きしない。独自の手引きを持つリポジトリ
+     *    （Werewolf・Reflection_Journal・XXX_automatic）の中身を配布で消さない。
+     *    そのぶん、冒頭の取りこみ 1 行が在ることを
+     *    tools/check-distribution.mjs が見ている。 */
+    const claudeMdPath = path.join(repoDir, 'CLAUDE.md');
+    if (fs.existsSync(STANDARDS_CLAUDE_MD) && !fs.existsSync(claudeMdPath)) {
+      fs.copyFileSync(STANDARDS_CLAUDE_MD, claudeMdPath);
     }
 
     // 4. Ensure eslint.config.js ignores .agents/** and .claude/**

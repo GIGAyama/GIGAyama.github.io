@@ -1,6 +1,12 @@
 # GIGAyama.github.io — Claude Code 開発ガイド
 
+@.agents/rules/gigaschool-standards.md
+
 本リポジトリは、GIGAスクールWebアプリ群（giga-school.com）の旗艦ポータル兼共通コードの正本（Single Source of Truth）です。
+
+⚠️ **上の 1 行を消さないこと。** 艦隊共通のルール（Zero-CDN・Zero-PII・正本同期）は
+`standards/agents/rules/gigaschool-standards.md` に 1 本だけ置いてあり、
+Claude Code はこの取りこみを通して読む。以下はポータル固有の話だけを書く。
 
 ## マスター仕様書
 本システムの全体像、アーキテクチャ、データフロー、障害教訓については、以下を参照してください：
@@ -63,6 +69,13 @@ node tools/distribute.mjs --dry-run
 | `.claude/skills/<名前>/` | Claude Code | 正本 `standards/skills/` へのシンボリックリンク |
 | `.agents/skills/<名前>/` | Antigravity（Gemini） | 同上 |
 | `.agents/rules/gigaschool-standards.md` | Antigravity | 正本 `standards/agents/rules/` へのシンボリックリンク |
+| `CLAUDE.md`（リポジトリ直下） | Claude Code | 上のルールを `@` で取りこむ。正本は `standards/agents/CLAUDE.md` |
+
+⚠️ **Claude Code と Antigravity で読む場所が違う。** Antigravity は `.agents/rules/` を
+直接読むが、Claude Code はリポジトリ直下の `CLAUDE.md` しか読まない。
+2026-08-29 まで後者を配っていなかったので、**40 本で Claude Code だけが
+Zero-CDN も Zero-PII も知らないまま作業を始めていた。**
+ルール本文は 1 本のまま、入口だけを 2 か所に置いて解いてある。
 
 **ポータルは正本を持つ側なので、写しを作らずリンクを張る。**
 配布先には `distribute.mjs` が両方の置き場へ**写す**（`SKILL_ROOTS`）。

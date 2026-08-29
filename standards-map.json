@@ -46,6 +46,10 @@
   {
    "local": ".agents/rules/gigaschool-standards.md",
    "reason": "正本 standards/agents/rules/gigaschool-standards.md へのシンボリックリンク。配布元をポータルのローカルコピーにしていたのをやめ、standards/ 配下へ移した（2026-08-28）"
+  },
+  {
+   "local": "CLAUDE.md",
+   "reason": "ポータル固有の手引きを持つ（2026-08-29）。艦隊共通のルールは冒頭の @.agents/rules/gigaschool-standards.md で取りこむ。配布物の正本は standards/agents/CLAUDE.md"
   }
  ]
 }
