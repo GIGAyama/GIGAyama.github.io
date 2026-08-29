@@ -409,7 +409,7 @@
     },
     {
      "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "後から来ても待つ"
+     "contains": "後から来たら、出しなおして移す"
     }
    ]
   },
