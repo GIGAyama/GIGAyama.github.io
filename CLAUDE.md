@@ -50,6 +50,7 @@ node --test standards/web/*.test.mjs
 node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
+node --test standards/agents/hooks/*.test.mjs
 node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
 
@@ -70,6 +71,19 @@ node tools/distribute.mjs --dry-run
 | `.agents/skills/<名前>/` | Antigravity（Gemini） | 同上 |
 | `.agents/rules/gigaschool-standards.md` | Antigravity | 正本 `standards/agents/rules/` へのシンボリックリンク |
 | `CLAUDE.md`（リポジトリ直下） | Claude Code | 上のルールを `@` で取りこむ。正本は `standards/agents/CLAUDE.md` |
+| `.claude/settings.json` ＋ `.claude/hooks/` | Claude Code | 正本 `standards/agents/`。配布先でだけ働く（下記） |
+
+**ルール 3 は、配布先では hook が機械的に止める。**
+`guard-canonical.mjs`（PreToolUse）が `standards-map.json` を読み、正本のコピーを
+直接編集しようとしたら exit 2 で止めて直し方を返す。判定表を自前で持たないので、
+正本を 1 本足しても hook 側の直し忘れが起きない。
+`unmanaged` で宣言された場所は止めない（宣言の意味が逆になるため）。
+**ポータルでは働かない**（`standards/check-drift.mjs` の有無で判定）。正本を持つ側で
+止めると正本そのものが直せなくなる。
+`announce-checks.mjs`（SessionStart）は、そのリポジトリに**実在する**検査だけを出す。
+
+⚠️ **hook は必ず fail-open。** 読み込みでも解析でも、おかしければ黙って通す。
+壊れた hook が 42 本の編集を止めるほうが、防ごうとしている事故よりはるかに重い。
 
 ⚠️ **Claude Code と Antigravity で読む場所が違う。** Antigravity は `.agents/rules/` を
 直接読むが、Claude Code はリポジトリ直下の `CLAUDE.md` しか読まない。

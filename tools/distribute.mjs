@@ -39,6 +39,21 @@ const STANDARDS_RULE_FILE = path.join(STANDARDS_DIR, 'agents', 'rules', 'gigasch
    Antigravity は .agents/rules/ を直接読むが、Claude Code は
    リポジトリ直下の CLAUDE.md しか読まないので、入口だけを別に配る。 */
 const STANDARDS_CLAUDE_MD = path.join(STANDARDS_DIR, 'agents', 'CLAUDE.md');
+
+/* Claude Code に実際の動きをさせるもの（hook とその設定）。
+ *
+ * ⚠️ ディレクトリまるごと（dirs）では配らない。standards/agents/hooks/ には
+ *    *.test.mjs が同居していて、テストは配布物ではないため。
+ *    1 本ずつここに並べるので、正本へ hook を足したらこの表にも 1 行足すこと。
+ *
+ * ⚠️ .claude/settings.json は配布物である。配布先で直しても他へは届かず、
+ *    check-drift が赤くなる。各自の設定は .claude/settings.local.json に置く
+ *    （あちらは配らないし、照合もしない）。 */
+const AGENT_RUNTIME_FILES = [
+  ['agents/settings.json', '.claude/settings.json'],
+  ['agents/hooks/guard-canonical.mjs', '.claude/hooks/guard-canonical.mjs'],
+  ['agents/hooks/announce-checks.mjs', '.claude/hooks/announce-checks.mjs'],
+];
 const DISTRIBUTION_JSON = path.join(HERE, 'distribution.json');
 
 /**
@@ -192,6 +207,7 @@ for (const repoName of targetRepos) {
       if (!fs.existsSync(path.join(repoDir, 'CLAUDE.md'))) {
         ensureFile('agents/CLAUDE.md', 'CLAUDE.md');
       }
+      for (const [canonical, local] of AGENT_RUNTIME_FILES) ensureFile(canonical, local);
 
       if (mapChanged) {
         fs.writeFileSync(mapPath, JSON.stringify(map, null, 2) + '\n', 'utf-8');
@@ -292,6 +308,20 @@ for (const repoName of targetRepos) {
     const claudeMdPath = path.join(repoDir, 'CLAUDE.md');
     if (fs.existsSync(STANDARDS_CLAUDE_MD) && !fs.existsSync(claudeMdPath)) {
       fs.copyFileSync(STANDARDS_CLAUDE_MD, claudeMdPath);
+    }
+
+    /* 3c. hook とその設定。
+     *
+     * 最重要ルール 3「個別リポジトリを直接修正しない」は、これまで文書にしか
+     * 無かった。この艦隊でいちばん多い事故の型（配布先の写しを直す → 次の配布で
+     * 消える → 他の 41 本には最初から届いていない）は、どの段階でもエラーが
+     * 出ない。だから PreToolUse で機械的に止める。 */
+    for (const [canonical, local] of AGENT_RUNTIME_FILES) {
+      const src = path.join(STANDARDS_DIR, canonical);
+      if (!fs.existsSync(src)) continue;
+      const dst = path.join(repoDir, local);
+      fs.mkdirSync(path.dirname(dst), { recursive: true });
+      fs.copyFileSync(src, dst);
     }
 
     // 4. Ensure eslint.config.js ignores .agents/** and .claude/**

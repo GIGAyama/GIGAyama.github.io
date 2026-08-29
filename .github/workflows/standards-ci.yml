@@ -26,6 +26,12 @@ jobs:
         run: node --test standards/gas/*.test.mjs
       - name: ドリフト検知そのもののテスト
         run: node --test standards/check-drift.test.mjs
+      # エージェントの hook。終了コードでしか意思を伝えられないので、
+      # 試験は CLI を実際に起動して 2（止める）／0（通す）を見ている。
+      # ⚠️ fail-open を崩さないこと。壊れた hook が 42 本の編集を止めるほうが、
+      #    防ごうとしている事故よりはるかに重い。
+      - name: エージェントの hook のテスト
+        run: node --test standards/agents/hooks/*.test.mjs
       # ⚠️ 上はドリフト検知「の」テストであって、ポータル自身を見てはいない。
       #    そのせいで tools/build-sw.mjs が正本から離れたまま 2026-08-28 まで
       #    誰にも気づかれずに残った（正本だけ直して写しを配り忘れた形）。
