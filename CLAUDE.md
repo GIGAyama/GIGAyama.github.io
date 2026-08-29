@@ -25,6 +25,9 @@ Claude Code はこの取りこみを通して読む。以下はポータル固�
    ⚠️ **静的検査が「0 件」でも信じないこと。** 2026-08-28、スキームを省いた `//cdn…`、
    `<img src>`、印刷ウィンドウの中の `@import` の 3 件が検査を素通りしていた。
    どれも実ブラウザに読ませて通信を記録して見つけた。
+   **その手順は `standards/web/verify-no-external.mjs` にしてある**（2026-08-29）。
+   実行時に組み立てた URL は静的検査には原理的に見えないので、こちらでしか出ない。
+   週次の巡回は `.github/workflows/verify-runtime.yml`。
 2. **Zero PII**: 児童の個人情報を一切扱わない（Local First）。
 3. **正本同期の徹底**: 共通コード（SW生成、検査、records等）は `standards/` 配下を正本とし、個別リポジトリを直接修正しない。
 4. **SW版数整合性**: `tools/build-sw.mjs` を通じてファイル内容からキャッシュ版数を刻む。
@@ -51,7 +54,7 @@ node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
 node --test standards/agents/hooks/*.test.mjs
-node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs
+node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
 
 # 正本ドリフト検査（--standards は必須。省くと exit 2）

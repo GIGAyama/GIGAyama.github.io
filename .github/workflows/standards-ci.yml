@@ -68,6 +68,10 @@ jobs:
       # 台帳が壊れると「配る先が0本」でも緑になりうるので、ここで見ておく。
       - name: 配布の台帳と突き合わせの仕組みのテスト
         run: node --test tools/check-distribution.test.mjs
+      # 実ブラウザ巡回の「突き合わせの計算」。巡回そのものは playwright が要るので
+      # verify-runtime.yml が週次で行う。ここが緑でも「本番を見た」ことにはならない。
+      - name: 実測ホストの突き合わせのテスト
+        run: node --test tools/verify-runtime.test.mjs
       # 目次が壊れると、朝の組み直しで 31 本の紹介ページが一斉に同じ形で崩れる
       - name: 紹介ページの目次と読了時間のテスト
         run: node --test tools/lib/article-toc.test.mjs
