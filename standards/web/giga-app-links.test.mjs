@@ -179,3 +179,16 @@ test('置き場所の div に書いた data-links も読む', () => {
   assert.match(code, /slot\.links/, '置き場所の data-links を読んでいない');
   assert.match(code, /slot\.slug/, '置き場所の data-slug を読んでいない');
 });
+
+test('置き場所が後から来ても待つ（React などのアプリ）', () => {
+  /* ⚠️ 2026-08-29、Reversi（React）で起きた。画面は DOMContentLoaded より後に
+     描かれるので、そのとき <div data-giga-links> はまだ無い。そこで諦めると
+     置き場所が見つからないだけでなく、**そこに書いた data-links も読めない**。
+     黙って既定の 3 本が画面のいちばん下に出る。フッターに置いたはずの
+     リンクが本文の下に落ち、外したはずの「つかいかた」も出ていた。 */
+  assert.match(code, /MutationObserver/, '後から来る置き場所を待っていない');
+  assert.match(code, /SLOT_WAIT_MS/, '待ち時間の上限が無い');
+  /* 待ちっぱなしにしない。置き場所が無いアプリでは、いちばん下に出すのが約束 */
+  assert.match(code, /setTimeout\(finish, SLOT_WAIT_MS\)/, '待ちに上限が効いていない');
+  assert.match(code, /obs\.disconnect\(\)/, '見張りを外していない');
+});
