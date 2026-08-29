@@ -117,7 +117,11 @@ async function legalUrls(slug) {
 
 const main = async () => {
   const dry = process.argv.includes('--dry-run');
-  const only = process.argv[process.argv.indexOf('--repo') + 1];
+  /* ⚠️ indexOf は見つからないと -1 を返す。そのまま +1 すると argv[0]
+     （node 自身の道）を拾い、どのアプリにも当たらないので「0 本」になる。
+     しかも後始末まで止まるので、静かに何もしない道具になる。実際そうなっていた。 */
+  const at = process.argv.indexOf('--repo');
+  const only = at === -1 ? '' : (process.argv[at + 1] ?? '');
   const data = JSON.parse(await readFile(DATA, 'utf8'));
 
   /* 紹介記事のあるアプリ。パンくずと導線を出すかどうかに使う。
@@ -131,6 +135,13 @@ const main = async () => {
   const apps = data.items.filter((a) =>
     a.hidden !== true && a.slug && a.publishedAt && a.updatedAt
     && (!only || a.repo === only || a.slug === only));
+
+  /* 前回の台帳。「まだ 1 本も無い」と「在ったのに取れなかった」を分けるために読む。
+     この 2 つは結果だけ見ると同じ形をしていて、区別できるのは前回の本数しかない。 */
+  let before = [];
+  try {
+    before = JSON.parse(await readFile(INDEX, 'utf8')).items ?? [];
+  } catch (e) { /* data/manuals.json がまだ無い。初めての朝 */ }
 
   const built = [];
   const pages = [];
@@ -240,9 +251,16 @@ const main = async () => {
     if (only) {
       console.log('  （--repo が付いているので、後始末はしない）');
     } else if (!built.length) {
-      console.warn('  ⚠️ マニュアルが 1 本も取れなかった。後始末をせず、いまあるページを残す');
-      console.warn('     （GitHub が見えていない可能性が高い。全部消してしまわないため）');
-      if (apps.length) process.exitCode = 1;
+      /* まだ 1 本も置かれていないのは、ふつうのこと（当面 38 本がそう）。
+         前は在ったのに今回 0 本になったときだけ、声を上げる。 */
+      const had = before.length;
+      if (had) {
+        console.warn(`  ⚠️ 前は ${had} 本あったのに 1 本も取れなかった。`
+          + '後始末をせず、いまあるページを残す');
+        console.warn('     （GitHub が見えていない可能性が高い。全部消してしまわないため）');
+      } else {
+        console.log('  まだどのアプリにも docs/manual/ が無い');
+      }
     } else {
       for (const item of data.items) {
         if (!item.slug || keep.has(item.slug)) continue;
@@ -274,7 +292,14 @@ const main = async () => {
 
   console.log(`\n使い方マニュアル ${built.length} 本 / マニュアルなし ${missing} 本`
     + ` / 作れず ${failed} 本` + (dry ? '（--dry-run のため書いていない）' : ''));
-  if (failed) process.exitCode = 1;
+
+  /* ⚠️ ここで異常終了しない。この道具は朝の流れのいちばん先に走るので、
+     止めると、その日の紹介ページも一覧も検索の索引も、まるごと組み直されない。
+     マニュアル 1 本の書式ミスで、サイト全体の組み直しを捨てるのは割に合わない。
+
+     声は上に出してある。食い違いは、コミットの「あと」に走る
+     tools/check-cards.mjs が拾う（ワークフローが「赤はやり残しの一覧として
+     読む」形にしてあるのと同じ考え方）。 */
 };
 
 /* ⚠️ 取りこんだだけで走らせない。書き出しも削除もする道具なので、
