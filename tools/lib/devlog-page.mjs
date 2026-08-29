@@ -65,6 +65,13 @@ function shell({ title, description, url, body, extraHead = '' }) {
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="/assets/style.css">
+  <!-- ⚠️ この 2 本を外さないこと。shareOf() が出す「リンクをコピー」を拾うのは
+       assets/copy.js、画面写真を大きく見せるのは assets/article.js である。
+       2026-08-29 まで、開発記録のページは 1 本も読み込んでいなかったので、
+       コピーのボタンは押しても何も起きなかった（紹介ページと同じ穴）。
+       tools/check-cards.mjs の「押せるボタンの処理が読み込まれている」が見張る。 -->
+  <script src="/assets/article.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
 ${THEME_SCRIPT}
 ${extraHead}
 </head>

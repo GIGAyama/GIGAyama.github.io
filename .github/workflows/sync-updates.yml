@@ -41,6 +41,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/build-devlog.mjs
 
+      # 各アプリのリポジトリにある docs/manual/manual.md を取ってきて、
+      # giga-school.com/apps/<slug>/manual/ の使い方マニュアルとして書き出す。
+      # ⚠️ 紹介ページより先に走らせる。紹介ページに出す「使い方マニュアル」の
+      #    ボタンを出すかどうかが data/manuals.json を見て決まるため。
+      #    順を入れ替えると、マニュアルを公開した当日だけ入口が出ない
+      #    （開発記録を紹介ページより先に置いてあるのと同じ理由）。
+      - name: 使い方マニュアルを組み直す
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/build-manuals.mjs
+
       # 各アプリのリポジトリにある note 記事を取ってきて、
       # giga-school.com/apps/<slug>/ の紹介ページとして書き出す。
       # 日付を先に取り直しておくのは、ページに出す「最終更新」に使うため。
@@ -92,10 +103,13 @@ jobs:
         #      tools/build-devlog.mjs  data/devlog.json / devlog/
         #      tools/build-articles.mjs data/articles.json / apps/ /
       #                              data/article-images.json
+        #      tools/build-manuals.mjs data/manuals.json / apps/<slug>/manual/ /
+        #                              data/manual-images.json
         #      tools/build-sw.mjs      sw.js
         run: |
-          PATHS="data/apps.json data/articles.json data/devlog.json data/search-index.json \
-                 data/article-images.json \
+          PATHS="data/apps.json data/articles.json data/manuals.json data/devlog.json \
+                 data/search-index.json \
+                 data/article-images.json data/manual-images.json \
                  index.html sitemap.xml feed.xml sw.js apps/ devlog/ filtering/ press/"
           # git diff は追跡ずみのものしか見ない。新しく増えたページ（新しい
           # 紹介ページ、新しい分野の入口）は git status のほうで拾う。

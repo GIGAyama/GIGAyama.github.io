@@ -2804,6 +2804,86 @@
   .to-top svg { inline-size: 18px; block-size: 18px; }
 }
 
+/* -------------------------------------------------------------
+   使い方マニュアル（tools/lib/manual-page.mjs）
+
+   紹介ページ（.article--read）の格子・目次・本文の見た目を、そのまま
+   借りている。ここに書くのは、マニュアルにしか要らないものだけ。
+
+   ⚠️ .prose--article を複製しないこと。本文の見た目が 2 か所に散ると、
+      朝の組み直しで記事とマニュアルが別々に崩れる。
+   ------------------------------------------------------------- */
+@layer components {
+  /* 目次の下に置く、印刷とコピーのボタン。記事では同じ場所に
+     「伝える」（SNS へ）が入っているが、マニュアルは人に送るものではなく
+     手元で使うものなので、そこを入れ替えてある */
+  .manual__tools {
+    display: flex; flex-wrap: wrap; gap: var(--s-2);
+    margin-block-start: var(--s-4);
+  }
+  .manual__tools .btn { flex: 1 1 auto; justify-content: center; }
+
+  /* 学校で使うときは。data/apps.json から機械が組む節なので、
+     書き手が書いた本文とは地色で区別する */
+  .manual__school {
+    margin-block-start: var(--s-8);
+    padding: var(--s-5) var(--s-5) var(--s-6);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-3);
+  }
+  .manual__school h2 { font-size: 1.25rem; font-weight: 800; }
+  .manual__school h3 {
+    font-size: 1rem; font-weight: 700;
+    margin-block: var(--s-5) var(--s-3);
+  }
+  .manual__school-lead, .manual__school-more {
+    font-size: .875rem; color: var(--ink-3); margin-block-start: var(--s-2);
+  }
+  .manual__facts {
+    display: grid; gap: var(--s-2);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    margin-block-start: var(--s-4);
+  }
+  .manual__facts > div {
+    padding: var(--s-3);
+    background: var(--surface); border-radius: var(--r-2);
+  }
+  .manual__facts dt { font-size: .75rem; color: var(--ink-3); }
+  .manual__facts dd { font-weight: 700; margin-block-start: 2px; }
+
+  .manual__hosts { list-style: none; display: grid; gap: var(--s-2); }
+  .manual__hosts li {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3);
+    padding: var(--s-3);
+    background: var(--surface); border-radius: var(--r-2);
+  }
+  .manual__hosts code {
+    font-size: .875rem; font-weight: 700;
+    /* 長いアドレスでも、右の「塞ぐと使えません」を次の行へ追い出さない */
+    flex: 0 1 auto; min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+  .manual__why { font-size: .8125rem; color: var(--ink-2); flex: 1 1 8rem; }
+  .manual__level {
+    font-size: .75rem; font-weight: 700;
+    padding: 2px .5em; border-radius: 999px;
+    background: var(--surface-2); color: var(--ink-3);
+    margin-inline-start: auto; white-space: nowrap;
+  }
+  /* 塞いだときの重さ。/filtering/ と同じ読み方になるよう、色でも分ける */
+  .manual__level--must { background: #fdeaea; color: #8c1d1d; }
+  .manual__level--partial { background: #fdf3e2; color: #7a4a06; }
+  :root[data-theme="dark"] .manual__level--must,
+  :root[data-theme="dark"] .manual__level--partial { background: #2a2118; color: #f0d9b5; }
+
+  .manual__legal { font-size: .875rem; color: var(--ink-3); margin-block-start: var(--s-2); }
+  .manual__legal a { font-weight: 600; }
+
+  /* 紙になったときだけ出る。画面ではアドレスバーに同じものが出ている */
+  .manual__url { display: none; }
+}
+
 /* =============================================================
    utilities
    ============================================================= */
@@ -2842,6 +2922,34 @@
   .fl thead th { position: static; }
   .fl tr { break-inside: avoid; }
   .fl-plain { break-inside: auto; font-size: 8.5pt; }
+  /* 使い方マニュアルは、印刷して職員室で配ることを前提にしてある。
+     ⚠️ 目次は消さない。紙のマニュアルにこそ要る（画面の .article__rail は
+        貼り付く柱だが、紙では本文の前に置かれるだけになる） */
+  .manual .manual__tools { display: none !important; }
+  .manual .article__rail { position: static; }
+  .manual .manual__url {
+    display: block;
+    margin-block-start: var(--s-5);
+    font-size: 8.5pt; color: #444;
+    overflow-wrap: anywhere;
+  }
+  /* 章の変わり目でページを送る。ただし 1 章目の前では送らない
+     （題だけの紙が 1 枚できてしまう） */
+  .manual .prose--article h2 { break-before: page; }
+  .manual .prose--article h2:first-of-type { break-before: auto; }
+  .manual .prose--article h3, .manual .prose--article li { break-inside: avoid; }
+  .manual .prose__fig { break-inside: avoid; }
+  /* 画面写真の 57% は縦長（assets/article.js の冒頭に実測がある）。
+     縛らないと 1 枚で 1 ページを食う */
+  .manual .prose__fig img { max-block-size: 92mm; inline-size: auto; }
+  .manual .manual__school { break-before: page; border: 1px solid #999; }
+  .manual .manual__hosts li, .manual .manual__facts > div { break-inside: avoid; }
+  /* 紙ではリンクを押せないので、行き先を字で出す。
+     ただし本文の中だけ。枠の中まで出すと読みにくくなる */
+  .manual .prose--article a[href^="http"]::after {
+    content: " (" attr(href) ")"; font-size: 8pt; color: #444;
+  }
+
   /* 印刷では出現待ちの状態を残さない */
   .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
   .hero::before, .hero::after { display: none; }

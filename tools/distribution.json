@@ -43,7 +43,8 @@
    "note-article",
    "giga-scaffold",
    "giga-reviewer",
-   "giga-fleet"
+   "giga-fleet",
+   "giga-manual"
   ],
   "extra": [
    "Blackboard_Timer",

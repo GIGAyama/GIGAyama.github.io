@@ -58,6 +58,14 @@
   {
    "local": ".agents/skills/giga-fleet",
    "reason": "正本 standards/skills/giga-fleet へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-29）"
+  },
+  {
+   "local": ".claude/skills/giga-manual",
+   "reason": "正本 standards/skills/giga-manual へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-29）"
+  },
+  {
+   "local": ".agents/skills/giga-manual",
+   "reason": "正本 standards/skills/giga-manual へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-29）"
   }
  ]
 }

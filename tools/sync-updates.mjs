@@ -11,7 +11,7 @@
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 
 import { CATEGORY_LABEL, CATEGORY_COLOR } from './lib/categories.mjs';
-import { articleIndexPage } from './lib/article-page.mjs';
+import { articleIndexPage, linkCards } from './lib/article-page.mjs';
 import { CATEGORY_BASE, categoryPage, groupByCategory } from './lib/category-page.mjs';
 import { filteringPage } from './lib/filtering-page.mjs';
 import { searchIndex } from './lib/search-index.mjs';
@@ -23,6 +23,7 @@ const DATA = new URL('data/apps.json', ROOT);
 const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
+const MANUALS = new URL('data/manuals.json', ROOT);
 const APPS_INDEX = new URL('apps/index.html', ROOT);
 const SEARCH = new URL('data/search-index.json', ROOT);
 const PRESS = new URL('press/index.html', ROOT);
@@ -288,7 +289,7 @@ ${body}
 `;
 }
 
-function sitemap(data, articles = [], devlog = []) {
+function sitemap(data, articles = [], devlog = [], manuals = []) {
   const url = (loc, lastmod, changefreq, priority) =>
     `  <url>
     <loc>${loc}</loc>
@@ -343,6 +344,17 @@ function sitemap(data, articles = [], devlog = []) {
       entries.push(url(`https://giga-school.com/apps/${a.slug}/`, a.updatedAt, 'monthly', '0.9'));
     });
 
+  /* 使い方マニュアル。紹介ページより少し低い重み。
+     ⚠️ lastmod は manual.md が最後に変わった日で、アプリの push 日ではない
+        （tools/build-manuals.mjs を見ること）。 */
+  manuals
+    .filter((m) => m.slug && m.updatedAt)
+    .slice()
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .forEach((m) => {
+      entries.push(url(`https://giga-school.com/apps/${m.slug}/manual/`, m.updatedAt, 'monthly', '0.7'));
+    });
+
   data.items
     .filter((i) => shown(i) && i.slug && i.updatedAt)
     .sort((a, b) => a.slug.localeCompare(b.slug))
@@ -391,19 +403,36 @@ const main = async () => {
       `$1${data.generatedAt}$2${jpDate(data.generatedAt)}`);
 
   await writeFile(DATA, JSON.stringify(data, null, 1) + '\n');
-  await writeFile(PAGE, html);
+
   /* 紹介ページの一覧。まだ作っていなければ、無いものとして進む */
   let articles = [];
   try {
     articles = JSON.parse(await readFile(ARTICLES, 'utf8')).items ?? [];
   } catch (e) { /* data/articles.json が無い。アプリの行だけで組む */ }
+  /* 使い方マニュアル。tools/build-manuals.mjs が書き出す。0 本のこともある */
+  let manuals = [];
+  try {
+    manuals = JSON.parse(await readFile(MANUALS, 'utf8')).items ?? [];
+  } catch (e) { /* data/manuals.json がまだ無い */ }
+
+  /* トップのカードに「紹介を読む」と「使い方を見る」を貼る。
+     ⚠️ ここは以前 tools/build-articles.mjs がやっていた。index.html を書くのは
+        元々この道具の役目で、書き手が 2 人いること自体が順番の罠になっていた。
+        しかも紹介とマニュアルは card__actions を丸ごと入れ替える作りなので、
+        別々に貼ると、あとから貼ったほうが前のを消す。1 回でまとめて貼る。 */
+  const linked = linkCards(html, {
+    articles: new Set(articles.map((a) => a.slug).filter(Boolean)),
+    manuals: new Set(manuals.map((m) => m.slug).filter(Boolean)),
+  });
+  html = linked.html;
+  await writeFile(PAGE, html);
   /* 開発記録。tools/build-devlog.mjs が書き出す。公開 0 本のこともある */
   let devlog = [];
   try {
     devlog = JSON.parse(await readFile(new URL('data/devlog.json', ROOT), 'utf8')).items ?? [];
   } catch (e) { /* data/devlog.json が無い。開発記録なしで組む */ }
 
-  await writeFile(MAP, sitemap(data, articles, devlog));
+  await writeFile(MAP, sitemap(data, articles, devlog, manuals));
   await writeFile(FEED, feed(data, articles));
 
   /* 紹介ページの一覧（/apps/）。記事が 1 本も無いときは作らない。
@@ -457,6 +486,21 @@ const main = async () => {
           slug: a.slug,
           name: a.name,
           html: await readFile(new URL(`apps/${a.slug}/index.html`, ROOT), 'utf8'),
+        });
+      } catch (e) { /* まだ書き出されていない。次の朝には入る */ }
+    }
+    /* 使い方マニュアルも同じ索引に入れる。「印刷」「振り返り」のような、
+       操作の言葉で探す人がいちばん困っているため。
+       ⚠️ 行き先が /apps/<slug>/ ではないので、項目に u を持たせる。
+          持たせないと、当たった節を押しても紹介ページの先頭へ飛ぶ。 */
+    for (const m of manuals) {
+      if (!m.slug) continue;
+      try {
+        pages.push({
+          slug: m.slug,
+          name: `${m.name}（使い方）`,
+          url: `/apps/${m.slug}/manual/`,
+          html: await readFile(new URL(`apps/${m.slug}/manual/index.html`, ROOT), 'utf8'),
         });
       } catch (e) { /* まだ書き出されていない。次の朝には入る */ }
     }

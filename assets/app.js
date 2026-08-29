@@ -271,65 +271,9 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     押した結果を短く伝える
-
-     ページ全体で 1 つだけ持つ。読み上げにも届くよう role="status" にする。
-     --------------------------------------------------------- */
-  var toastEl = null;
-  var toastTimer = null;
-
-  function toast(message, hold) {
-    if (!toastEl) {
-      toastEl = document.createElement('p');
-      toastEl.className = 'toast';
-      toastEl.setAttribute('role', 'status');
-      toastEl.setAttribute('aria-live', 'polite');
-      document.body.appendChild(toastEl);
-    }
-    toastEl.textContent = message;
-    toastEl.dataset.visible = 'true';
-    window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(function () {
-      toastEl.dataset.visible = 'false';
-    }, hold || 2200);
-  }
-
-  /* ---------------------------------------------------------
-     カードのリンクをコピー
-
-     学級だよりや Classroom に貼るときは、共有画面よりコピーが早い。
-     クリップボードは https でないと使えないことがあるので、
-     古いやり方（選んで写す）まで順に降りる。
-     --------------------------------------------------------- */
-  function copyByTextarea(text) {
-    var box = document.createElement('textarea');
-    box.value = text;
-    box.setAttribute('readonly', '');
-    box.style.cssText = 'position:fixed;top:-1000px;opacity:0;';
-    document.body.appendChild(box);
-    box.select();
-    var ok = false;
-    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
-    document.body.removeChild(box);
-    return ok;
-  }
-
-  function copyLink(text, what) {
-    var ok = (what || 'リンク') + 'をコピーしました';
-    var ng = 'コピーできませんでした：' + text;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        toast(ok);
-      }).catch(function () {
-        if (copyByTextarea(text)) toast(ok);
-        else toast(ng, 8000);
-      });
-      return;
-    }
-    if (copyByTextarea(text)) toast(ok);
-    else toast(ng, 8000);
-  }
+  /* リンクのコピー（[data-copy]）と、押した結果を伝える知らせは
+     assets/copy.js に出してある。紹介ページは app.js を読まないので、
+     ここに置いたままだと 32 本でボタンが死ぬ（2026-08-29）。 */
 
   /* ---------------------------------------------------------
      カードの共有
@@ -339,15 +283,6 @@
      --------------------------------------------------------- */
   document.addEventListener('click', function (e) {
     if (!e.target.closest) return;
-
-    var copyBtn = e.target.closest('[data-copy]');
-    if (copyBtn) {
-      e.preventDefault();
-      /* カードは data-url を、掲載用の資料は data-copy に文字を持たせている。
-         知らせの文言も、何をコピーしたかに合わせる */
-      copyLink(copyBtn.dataset.copy || copyBtn.dataset.url, copyBtn.dataset.copyLabel);
-      return;
-    }
 
     var btn = e.target.closest('[data-share]');
     if (!btn) return;

@@ -155,6 +155,7 @@ export function pressPage({ apps, articles, generatedAt }) {
 
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/app.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
 ${THEME_SCRIPT}
 
   <script type="application/ld+json">
