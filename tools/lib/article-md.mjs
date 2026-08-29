@@ -67,6 +67,34 @@ function inline(text) {
 }
 
 /**
+ * いま始まる番号つき手順が、少し前の手順の続きなら、その次の番号を返す。続きでなければ 1。
+ *
+ * ── なぜ要るのか ──────────────────────────────
+ *
+ * 手順の途中に画面写真を置くと、そこで <ol> がいったん閉じる。何もしないと、
+ * 写真の次の手順が「1.」に戻る。書いた人は 1・2・3…と番号を振っているのに、
+ * 出来上がったページでは 1・1・1 と並ぶ。**手元の Markdown 表示では正しく見えるので、
+ * 公開されたページを見るまで気づけない。**
+ *
+ * 「どのボタンを押せば何ができるか」を伝えるマニュアルでは、押す場所の写真を
+ * 手順のあいだに置くのがいちばん自然な形なので、そちらを禁じずにこちらで続ける。
+ *
+ * ⚠️ 続きとみなすのは「画像と、その説明文だけ」をはさんだときに限る。
+ *    ふつうの段落や見出しが入ったら、そこで話が変わっているので 1 から数え直す。
+ */
+function continuedFrom(blocks) {
+  for (let i = blocks.length - 1; i >= 0; i--) {
+    const b = blocks[i];
+    if (b.kind === 'image') continue;                       // 写真は、はさんでよい
+    /* 写真の説明文も、はさんでよい（renderArticle が figcaption にする分） */
+    if (b.kind === 'p' && blocks[i - 1]?.kind === 'image' && looksLikeCaption(b)) continue;
+    if (b.kind === 'ol') return (b.start ?? 1) + b.items.length;
+    return 1;                                               // ほかのものが入ったら数え直す
+  }
+  return 1;
+}
+
+/**
  * Markdown を切り分ける。段落は空行で切れる。
  * @returns {{kind: string}[]}
  */
@@ -110,7 +138,7 @@ function blocksOf(markdown) {
     if ((m = line.match(QUOTE_RE))) { flushPara(); flushList(); (quote ??= []).push(m[1]); continue; }
     if ((m = line.match(OL_RE))) {
       flushPara(); flushQuote();
-      if (list?.kind !== 'ol') { flushList(); list = { kind: 'ol', items: [] }; }
+      if (list?.kind !== 'ol') { flushList(); list = { kind: 'ol', items: [], start: continuedFrom(blocks) }; }
       list.items.push(m[2]);
       continue;
     }
@@ -193,10 +221,14 @@ export function renderArticle(markdown, { imageUrl }) {
         return;
 
       case 'ol':
-      case 'ul':
+      case 'ul': {
         b.items.forEach((i) => { charCount += i.length; });
-        out.push(`<${b.kind}>` + b.items.map((i) => `<li>${inline(i)}</li>`).join('') + `</${b.kind}>`);
+        /* 画面写真をはさんだ手順は、番号を続ける（b.start は blocksOf が決める）。
+           付けないと、写真のたびに番号が 1 に戻る。 */
+        const start = b.kind === 'ol' && b.start > 1 ? ` start="${b.start}"` : '';
+        out.push(`<${b.kind}${start}>` + b.items.map((i) => `<li>${inline(i)}</li>`).join('') + `</${b.kind}>`);
         return;
+      }
 
       case 'quote':
         b.lines.forEach((l) => { charCount += l.length; });
