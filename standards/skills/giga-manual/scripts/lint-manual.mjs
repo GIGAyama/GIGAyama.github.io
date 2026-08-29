@@ -201,10 +201,18 @@ export function lintManual(md) {
       const after2 = isCaption
         ? rest.slice(nextAt2 + 1).find((x) => x.trim() !== '') ?? ''
         : next2;
-      if (after2 && !ORDERED.test(after2) && !HEADING.test(after2) && !IMAGE_LINE.test(after2)
-          && after2.trim().length > CAPTION_MAX) {
+      const breaks = after2 && !ORDERED.test(after2) && !HEADING.test(after2)
+        && !IMAGE_LINE.test(after2) && after2.trim().length > CAPTION_MAX;
+      /* ⚠️ 手順がそこで終わっているなら、何も壊れていない。
+         この先に続きの手順があるときだけ言う。終わった手順のあとに
+         ふつうの段落を書くのは当たり前のことなので、そこで鳴らすと
+         警告が薄まって、本物のほうを読み飛ばされる。 */
+      const continues = breaks && rest.slice(nextAt2 + 1)
+        .slice(0, rest.slice(nextAt2 + 1).findIndex((x) => HEADING.test(x.trim())) + 1 || undefined)
+        .some((x) => ORDERED.test(x));
+      if (continues) {
         say('warn', at, '手順のあいだに置けるのは、画像と 120 字までの説明文だけ。'
-          + 'それより長い段落を置くと、次の手順の番号が 1 に戻る');
+          + 'それより長い段落を置いたので、この先の手順の番号が 1 に戻る');
       }
     }
 
