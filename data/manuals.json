@@ -1,5 +1,21 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。",
  "generatedAt": "2026-08-29",
- "items": []
+ "items": [
+  {
+   "slug": "schoolplan-editor",
+   "repo": "SchoolPlan_Editor",
+   "name": "週案エディタ",
+   "title": "週案エディタ の使い方",
+   "summary": "このマニュアルは、週案作成支援アプリ「週案エディタ」の使い方を説明するものです。",
+   "source": "docs/manual/manual.md",
+   "chapters": 14,
+   "images": 20,
+   "imageHost": "subdomain",
+   "charCount": 18539,
+   "updatedAt": "2026-08-29",
+   "termsUrl": "https://schoolplan-editor.giga-school.com/terms.html",
+   "privacyUrl": "https://schoolplan-editor.giga-school.com/privacy.html"
+  }
+ ]
 }
