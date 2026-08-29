@@ -121,9 +121,37 @@ test('外部から何も読まない（Zero External CDN）', () => {
   assert.ok(!/@import|fonts\.googleapis|cdnjs|jsdelivr|unpkg/.test(code));
 });
 
-test('タップ領域が 48px 以上ある（艦隊のルール 2）', () => {
-  assert.ok(code.includes('min-height:48px'), 'ボタンの高さが 48px 以上であること');
-  assert.ok(code.includes('min-width:48px'));
+test('押せる大きさは 48px、見えている高さは細いまま（艦隊のルール 2）', () => {
+  /* ⚠️ min-height:48px に戻さないこと。それをやるとこの 1 行だけで
+     フッターが 56px になり、アプリの表示領域を押しつぶす。
+     2026-08-29、デジタル・クラス新聞社のフッターが 2 行 115px まで太った。
+     見た目の高さと当たり判定は別に持つ。 */
+  /* ⚠️ ここで /min-height:48px/ とだけ書かないこと。すぐ上の警告コメントが
+     その文字をそのまま持っているので、書いてはいけないと注意した側が
+     検査に引っかかる。CSS は '…' の中にしかないので、そこだけを見る。 */
+  assert.ok(!/'[^'\n]*min-height:48px/.test(code), '高さそのものを 48px にしていない');
+  assert.ok(/a::after\{[^}]*block-size:48px/.test(code), '当たり判定が 48px あること');
+  /* 当たり判定だけを広げると隣どうしが重なって、押したつもりと違うほうが開く。
+     見た目の幅も 48px 以上あること。 */
+  assert.ok(/min-inline-size:48px/.test(code), '横も 48px 以上あること');
+  assert.ok(/a::after\{[^}]*inline-size:100%/.test(code), '当たり判定が見た目の幅に合っていること');
+});
+
+test('フッターの 1 行に収まる形になっている', () => {
+  /* 部品そのものが行を占めると、著作権表示と別の行になってフッターが 2 行になる。 */
+  assert.ok(/:host\{[^}]*display:inline-flex/.test(code), ':host が行の一部として振る舞うこと');
+  assert.ok(/\.row\{[^}]*flex-wrap:nowrap/.test(code), 'リンクの並びが折り返さないこと');
+  /* 置き場所が無くて画面のいちばん下へ出したときだけ、1 行を占めてよい。 */
+  assert.ok(/:host\(\.giga-app-links--end\)\{[^}]*display:flex/.test(code));
+});
+
+test('狭い画面では文字を落として絵だけにする（名前は残す）', () => {
+  assert.ok(/@media \(max-width: 640px\)\{\.t\{/.test(code), '狭い画面で文字を隠す指定があること');
+  /* ⚠️ display:none にすると読み上げからも消え、絵だけのリンクに名前が無くなる。 */
+  assert.ok(!/\.t\{display:none/.test(code), '文字を display:none で消していない');
+  assert.ok(/clip-path:inset\(50%\)/.test(code), '見えなくするだけで、読み上げには残すこと');
+  assert.ok(code.includes("t.className = 't'"), '文字が <span class="t"> で包まれていること');
+  assert.ok(code.includes('a.title = it.label'), '絵だけになったときに指す名前があること');
 });
 
 test('リンクは別のタブで開く（iframe の中で戻れなくならないように）', () => {
