@@ -1,723 +1,723 @@
 {
-  "_comment": "tools/sync-updates.mjs が日付を書き込む。grades（対象学年）・account（アカウント）・storage（記録の置き場所）は手で書く。grades の [] は「児童が使うものではない」、項目そのものが無いものは「まだ決めていない」。",
-  "generatedAt": "2026-08-28",
-  "items": [
-    {
-      "repo": "Digital-Newspaper",
-      "name": "デジタルクラス新聞社",
-      "kind": "app",
-      "slug": "digital-newspaper",
-      "category": "seisaku",
-      "hosts": [
-        "0.peerjs.com",
-        "eu-0.turn.peerjs.com",
-        "stun.l.google.com",
-        "us-0.turn.peerjs.com"
-      ],
-      "grades": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-01-23",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "DigitalCloset",
-      "name": "デジタルワードローブ",
-      "kind": "app",
-      "slug": "digitalcloset",
-      "category": "other",
-      "hosts": [
-        "generativelanguage.googleapis.com"
-      ],
-      "grades": [],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2025-10-09",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Digital_textbook",
-      "name": "デジタル教科書メーカー",
-      "kind": "app",
-      "slug": "digital-textbook",
-      "category": "koumu",
-      "hosts": [
-        "0.peerjs.com",
-        "accounts.google.com",
-        "www.googleapis.com"
-      ],
-      "grades": [],
-      "storage": "device",
-      "publishedAt": "2026-02-11",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Gamification",
-      "name": "まなびクエスト",
-      "kind": "app",
-      "slug": "gamification",
-      "category": "tankyu",
-      "hosts": [
-        "cdn.jsdelivr.net",
-        "googleusercontent.com",
-        "script.google.com"
-      ],
-      "grades": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "google",
-      "storage": "google",
-      "publishedAt": "2026-02-21",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Gobblet",
-      "name": "パクパクゴブレット",
-      "kind": "app",
-      "slug": "gobblet",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "none",
-      "publishedAt": "2025-10-10",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Haiku-meeting",
-      "name": "GIGA句会プラザ",
-      "kind": "app",
-      "slug": "haiku-meeting",
-      "category": "kokugo",
-      "hosts": [],
-      "grades": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "google",
-      "storage": "google",
-      "publishedAt": "2025-10-11",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Homework_barcordreader",
-      "name": "宿題ポスト",
-      "kind": "app",
-      "slug": "homework-barcordreader",
-      "category": "gakkyu",
-      "hosts": [
-        "accounts.google.com"
-      ],
-      "grades": [],
-      "storage": "device",
-      "publishedAt": "2026-03-05",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Ice_slide-puzzle",
-      "name": "南極スライダー",
-      "kind": "app",
-      "slug": "ice-slide-puzzle",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "none",
-      "publishedAt": "2026-03-01",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "JIDOSHA_ZUKAN",
-      "name": "じどう車ずかん",
-      "kind": "app",
-      "slug": "jidosha-zukan",
-      "category": "tankyu",
-      "hosts": [],
-      "grades": [
-        1
-      ],
-      "publishedAt": "2026-08-10",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "KAKE_Master",
-      "name": "九九カード",
-      "kind": "app",
-      "slug": "kake-master",
-      "category": "sansu",
-      "hosts": [],
-      "grades": [
-        2
-      ],
-      "storage": "device",
-      "publishedAt": "2026-07-23",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "KANA_Master",
-      "name": "ひらがなカタカナかきかたマスター",
-      "kind": "app",
-      "slug": "kana-master",
-      "category": "kokugo",
-      "hosts": [],
-      "grades": [
-        1
-      ],
-      "publishedAt": "2026-03-02",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "KANJI_Town",
-      "name": "マイ漢字タウン",
-      "kind": "app",
-      "slug": "kanji-town",
-      "category": "kokugo",
-      "hosts": [
-        "cdn.jsdelivr.net",
-        "fonts.googleapis.com",
-        "fonts.gstatic.com",
-        "unpkg.com"
-      ],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-03-16",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "KEISAN-BLOCK",
-      "name": "さんすうブロック",
-      "kind": "app",
-      "slug": "keisan-block",
-      "category": "sansu",
-      "hosts": [],
-      "grades": [
-        1
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-07-24",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Keisan-Card",
-      "name": "けいさんカード",
-      "kind": "app",
-      "slug": "keisan-card",
-      "category": "sansu",
-      "hosts": [],
-      "grades": [
-        1
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-06-12",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "MIRAI-Compass",
-      "name": "みらいコンパス",
-      "kind": "app",
-      "slug": "mirai-compass",
-      "category": "tankyu",
-      "hosts": [
-        "googleusercontent.com",
-        "script.google.com"
-      ],
-      "grades": [
-        5,
-        6
-      ],
-      "account": "google",
-      "publishedAt": "2026-01-29",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Moral_note",
-      "name": "こころスコープ",
-      "kind": "app",
-      "slug": "moral-note",
-      "category": "tankyu",
-      "hosts": [],
-      "grades": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "publishedAt": "2026-02-15",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Music-production_studio",
-      "name": "音楽制作スタジオ",
-      "kind": "app",
-      "slug": "music-production-studio",
-      "category": "seisaku",
-      "hosts": [
-        "cdnjs.cloudflare.com",
-        "fonts.googleapis.com",
-        "fonts.gstatic.com"
-      ],
-      "grades": [
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "publishedAt": "2026-03-12",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "NotebookSample_Generator",
-      "name": "ノート見本作成ツール PRO",
-      "kind": "app",
-      "slug": "notebooksample-generator",
-      "category": "koumu",
-      "hosts": [
-        "accounts.google.com",
-        "fonts.googleapis.com",
-        "fonts.gstatic.com",
-        "www.googleapis.com"
-      ],
-      "grades": [],
-      "storage": "device",
-      "publishedAt": "2026-03-29",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "online-100square-calculation",
-      "name": "100ます計算",
-      "kind": "app",
-      "slug": "online-100square-calculation",
-      "category": "sansu",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2025-10-16",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "online-manuscript-paper-lite",
-      "name": "オンライン原稿用紙 Lite",
-      "kind": "app",
-      "slug": "online-manuscript-paper-lite",
-      "category": "kokugo",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-02-07",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "online-manuscript-paper-pro",
-      "name": "オンライン原稿用紙 Pro",
-      "kind": "app",
-      "slug": "online-manuscript-paper-pro",
-      "category": "kokugo",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-02-08",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Online-Publisher-pro",
-      "name": "オンライン出版社 Pro",
-      "kind": "app",
-      "slug": "online-publisher-pro",
-      "category": "kokugo",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "teacher",
-      "storage": "google",
-      "publishedAt": "2026-03-07",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "PhysicalEducation_note",
-      "name": "体育ノート",
-      "kind": "app",
-      "slug": "physicaleducation-note",
-      "category": "tankyu",
-      "hosts": [],
-      "grades": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "publishedAt": "2026-02-21",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Qalc",
-      "name": "Qalc（カルク）",
-      "kind": "app",
-      "slug": "qalc",
-      "category": "sansu",
-      "hosts": [
-        "0.peerjs.com",
-        "eu-0.turn.peerjs.com",
-        "stun.l.google.com",
-        "us-0.turn.peerjs.com"
-      ],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-03-11",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Quarto",
-      "name": "GIGAクアルト！",
-      "kind": "app",
-      "slug": "quarto",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "publishedAt": "2025-10-10",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Quoridor",
-      "name": "カベカベ合戦！",
-      "kind": "app",
-      "slug": "quoridor",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "none",
-      "publishedAt": "2025-10-10",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Reading-Books",
-      "name": "どくしょちょきんばこ",
-      "kind": "app",
-      "slug": "reading-books",
-      "category": "kokugo",
-      "hosts": [
-        "api.openbd.jp",
-        "ndlsearch.ndl.go.jp",
-        "www.googleapis.com"
-      ],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-02-01",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Reflection_Journal",
-      "name": "ふりかえりジャーナル",
-      "kind": "app",
-      "slug": "reflection-journal",
-      "category": "gakkyu",
-      "hosts": [
-        "accounts.google.com",
-        "generativelanguage.googleapis.com",
-        "openidconnect.googleapis.com",
-        "www.googleapis.com"
-      ],
-      "grades": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "google",
-      "storage": "google",
-      "publishedAt": "2026-02-11",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Reversi",
-      "name": "リバーシ",
-      "kind": "app",
-      "slug": "reversi",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "none",
-      "publishedAt": "2025-10-10",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "SchoolPlan_Editor",
-      "name": "週案エディタ",
-      "kind": "app",
-      "slug": "schoolplan-editor",
-      "category": "koumu",
-      "hosts": [
-        "apis.google.com",
-        "drive.google.com",
-        "googleusercontent.com",
-        "script.google.com"
-      ],
-      "grades": [],
-      "account": "google",
-      "storage": "google",
-      "publishedAt": "2026-02-11",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Shared-Folder-Sync",
-      "name": "共有フォルダ同期くん",
-      "kind": "app",
-      "slug": "shared-folder-sync",
-      "category": "koumu",
-      "hosts": [],
-      "grades": [],
-      "publishedAt": "2026-02-01",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Shiritori_fighter",
-      "name": "しりとりファイター",
-      "kind": "app",
-      "slug": "shiritori-fighter",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3
-      ],
-      "publishedAt": "2025-10-10",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Townmap_Mikke",
-      "name": "みっけ！",
-      "kind": "app",
-      "slug": "townmap-mikke",
-      "category": "tankyu",
-      "hosts": [],
-      "grades": [
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "google",
-      "storage": "google",
-      "publishedAt": "2026-02-11",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "tsubomi-learning",
-      "name": "いろいろな つぼみと はな",
-      "kind": "app",
-      "slug": "tsubomi-learning",
-      "category": "kokugo",
-      "hosts": [],
-      "grades": [
-        1
-      ],
-      "publishedAt": "2026-06-01",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Typa",
-      "name": "Typa（タイパ）",
-      "kind": "app",
-      "slug": "typa",
-      "category": "tankyu",
-      "hosts": [],
-      "grades": [
-        2,
-        3,
-        4
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2026-07-29",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Werewolf",
-      "name": "人狼ゲーム",
-      "kind": "app",
-      "slug": "werewolf",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "device",
-      "publishedAt": "2025-10-11",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "word_basket",
-      "name": "みんなでしりとり！ワードバスケット",
-      "kind": "app",
-      "slug": "word-basket",
-      "category": "game",
-      "hosts": [],
-      "grades": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "account": "none",
-      "storage": "none",
-      "publishedAt": "2025-10-13",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "XXX_automatic",
-      "name": "投稿ランチャー",
-      "kind": "app",
-      "slug": "xxx-automatic",
-      "category": "other",
-      "hosts": [
-        "raw.githubusercontent.com"
-      ],
-      "grades": [],
-      "storage": "device",
-      "publishedAt": "2026-08-07",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "app_launcher",
-      "name": "GIGA portal",
-      "kind": "tool",
-      "slug": null,
-      "category": null,
-      "grades": [],
-      "publishedAt": "2026-02-24",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Blackboard_Timer",
-      "name": "どこでも時間タイマー",
-      "kind": "tool",
-      "slug": null,
-      "category": null,
-      "grades": [],
-      "publishedAt": "2026-02-24",
-      "updatedAt": "2026-08-28"
-    },
-    {
-      "repo": "Linker-Clipper",
-      "name": "学習サイトリンク集",
-      "kind": "tool",
-      "slug": "linker-clipper",
-      "category": null,
-      "grades": [],
-      "publishedAt": "2026-03-25",
-      "updatedAt": "2026-08-28"
-    }
-  ]
+ "_comment": "tools/sync-updates.mjs が日付を書き込む。grades（対象学年）・account（アカウント）・storage（記録の置き場所）は手で書く。grades の [] は「児童が使うものではない」、項目そのものが無いものは「まだ決めていない」。",
+ "generatedAt": "2026-08-29",
+ "items": [
+  {
+   "repo": "Digital-Newspaper",
+   "name": "デジタルクラス新聞社",
+   "kind": "app",
+   "slug": "digital-newspaper",
+   "category": "seisaku",
+   "hosts": [
+    "0.peerjs.com",
+    "eu-0.turn.peerjs.com",
+    "stun.l.google.com",
+    "us-0.turn.peerjs.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-01-23",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "DigitalCloset",
+   "name": "デジタルワードローブ",
+   "kind": "app",
+   "slug": "digitalcloset",
+   "category": "other",
+   "hosts": [
+    "generativelanguage.googleapis.com"
+   ],
+   "grades": [],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2025-10-09",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Digital_textbook",
+   "name": "デジタル教科書メーカー",
+   "kind": "app",
+   "slug": "digital-textbook",
+   "category": "koumu",
+   "hosts": [
+    "0.peerjs.com",
+    "accounts.google.com",
+    "www.googleapis.com"
+   ],
+   "grades": [],
+   "storage": "device",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Gamification",
+   "name": "まなびクエスト",
+   "kind": "app",
+   "slug": "gamification",
+   "category": "tankyu",
+   "hosts": [
+    "cdn.jsdelivr.net",
+    "googleusercontent.com",
+    "script.google.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "google",
+   "storage": "google",
+   "publishedAt": "2026-02-21",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Gobblet",
+   "name": "パクパクゴブレット",
+   "kind": "app",
+   "slug": "gobblet",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "none",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Haiku-meeting",
+   "name": "GIGA句会プラザ",
+   "kind": "app",
+   "slug": "haiku-meeting",
+   "category": "kokugo",
+   "hosts": [],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "google",
+   "storage": "google",
+   "publishedAt": "2025-10-11",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Homework_barcordreader",
+   "name": "宿題ポスト",
+   "kind": "app",
+   "slug": "homework-barcordreader",
+   "category": "gakkyu",
+   "hosts": [
+    "accounts.google.com"
+   ],
+   "grades": [],
+   "storage": "device",
+   "publishedAt": "2026-03-05",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Ice_slide-puzzle",
+   "name": "南極スライダー",
+   "kind": "app",
+   "slug": "ice-slide-puzzle",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "none",
+   "publishedAt": "2026-03-01",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "JIDOSHA_ZUKAN",
+   "name": "じどう車ずかん",
+   "kind": "app",
+   "slug": "jidosha-zukan",
+   "category": "tankyu",
+   "hosts": [],
+   "grades": [
+    1
+   ],
+   "publishedAt": "2026-08-10",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "KAKE_Master",
+   "name": "九九カード",
+   "kind": "app",
+   "slug": "kake-master",
+   "category": "sansu",
+   "hosts": [],
+   "grades": [
+    2
+   ],
+   "storage": "device",
+   "publishedAt": "2026-07-23",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "KANA_Master",
+   "name": "ひらがなカタカナかきかたマスター",
+   "kind": "app",
+   "slug": "kana-master",
+   "category": "kokugo",
+   "hosts": [],
+   "grades": [
+    1
+   ],
+   "publishedAt": "2026-03-02",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "KANJI_Town",
+   "name": "マイ漢字タウン",
+   "kind": "app",
+   "slug": "kanji-town",
+   "category": "kokugo",
+   "hosts": [
+    "cdn.jsdelivr.net",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "unpkg.com"
+   ],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-03-16",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "KEISAN-BLOCK",
+   "name": "さんすうブロック",
+   "kind": "app",
+   "slug": "keisan-block",
+   "category": "sansu",
+   "hosts": [],
+   "grades": [
+    1
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-07-24",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Keisan-Card",
+   "name": "けいさんカード",
+   "kind": "app",
+   "slug": "keisan-card",
+   "category": "sansu",
+   "hosts": [],
+   "grades": [
+    1
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-06-12",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "MIRAI-Compass",
+   "name": "みらいコンパス",
+   "kind": "app",
+   "slug": "mirai-compass",
+   "category": "tankyu",
+   "hosts": [
+    "googleusercontent.com",
+    "script.google.com"
+   ],
+   "grades": [
+    5,
+    6
+   ],
+   "account": "google",
+   "publishedAt": "2026-01-29",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Moral_note",
+   "name": "こころスコープ",
+   "kind": "app",
+   "slug": "moral-note",
+   "category": "tankyu",
+   "hosts": [],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "publishedAt": "2026-02-15",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Music-production_studio",
+   "name": "音楽制作スタジオ",
+   "kind": "app",
+   "slug": "music-production-studio",
+   "category": "seisaku",
+   "hosts": [
+    "cdnjs.cloudflare.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com"
+   ],
+   "grades": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "publishedAt": "2026-03-12",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "NotebookSample_Generator",
+   "name": "ノート見本作成ツール PRO",
+   "kind": "app",
+   "slug": "notebooksample-generator",
+   "category": "koumu",
+   "hosts": [
+    "accounts.google.com",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "www.googleapis.com"
+   ],
+   "grades": [],
+   "storage": "device",
+   "publishedAt": "2026-03-29",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "online-100square-calculation",
+   "name": "100ます計算",
+   "kind": "app",
+   "slug": "online-100square-calculation",
+   "category": "sansu",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2025-10-16",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "online-manuscript-paper-lite",
+   "name": "オンライン原稿用紙 Lite",
+   "kind": "app",
+   "slug": "online-manuscript-paper-lite",
+   "category": "kokugo",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-02-07",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "online-manuscript-paper-pro",
+   "name": "オンライン原稿用紙 Pro",
+   "kind": "app",
+   "slug": "online-manuscript-paper-pro",
+   "category": "kokugo",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-02-08",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Online-Publisher-pro",
+   "name": "オンライン出版社 Pro",
+   "kind": "app",
+   "slug": "online-publisher-pro",
+   "category": "kokugo",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "teacher",
+   "storage": "google",
+   "publishedAt": "2026-03-07",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "PhysicalEducation_note",
+   "name": "体育ノート",
+   "kind": "app",
+   "slug": "physicaleducation-note",
+   "category": "tankyu",
+   "hosts": [],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "publishedAt": "2026-02-21",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Qalc",
+   "name": "Qalc（カルク）",
+   "kind": "app",
+   "slug": "qalc",
+   "category": "sansu",
+   "hosts": [
+    "0.peerjs.com",
+    "eu-0.turn.peerjs.com",
+    "stun.l.google.com",
+    "us-0.turn.peerjs.com"
+   ],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-03-11",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Quarto",
+   "name": "GIGAクアルト！",
+   "kind": "app",
+   "slug": "quarto",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Quoridor",
+   "name": "カベカベ合戦！",
+   "kind": "app",
+   "slug": "quoridor",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "none",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Reading-Books",
+   "name": "どくしょちょきんばこ",
+   "kind": "app",
+   "slug": "reading-books",
+   "category": "kokugo",
+   "hosts": [
+    "api.openbd.jp",
+    "ndlsearch.ndl.go.jp",
+    "www.googleapis.com"
+   ],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-02-01",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Reflection_Journal",
+   "name": "ふりかえりジャーナル",
+   "kind": "app",
+   "slug": "reflection-journal",
+   "category": "gakkyu",
+   "hosts": [
+    "accounts.google.com",
+    "generativelanguage.googleapis.com",
+    "openidconnect.googleapis.com",
+    "www.googleapis.com"
+   ],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "google",
+   "storage": "google",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Reversi",
+   "name": "リバーシ",
+   "kind": "app",
+   "slug": "reversi",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "none",
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "SchoolPlan_Editor",
+   "name": "週案エディタ",
+   "kind": "app",
+   "slug": "schoolplan-editor",
+   "category": "koumu",
+   "hosts": [
+    "apis.google.com",
+    "drive.google.com",
+    "googleusercontent.com",
+    "script.google.com"
+   ],
+   "grades": [],
+   "account": "google",
+   "storage": "google",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Shared-Folder-Sync",
+   "name": "共有フォルダ同期くん",
+   "kind": "app",
+   "slug": "shared-folder-sync",
+   "category": "koumu",
+   "hosts": [],
+   "grades": [],
+   "publishedAt": "2026-02-01",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Shiritori_fighter",
+   "name": "しりとりファイター",
+   "kind": "app",
+   "slug": "shiritori-fighter",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3
+   ],
+   "publishedAt": "2025-10-10",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Townmap_Mikke",
+   "name": "みっけ！",
+   "kind": "app",
+   "slug": "townmap-mikke",
+   "category": "tankyu",
+   "hosts": [],
+   "grades": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "google",
+   "storage": "google",
+   "publishedAt": "2026-02-11",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "tsubomi-learning",
+   "name": "いろいろな つぼみと はな",
+   "kind": "app",
+   "slug": "tsubomi-learning",
+   "category": "kokugo",
+   "hosts": [],
+   "grades": [
+    1
+   ],
+   "publishedAt": "2026-06-01",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Typa",
+   "name": "Typa（タイパ）",
+   "kind": "app",
+   "slug": "typa",
+   "category": "tankyu",
+   "hosts": [],
+   "grades": [
+    2,
+    3,
+    4
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-07-29",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Werewolf",
+   "name": "人狼ゲーム",
+   "kind": "app",
+   "slug": "werewolf",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2025-10-11",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "word_basket",
+   "name": "みんなでしりとり！ワードバスケット",
+   "kind": "app",
+   "slug": "word-basket",
+   "category": "game",
+   "hosts": [],
+   "grades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "account": "none",
+   "storage": "none",
+   "publishedAt": "2025-10-13",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "XXX_automatic",
+   "name": "投稿ランチャー",
+   "kind": "app",
+   "slug": "xxx-automatic",
+   "category": "other",
+   "hosts": [
+    "raw.githubusercontent.com"
+   ],
+   "grades": [],
+   "storage": "device",
+   "publishedAt": "2026-08-07",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "app_launcher",
+   "name": "GIGA portal",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "grades": [],
+   "publishedAt": "2026-02-24",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Blackboard_Timer",
+   "name": "どこでも時間タイマー",
+   "kind": "tool",
+   "slug": null,
+   "category": null,
+   "grades": [],
+   "publishedAt": "2026-02-24",
+   "updatedAt": "2026-08-29"
+  },
+  {
+   "repo": "Linker-Clipper",
+   "name": "学習サイトリンク集",
+   "kind": "tool",
+   "slug": "linker-clipper",
+   "category": null,
+   "grades": [],
+   "publishedAt": "2026-03-25",
+   "updatedAt": "2026-08-29"
+  }
+ ]
 }
