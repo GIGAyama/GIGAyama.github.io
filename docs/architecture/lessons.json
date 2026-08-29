@@ -130,6 +130,15 @@
     },
     {
       "date": "2026-08-29",
+      "symptom": "配布のとりのこし検査が、配布と同じ push で起動して競走に負け、マージのたびに必ず赤くなっていた（2026-08-27 以降ほぼ全部）",
+      "guardedBy": [
+        { "file": ".github/workflows/check-distribution.yml", "contains": "workflow_run" },
+        { "file": "tools/check-distribution.test.mjs", "contains": "配布のとりのこしは push で起動しない" },
+        { "file": "tools/check-distribution.test.mjs", "contains": "workflow_run が指す名前が、配布ワークフローの name と一致する" }
+      ]
+    },
+    {
+      "date": "2026-08-29",
       "symptom": "実ブラウザ検査の『0 件を信じない』を要求の数で書いたら、接続できない URL が合格になった（失敗した navigation の要求も記録されるため）",
       "guardedBy": [
         { "file": "standards/web/verify-no-external.mjs", "contains": "okResponses" },
