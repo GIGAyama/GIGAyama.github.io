@@ -356,3 +356,64 @@ test('未登録のスキル: 置き場に直に置かれたファイルはスキ
   });
   assert.deepEqual(unregisteredSkills('r', ['.agents/skills/note'], [], readdir, stat), []);
 });
+
+/* ── 配ったものが本当に照合されているか（CLI を実際に起動して見る）─────
+ *
+ * 2026-08-29 に実測した穴の回帰試験。.agents/rules/gigaschool-standards.md は
+ * 42 本へ配られていたのに、どの standards-map.json にも載っていなかった。
+ * Typa で 1 行足して走らせたら「✅ 正本と一致しています」で exit 0 が返った。
+ * エージェントの行動を決める文書が、書き替え放題で緑になっていた。
+ *
+ * 純関数の試験では、この壊れ方は捕まらない。「対応表に載っていない」が原因で、
+ * 比べる処理そのものは正しく動いていたため。だから CLI を実際に起動する。 */
+{
+  const { execFileSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const { fileURLToPath } = await import('node:url');
+
+  const HERE = path.dirname(fileURLToPath(import.meta.url));
+  const STANDARDS = HERE;                       // standards/ そのもの
+  const CLI = path.join(HERE, 'check-drift.mjs');
+  const RULES = 'agents/rules/gigaschool-standards.md';
+
+  /** 配布先を 1 本ぶん作る。戻り値は repo ディレクトリ */
+  const makeRepo = () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-rules-'));
+    fs.mkdirSync(path.join(dir, '.agents', 'rules'), { recursive: true });
+    fs.copyFileSync(path.join(STANDARDS, RULES), path.join(dir, '.agents/rules/gigaschool-standards.md'));
+    fs.writeFileSync(path.join(dir, 'standards-map.json'), JSON.stringify({
+      files: [{ canonical: RULES, local: '.agents/rules/gigaschool-standards.md' }],
+    }, null, 2) + '\n');
+    return dir;
+  };
+
+  const runDrift = (cwd) => {
+    try {
+      execFileSync('node', [CLI, '--standards', STANDARDS], { cwd, encoding: 'utf8', stdio: 'pipe' });
+      return 0;
+    } catch (e) { return e.status ?? -1; }
+  };
+
+  test('CLI: 対応表に載せたルールファイルが正本と同じなら通る', () => {
+    const dir = makeRepo();
+    try { assert.equal(runDrift(dir), 0); }
+    finally { fs.rmSync(dir, { recursive: true, force: true }); }
+  });
+
+  test('CLI: ルールファイルを 1 行書き替えたら落ちる（2026-08-29 はここが exit 0 だった）', () => {
+    const dir = makeRepo();
+    try {
+      fs.appendFileSync(path.join(dir, '.agents/rules/gigaschool-standards.md'), '\n勝手に足した行\n');
+      assert.equal(runDrift(dir), 1, 'ルールを書き替えたのに check-drift が通してしまった');
+    } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+  });
+
+  test('CLI: ルールファイルを消したら落ちる', () => {
+    const dir = makeRepo();
+    try {
+      fs.rmSync(path.join(dir, '.agents/rules/gigaschool-standards.md'));
+      assert.equal(runDrift(dir), 1);
+    } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+  });
+}

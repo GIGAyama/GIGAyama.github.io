@@ -1,6 +1,12 @@
 # GIGAyama.github.io — Claude Code 開発ガイド
 
+@.agents/rules/gigaschool-standards.md
+
 本リポジトリは、GIGAスクールWebアプリ群（giga-school.com）の旗艦ポータル兼共通コードの正本（Single Source of Truth）です。
+
+⚠️ **上の 1 行を消さないこと。** 艦隊共通のルール（Zero-CDN・Zero-PII・正本同期）は
+`standards/agents/rules/gigaschool-standards.md` に 1 本だけ置いてあり、
+Claude Code はこの取りこみを通して読む。以下はポータル固有の話だけを書く。
 
 ## マスター仕様書
 本システムの全体像、アーキテクチャ、データフロー、障害教訓については、以下を参照してください：
@@ -44,6 +50,7 @@ node --test standards/web/*.test.mjs
 node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
+node --test standards/agents/hooks/*.test.mjs
 node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
 
@@ -63,6 +70,26 @@ node tools/distribute.mjs --dry-run
 | `.claude/skills/<名前>/` | Claude Code | 正本 `standards/skills/` へのシンボリックリンク |
 | `.agents/skills/<名前>/` | Antigravity（Gemini） | 同上 |
 | `.agents/rules/gigaschool-standards.md` | Antigravity | 正本 `standards/agents/rules/` へのシンボリックリンク |
+| `CLAUDE.md`（リポジトリ直下） | Claude Code | 上のルールを `@` で取りこむ。正本は `standards/agents/CLAUDE.md` |
+| `.claude/settings.json` ＋ `.claude/hooks/` | Claude Code | 正本 `standards/agents/`。配布先でだけ働く（下記） |
+
+**ルール 3 は、配布先では hook が機械的に止める。**
+`guard-canonical.mjs`（PreToolUse）が `standards-map.json` を読み、正本のコピーを
+直接編集しようとしたら exit 2 で止めて直し方を返す。判定表を自前で持たないので、
+正本を 1 本足しても hook 側の直し忘れが起きない。
+`unmanaged` で宣言された場所は止めない（宣言の意味が逆になるため）。
+**ポータルでは働かない**（`standards/check-drift.mjs` の有無で判定）。正本を持つ側で
+止めると正本そのものが直せなくなる。
+`announce-checks.mjs`（SessionStart）は、そのリポジトリに**実在する**検査だけを出す。
+
+⚠️ **hook は必ず fail-open。** 読み込みでも解析でも、おかしければ黙って通す。
+壊れた hook が 42 本の編集を止めるほうが、防ごうとしている事故よりはるかに重い。
+
+⚠️ **Claude Code と Antigravity で読む場所が違う。** Antigravity は `.agents/rules/` を
+直接読むが、Claude Code はリポジトリ直下の `CLAUDE.md` しか読まない。
+2026-08-29 まで後者を配っていなかったので、**40 本で Claude Code だけが
+Zero-CDN も Zero-PII も知らないまま作業を始めていた。**
+ルール本文は 1 本のまま、入口だけを 2 か所に置いて解いてある。
 
 **ポータルは正本を持つ側なので、写しを作らずリンクを張る。**
 配布先には `distribute.mjs` が両方の置き場へ**写す**（`SKILL_ROOTS`）。

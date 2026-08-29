@@ -209,6 +209,70 @@ async function listRepos(owner) {
  * 既定ブランチの先端 SHA を先に取り、その SHA で中身を取る。
  * ブランチ名で取ると CDN の控えが数分残り、配った直後に「まだ古い」と誤って言う。
  */
+/* Claude Code の常時ルールは、この 1 行でルール正本を取りこむ。
+   同じ文を CLAUDE.md と .agents/rules/ の 2 か所に置かないための形。 */
+export const RULES_IMPORT_LINE = '@.agents/rules/gigaschool-standards.md';
+
+const RULES_LOCAL = '.agents/rules/gigaschool-standards.md';
+const localsOf = (rows) => new Set(
+  (Array.isArray(rows) ? rows : [])
+    .map((r) => (r && typeof r.local === 'string' ? r.local.replace(/\/+$/, '') : ''))
+    .filter(Boolean)
+);
+
+/** CLAUDE.md が独自の中身を持つ宣言なら、本文を取って取りこみ行を見る必要がある */
+export function agentContextNeedsBody(map) {
+  return localsOf(map?.unmanaged).has('CLAUDE.md');
+}
+
+/**
+ * エージェントの常時ルールが、配られていて、かつ照合の対象になっているか。
+ *
+ * ⚠️ 2026-08-29 に実測した穴。.agents/rules/gigaschool-standards.md は 42 本へ
+ *    配られていたのに、どの standards-map.json にも載っていなかった。
+ *    載っていないものは check-drift も check-distribution も見ないので、
+ *    書き替えても両方が緑を返す（Typa で 1 行足して exit 0 を確認した）。
+ *    エージェントの行動を決める文書が、書き替え放題で緑になっていた。
+ *    2026-08-28 の「.agents/skills が無検査だった」とまったく同じ型。
+ *
+ * @param {object} map 配布先の standards-map.json
+ * @param {string|null|undefined} claudeMd CLAUDE.md の中身。
+ *   undefined = 取っていない（対応表で照合されるので取る必要が無い）
+ */
+export function agentContextProblems(map, claudeMd) {
+  const problems = [];
+  const files = localsOf(map?.files);
+  const unmanaged = localsOf(map?.unmanaged);
+
+  if (!files.has(RULES_LOCAL) && !unmanaged.has(RULES_LOCAL)) {
+    problems.push(
+      `${RULES_LOCAL}: standards-map.json にありません`
+      + '（配ってはいますが照合されていないので、書き替えても緑のまま通ります）'
+    );
+  }
+
+  if (files.has('CLAUDE.md')) return problems;   // files ループが 1 バイトずつ見ている
+
+  if (!unmanaged.has('CLAUDE.md')) {
+    problems.push(
+      'CLAUDE.md: standards-map.json にありません'
+      + '（正本 standards/agents/CLAUDE.md を配るか、独自の中身を持つなら unmanaged に理由つきで宣言してください）'
+    );
+    return problems;
+  }
+
+  // 独自の中身を持つ宣言。取りこみ 1 行だけは残っていること
+  if (claudeMd === null) {
+    problems.push('CLAUDE.md: unmanaged に宣言がありますが、ファイルがありません');
+  } else if (typeof claudeMd === 'string' && !claudeMd.includes(RULES_IMPORT_LINE)) {
+    problems.push(
+      `CLAUDE.md: 取りこみの行（${RULES_IMPORT_LINE}）がありません`
+      + '（この 1 行が無いと、Claude Code だけが艦隊共通のルールを読まないまま動きます）'
+    );
+  }
+  return problems;
+}
+
 async function checkRepo(owner, repo, standardsDir, requiredSkills = []) {
   const { sha } = parseSymref(
     (await execFileAsync('git', ['ls-remote', '--symref', `https://github.com/${owner}/${repo}.git`, 'HEAD'])).stdout
@@ -285,6 +349,15 @@ async function checkRepo(owner, repo, standardsDir, requiredSkills = []) {
   if (entries.length === 0 && dirEntries.length === 0 && !Array.isArray(map.unmanaged)) {
     problems.push('standards-map.json に files も dirs も unmanaged もありません');
   }
+
+  /* エージェントの常時ルール。配っただけで照合の外にあるものを作らせない。
+     CLAUDE.md は独自の中身を持ってよいので、そのときだけ本文を取って
+     取りこみ 1 行が残っているかを見る（宣言しただけで無検査にしない）。 */
+  const claudeMd = agentContextNeedsBody(map)
+    ? await fetchText(raw('CLAUDE.md'))
+    : undefined;
+  problems.push(...agentContextProblems(map, claudeMd));
+
   return { repo, sha, compared, problems };
 }
 

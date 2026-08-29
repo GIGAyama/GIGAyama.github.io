@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   ledgerProblems, missingFromLedger, goneFromGitHub,
   normalized, parseSymref, namesFromRepoPage, skillsOf,
+  agentContextProblems, agentContextNeedsBody, RULES_IMPORT_LINE,
 } from './check-distribution.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -159,4 +160,74 @@ test('実際の台帳を、正本にあるスキル名と突き合わせても�
   assert.deepEqual(ledgerProblems(ledger, skills), []);
   // スキルは 42 本に配る（targets 32 ＋ skills.extra 10）
   assert.equal(ledger.targets.length + skillsOf(ledger).extra.length, 42);
+});
+
+/* ── エージェントの常時ルールが照合の対象になっているか ──────────────
+ *
+ * 2026-08-29 に実測した穴の回帰試験。.agents/rules/gigaschool-standards.md は
+ * 42 本へ配られていたのに、どの standards-map.json にも載っていなかった。
+ * 載っていないものは誰も見ないので、書き替えても緑のまま通る。 */
+
+test('ルールファイルが対応表に無ければ落ちる（配ってはいるが無検査）', () => {
+  const problems = agentContextProblems({ files: [], unmanaged: [{ local: 'CLAUDE.md' }] }, 'x\n@.agents/rules/gigaschool-standards.md\n');
+  assert.ok(
+    problems.some((p) => p.includes('.agents/rules/gigaschool-standards.md') && p.includes('照合されていない')),
+    problems.join('\n'),
+  );
+});
+
+test('ルールファイルが files に載っていれば通る', () => {
+  const map = {
+    files: [
+      { canonical: 'agents/rules/gigaschool-standards.md', local: '.agents/rules/gigaschool-standards.md' },
+      { canonical: 'agents/CLAUDE.md', local: 'CLAUDE.md' },
+    ],
+  };
+  assert.deepEqual(agentContextProblems(map, undefined), []);
+});
+
+test('CLAUDE.md が対応表にも unmanaged にも無ければ落ちる', () => {
+  const map = { files: [{ canonical: 'agents/rules/gigaschool-standards.md', local: '.agents/rules/gigaschool-standards.md' }] };
+  const problems = agentContextProblems(map, undefined);
+  assert.ok(problems.some((p) => p.startsWith('CLAUDE.md:')), problems.join('\n'));
+});
+
+test('独自の CLAUDE.md でも、取りこみ 1 行が無ければ落ちる', () => {
+  const map = {
+    files: [{ canonical: 'agents/rules/gigaschool-standards.md', local: '.agents/rules/gigaschool-standards.md' }],
+    unmanaged: [{ local: 'CLAUDE.md', reason: 'このアプリ固有の手引き' }],
+  };
+  const problems = agentContextProblems(map, '# 独自の手引き\n\nルールは書いていない\n');
+  assert.ok(problems.some((p) => p.includes('取りこみの行')), problems.join('\n'));
+});
+
+test('独自の CLAUDE.md でも、取りこみ 1 行が在れば通る', () => {
+  const map = {
+    files: [{ canonical: 'agents/rules/gigaschool-standards.md', local: '.agents/rules/gigaschool-standards.md' }],
+    unmanaged: [{ local: 'CLAUDE.md', reason: 'このアプリ固有の手引き' }],
+  };
+  assert.deepEqual(
+    agentContextProblems(map, `# 手引き\n\n${RULES_IMPORT_LINE}\n\n## このアプリのこと\n`),
+    [],
+  );
+});
+
+test('宣言はあるのにファイルが無ければ落ちる', () => {
+  const map = {
+    files: [{ canonical: 'agents/rules/gigaschool-standards.md', local: '.agents/rules/gigaschool-standards.md' }],
+    unmanaged: [{ local: 'CLAUDE.md', reason: '独自' }],
+  };
+  const problems = agentContextProblems(map, null);
+  assert.ok(problems.some((p) => p.includes('ファイルがありません')), problems.join('\n'));
+});
+
+test('本文を取りにいく必要があるのは、独自の中身を宣言したときだけ', () => {
+  assert.equal(agentContextNeedsBody({ unmanaged: [{ local: 'CLAUDE.md' }] }), true);
+  assert.equal(agentContextNeedsBody({ files: [{ local: 'CLAUDE.md' }] }), false);
+  assert.equal(agentContextNeedsBody({}), false);
+});
+
+test('正本の CLAUDE.md 自身に、取りこみの 1 行が在る', () => {
+  const canonical = fs.readFileSync(path.join(REPO_ROOT, 'standards/agents/CLAUDE.md'), 'utf8');
+  assert.ok(canonical.includes(RULES_IMPORT_LINE), '正本から取りこみ行が消えている');
 });
