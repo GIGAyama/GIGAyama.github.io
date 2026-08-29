@@ -1,15 +1,16 @@
 /* eslint-disable */
 /**
  * =====================================================================
- * giga-app-links.js — アプリから「行き先」へつなぐ 4 本のリンク（正本）
+ * giga-app-links.js — アプリから「行き先」へつなぐ 3 本のリンク（正本）
  * =====================================================================
  *
- * 画面の中に、次の 4 つへの入口を出す。
+ * 画面の中に、次の 3 つへの入口を出す。
  *
  *   つかいかた   https://giga-school.com/apps/<slug>/manual/
- *   紹介記事     https://giga-school.com/apps/<slug>/
  *   利用規約     https://<slug>.giga-school.com/terms.html
  *   プライバシー https://<slug>.giga-school.com/privacy.html
+ *
+ * ⚠️ 紹介記事（/apps/<slug>/）は出さない。2026-08-29 に外した。理由は下の LINKS。
  *
  * ── なぜ正本にするのか ───────────────────────────────
  *
@@ -59,16 +60,17 @@
  *
  * data-links は、次のどこに書いても効く。
  *
- *   <script src="./giga-app-links.js" data-links="article,terms,privacy" defer><\/script>
- *   <div data-giga-links data-links="article,terms,privacy"></div>
- *   window.GIGA_APP_LINKS = { links: 'article,terms,privacy' };
+ *   <script src="./giga-app-links.js" data-links="terms,privacy" defer><\/script>
+ *   <div data-giga-links data-links="terms,privacy"></div>
+ *   window.GIGA_APP_LINKS = { links: 'terms,privacy' };
  *
  * ⚠️ 2026-08-29 まで、<div> のほうに書いても効かなかった。しかも**黙って
- *    4 つとも出る**ので、絞ったつもりの側は気づけない。置き場所のすぐ隣に
+ *    全部出る**ので、絞ったつもりの側は気づけない。置き場所のすぐ隣に
  *    書くほうが自然なので、読む側を増やして罠を消した。
  *
- * マニュアルがまだ無いアプリでは "article,terms,privacy" にする。
+ * マニュアルがまだ無いアプリでは "terms,privacy" にする。
  * 既定のまま出すと、行き止まりの「つかいかた」が 1 本増える。
+ * マニュアルを書いたら、この属性ごと消す（既定は 3 つとも出る）。
  *
  * 並び順は、書いた順ではなく下の LINKS の順になる。
  *
@@ -104,10 +106,15 @@
 
   /* 出せる行き先。並び順もここで決まる。
      つかいかたが先頭なのは、画面の前で困っている人がいちばん先に要るものだから。
-     紹介記事（なぜ作ったか）はその次に置く。 */
+
+     ⚠️ 紹介記事（/apps/<slug>/）はここに置かない。2026-08-29 に外した。
+        あれは「なぜ作ったか」を、まだ使っていない先生に向けて書いたもので、
+        いま画面の前にいて「このボタンは何ですか」と困っている人が
+        求めているものではない。そもそもこの部品は、42 本のフッターが
+        揃って紹介記事を指していたのを直すために作った。
+        読み物への道は、つかいかたのページの中に置いてある。 */
   var LINKS = [
     { id: 'manual',  label: 'つかいかた',   of: function (s) { return SITE + '/apps/' + s + '/manual/'; } },
-    { id: 'article', label: '紹介記事',     of: function (s) { return SITE + '/apps/' + s + '/'; } },
     { id: 'terms',   label: '利用規約',     of: function (s) { return 'https://' + s + '.giga-school.com/terms.html'; } },
     { id: 'privacy', label: 'プライバシー', of: function (s) { return 'https://' + s + '.giga-school.com/privacy.html'; } }
   ];
@@ -175,7 +182,7 @@
     var el = self.__gigaAppLinksScript || null;
     var data = (el && el.dataset) || {};
     /* 置き場所の <div data-giga-links> の data-* も見る。
-       ⚠️ 2026-08-29、data-links をこちらへ書いて効かず、しかも黙って 4 つとも
+       ⚠️ 2026-08-29、data-links をこちらへ書いて効かず、しかも黙って全部
           出た。絞ったつもりの側は気づけない。書く人にとっては、置き場所の
           すぐ隣に書くほうが自然なので、罠を消す側で解いた。
        ここは start() から呼ぶので、<div> はもう在る。 */
@@ -217,7 +224,6 @@
      （bootstrap-icons を丸ごと入れると 229KB。使う分だけなら数百バイト）。 */
   var ICONS = {
     manual: 'M4 4.5A1.5 1.5 0 0 1 5.5 3H12v14H5.5A1.5 1.5 0 0 1 4 15.5zM12 3h2.5A1.5 1.5 0 0 1 16 4.5v11a1.5 1.5 0 0 1-1.5 1.5H12',
-    article: 'M4 3h9l3 3v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM7 8h6M7 11h6M7 14h4',
     terms: 'M5 3h7l3 3v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM8 9h4M8 12h4',
     privacy: 'M10 3l6 2.5v4c0 3.6-2.4 6.8-6 7.5-3.6-.7-6-3.9-6-7.5v-4z'
   };
@@ -233,7 +239,7 @@
     svg.setAttribute('aria-hidden', 'true');
     svg.setAttribute('focusable', 'false');
     var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', ICONS[id] || ICONS.article);
+    path.setAttribute('d', ICONS[id] || ICONS.manual);
     svg.appendChild(path);
     return svg;
   }

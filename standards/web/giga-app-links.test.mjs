@@ -32,16 +32,29 @@ function load() {
   return sandbox.window.GigaAppLinks;
 }
 
-test('slug を渡すと 4 本の行き先が組める', () => {
+test('slug を渡すと 3 本の行き先が組める', () => {
   const { items, slug } = load().resolve({ slug: 'schoolplan-editor' });
   assert.equal(slug, 'schoolplan-editor');
-  assert.deepEqual(plain(items).map((i) => i.id), ['manual', 'article', 'terms', 'privacy']);
+  assert.deepEqual(plain(items).map((i) => i.id), ['manual', 'terms', 'privacy']);
   assert.deepEqual(plain(items).map((i) => i.href), [
     'https://giga-school.com/apps/schoolplan-editor/manual/',
-    'https://giga-school.com/apps/schoolplan-editor/',
     'https://schoolplan-editor.giga-school.com/terms.html',
     'https://schoolplan-editor.giga-school.com/privacy.html',
   ]);
+});
+
+test('紹介記事へは出さない', () => {
+  /* ⚠️ 2026-08-29 に外した。あれは「なぜ作ったか」を、まだ使っていない先生に
+     向けて書いたもので、いま画面の前で困っている人が求めているものではない。
+     そもそもこの部品は、42 本のフッターが揃って紹介記事を指していたのを
+     直すために作った。戻すときは、その経緯ごと考え直すこと。 */
+  const { items } = load().resolve({ slug: 'kake-master' });
+  assert.ok(!plain(items).some((i) => i.id === 'article'), '紹介記事が混ざっている');
+  assert.ok(!plain(items).some((i) => i.href === 'https://giga-school.com/apps/kake-master/'),
+    '紹介記事の URL が混ざっている');
+  /* 名指しで頼まれても出さない（古い data-links が残っている repo があるため） */
+  const asked = load().resolve({ slug: 'kake-master', links: 'article,terms' });
+  assert.deepEqual(plain(asked.items).map((i) => i.id), ['terms']);
 });
 
 test('ホスト名からも slug が取れる（ふつうのアプリは 1 行で済む）', () => {
@@ -63,7 +76,7 @@ test('GAS の中（script.google.com）では、slug を渡さないと何も出
 
 test('GAS でも slug を渡せば出る', () => {
   const got = load().resolve({ slug: 'schoolplan-editor', hostname: 'script.google.com' });
-  assert.equal(got.items.length, 4);
+  assert.equal(got.items.length, 3);
 });
 
 test('よそのドメインに化けた slug は受けつけない', () => {
@@ -160,7 +173,7 @@ test('style 属性で見た目を作らない（CSP の style-src が見てい�
 
 test('置き場所の div に書いた data-links も読む', () => {
   /* ⚠️ 2026-08-29、<script> と window だけを読んでいて、置き場所の <div> に
-     書いた data-links が効かなかった。しかも黙って 4 つとも出るので、
+     書いた data-links が効かなかった。しかも黙って全部出るので、
      絞ったつもりの側は実ブラウザで数えるまで気づけない。 */
   assert.match(code, /\[data-giga-links\]'\)/);
   assert.match(code, /slot\.links/, '置き場所の data-links を読んでいない');
