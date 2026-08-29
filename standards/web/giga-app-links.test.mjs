@@ -180,15 +180,28 @@ test('置き場所の div に書いた data-links も読む', () => {
   assert.match(code, /slot\.slug/, '置き場所の data-slug を読んでいない');
 });
 
-test('置き場所が後から来ても待つ（React などのアプリ）', () => {
+test('置き場所が後から来たら、出しなおして移す（React などのアプリ）', () => {
   /* ⚠️ 2026-08-29、Reversi（React）で起きた。画面は DOMContentLoaded より後に
      描かれるので、そのとき <div data-giga-links> はまだ無い。そこで諦めると
      置き場所が見つからないだけでなく、**そこに書いた data-links も読めない**。
      黙って既定の 3 本が画面のいちばん下に出る。フッターに置いたはずの
      リンクが本文の下に落ち、外したはずの「つかいかた」も出ていた。 */
-  assert.match(code, /MutationObserver/, '後から来る置き場所を待っていない');
-  assert.match(code, /SLOT_WAIT_MS/, '待ち時間の上限が無い');
-  /* 待ちっぱなしにしない。置き場所が無いアプリでは、いちばん下に出すのが約束 */
-  assert.match(code, /setTimeout\(finish, SLOT_WAIT_MS\)/, '待ちに上限が効いていない');
+  assert.match(code, /MutationObserver/, '後から来る置き場所を見張っていない');
+  assert.match(code, /SLOT_WAIT_MS/, '見張りの上限が無い');
+  assert.match(code, /setTimeout\(stop, SLOT_WAIT_MS\)/, '見張りに上限が効いていない');
   assert.match(code, /obs\.disconnect\(\)/, '見張りを外していない');
+});
+
+test('待ってから出さない。まず出して、あとで移す', () => {
+  /* ⚠️ 同じ 2026-08-29、上を「待ってから出す」と書いたせいで、置き場所を
+     持たないアプリ（Typa）でリンクが 1.5 秒あとに出るようになっていた。
+     フッターの無いアプリは艦隊にいくつもあり、そちらのほうが数が多い。
+     実ブラウザで測って気づいた（400ms の時点では 1 本も出ていなかった）。 */
+  const started = code.slice(code.indexOf('function start()'));
+  const paintAt = started.indexOf('paint()');
+  const watchAt = started.indexOf('watchForSlot()');
+  assert.ok(paintAt !== -1 && watchAt !== -1, 'start() の形が変わっている');
+  assert.ok(paintAt < watchAt, '見張りより先に出していない（待たせている）');
+  /* 出しなおすときは、前のものを外すこと（二重に出さない） */
+  assert.match(code, /shown\.parentNode\.removeChild\(shown\)/, '出しなおしで前のものを外していない');
 });

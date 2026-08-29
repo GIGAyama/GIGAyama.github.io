@@ -304,42 +304,56 @@
     document.body.appendChild(host);
   }
 
-  function render() {
+  var shown = null;                               // いま出しているもの
+
+  /** 出す（すでに出ていれば、出しなおして置き場所へ移す）。 */
+  function paint() {
     var got = resolve(settings());
     if (!got.items.length) return;                // slug が分からない。何も出さない
     var host = build(got.items);
-    if (host) place(host);
+    if (!host) return;
+    if (shown && shown.parentNode) shown.parentNode.removeChild(shown);
+    shown = host;
+    place(host);
   }
 
-  /* 置き場所を、少しだけ待つ。
+  /* 置き場所が後から来るアプリへの手当て。
      ⚠️ React や Vue のアプリは、画面を DOMContentLoaded より**後**に描く。
         そのとき <div data-giga-links> はまだ無い。そこで諦めると、
         置き場所が見つからないだけでなく、**そこに書いた data-links も読めない**。
         黙って既定の 3 本が画面のいちばん下に出る。
         2026-08-29 に Reversi（React）で実際に起きた。フッターに置いたはずの
         リンクが本文の下に落ち、外したはずの「つかいかた」も出ていた。
-     待っても来なければ、いちばん下に出す（置き場所が無いアプリの約束は、そのまま）。 */
+
+     ⚠️ だからといって「待ってから出す」にしないこと。同じ日に、そう書いて
+        置き場所を持たないアプリ（Typa）でリンクが 1.5 秒あとに出るようにしてしまった。
+        フッターの無いアプリは艦隊にいくつもあり、そちらのほうが数が多い。
+
+     **先に出す。後から置き場所が来たら、出しなおして移す。** どちらも待たせない。 */
   var SLOT_WAIT_MS = 1500;
-  function whenSlotReady(go) {
-    if (document.querySelector('[data-giga-links]')) return go();
-    if (typeof MutationObserver !== 'function') return go();
+  function watchForSlot() {
+    if (typeof MutationObserver !== 'function') return;
     var done = false;
     var timer = null;
-    var obs = new MutationObserver(function () {
-      if (document.querySelector('[data-giga-links]')) finish();
-    });
-    function finish() {
+    function stop() {
       if (done) return;
       done = true;
       obs.disconnect();
       if (timer) clearTimeout(timer);
-      go();
     }
+    var obs = new MutationObserver(function () {
+      if (!document.querySelector('[data-giga-links]')) return;
+      stop();
+      paint();                                    // 置き場所へ移し、そこの data-links も読み直す
+    });
     obs.observe(document.documentElement, { childList: true, subtree: true });
-    timer = setTimeout(finish, SLOT_WAIT_MS);
+    timer = setTimeout(stop, SLOT_WAIT_MS);
   }
 
-  function start() { whenSlotReady(render); }
+  function start() {
+    paint();                                      // まず出す。待たせない
+    if (!document.querySelector('[data-giga-links]')) watchForSlot();
+  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
