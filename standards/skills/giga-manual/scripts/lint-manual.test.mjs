@@ -225,3 +225,67 @@ test('囲みの中は本文として見ない（手順の例を書けるよう�
   assert.deepEqual(errorsOf(md), []);
   assert.deepEqual(warnsOf(md), []);
 });
+
+/* --- 目次と紙 ------------------------------------------------------- */
+test('見出しの括弧が半角だと警告（目次と検索結果に並ぶので目につく）', () => {
+  const md = OK.replace('## これまでの記録を見る', '## これまでの記録を見る (メニュー操作)');
+  assert.match(warnsOf(md).join(), /全角（）にする/);
+  assert.ok(!warnsOf(OK.replace('## これまでの記録を見る', '## これまでの記録を見る（メニュー操作）'))
+    .some((w) => /全角/.test(w)), '全角なら鳴らさない');
+});
+
+test('目印を全部の見出しに付けると警告（少ないから効く）', () => {
+  const md = OK.replace(/^## /gm, '## 【重要】');
+  assert.match(warnsOf(md).join(), /本当に飛ばすと困るものだけに残す/);
+  assert.ok(!warnsOf(OK.replace('## こまったとき', '## 【重要】こまったとき'))
+    .some((w) => /だけに残す/.test(w)), '1 本なら鳴らさない');
+});
+
+test('目次に並ぶ行が多すぎると警告（狭い画面では本文の前に積まれる）', () => {
+  const many = OK + Array.from({ length: 80 }, (_, i) => `\n### ${i} 番目の機能を使う\n\nここに説明が入ります。\n`).join('');
+  assert.match(warnsOf(many).join(), /目次に並ぶ行が/);
+  assert.ok(!warnsOf(OK).some((w) => /目次に並ぶ行/.test(w)));
+});
+
+test('薄い章が並ぶと警告する。ただし短いマニュアルでは鳴らさない', () => {
+  /* 印刷すると章の頭で改ページするので、薄い章のぶんだけ半分白い紙が出る */
+  const filler = Array.from({ length: 160 }, (_, i) => `あ${i} の説明です。`).join('\n\n');
+  const long = OK.replace('「きろく」を押すと、これまでの結果を見られます。', filler);
+  assert.match(warnsOf(long).join(), /半分白いページ/);
+
+  /* 土台の OK は紙 2〜3 枚ぶんしかない。ここで鳴らすと直しようがない */
+  assert.ok(!warnsOf(OK).some((w) => /半分白いページ/.test(w)));
+});
+
+/* --- 画像の書き方（組み立てとの食い違い） ---------------------------- */
+test('画像の名前に空白があると落とす（組み立ては空白の手前までしか読まない）', () => {
+  const md = OK.replace('![ホーム画面](images/01-home.png)', '![ホーム画面](images/01 home.png)');
+  assert.match(errorsOf(md).join(), /空白を入れない/);
+});
+
+test('alt に ] が入った行は、検査も組み立ても拾えないので落とす', () => {
+  /* ⚠️ どちらの正規表現も alt を [^\]]* で取るので、行がそのまま
+     `![…](images/…)` という字として本文に印字される。黙って通すのがいちばん悪い */
+  const md = OK.replace('![ホーム画面](images/01-home.png)', '![ホーム画面 [1]](images/01-home.png)');
+  assert.match(errorsOf(md).join(), /画像の書き方が壊れている/);
+});
+
+test('字下げした画像は落とす（行頭からでないと拾われない）', () => {
+  const md = OK.replace('![ホーム画面](images/01-home.png)', '  ![ホーム画面](images/01-home.png)');
+  assert.match(errorsOf(md).join(), /行頭から書く/);
+});
+
+test('画像の直後のラベル行・箱の見出しを拾う（短いので長さでは拾えない）', () => {
+  /* 2026-08-29、週案エディタのマニュアルで「【！】覚えておいていただきたいこと:」が
+     18 字だったため 45 字のしきい値をすり抜け、添え字に降格していた */
+  const label = OK.replace('![ホーム画面](images/01-home.png)\n',
+    '![ホーム画面](images/01-home.png)\n\n練習をはじめる手順:\n');
+  assert.match(warnsOf(label).join(), /本文から外れる/);
+
+  const box = OK.replace('![ホーム画面](images/01-home.png)\n',
+    '![ホーム画面](images/01-home.png)\n\n【！】覚えておいていただきたいこと:\n');
+  assert.match(warnsOf(box).join(), /本文から外れる/);
+
+  /* ふつうの短い説明文では鳴らさない（それは本当に写真の説明） */
+  assert.ok(!warnsOf(OK).some((w) => /本文から外れる/.test(w)));
+});

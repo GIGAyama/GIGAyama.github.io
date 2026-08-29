@@ -49,6 +49,42 @@ export const manualUrl = (slug) => `${SITE}/apps/${slug}/${MANUAL_BASE}/`;
 export const manualTitleOf = (name) => `${name} の使い方`;
 
 /**
+ * 見出しの目印と、それに付けるクラス。強いほうから見る。
+ *
+ * ⚠️ 【！！】を先に見ること。順を入れ替えると、取り返しのつかない操作の節が
+ *    ただの注意として組まれる。
+ */
+const HEADING_MARKERS = [
+  ['【！！】', 'prose__h--danger'],
+  ['【重要】', 'prose__h--important'],
+  ['【！】', 'prose__h--note'],
+];
+
+/**
+ * 見出しの目印（【重要】【！】【！！】）に、ページの上でも重みを与える。
+ *
+ * ⚠️ 目印を目次の文字列としてしか扱わないと、書き手は色が付くつもりで書いて、
+ *    出てきたページでは他の節とまったく同じ見え方になる。基準にした実物の
+ *    マニュアルは 35 見出しのうち 2 本だけを赤字＋黄色の下地にしていて、
+ *    「目次の文字」と「ページの色」の二重で効かせていた。同じことをする。
+ *
+ * 目印の文字そのものは消さない。目次にも検索の索引にも同じ字で出るので、
+ * ページだけ消すと突き合わせられなくなる。
+ *
+ * @param {string} html withAnchors() を通したあとの本文
+ * @returns {string}
+ */
+export function markHeadings(html) {
+  return String(html ?? '').replace(
+    /<(h[23]) id="([^"]+)">([\s\S]*?)<\/\1>/g,
+    (whole, tag, id, text) => {
+      const hit = HEADING_MARKERS.find(([mark]) => text.includes(mark));
+      return hit ? `<${tag} id="${id}" class="${hit[1]}">${text}</${tag}>` : whole;
+    },
+  );
+}
+
+/**
  * 「学校で使うときは」の節。data/apps.json から組む。
  *
  * ⚠️ ここに書いてあることは /filtering/ と同じ出どころ（tools/lib/hosts.mjs）
@@ -120,7 +156,8 @@ export function manualPage({ app, manual, hasArticle = false, ogCard = '', chang
   const ownHost = /^https:\/\/([a-z0-9-]+\.)?giga-school\.com\//.test(first);
   const ogImage = ownHost ? first : (ogCard || OG_FALLBACK);
 
-  const { html: body, headings } = withAnchors(manual.html);
+  const { html: withIds, headings } = withAnchors(manual.html);
+  const body = markHeadings(withIds);
   const toc = tocOf(headings);
   const reading = readingOf(body);
   const steps = headings.filter((h) => h.level === 2).length;

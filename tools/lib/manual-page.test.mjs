@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { renderArticle } from './article-md.mjs';
-import { MANUAL_BASE, manualPage, manualTitleOf, manualUrl, schoolSection } from './manual-page.mjs';
+import { MANUAL_BASE, manualPage, manualTitleOf, manualUrl, markHeadings, schoolSection } from './manual-page.mjs';
 
 const APP = {
   repo: 'SchoolPlan_Editor', name: '週案エディタ', slug: 'schoolplan-editor',
@@ -174,4 +175,33 @@ test('manual.md が変わった日を出す（アプリの push 日ではない�
   const html = page({ updatedAt: '2026-08-20' });
   assert.ok(html.includes('<time datetime="2026-08-20">2026/08/20</time> 現在の画面です'));
   assert.ok(html.includes('（2026/08/20 現在）'));
+});
+
+test('見出しの目印に、ページ上でも重みが付く', () => {
+  /* 目印を目次の文字としてしか扱わないと、書き手は色が付くつもりで書いて、
+     出てきたページでは他の節とまったく同じ見え方になる */
+  const html = markHeadings('<h3 id="s-2-1">【重要】自分用のコピーを作る</h3>');
+  assert.ok(html.includes('<h3 id="s-2-1" class="prose__h--important">'));
+  assert.ok(html.includes('【重要】自分用のコピーを作る'), '目印の字は消さない（目次と索引に同じ字で出る）');
+});
+
+test('取り返しのつかない操作の目印は、注意より強く出る', () => {
+  /* 【！！】は【！】を含まないが、順を取り違えると弱いほうに落ちる形なので固定する */
+  assert.ok(markHeadings('<h2 id="s-9">【！！】データベースを消す</h2>')
+    .includes('class="prose__h--danger"'));
+  assert.ok(markHeadings('<h3 id="s-9-1">【！】書き込む前に確かめる</h3>')
+    .includes('class="prose__h--note"'));
+});
+
+test('目印の無い見出しは、そのまま通す', () => {
+  const before = '<h2 id="s-1">はじめに</h2><h3 id="s-1-1">このマニュアルについて</h3>';
+  assert.equal(markHeadings(before), before);
+});
+
+test('目印のクラスは style.css に実体がある', async () => {
+  /* クラスだけ振って装飾が無いと、書き手には何も起きていないのと同じになる */
+  const css = await readFile(new URL('../../assets/style.css', import.meta.url), 'utf8');
+  for (const cls of ['prose__h--important', 'prose__h--danger', 'prose__h--note']) {
+    assert.ok(css.includes(`.${cls}`), `${cls} の装飾が style.css に無い`);
+  }
 });

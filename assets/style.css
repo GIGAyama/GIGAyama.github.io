@@ -2823,6 +2823,61 @@
   }
   .manual__tools .btn { flex: 1 1 auto; justify-content: center; }
 
+  /* 目次が、本文の入口をふさがないようにする。
+
+     ⚠️ 1100px を下回ると柱は 1 列に戻り、目次は**本文の前に縦に積まれる**
+        （.article--read:has(> .article__rail) の注記を参照）。教室のタブレットは
+        1024px なので、ほぼ必ずこちら側に落ちる。
+        機能の多いアプリのマニュアルは章と節で 60 行を超えることがあり、そのまま
+        積むと、読み手は本文の 1 文字目に着くまでに 60 行送ることになる。
+
+     畳んでしまうと今度は目次が使われなくなるので、開いたまま高さだけ止める。 */
+  @media (max-width: 1099.98px) {
+    .manual .article__rail .toc__list {
+      max-block-size: 60vh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+  }
+
+  /* ---------- 見出しの目印 ----------
+     書き手が見出しの頭に置いた 【重要】【！】【！！】 に、ページの上でも
+     重みを与える。クラスは tools/lib/manual-page.mjs の markHeadings() が振る。
+
+     ⚠️ 目印を目次の文字としてしか扱わないと、【重要】の節と他の節が
+        ページ上でまったく同じ見え方になる。基準にした実物のマニュアルは
+        35 見出しのうち 2 本だけを色付きにして、「目次の文字」と
+        「ページの色」の二重で効かせていた。
+
+     ⚠️ 色だけに頼らないこと（WCAG）。左の縦線と、見出しの中に残っている
+        【重要】という字の 2 つが、色を見ない読み手にも届く。 */
+  .manual .prose--article :is(h2, h3)[class*="prose__h--"] {
+    padding: var(--s-2) var(--s-3);
+    border-inline-start: 4px solid var(--mark-line);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    background: var(--mark-bg);
+    color: var(--mark-ink);
+  }
+  .manual .prose__h--important { --mark-ink: #8a4b00; --mark-line: #b06a10; --mark-bg: #fdf3e3; }
+  .manual .prose__h--danger    { --mark-ink: #a11020; --mark-line: #c4303f; --mark-bg: #fcecee; }
+  /* 【！】は数が多い。地色は置かず、縦線だけにする */
+  .manual .prose__h--note      { --mark-ink: inherit; --mark-line: var(--line-strong); --mark-bg: transparent; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .manual .prose__h--important {
+      --mark-ink: #f0b96b; --mark-line: #b3812f; --mark-bg: #241c10;
+    }
+    :root:not([data-theme="light"]) .manual .prose__h--danger {
+      --mark-ink: #f2939a; --mark-line: #a8444e; --mark-bg: #261417;
+    }
+  }
+  :root[data-theme="dark"] .manual .prose__h--important {
+    --mark-ink: #f0b96b; --mark-line: #b3812f; --mark-bg: #241c10;
+  }
+  :root[data-theme="dark"] .manual .prose__h--danger {
+    --mark-ink: #f2939a; --mark-line: #a8444e; --mark-bg: #261417;
+  }
+
   /* 学校で使うときは。data/apps.json から機械が組む節なので、
      書き手が書いた本文とは地色で区別する */
   .manual__school {

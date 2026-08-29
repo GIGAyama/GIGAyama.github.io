@@ -48,6 +48,9 @@ const MACHINE_SECTIONS = ['学校で使うときは', '学校で使うときの�
 /** キャプションと見分けられる長さ。tools/lib/article-md.mjs の CAPTION_MAX_CHARS と同じ */
 const CAPTION_MAX = 120;
 
+/** ここまでなら、本当に写真の説明。これを超えるものは本文の可能性が高い。 */
+const CAPTION_SHORT = 45;
+
 const IMAGE_LINE = /^!\[([^\]]*)\]\(([^)]+)\)\s*$/;
 const HEADING = /^(#{1,6})\s+(.*?)\s*$/;
 const ORDERED = /^\s*\d+\.\s/;
@@ -123,6 +126,26 @@ export function lintManual(md) {
     }
   }
 
+  /* 括弧は全角にそろえる。見出しの括弧は目次にも検索結果にも並ぶので、
+     本文の中の揺れより目につく。基準にした実物のマニュアルは、目次の
+     1 ページの中で「（週案の表示）」と「(メニュー操作)」が混ざっていた。 */
+  for (const h of heads) {
+    if (h.level >= 2 && /[()]/.test(h.text)) {
+      say('warn', h.line,
+        `見出しの括弧を全角（）にする（「${h.text}」）。`
+        + '見出しは目次と検索結果に並ぶので、半角と混ざると目につく');
+    }
+  }
+
+  /* 目印を乱発しない。全部に付けると、どれも目に入らなくなる。
+     基準にした実物のマニュアルは 35 見出しのうち【重要】2 本・【！！】1 本だけ。 */
+  const marked = heads.filter((h) => h.level >= 2 && /【(?:重要|！！)】/.test(h.text));
+  if (marked.length > Math.max(3, Math.round(heads.length * 0.15))) {
+    say('warn', marked[0].line,
+      `【重要】【！！】の付いた見出しが ${marked.length} 本ある（見出しは全 ${heads.length} 本）。`
+      + 'ページ側で色が付くのは、少ないから効く。本当に飛ばすと困るものだけに残す');
+  }
+
   /* 見出しに自分で番号を振らない。ページ側の目次が振るので二重になる */
   for (const h of heads) {
     /* 「1. 」「1、」と「3.1 」「3.1. 」を拾う。
@@ -163,6 +186,46 @@ export function lintManual(md) {
     }
   }
 
+  /* 目次の総量。article-toc.mjs は章と節を全部並べ、開いた状態で出す。
+     基準にした実物のマニュアルは 10 章 25 節 = 35 行で、ちょうど 1 ページだった。
+
+     ⚠️ 狭い画面で目次が本文の前に積まれる件は、ページ側で高さを止めて解いてある
+        （assets/style.css の .manual .article__rail .toc__list）。
+        だからここで見ているのは**目で追えるか**だけになる。
+
+     ⚠️ しきい値を 35 に寄せないこと。基準にした実物のマニュアルが 35 行なのは、
+        相手が単純なアプリだったからで、機能を 16 個持つアプリなら 60 行を超える。
+        「細かく節に割ってほしい」というのが、そもそもこの書式の出発点だった。
+        その倍（70）を、明らかに割りすぎている線として置く。 */
+  const tocLines = heads.filter((h) => h.level === 2 || h.level === 3).length;
+  if (tocLines > 70) {
+    say('warn', 1,
+      `目次に並ぶ行が ${tocLines} 行ある（章 ${h2.length}・節 ${tocLines - h2.length}）。`
+      + '目で追いきれる量を超えている。同じ話の節を 1 つにまとめられないか見直す');
+  }
+
+  /* 章の重さ。印刷すると章の頭で必ず改ページする
+     （assets/style.css の .manual .prose--article h2 { break-before: page }）。
+     薄い章が並ぶと、刷ったときに半分白いページがその数だけ出る。
+     ⚠️ 1 つだけなら正しい形なので鳴らさない（実物のマニュアルの 8 章は節が 1 つ）。 */
+  const h2Lines = new Map();
+  let curH2 = null;
+  lines.forEach((l, i) => {
+    const m = fenced.has(i) ? null : HEADING.exec(l);
+    if (m && m[1].length === 2) { curH2 = { text: m[2], line: i + 1 }; h2Lines.set(curH2, 0); return; }
+    if (curH2 && l.trim() !== '') h2Lines.set(curH2, h2Lines.get(curH2) + 1);
+  });
+  /* ⚠️ 短いマニュアルでは鳴らさない。全体が紙 2〜3 枚なら、章が薄いのは
+     当たり前で、直しようもない。冊子として刷る大きさになってから言う。 */
+  const bodyLines = [...h2Lines.values()].reduce((a, b) => a + b, 0);
+  const thin = bodyLines < 150 ? [] : [...h2Lines].filter(([, n]) => n < 15);
+  if (thin.length >= 3) {
+    say('warn', thin[0][0].line,
+      `中身が 15 行に満たない章が ${thin.length} つある（「${thin.map(([c]) => c.text).join('」「')}」）。`
+      + '印刷すると章の頭で改ページするので、そのぶん半分白いページが出る。'
+      + '隣の章に畳むか、足りていないもの（前提・つまずき・押した結果）を書く');
+  }
+
   /* --- 画像 ----------------------------------------------------- */
   let images = 0;
   lines.forEach((l, i) => {
@@ -173,11 +236,28 @@ export function lintManual(md) {
       say('error', at, '画像は 1 行に 1 枚、行頭から書く。文の中に混ぜたものは拾われない');
       return;
     }
+    /* ⚠️ alt に ] を書くと、この検査も組み立ても揃って**黙って見落とす**。
+       どちらの正規表現も alt を [^\]]* で取るので、行そのものが画像として
+       拾われず、`![…](images/…)` という字がそのまま本文に印字される。
+       検査が何も言わないのがいちばん悪いので、ここで拾う。 */
+    if (!IMAGE_LINE.test(l) && /^\s*!\[/.test(l)) {
+      say('error', at, '画像の書き方が壊れている。alt に ] を入れない、字下げしない、'
+        + '行頭から `![説明](images/01-home.png)` の形で書く');
+      return;
+    }
     const m = IMAGE_LINE.exec(l);
     if (!m) return;
     images++;
     const [, alt, src] = m;
     if (!alt.trim()) say('error', at, 'alt を空にしない。読み上げと、ページの説明に使う');
+    /* ⚠️ 空白の入ったファイル名は、この検査だけが通してしまう形だった。
+       組み立て（tools/lib/article-md.mjs の IMAGE_RE）は宛先を [^)\s]+ で取るので、
+       `![あ](images/03 input.png)` は `images/03` を指す。残りは捨てられる。
+       検査は ([^)]+) で取っていたため通り、公開ページで画像だけが割れていた。 */
+    if (/\s/.test(src)) {
+      say('error', at, `画像の名前に空白を入れない（いまは ${src}）。`
+        + `組み立ては空白の手前（${src.split(/\s/)[0]}）までしか読まないので、画像が割れる`);
+    }
     if (/^[a-z][a-z0-9+.-]*:/i.test(src) || src.startsWith('/')) {
       say('error', at, `画像は images/ の相対指定にする（いまは ${src}）。外のアドレスは渡せない`);
     } else if (!src.startsWith('images/')) {
@@ -230,6 +310,32 @@ export function lintManual(md) {
       say('warn', nextAt + 1, `画像の直後の 1 段落が ${next.length} 字。`
         + `${CAPTION_MAX} 字までならキャプションとして画像に添うが、超えると`
         + 'ふつうの本文になる（写真から離れて出る）');
+    }
+
+    /* ⚠️ 裏返しの事故。画像の直後の 1 行 120 字までの段落は、組み立てが
+       説明文とみなして**本文から外す**（article-md.mjs の looksLikeCaption）。
+       そこに節の中身を書くと、一段落まるごと写真の下の添え字に降格する。
+
+       2026-08-29 に週案エディタのマニュアルで 6 か所起きた。
+       「15 時を過ぎてからアプリを開くと…」というその節の中身が添え字になり、
+       見出しの直後がいきなり写真になっていた。公開ページを見るまで気づけない。
+
+       45 字を境にしているのは、それより短いものは実際に写真の説明だから。 */
+    /* ⚠️ 短くても本文のものがある。手順を開くラベル行（「印刷の手順:」）と、
+       箱の見出し（「【！】覚えておいていただきたいこと:」）がそれで、
+       どちらも 20 字ほどしかないので上の 45 字では拾えない。
+       2026-08-29、週案エディタのマニュアルで実際に添え字へ降格していた。 */
+    const LABEL = /[:：]\s*$|^【/;
+    if (plain && alone && LABEL.test(next)) {
+      say('warn', nextAt + 1,
+        `画像の直後の「${next}」は、写真の説明とみなされて本文から外れる。`
+        + 'ラベル行や箱の見出しなら、画像より前に移すか、あいだに写真を見るための一言を置く');
+    }
+    if (plain && alone && !LABEL.test(next)
+      && next.length > CAPTION_SHORT && next.length <= CAPTION_MAX) {
+      say('warn', nextAt + 1, `画像の直後の 1 段落が ${next.length} 字。`
+        + 'ここに書いたものは写真の説明とみなされ、本文から外れて添え字になる。'
+        + '節の中身なら、画像より前に移すこと');
     }
   });
   if (images === 0) {
