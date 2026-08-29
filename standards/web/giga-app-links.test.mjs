@@ -216,8 +216,31 @@ test('置き場所が後から来たら、出しなおして移す（React な�
      リンクが本文の下に落ち、外したはずの「つかいかた」も出ていた。 */
   assert.match(code, /MutationObserver/, '後から来る置き場所を見張っていない');
   assert.match(code, /SLOT_WAIT_MS/, '見張りの上限が無い');
-  assert.match(code, /setTimeout\(stop, SLOT_WAIT_MS\)/, '見張りに上限が効いていない');
+  assert.match(code, /setTimeout\(/, '見張りに上限が効いていない');
   assert.match(code, /obs\.disconnect\(\)/, '見張りを外していない');
+});
+
+test('置き場所ごと消えたら、出しなおす（画面で出し入れされるフッター）', () => {
+  /* ⚠️ 2026-08-29 に気づいた。React のフッターは画面によって消えることがある。
+     宿題ポストは {view !== 'admin' && <Footer/>}、教材プリントメーカーは
+     {!currentTextbookId && <Footer/>}。置き場所ごと消えると、その中に出した
+     リンクも一緒に消える。置き場所へ移した時点で見張りを畳んでいると、
+     画面を 1 回切り替えただけでリンクが二度と戻らない。 */
+  assert.match(code, /shownSlot/, 'どこへ出したかを覚えていない');
+  assert.match(code, /if \(!shownSlot\) obs\.disconnect\(\)/,
+    '置き場所の中に居るのに見張りを畳んでいる（消えても戻せなくなる）');
+  /* ⚠️ ふだんは何も調べないこと。この見張りは画面が描き替わるたびに呼ばれる。 */
+  assert.match(code, /if \(inPage\(shown\) && inPage\(shownSlot\)\) return;/,
+    '見張りが毎回しらべている（安い確認で先に返していない）');
+});
+
+test('まだ画面にあるかを isConnected だけで決めない', () => {
+  /* ⚠️ isConnected を持たない古い browser では必ず undefined になり、
+     「消えた」と読めてしまう。見張りはそれを見て出しなおすので、
+     画面が描き替わるたびに出しなおし続けることになる。 */
+  assert.match(code, /function inPage\(node\)/, 'まとめて見る関数が無い');
+  assert.match(code, /typeof node\.isConnected === 'boolean'/, '持っているかを確かめていない');
+  assert.match(code, /document\.contains\(node\)/, '持っていないときの逃げ道が無い');
 });
 
 test('待ってから出さない。まず出して、あとで移す', () => {
