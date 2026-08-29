@@ -39,10 +39,11 @@
  * 確かめて決めておけば、直したその翌朝から自動で戻る。
  */
 
-import { mkdir, readFile, readdir, writeFile, rm, access } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile, rm, rmdir, access } from 'node:fs/promises';
 import { renderArticle } from './lib/article-md.mjs';
 import { articlePage, headlineOf, linkCards, relatedOf, summaryOf } from './lib/article-page.mjs';
 import { pickImageUrl } from './lib/article-images.mjs';
+import { ghApi, ghFindDoc, imageResolvers, reachable, servesFromDocs } from './lib/gh.mjs';
 
 const OWNER = 'GIGAyama';
 const ROOT = new URL('..', import.meta.url);
@@ -56,66 +57,20 @@ const APPS_DIR = new URL('apps/', ROOT);
 /** 記事のファイル名。XXX_automatic の ARTICLE_NAME と同じ見立て。 */
 const ARTICLE_NAME = /note[-_]?article|article[-_]?note/i;
 
-const headers = () => {
-  const token = process.env.GITHUB_TOKEN;
-  return {
-    accept: 'application/vnd.github+json',
-    'user-agent': 'giga-school-build-articles',
-    ...(token ? { authorization: `Bearer ${token}` } : {}),
-  };
-};
+const AGENT = 'giga-school-build-articles';
 
-/* 手元のトークンが他のリポジトリを読めないことがある。
-   断られたら、認証なしでもう一度だけ試す（どれも公開リポジトリなので読める）。
-   sync-updates.mjs と同じ作り。 */
-async function api(path) {
-  const url = `https://api.github.com/repos/${OWNER}/${path}`;
-  const h = headers();
-  let res = await fetch(url, { headers: h });
-  if ((res.status === 401 || res.status === 403 || res.status === 404) && h.authorization) {
-    const { authorization, ...anon } = h;
-    res = await fetch(url, { headers: anon });
-  }
-  return res;
-}
-
-/** そのリポジトリの Pages が docs/ を配っているか。画像の URL の形が変わる。 */
-async function servesFromDocs(repo) {
-  const res = await api(`${repo}/contents/docs/CNAME`);
-  return res.status === 200;
-}
-
-/** その URL が実際に返ってくるか。画像 1 枚で配信の形を見分ける。 */
-async function reachable(url) {
-  try {
-    const res = await fetch(url, { method: 'HEAD', redirect: 'follow' });
-    return res.ok;
-  } catch (e) {
-    return false;   // つながらないときは「届かない」側に倒す
-  }
-}
+/* GitHub の取り口（トークンで断られたら匿名で試し直す、画像の URL の 3 通り）は
+   tools/lib/gh.mjs に出してある。まったく同じものが build-devlog.mjs と
+   build-manuals.mjs にも要る。3 つに分けると、片方だけ直したときに
+   「記事は取れるのにマニュアルだけ取れない朝」が生まれ、しかも組み立ては
+   「置いていないアプリ」と区別がつかないので黙って飛ばす。 */
+const api = (path) => ghApi(path, AGENT);
 
 /**
  * 記事 1 本を取ってくる。無ければ null。
  * @returns {{path: string, markdown: string} | null}
  */
-async function fetchArticle(repo) {
-  const list = await api(`${repo}/contents/docs/note`);
-  if (!list.ok) return null;                       // note を置いていないアプリ
-  const entries = await list.json();
-  if (!Array.isArray(entries)) return null;
-
-  const hit = entries.find((e) =>
-    e.type === 'file' && e.name.endsWith('.md') && ARTICLE_NAME.test(e.name));
-  if (!hit) return null;
-
-  const file = await api(`${repo}/contents/${hit.path}`);
-  if (!file.ok) return null;
-  const json = await file.json();
-  if (json.encoding !== 'base64') return null;
-
-  return { path: hit.path, markdown: Buffer.from(json.content, 'base64').toString('utf8') };
-}
+const fetchArticle = (repo) => ghFindDoc(repo, 'docs/note', (name) => ARTICLE_NAME.test(name), AGENT);
 
 /**
  * トップページのカードから、slug ごとの「つかいかた」を読み取る。
@@ -162,6 +117,8 @@ const main = async () => {
   const mirrorNeeds = {};   // 控えが要る記事と、その元の URL（build-article-images.py が読む）
   let missing = 0;
   let failed = 0;
+  /* 取れなかったアプリ。後始末で「記事が無くなった」と取り違えないために持つ */
+  const failedSlugs = new Set();
 
   for (const app of apps) {
     let got;
@@ -170,35 +127,25 @@ const main = async () => {
     } catch (e) {
       console.warn(`  取得できず ${app.repo}: ${e.message}`);
       failed++;
+      failedSlugs.add(app.slug);
       continue;
     }
     if (!got) { missing++; continue; }
 
     /* 記事は docs/note/ にあり、画像は docs/note/images/ を相対で指している。
        配信元が docs/ なら note/ から、リポジトリ全体なら docs/note/ から見える。 */
-    const docsIsRoot = await servesFromDocs(app.repo);
+    const docsIsRoot = await servesFromDocs(app.repo, AGENT);
     const dir = got.path.replace(/\/[^/]*$/, '');                 // docs/note
-    const resolve = (target) => `${dir}/${String(target).replace(/^\.\//, '')}`;
 
-    const under = (prefix) => (target) =>
-      /^[a-z][a-z0-9+.-]*:/i.test(target)          // すでに絶対 URL のものは触らない
-        ? target
-        : prefix(resolve(target));
-
-    /* まずは自分のドメインで組む。読み手にとってはこちらが本筋 */
-    const onSubdomain = under((path) =>
-      `https://${app.slug}.giga-school.com/${docsIsRoot ? path.replace(/^docs\//, '') : path}`);
-    /* サブドメインから読めないときの置き場。tools/build-article-images.py が
-       WebP にして自分のドメインへ移してある。ここにあれば、学校が GitHub を
-       塞いでいても画面写真が出る。 */
-    const onMirror = under((path) => {
-      const name = path.replace(/^.*\//, '').replace(/\.[a-z0-9]+$/i, '.webp');
-      return `/assets/article/${app.slug}/${name}`;
+    /* 3 通りの読み先の組み立ては tools/lib/gh.mjs に出してある。
+       マニュアル（tools/build-manuals.mjs）でもそっくり同じものが要るため。
+         onSubdomain  自分のドメイン。読み手にとってはこれが本筋
+         onMirror     tools/build-article-images.py が WebP にして移した控え。
+                      ここにあれば、学校が GitHub を塞いでいても画面写真が出る
+         onRaw        逃げ道。控えを作っていないアプリでも記事が壊れないように残す */
+    const { onSubdomain, onMirror, onRaw } = imageResolvers({
+      repo: app.repo, slug: app.slug, dir, docsIsRoot, mirrorDir: '/assets/article',
     });
-    /* それも無いときの逃げ道。HEAD は既定のブランチを指す。
-       ⚠️ 残しておく。build-article-images.py を走らせていないアプリでも
-          記事が壊れないようにするため。 */
-    const onRaw = under((path) => `https://raw.githubusercontent.com/${OWNER}/${app.repo}/HEAD/${path}`);
 
     let article = renderArticle(got.markdown, { imageUrl: onSubdomain });
     let imageHost = 'subdomain';
@@ -225,6 +172,7 @@ const main = async () => {
     if (!article.title || article.charCount < 1200) {
       console.warn(`  中身が足りない ${app.repo}（題:${article.title ? 'あり' : 'なし'} / ${article.charCount}字）`);
       failed++;
+      failedSlugs.add(app.slug);
       continue;
     }
 
@@ -305,11 +253,42 @@ const main = async () => {
     /* 前回あって今回消えた紹介ページを残さない。
        記事を取り下げたのにページだけ生き続けると、サイトマップと食い違う。 */
     const keep = new Set(built.map((b) => b.slug));
-    /* apps ではなく data.items 全部を見る。hidden を立てた直後は apps から
-       外れているので、apps だけを見ると、前に作ったページが消し残る。 */
-    for (const item of data.items) {
-      if (!item.slug || keep.has(item.slug)) continue;
-      await rm(new URL(`${item.slug}/`, APPS_DIR), { recursive: true, force: true });
+
+    /* ⚠️ 1 本も組めなかったときは、1 枚も消さない。
+
+       ここは以前、組めた本数に関わらず後始末をしていた。GitHub が見えない朝
+       （API の不調、トークンの失効）には全部が「記事なし」になるので、
+       **32 本の紹介ページを削除して、その削除をそのままコミットしていた。**
+       実際、手元で GitHub API に届かない状態で 1 回走らせただけで、
+       32 本が消えた（2026-08-29）。朝の流れは push まで自動なので、
+       本番でこれが起きると、誰も見ていない時間に全部消える。
+
+       「取り下げた 1 本」と「全部が取れなかった朝」は、結果だけ見ると
+       同じ形をしている。区別できるのは本数しかない。 */
+    if (!built.length) {
+      console.warn('  ⚠️ 記事が 1 本も取れなかった。後始末をせず、いまあるページを残す');
+      console.warn('     （GitHub が見えていない可能性が高い。全部消してしまわないため）');
+      process.exitCode = 1;
+    } else {
+      /* apps ではなく data.items 全部を見る。hidden を立てた直後は apps から
+         外れているので、apps だけを見ると、前に作ったページが消し残る。 */
+      for (const item of data.items) {
+        if (!item.slug || keep.has(item.slug)) continue;
+        /* ⚠️ 取れなかったアプリのページは消さない。取れなかったことは
+           「記事が無い」ことの証拠にならない。 */
+        if (failedSlugs.has(item.slug)) {
+          console.warn(`  取れなかったので、いまあるページを残す: ${item.slug}`);
+          continue;
+        }
+        /* ⚠️ ディレクトリごと消さない。apps/<slug>/manual/ は
+           tools/build-manuals.mjs の持ち物で、記事の有無とは関係が無い。
+           記事を取り下げただけでマニュアルまで消えると、そのアプリは
+           トップのカードからしか辿れなくなる。 */
+        await rm(new URL(`${item.slug}/index.html`, APPS_DIR), { force: true });
+        await rmdir(new URL(`${item.slug}/`, APPS_DIR)).catch(() => {
+          /* manual/ が残っていれば空でないので消えない。それでよい */
+        });
+      }
     }
     await writeFile(INDEX, JSON.stringify({
       _comment: 'tools/build-articles.mjs が書き出す。手で書き足さない。',
@@ -338,4 +317,8 @@ const main = async () => {
   if (failed) process.exitCode = 1;
 };
 
-await main();
+/* ⚠️ 取りこんだだけで走らせない。ここは書き出しも削除もする道具なので、
+   別のファイルから import した拍子に本番の生成物を書き替えてしまう。 */
+if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+  await main();
+}
