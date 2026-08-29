@@ -124,11 +124,15 @@ jobs:
         run: python3 tools/build-article-images.py --check
       - name: GIGA標準検査のテスト
         run: node --test standards/skills/giga-reviewer/scripts/*.test.mjs
+      # マニュアルの書式。見出しの並びから目次と検索の索引が作られるので、
+      # 外しても手元では何も起きず、気づくのは翌朝ページが崩れてからになる
+      - name: 使い方マニュアルの書式の検査のテスト
+        run: node --test standards/skills/giga-manual/scripts/*.test.mjs
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
         run: |
-          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/fonts/*.mjs standards/vendor/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/skills/giga-reviewer/scripts/*.mjs; do
+          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/fonts/*.mjs standards/vendor/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/web/giga-app-links.js standards/skills/giga-reviewer/scripts/*.mjs standards/skills/giga-manual/scripts/*.mjs; do
             node --check "$f"
           done
           # .gs は Node が拡張子を知らないので、写してから見る
