@@ -28,7 +28,7 @@
 | `docs/gas-redeploy.md` | GAS アプリの再デプロイ手順・対象一覧 | 新規 |
 | `web/giga-sw-updater.js` | 児童向けルビ・大ボタン付き PWA 更新通知トースト | 新規 |
 | `web/giga-sw-updater.test.mjs` | 更新通知トーストの単体テスト | 新規 |
-| `web/giga-app-links.js` | 画面から「つかいかた・紹介記事・利用規約・プライバシー」へつなぐ 4 本のリンク | 新規 |
+| `web/giga-app-links.js` | 画面から「つかいかた・利用規約・プライバシー」へつなぐ 3 本のリンク | 新規 |
 | `web/giga-app-links.test.mjs` | 行き先の組み立ての検査（node:vm で実際に動かす） | 新規 |
 | `skills/devlog-article/` | 開発記録（`/devlog/`）を書くスキル | 新規 |
 | `skills/note-article/` | note の紹介記事を書くスキル | 書き手の手元の版（下記）|
