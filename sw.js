@@ -33,6 +33,7 @@ const SHELL_FILES = [
   '/assets/style.css',
   '/assets/app.js',
   '/assets/article.js',
+  '/assets/copy.js',
   '/assets/search.js',
   '/assets/favicon.svg',
   '/assets/logo.svg',

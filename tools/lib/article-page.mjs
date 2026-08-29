@@ -277,6 +277,7 @@ ${toc}${shareOf({ url, title: headline })}    </aside>
 
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/article.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
 ${THEME_SCRIPT}
 
   <script type="application/ld+json">

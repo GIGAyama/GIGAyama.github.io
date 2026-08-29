@@ -376,5 +376,56 @@ console.log(`  info アカウント ${shown.length - noAccount.length} 本 / `
   + `記録の置き場所 ${shown.length - noStorage.length} 本（全 ${shown.length} 本）`);
 if (noAccount.length) console.log(`       アカウント未記入 → ${noAccount.map((a) => a.slug).join(', ')}`);
 
+/* -----------------------------------------------------------------
+ * ボタンを拾う側が、そのページに読み込まれているか。
+ *
+ * 2026-08-29 まで、紹介ページ 32 本すべてで「リンクをコピー」が死んでいた。
+ * [data-copy] を拾うのは assets/app.js だけで、紹介ページが読むのは
+ * assets/article.js だったため。tools/lib/article-share.mjs のコメントには
+ * 「既にある [data-copy]（assets/app.js）をそのまま使う」と書いてあり、
+ * **書いた本人も、読む人も、画面を見ても気づけなかった**。
+ *
+ * ボタンは出ているので目では分からない。押して初めて分かる。
+ * だから機械で見る。処理は assets/copy.js に出してあるので、
+ * [data-copy] か [data-print] を出すページが copy.js を読んでいることを確かめる。
+ * --------------------------------------------------------------- */
+console.log('\n■ 押せるボタンの処理が読み込まれている');
+{
+  const handled = new URL('../assets/copy.js', import.meta.url);
+  ok(existsSync(handled), 'assets/copy.js がある');
+  const src = existsSync(handled) ? readFileSync(handled, 'utf8') : '';
+  ok(/\[data-copy\]/.test(src), 'assets/copy.js が [data-copy] を拾っている');
+  ok(/\[data-print\]/.test(src), 'assets/copy.js が [data-print] を拾っている');
+
+  /* 出来上がったページを歩いて、ボタンのあるものだけを見る。
+     ページを増やしても、こちらに書き足す必要がない形にしてある。 */
+  const found = [];
+  const walk = (dir) => {
+    for (const ent of readdirSync(dir, { withFileTypes: true })) {
+      if (ent.name === 'node_modules' || ent.name.startsWith('.')) continue;
+      const next = new URL(`${ent.name}${ent.isDirectory() ? '/' : ''}`, dir);
+      if (ent.isDirectory()) walk(next);
+      else if (ent.name.endsWith('.html')) found.push(next);
+    }
+  };
+  walk(new URL('../', import.meta.url));
+
+  const missing = found.filter((u) => {
+    const html = readFileSync(u, 'utf8');
+    if (!/data-(copy|print)=/.test(html)) return false;
+    return !/assets\/copy\.js/.test(html);
+  }).map((u) => u.pathname.replace(/^.*\/GIGAyama\.github\.io\//, ''));
+  ok(missing.length === 0,
+     `[data-copy] / [data-print] のあるページが、すべて copy.js を読んでいる`,
+     missing.join(', '));
+
+  /* 組み立てる側にも同じ穴が開かないように、書き出し口を直接見る。
+     ページを 1 枚も書き出していない状態でも、ここは効く。 */
+  for (const lib of ['article-page.mjs', 'press-page.mjs', 'devlog-page.mjs']) {
+    const src2 = readFileSync(new URL(`./lib/${lib}`, import.meta.url), 'utf8');
+    ok(src2.includes('/assets/copy.js'), `tools/lib/${lib} が copy.js を読ませている`);
+  }
+}
+
 console.log(failed === 0 ? '\n✅ すべて通りました' : `\n❌ ${failed} 件 通りませんでした`);
 process.exit(failed === 0 ? 0 : 1);
