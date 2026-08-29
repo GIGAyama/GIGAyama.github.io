@@ -133,3 +133,36 @@ test('アプリ固有の文字を持たない（42 本に同じものが配れ�
   const slugs = ['schoolplan-editor', 'qalc', 'kake-master', 'typa', 'werewolf'];
   for (const s of slugs) assert.ok(!code.includes(s), `${s} が書かれていないこと`);
 });
+
+/* --- CSP の下でも見た目が落ちないこと -------------------------------- */
+
+test('見た目を CSP に弾かれない形で入れている（style-src 自己のみの画面）', () => {
+  /* ⚠️ 2026-08-29、Shadow DOM の <style> が CSP の style-src 'self' に
+     弾かれ、リンクは出たまま 48px が 28px になっていた。例外は飛ばないので、
+     コンソールを読むまで気づけない。艦隊は 'unsafe-inline' を付けている repo と
+     付けていない repo に割れていて、緩いほうで先に試したのが見落としの原因。
+
+     構築可能なスタイルシートは style-src の対象外なので、そちらを先に使う。 */
+  assert.match(code, /adoptedStyleSheets/, '構築可能なスタイルシートを使っていない');
+  assert.match(code, /new CSSStyleSheet\(\)/);
+  assert.match(code, /replaceSync/);
+  /* 使えない browser のために <style> も残すこと（そちらは CSP も古いか無い） */
+  assert.match(code, /createElement\('style'\)/, '古い browser 向けの降り先が無い');
+});
+
+test('style 属性で見た目を作らない（CSP の style-src が見ている）', () => {
+  /* host.style.margin = … と書くと、厳しい CSP の画面で黙って効かない。
+     余白も Shadow DOM の中の :host(...) で付ける。 */
+  assert.ok(!/\.style\.(margin|padding|display|color|background)\s*=/.test(code),
+    'style 属性で見た目を作っている箇所がある');
+  assert.match(code, /:host\(\.giga-app-links--end\)/, '末尾へ出したときの余白が CSS 側に無い');
+});
+
+test('置き場所の div に書いた data-links も読む', () => {
+  /* ⚠️ 2026-08-29、<script> と window だけを読んでいて、置き場所の <div> に
+     書いた data-links が効かなかった。しかも黙って 4 つとも出るので、
+     絞ったつもりの側は実ブラウザで数えるまで気づけない。 */
+  assert.match(code, /\[data-giga-links\]'\)/);
+  assert.match(code, /slot\.links/, '置き場所の data-links を読んでいない');
+  assert.match(code, /slot\.slug/, '置き場所の data-slug を読んでいない');
+});

@@ -370,6 +370,34 @@
      "contains": "既定ブランチから枝を出す"
     }
    ]
+  },
+  {
+   "date": "2026-08-29",
+   "symptom": "共通部品が Shadow DOM に入れる <style> を、CSP の style-src 'self' が弾いていた。例外は飛ばず、リンクは出たまま見た目だけが落ちて、48px のタップ領域が 28px になっていた。艦隊は 'unsafe-inline' を付けている repo と付けていない repo に割れており、緩いほうで先に試したので気づけなかった",
+   "guardedBy": [
+    {
+     "file": "standards/web/giga-app-links.js",
+     "contains": "adoptedStyleSheets"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "CSP"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-29",
+   "symptom": "部品の data-links を置き場所の <div> に書いても効かず、しかも黙って 4 つとも出た。絞ったつもりの側にはエラーも警告も出ないので、実ブラウザでリンクを数えるまで気づけない",
+   "guardedBy": [
+    {
+     "file": "standards/web/giga-app-links.js",
+     "contains": "slot.links"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "置き場所"
+    }
+   ]
   }
  ]
 }

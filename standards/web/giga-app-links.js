@@ -193,6 +193,9 @@
 
   var STYLE = [
     ':host{all:initial;display:block;font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic UI",Meiryo,sans-serif}',
+    /* 置き場所が無くて <body> の末尾へ出したとき。style 属性は CSP で
+       効かないことがあるので、余白もここで付ける（place() を参照）。 */
+    ':host(.giga-app-links--end){margin:.5rem 0 max(.5rem, env(safe-area-inset-bottom))}',
     '.row{display:flex;flex-wrap:wrap;gap:.25rem .5rem;align-items:center;justify-content:center;padding:.25rem}',
     /* 48px は艦隊の下限。rem で書くと文字を小さくした端末で下回るので px で置く */
     'a{display:inline-flex;align-items:center;gap:.35em;min-height:48px;min-width:48px;',
@@ -240,9 +243,29 @@
     var root = host.attachShadow ? host.attachShadow({ mode: 'open' }) : null;
     if (!root) return null;                       // Shadow DOM が無い環境では出さない
 
-    var style = document.createElement('style');
-    style.textContent = STYLE;
-    root.appendChild(style);
+    /* ⚠️ <style> を入れるだけにしない。
+       CSP が `style-src 'self'`（'unsafe-inline' なし）の画面では、Shadow DOM の
+       中でも <style> は弾かれる。弾かれても例外は飛ばず、リンクは出たまま
+       **見た目だけが落ちる**。2026-08-29 に Gobblet で実際に起きて、48px の
+       タップ領域が 28px になっていた（艦隊のルール 2 を割る）。しかも画面には
+       出ているので、コンソールを読むまで気づけない。
+
+       構築可能なスタイルシートは style-src の対象外なので、使えるならそちらを使う。
+       使えない古い browser には <style> で降りる（そちらは CSP も古いか無い）。 */
+    var styled = false;
+    try {
+      if (root.adoptedStyleSheets && typeof CSSStyleSheet === 'function') {
+        var sheet = new CSSStyleSheet();
+        sheet.replaceSync(STYLE);
+        root.adoptedStyleSheets = [sheet];
+        styled = true;
+      }
+    } catch (e) { styled = false; }
+    if (!styled) {
+      var style = document.createElement('style');
+      style.textContent = STYLE;
+      root.appendChild(style);
+    }
 
     var nav = document.createElement('nav');
     nav.className = 'row';
@@ -266,8 +289,12 @@
     var slot = document.querySelector('[data-giga-links]');
     if (slot) { slot.appendChild(host); return; }
     /* 置き場所が無いアプリ。画面のいちばん下に置く。
-       position を触らないので、アプリの操作の邪魔にはならない。 */
-    host.style.margin = '0.5rem 0 max(0.5rem, env(safe-area-inset-bottom))';
+       position を触らないので、アプリの操作の邪魔にはならない。
+
+       ⚠️ ここで host.style.margin と書かない。style 属性も CSP の style-src が
+          見ているので、`style-src 'self'` の画面では黙って効かない。
+          余白は上の STYLE の :host(.giga-app-links--end) で付ける。 */
+    host.className = 'giga-app-links--end';
     document.body.appendChild(host);
   }
 
