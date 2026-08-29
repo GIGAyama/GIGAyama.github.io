@@ -156,6 +156,49 @@ for (const repoName of targetRepos) {
   };
 
   try {
+    /* 0. 配る前に、作業ツリーが片づいていることを確かめる。
+     *
+     * ⚠️ この配布は下で `git add .` してから main へ直接 merge・push する。
+     *    つまり**そのとき作業ツリーに居たものは、何であれ既定ブランチへ運ばれる。**
+     *
+     *    2026-08-29、SchoolPlan_Editor でこれが起きた。書きかけの
+     *    docs/manual/manual.md が「chore(standards): Sync with latest standards」
+     *    という名前のコミットに巻きこまれ、レビュー前のまま main に載った。
+     *    さらに、そのとき作業ブランチが出ていたので、そのブランチの未マージの
+     *    コミットまで一緒に main へ入り、開いていた PR が「マージ済み」として
+     *    閉じてしまった。
+     *
+     *    どちらも「配布に関係のないものを運ばない」で防げる。
+     *    片づいていないリポジトリは、黙って飛ばす。42 本の途中で止めない。 */
+    const before = run('git status --porcelain');
+    if (before) {
+      /* ⚠️ 決め打ちで 3 文字落とさないこと。run() が trim するので、
+         1 行目だけ先頭の空白が消えていて 1 文字ずれる。 */
+      const names = before.split('\n').map((l) => l.trim().replace(/^\S{1,2}\s+/, '')).filter(Boolean);
+      console.log(`  [SKIP] 配る前から変更が ${names.length} 件あります`
+        + `（${names.slice(0, 3).join(', ')}${names.length > 3 ? ' …' : ''}）。`);
+      console.log('         この配布は作業ツリーごと既定ブランチへ運ぶので、'
+        + 'コミットするか片づけてから配ってください');
+      results.failed.push({ repo: repoName, error: `配る前から未コミットの変更が ${names.length} 件` });
+      continue;
+    }
+
+    /* ⚠️ 既定ブランチから枝を出す。いま出ているブランチからではない。
+     *    作業ブランチの上で配ると、そのブランチの未マージのコミットが
+     *    配布の枝に乗り、下の merge でまとめて既定ブランチへ入る。 */
+    const startBranch = run('git symbolic-ref --short refs/remotes/origin/HEAD', true)
+      .replace('origin/', '') || 'main';
+    /* ⚠️ --dry-run では枝を動かさない。「差分の確認のみ」と謳っているものが
+       チェックアウトを変えると、確認のつもりで走らせた人の手元が変わる。 */
+    if (!isDryRun) {
+      run(`git fetch origin ${startBranch}`, true);
+      run(`git checkout ${startBranch}`, true);
+      run(`git reset --hard origin/${startBranch}`, true);
+    } else if (run('git branch --show-current') !== startBranch) {
+      console.log(`  [DRY-RUN] いまは ${run('git branch --show-current')} が出ています。`
+        + `本番では ${startBranch} から配ります`);
+    }
+
     // 1. Copy standards files based on standards-map.json
     const mapPath = path.join(repoDir, 'standards-map.json');
     if (fs.existsSync(mapPath)) {
@@ -353,7 +396,8 @@ for (const repoName of targetRepos) {
       }
     }
 
-    // 6. Check for git diff
+    /* 6. Check for git diff。ここに残っている変更は、上の 0 で片づいていることを
+     *    確かめてあるので、すべてこの配布が書いたものである。 */
     const status = run('git status --porcelain');
     if (!status) {
       console.log(`  [OK] Up to date (No diff in ${repoName})`);

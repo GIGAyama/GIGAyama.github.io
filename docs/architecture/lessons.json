@@ -356,6 +356,20 @@
      "contains": "目印のクラスは style.css に実体がある"
     }
    ]
+  },
+  {
+   "date": "2026-08-29",
+   "symptom": "正本の配布が、作業ツリーごと既定ブランチへ運んでいた。git add . して main へ直接 merge・push する作りなので、書きかけのファイルと、出ていた作業ブランチの未マージのコミットが「chore(standards): Sync with latest standards」というコミットに巻きこまれて main に載り、開いていた PR が「マージ済み」として閉じた",
+   "guardedBy": [
+    {
+     "file": "tools/distribute.mjs",
+     "contains": "配る前から変更が"
+    },
+    {
+     "file": "tools/distribute.mjs",
+     "contains": "既定ブランチから枝を出す"
+    }
+   ]
   }
  ]
 }
