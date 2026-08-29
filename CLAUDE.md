@@ -54,7 +54,7 @@ node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
 node --test standards/agents/hooks/*.test.mjs
-node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs
+node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs tools/fleet-status.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
 
 # 正本ドリフト検査（--standards は必須。省くと exit 2）
@@ -64,6 +64,10 @@ node standards/check-drift.mjs --standards standards
 node tools/build-sw.mjs --check
 node tools/check-distribution.mjs --skip-repo-list
 node tools/distribute.mjs --dry-run
+
+# 艦隊の状態（42本を1回で読む。1本ずつ歩くと文脈が埋まる）
+node tools/fleet-status.mjs --todo     # 違反 → 直し方 → 使う正本の道具
+node tools/verify-runtime.mjs          # 公開中の画面を実ブラウザで巡回して実測
 ```
 
 ## エージェントの置き場（Claude Code と Antigravity）

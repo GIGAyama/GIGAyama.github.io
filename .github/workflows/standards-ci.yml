@@ -72,6 +72,10 @@ jobs:
       # verify-runtime.yml が週次で行う。ここが緑でも「本番を見た」ことにはならない。
       - name: 実測ホストの突き合わせのテスト
         run: node --test tools/verify-runtime.test.mjs
+      # 艦隊の状態を数える道具。「測れなかった」を「きれい」と数えないことを
+      # 試験で固定してある。ここが崩れると、見ていないのに緑を出す道具になる。
+      - name: 艦隊の状態を数える仕組みのテスト
+        run: node --test tools/fleet-status.test.mjs
       # 目次が壊れると、朝の組み直しで 31 本の紹介ページが一斉に同じ形で崩れる
       - name: 紹介ページの目次と読了時間のテスト
         run: node --test tools/lib/article-toc.test.mjs
