@@ -398,6 +398,20 @@
      "contains": "置き場所"
     }
    ]
+  },
+  {
+   "date": "2026-08-29",
+   "symptom": "共通部品が、画面を後から描くアプリ（React など）で置き場所を見つけられなかった。DOMContentLoaded の時点では <div data-giga-links> がまだ無い。置き場所が見つからないだけでなく、そこに書いた data-links も読めず、黙って既定の全部が画面のいちばん下に出ていた。フッターに置いたはずのリンクが本文の下に落ち、外したはずの「つかいかた」も出ていた",
+   "guardedBy": [
+    {
+     "file": "standards/web/giga-app-links.js",
+     "contains": "SLOT_WAIT_MS"
+    },
+    {
+     "file": "standards/web/giga-app-links.test.mjs",
+     "contains": "後から来ても待つ"
+    }
+   ]
   }
  ]
 }
