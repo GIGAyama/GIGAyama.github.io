@@ -108,3 +108,23 @@ test('索引にふりがなを入れない', () => {
   assert.equal(got.h, '1年の計算');
   assert.equal(got.t, '問題をとく。');
 });
+
+test('ふりがなのよみを、探すためだけに索引へ入れる', () => {
+  const page = pageOf([
+    '<h2 id="s-1">1<ruby>年<rt>ねん</rt></ruby>の<ruby>計算<rt>けいさん</rt></ruby></h2>',
+    '<p><ruby>問題<rt>もんだい</rt></ruby>をとく。</p>',
+  ].join('\n'));
+  const [got] = sectionsOf(page, { slug: 'qalc', name: 'Qalc' });
+  // 見せる文字にはふりがなを混ぜない
+  assert.equal(got.h, '1年の計算');
+  assert.equal(got.t, '問題をとく。');
+  // 探すためのよみは別に持つ
+  assert.equal(got.hr, 'ねん けいさん');
+  assert.equal(got.r, 'もんだい');
+});
+
+test('ふりがなの無い記事には、よみの入れ物を作らない（索引を重くしない）', () => {
+  const [got] = sectionsOf(PAGE, APP);
+  assert.equal('hr' in got, false);
+  assert.equal('r' in got, false);
+});

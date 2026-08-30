@@ -319,3 +319,11 @@ for (const [name, src] of [
     assert.match(r.html, /&lt;ruby&gt;/, '丸ごと字になっていない');
   });
 }
+
+test('題からはふりがなを外す（題は「字」としてしか使われない）', () => {
+  // <title> / og:title / JSON-LD / 共有の文 / 一覧の台帳。どれも esc() を通るので、
+  // markup を残すと字のまま出る。ページの <h1> も esc(title) でルビにはならない
+  const r = renderArticle('# <ruby>計算<rt>けいさん</rt></ruby>ドリル の つかいかた\n\n## 章\n\n本文。\n',
+    { imageUrl: (t) => t });
+  assert.equal(r.title, '計算ドリル の つかいかた');
+});

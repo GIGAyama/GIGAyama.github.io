@@ -70,7 +70,12 @@
                    /* 行き先。持っていない項目は紹介ページ。索引を軽くするため、
                       /apps/<slug>/ のときは書き出す側で省いてある */
                    u: it.u || ('/apps/' + it.s + '/'),
-                   f: fold(it.t), fh: fold(it.h + ' ' + it.n) };
+                   f: fold(it.t), fh: fold(it.h + ' ' + it.n + ' ' + (it.hr || '')),
+                   /* ふりがなのよみ。見せる文字（h・t）はふりがなを落とした字なので、
+                      これが無いと「けいさん」と打っても「計算」の節に当たらない。
+                      ⚠️ f には混ぜない。混ぜると当たった位置が t の外を指して、
+                         抜き出す一文がずれる。探すためだけの別の入れ物にする */
+                   fr: fold(it.r || '') };
         });
         return index;
       })
@@ -113,7 +118,11 @@
          「九九カード」で探したときに、本文で触れているだけの節より、
          そのアプリの節が先に来てほしい */
       var inHead = it.fh.indexOf(needle) >= 0;
-      if (at < 0 && !inHead) continue;
+      /* かなで打たれたときは、ふりがなのよみでも当てる。
+         当たった位置（at）は本文のものだけを使う。よみで当たったときは
+         位置が無いので、節の頭を抜き出して見せる */
+      var inReading = at < 0 && !inHead && it.fr.indexOf(needle) >= 0;
+      if (at < 0 && !inHead && !inReading) continue;
       hits.push({ it: it, at: at, head: inHead });
     }
     hits.sort(function (a, b) { return (b.head ? 1 : 0) - (a.head ? 1 : 0); });

@@ -30,6 +30,7 @@ import { mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promises';
 import { renderArticle } from './lib/article-md.mjs';
 import { withAnchors } from './lib/article-toc.mjs';
 import { DEVLOG_BASE, devlogApp, devlogIndex, devlogPost } from './lib/devlog-page.mjs';
+import { stripRuby } from './lib/plain-text.mjs';
 
 const OWNER = 'GIGAyama';
 
@@ -98,7 +99,10 @@ function summaryOf(body) {
   /* ⚠️ 空白をまとめて消さない。「31 本」が「31本」になる。
      このサイトは日本語と数字・英字のあいだに空白を入れる書き方でそろえてある。
      改行だけを畳みたいので、日本語どうしに挟まれた空白だけを取る。 */
-  const t = para.replace(/\s+/g, ' ')
+  /* ⚠️ ふりがなを外してから切る。開発記録はふりがなの話を書くことがあり
+     （この一件の記録がまさにそう）、外さないと素の 20 字が 90 字を超えて、
+     切れ目がタグの途中に落ちる（`<ruby>計算<rt>けい…` の形で止まる）。 */
+  const t = stripRuby(para).replace(/\s+/g, ' ')
     .replace(/([^\x00-\x7F]) (?=[^\x00-\x7F])/g, '$1')
     .replace(/`/g, '')
     .trim();

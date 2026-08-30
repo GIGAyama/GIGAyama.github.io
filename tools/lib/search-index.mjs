@@ -31,7 +31,7 @@
  * 途中で失敗した日でも、索引だけが古いまま取り残されることがない。
  */
 
-import { plainText } from './plain-text.mjs';
+import { plainText, readingsOf } from './plain-text.mjs';
 
 /** 本文の始まりと終わり。build-articles.mjs / build-manuals.mjs が書き出す形と同じ。 */
 const BODY_RE = /<div class="prose prose--article">\n([\s\S]*?)\n    <\/div>/;
@@ -64,7 +64,8 @@ const flatten = (html) => strip(html)
  * @param {string} html apps/<slug>/index.html の中身
  * @param {{slug: string, name: string, url?: string}} app
  *        url は、紹介ページ以外（使い方マニュアルなど）のときだけ渡す
- * @returns {{s: string, n: string, i: string, h: string, t: string}[]}
+ * @returns {{s: string, n: string, i: string, h: string, t: string,
+ *            hr?: string, r?: string}[]}  hr / r はふりがなのよみ（探す用）
  */
 export function sectionsOf(html, { slug, name, url = '' }) {
   const body = BODY_RE.exec(String(html ?? ''))?.[1];
@@ -80,6 +81,13 @@ export function sectionsOf(html, { slug, name, url = '' }) {
       i: m[1],
       h: flatten(m[2]),
       t: flatten(body.slice(from, to)),
+      /* ふりがなの**よみ**。見せる文字（h・t）はふりがなを落とした字なので、
+         これが無いと「けいさん」と打っても「計算」の節に当たらない。
+         漢字が読めない子ほど かなで探すので、いちばん要る人に当たらない索引に
+         なっていた。読む側（assets/search.js）は探すときだけ使い、
+         画面には出さない。ふりがなの無い記事では field ごと入らない。 */
+      ...(readingsOf(m[2]) ? { hr: readingsOf(m[2]) } : {}),
+      ...(readingsOf(body.slice(from, to)) ? { r: readingsOf(body.slice(from, to)) } : {}),
       /* 行き先。紹介ページ（/apps/<slug>/）のときは入れない。
          索引は 663KB あり、同じ文字列を 254 回書くと目に見えて重くなる。
          入っていない項目は、読む側（assets/search.js）が既定の
