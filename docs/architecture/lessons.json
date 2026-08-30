@@ -728,6 +728,40 @@
      "contains": "見出しの目印（【重要】【！！】【！】）は、ルビを振っても効く"
     }
    ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "「ルビが入ると狂うところ」を公開の道すじ全体から洗い直したら、さらに 4 つ出た。① lint-manual.mjs の中身を見る検査が 5 か所とも素の文字列に当たっていた。ルビは語の途中に markup を挟むので「## <ruby>学校</ruby>で<ruby>使</ruby>うときは」の中に「学校で使うときは」という連続した並びは無く、includes() が false になる。機械が足す節の検出・中身の無い見出し・目印の前置き外し・用意するものの語・見出しの括弧が、すべて「ふりがなを振った書き手だけがすり抜ける」形だった。② 組み立てが通さない書き方（属性つき・大文字・余分な空白・<rb>・閉じ忘れ）はその <ruby> が丸ごと字として公開ページに出るのに、検査が何も言わなかった。書き手の画面では正しく見えるので、公開ページを見るまで気づけない。落とすようにした。③ plain-text.mjs の READING_RE が </rt> を必ず求めていた。HTML では閉じタグを省けて、ブラウザも組み立ても <ruby>学年<rt>がくねん</ruby> を通すので、ページは正しく出るのに目次と索引にだけ「学年がくねん」が残る。④ assets/article.js が拡大した絵の説明を textContent で写していた。textContent は <rt> の中身までつなぐので「計算けいさんの がめん」になる。節ごと写して、ふりがなをふりがなのまま出すようにした",
+   "guardedBy": [
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "const plain = (t) => stripRuby(t).trim();"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "ふりがなの書き方が通りません"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "機械が足す節は、ふりがなを振っても見つける"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "閉じ忘れた <ruby> を落とす"
+    },
+    {
+     "file": "tools/lib/plain-text.mjs",
+     "contains": "閉じタグは省略できる"
+    },
+    {
+     "file": "tools/lib/plain-text.test.mjs",
+     "contains": "閉じタグを省いた <rt> も落とす"
+    },
+    {
+     "file": "assets/article.js",
+     "contains": "textContent で写さない"
+    }
+   ]
   }
  ]
 }

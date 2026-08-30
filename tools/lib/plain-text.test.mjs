@@ -60,3 +60,16 @@ test('何度通しても結果が変わらない', () => {
   assert.equal(plainText(plainText(RUBY)), plainText(RUBY));
   assert.equal(rubyOnly(rubyOnly(RUBY)), rubyOnly(RUBY));
 });
+
+test('閉じタグを省いた <rt> も落とす', () => {
+  // HTML では </rt> </rp> を省ける。ブラウザも、組み立て（article-md.mjs）も
+  // この形をそのまま通すので、落とし損ねると目次と索引にだけ「学年がくねん」が残る
+  assert.equal(plainText('<ruby>学年<rt>がくねん</ruby>'), '学年');
+  assert.equal(plainText('<ruby>計算<rp>(<rt>けいさん<rp>)</ruby>'), '計算');
+});
+
+test('閉じタグを省いても、続く語まで食べない', () => {
+  assert.equal(plainText('<ruby>学年<rt>がくねん</ruby>で しぼる'), '学年で しぼる');
+  assert.equal(plainText('1<ruby>年<rt>ねん</ruby>から6<ruby>年<rt>ねん</ruby>まで'),
+    '1年から6年まで');
+});

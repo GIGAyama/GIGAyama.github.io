@@ -54,6 +54,17 @@ const stripRuby = (t) => String(t)
 /** 読む長さ。ふりがなは数に入れない。 */
 const readLen = (t) => stripRuby(t).length;
 
+/**
+ * 読み手に見える字。ふりがなを外したもの。
+ *
+ * ⚠️ **中身を見る検査は、すべてこれを通す。** ルビは語の途中に markup を挟むので、
+ *    素の文字列には探している並びが残らない。
+ *    「## <ruby>学校<rt>がっこう</rt></ruby>で<ruby>使<rt>つか</rt></ruby>うときは」の
+ *    中に「学校で使うときは」という連続した並びは無く、includes() は false になる。
+ *    ふりがなを振った書き手だけが検査をすり抜ける、という形になっていた。
+ */
+const plain = (t) => stripRuby(t).trim();
+
 /** 見出しの短さの下限。参照マニュアルの見出しは平均 14.8 字ある。 */
 const HEADING_MIN = 5;
 
@@ -112,7 +123,7 @@ export function lintManual(md) {
   const names = h2.map((h) => h.text);
 
   for (const bad of MACHINE_SECTIONS) {
-    const hit = h2.find((h) => h.text.includes(bad));
+    const hit = h2.find((h) => plain(h.text).includes(bad));
     if (hit) {
       say('error', hit.line,
         `「${bad}」は書かない。data/apps.json と docs/CHANGELOG.md から機械が足す。`
@@ -130,16 +141,19 @@ export function lintManual(md) {
   /* 見出しの名前の質。「見出しだけを並べて、何の説明か分かる」が唯一の基準 */
   for (const h of heads) {
     if (h.level < 2) continue;
-    const name = h.text.replace(/^[【（(]?[!！重要①-⑳\s]*[】）)]?\s*/, '').trim();
+    /* ⚠️ ふりがなを外してから前置きを落とす。目印の中の「重要」にルビを振ると
+       （重は 3 年・要は 4 年配当なので低学年では振る）、`【` の次が `<` になって
+       この正規表現が何も食えず、name に「重要】」が残る。 */
+    const name = plain(h.text).replace(/^[【（(]?[!！重要①-⑳\s]*[】）)]?\s*/, '').trim();
     if (EMPTY_NAMES.includes(name)) {
       say('error', h.line,
-        `「${h.text}」だけでは何の説明か分からない。`
+        `「${plain(h.text)}」だけでは何の説明か分からない。`
         + '何を・どうするのかが分かる名前にする（例「週案のセルから単元を選ぶ」）');
       continue;
     }
     if (readLen(name) < HEADING_MIN && !CONVENTIONAL.includes(name)) {
       say('warn', h.line,
-        `見出し「${h.text}」が ${readLen(name)} 字と短い。`
+        `見出し「${plain(h.text)}」が ${readLen(name)} 字と短い。`
         + '目次に並べたときに中身が分かるか確かめる');
     }
   }
@@ -148,9 +162,13 @@ export function lintManual(md) {
      本文の中の揺れより目につく。基準にした実物のマニュアルは、目次の
      1 ページの中で「（週案の表示）」と「(メニュー操作)」が混ざっていた。 */
   for (const h of heads) {
-    if (h.level >= 2 && /[()]/.test(h.text)) {
+    /* ⚠️ ふりがなを外してから見る。format.md が通すと書いている <rp> は、
+       ルビ非対応の環境へ半角の丸括弧を出すための札（<rp>(</rp>）で、
+       対応ブラウザには出ない。素のまま見ると、それを書いた見出しが
+       毎回この警告に当たる。 */
+    if (h.level >= 2 && /[()]/.test(plain(h.text))) {
       say('warn', h.line,
-        `見出しの括弧を全角（）にする（「${h.text}」）。`
+        `見出しの括弧を全角（）にする（「${plain(h.text)}」）。`
         + '見出しは目次と検索結果に並ぶので、半角と混ざると目につく');
     }
   }
@@ -187,7 +205,7 @@ export function lintManual(md) {
 
   /* 読む前に用意するものが書かれているか。ここが抜けていると、
      読み手は最初の 1 行で止まる（参照マニュアル 1.3 にあたる） */
-  const body = lines.filter((l, i) => !fenced.has(i)).join('\n');
+  const body = plain(lines.filter((l, i) => !fenced.has(i)).join('\n'));
   if (!/用意|準備|お手元|必要なもの|そろえ/.test(body)) {
     say('warn', 1,
       '読む前に用意するもの（端末・アカウント・URL・権限）が見あたらない。'
@@ -251,6 +269,36 @@ export function lintManual(md) {
       `中身が 15 行に満たない章が ${thin.length} つある（「${thin.map(([c]) => c.text).join('」「')}」）。`
       + '印刷すると章の頭で改ページするので、そのぶん半分白いページが出る。'
       + '隣の章に畳むか、足りていないもの（前提・つまずき・押した結果）を書く');
+  }
+
+  /* --- ふりがな --------------------------------------------------
+     組み立て（tools/lib/article-md.mjs）が ふりがなとして通すのは、
+     属性の付かない小文字の <ruby> <rt> <rp> だけ。それ以外の書き方をすると
+     **その <ruby> は丸ごと字として公開ページに出る。**
+     手元の Markdown 表示では正しく見えるので、公開ページを見るまで気づけない。
+     読み手（1年生）が見るのは「<ruby>学<rt>がく</rt></ruby>」という記号の列になる。 */
+  const RUBY_TAG = /<\/?(?:ruby|rt|rp|rb|rtc|rbc)\b[^>]*>/gi;
+  const RUBY_OK = /^<\/?(?:ruby|rt|rp)>$/;
+  lines.forEach((line, i) => {
+    if (fenced.has(i)) return;
+    for (const m of line.replace(/`[^`]*`/g, '').matchAll(RUBY_TAG)) {
+      if (RUBY_OK.test(m[0])) continue;
+      say('error', i + 1,
+        `ふりがなの書き方が通りません（${m[0]}）。`
+        + '使えるのは <ruby> <rt> <rp> と その閉じタグだけで、属性も大文字も余分な空白も'
+        + '通りません。このままだと、この <ruby> が丸ごと字として公開ページに出ます');
+    }
+  });
+  /* 閉じ忘れ。<ruby> が閉じていないと、そこも丸ごと字になる */
+  {
+    const body = lines.filter((l, i) => !fenced.has(i)).join('\n').replace(/`[^`]*`/g, '');
+    const open = (body.match(/<ruby>/gi) || []).length;
+    const close = (body.match(/<\/ruby>/gi) || []).length;
+    if (open !== close) {
+      say('error', 1,
+        `<ruby> が ${open} 個、</ruby> が ${close} 個で 数が合いません。`
+        + '閉じていない <ruby> は、丸ごと字として公開ページに出ます');
+    }
   }
 
   /* --- 画像 ----------------------------------------------------- */
