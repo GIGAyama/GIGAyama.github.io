@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-29",
+ "generatedAt": "2026-08-30",
  "items": [
   {
    "slug": "kanji-town",
@@ -16,6 +16,21 @@
    "updatedAt": "2026-08-30",
    "termsUrl": "https://kanji-town.giga-school.com/terms.html",
    "privacyUrl": "https://kanji-town.giga-school.com/privacy.html"
+  },
+  {
+   "slug": "qalc",
+   "repo": "Qalc",
+   "name": "Qalc（カルク）",
+   "title": "Qalc（カルク）の つかいかた",
+   "summary": "Qalc は、小学校の さんすうを ゲームの かたちで れんしゅうする アプリです。ここでは、なにが できるのかと、始める まえに よういする ものを せつめいします。",
+   "source": "docs/manual/manual.md",
+   "chapters": 21,
+   "images": 56,
+   "imageHost": "raw",
+   "charCount": 24682,
+   "updatedAt": "2026-08-30",
+   "termsUrl": "https://qalc.giga-school.com/terms.html",
+   "privacyUrl": "https://qalc.giga-school.com/privacy.html"
   },
   {
    "slug": "schoolplan-editor",
