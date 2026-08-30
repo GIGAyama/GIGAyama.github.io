@@ -480,6 +480,24 @@
           "contains": "HTML コメントに /* があっても CDN を見のがさない"
         }
       ]
+    },
+    {
+      "date": "2026-08-30",
+      "symptom": "地の色が端末の設定に従わないアプリ（しりとりファイターは color-scheme: light を宣言したうえで #170f33 を塗っている）で、共通部品が prefers-color-scheme だけを見て明るい画面用の色を選び、暗い地に暗い字が載っていた。Shadow DOM なのでアプリ側の CSS は届かず、アプリの側では直せない。theme を明示できるようにした",
+      "guardedBy": [
+        {
+          "file": "standards/web/giga-app-links.js",
+          "contains": "theme === 'dark' || theme === 'light'"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "theme を書けば、端末の設定より優先する"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "置き場所が無いときの余白の指定が、色の指定を消さない"
+        }
+      ]
     }
   ]
 }

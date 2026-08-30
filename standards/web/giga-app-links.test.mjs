@@ -256,3 +256,39 @@ test('待ってから出さない。まず出して、あとで移す', () => {
   /* 出しなおすときは、前のものを外すこと（二重に出さない） */
   assert.match(code, /shown\.parentNode\.removeChild\(shown\)/, '出しなおしで前のものを外していない');
 });
+
+/* ── 暗い画面のアプリ ────────────────────────────────────────────
+ * 2026-08-30、しりとりファイターに置こうとして気づいた。
+ * あのアプリは <meta name="color-scheme" content="light"> を宣言したうえで
+ * 地を #170f33 に塗っている。端末の設定は light なので、部品は明るい画面用の
+ * 色（#42506b）を選び、暗い地に暗い字が載って**リンクがあることに気づけない**。
+ * Shadow DOM なのでアプリ側の CSS は届かず、アプリの側では直せなかった。
+ * ================================================================== */
+
+test('theme を書けば、端末の設定より優先する', () => {
+  assert.match(code, /theme: conf\.theme \|\| data\.theme \|\| slot\.theme/,
+    'theme を 3 か所（window / script / 置き場所）から読んでいない');
+  assert.match(code, /function build\(items, theme\)/, 'build が theme を受け取っていない');
+  assert.match(code, /theme === 'dark' \|\| theme === 'light'/,
+    '知らない値を既定に落としていない');
+  assert.match(code, /host\.className = 'giga-app-links--' \+ theme/, '色の指定を付けていない');
+  assert.match(code, /build\(got\.items, conf\.theme\)/, 'paint が theme を渡していない');
+});
+
+test('theme="dark" と theme="light" の両方が CSS 側にある', () => {
+  assert.match(code, /:host\(\.giga-app-links--dark\) a\{[^}]*color:#c3ccdd/);
+  assert.match(code, /:host\(\.giga-app-links--light\) a\{[^}]*color:#42506b/);
+  /* ⚠️ 端末の設定が dark で、地が固定で明るいアプリ（theme="light"）のとき、
+     prefers-color-scheme の指定が勝つと明るい地に明るい字が載る。 */
+  assert.match(code, /:host\(:not\(\.giga-app-links--light\)\) a\{[^}]*color:#c3ccdd/,
+    'prefers-color-scheme の dark が theme="light" を上書きしてしまう');
+});
+
+test('置き場所が無いときの余白の指定が、色の指定を消さない', () => {
+  /* ⚠️ host.className = 'giga-app-links--end' と代入し直すと、
+     build が付けた色の指定が消える。暗いアプリで、置き場所を持たない側だけ
+     字が読めなくなる（しかも画面には出ているので気づきにくい）。 */
+  assert.match(code, /host\.classList\.add\('giga-app-links--end'\)/,
+    '末尾へ出すときに className を代入し直している（色の指定が消える）');
+  assert.doesNotMatch(code, /host\.className = 'giga-app-links--end'/);
+});
