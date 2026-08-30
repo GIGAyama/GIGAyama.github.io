@@ -16,7 +16,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { runGigaChecks, stripComments, handlerBody } from './giga-v5-checks.mjs';
+import { runGigaChecks, stripComments, stripHtmlComments, handlerBody } from './giga-v5-checks.mjs';
 
 /** 完全不透明の最小 PNG（colorType 2 = RGB、α なし） */
 function opaquePng() {
@@ -782,6 +782,51 @@ test('stripComments はコメントだけを落とす', () => {
   assert.match(stripComments('const u = "https://example.com/x";'), /https:\/\/example\.com/);
   // 文字列の中の /* は落とさない
   assert.match(stripComments('const s = "/* keep me */";'), /keep me/);
+});
+
+/* ── HTML コメントを先に落とすこと ───────────────────────────────────
+ * 2026-08-30、Quarto の index.html の HTML コメントに `assets/*.css` と
+ * 書いてあった。stripComments() は JavaScript の規則で読むので `/*` を
+ * ブロックコメントの開始と取りちがえ、そのコメント自身の `-->` を食べた。
+ * 残った `<!--` は、ずっと後ろの別の `-->` と対になり、あいだにある
+ * <script src="https://…"> がまるごと消えた。B_NO_CDN_CODE をわざと
+ * 壊しても落ちなくなり、`npm run check:self` だけがそれを見つけた。
+ * ================================================================= */
+
+test('HTML コメントの中の /* が、あとの <script src> を食べない', () => {
+  const html = [
+    '<!doctype html>',
+    '<html><head>',
+    '<!--',
+    '  本体の CSS（assets/*.css）が届かなかったときのための控え。',
+    '-->',
+    '<script src="https://unpkg.com/x/x.js"></script>',
+    '</head><body>',
+    '<!-- あとから足したふつうのコメント -->',
+    '</body></html>',
+  ].join('\n');
+  // 落とし穴の形（順番が逆）だと、注いだ URL が消える
+  const wrong = stripComments(html).replace(/<!--[\s\S]*?-->/g, ' ');
+  assert.doesNotMatch(wrong, /unpkg\.com/, 'この順番だと消えることを、まず確かめておく');
+  // 正しい順番なら残る
+  assert.match(stripHtmlComments(html), /unpkg\.com/);
+});
+
+test('stripHtmlComments は JS コメントも落とす', () => {
+  assert.doesNotMatch(stripHtmlComments('<!-- a --> /* localStorage */ const a = 1;'), /localStorage/);
+  assert.match(stripHtmlComments('const u = "https://example.com/x";'), /https:\/\/example\.com/);
+});
+
+test('B_NO_CDN_CODE: HTML コメントに /* があっても CDN を見のがさない', () => {
+  const tree = { ...OK_TREE };
+  tree['index.html'] = tree['index.html']
+    .replace('<head>', '<head>\n<!--\n  本体の CSS（assets/*.css）の控え。\n-->')
+    .replace('</body>', '<!-- 利用規約への行き先 -->\n</body>');
+  assert.ok(!ids(failures(tree)).includes('B_NO_CDN_CODE'), 'コメントを足しただけでは落ちない');
+  const broken = { ...tree };
+  broken['index.html'] = broken['index.html']
+    .replace('</head>', '<script src="https://unpkg.com/x/x.js"></script></head>');
+  assert.ok(ids(failures(broken)).includes('B_NO_CDN_CODE'), '壊したら落ちること');
 });
 
 /* ── 配信の起点と、ソースの見つけ方 ────────────────────────────────
