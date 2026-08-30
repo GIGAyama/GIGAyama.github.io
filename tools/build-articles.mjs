@@ -108,10 +108,25 @@ async function fetchChangelog(repo) {
 
 const main = async () => {
   const dry = process.argv.includes('--dry-run');
+  /* ⚠️ indexOf は見つからないと -1 を返す。そのまま +1 すると argv[0] を
+     repo 名として読んでしまう。build-manuals.mjs と同じ書き方にそろえる。 */
+  const at = process.argv.indexOf('--repo');
+  const only = at === -1 ? '' : (process.argv[at + 1] ?? '');
   const data = JSON.parse(await readFile(DATA, 'utf8'));
   /* hidden は載せない。すでに作ってある紹介ページは、下の後始末で消える。 */
   const apps = data.items.filter((a) =>
-    a.hidden !== true && a.slug && a.publishedAt && a.updatedAt);
+    a.hidden !== true && a.slug && a.publishedAt && a.updatedAt
+    && (!only || a.repo === only || a.slug === only));
+
+  /* 前回の台帳。--repo で 1 本だけ組んだときに、ほかの行を残すために読む。 */
+  let before = [];
+  let beforeMirror = {};
+  try {
+    before = JSON.parse(await readFile(INDEX, 'utf8')).items ?? [];
+  } catch (e) { /* まだ 1 本も無い */ }
+  try {
+    beforeMirror = JSON.parse(await readFile(MIRROR_NEEDS, 'utf8')).apps ?? {};
+  } catch (e) { /* まだ 1 本も無い */ }
 
   /* 使い方マニュアルのあるアプリ。記事から入口を出すかどうかに使う。
      まだ組んでいなければ「無い」として進む（明日の朝には入る）。 */
@@ -213,7 +228,16 @@ const main = async () => {
      並びは /apps/ の一覧と同じ「新しく公開した順」にして、前後の記事が
      一覧の並びと食い違わないようにする。 */
   const byslug = new Map(data.items.map((i) => [i.slug, i]));
-  const all = built
+  /* ⚠️ 「ほかの紹介」と前後の行き先は、組んだぶんではなく **公開されている
+     ぜんぶ** から選ぶこと。--repo で 1 本だけ組むと built は 1 本なので、
+     ここを built のままにすると、そのページから「ほかの紹介」3 本と
+     前後の行き先がまるごと消える（2026-08-30 に実際に消えた）。
+     台帳に無い名前は byslug で補えないので、前回ぶんは name/headline を
+     そのまま使う。 */
+  const forRelated = only
+    ? [...new Map([...before, ...built].map((x) => [x.slug, x])).values()]
+    : built;
+  const all = forRelated
     .map((b) => ({
       slug: b.slug,
       name: b.name,
@@ -278,7 +302,12 @@ const main = async () => {
 
        「取り下げた 1 本」と「全部が取れなかった朝」は、結果だけ見ると
        同じ形をしている。区別できるのは本数しかない。 */
-    if (!built.length) {
+    if (only) {
+      /* ⚠️ --repo で 1 本だけ組んだときは、そもそも後始末をしない。
+         見ていない 31 本を「記事が無くなった」と決めつけることになる。
+         build-manuals.mjs と同じ扱い。 */
+      console.log('  （--repo が付いているので、後始末はしない）');
+    } else if (!built.length) {
       console.warn('  ⚠️ 記事が 1 本も取れなかった。後始末をせず、いまあるページを残す');
       console.warn('     （GitHub が見えていない可能性が高い。全部消してしまわないため）');
       process.exitCode = 1;
@@ -303,10 +332,21 @@ const main = async () => {
         });
       }
     }
+    /* ⚠️ --repo で 1 本だけ組んだときに built でそのまま上書きすると、
+       **前から載っていた 31 本が台帳から消える。** 後始末は止めてあるので
+       ページは残り、台帳だけが欠ける。トップの導線と検索の索引が台帳を見て
+       いるので、ページは在るのにどこからも辿れない形になる。
+       同じ罠が build-manuals.mjs にもあり、そちらでは実際に踏んだ
+       （週案エディタが 1 本消えた・2026-08-30）。前回のぶんに重ねる。 */
+    const items = only
+      ? [...new Map([...before, ...built].map((x) => [x.slug, x])).values()]
+        .sort((a, b) => a.slug.localeCompare(b.slug))
+      : built;
+
     await writeFile(INDEX, JSON.stringify({
       _comment: 'tools/build-articles.mjs が書き出す。手で書き足さない。',
       generatedAt: data.generatedAt,
-      items: built,
+      items,
     }, null, 1) + '\n');
 
     /* 控えが要る記事の一覧。tools/build-article-images.py がこれを読んで作る。
@@ -316,7 +356,9 @@ const main = async () => {
       _comment: 'tools/build-articles.mjs が書き出す。手で書き足さない。'
         + ' サブドメインから画像が読めない記事と、その元の URL。',
       generatedAt: data.generatedAt,
-      apps: Object.fromEntries(Object.entries(mirrorNeeds).sort(([a], [b]) => a.localeCompare(b))),
+      apps: Object.fromEntries(
+        Object.entries(only ? { ...beforeMirror, ...mirrorNeeds } : mirrorNeeds)
+          .sort(([a], [b]) => a.localeCompare(b))),
     }, null, 1) + '\n');
 
     /* ⚠️ トップのカードへのリンク貼りは tools/sync-updates.mjs へ移した。
