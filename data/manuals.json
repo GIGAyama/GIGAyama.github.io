@@ -3,6 +3,21 @@
  "generatedAt": "2026-08-29",
  "items": [
   {
+   "slug": "kanji-town",
+   "repo": "KANJI_Town",
+   "name": "マイ漢字タウン",
+   "title": "マイ漢字タウン つかいかた",
+   "summary": "このページは、マイ漢字タウンを はじめて ひらく人のための つかいかたです。 画面の 絵と 見くらべながら、上から じゅんに 読んでください。",
+   "source": "docs/manual/manual.md",
+   "chapters": 15,
+   "images": 40,
+   "imageHost": "raw",
+   "charCount": 12107,
+   "updatedAt": "2026-08-30",
+   "termsUrl": "https://kanji-town.giga-school.com/terms.html",
+   "privacyUrl": "https://kanji-town.giga-school.com/privacy.html"
+  },
+  {
    "slug": "schoolplan-editor",
    "repo": "SchoolPlan_Editor",
    "name": "週案エディタ",

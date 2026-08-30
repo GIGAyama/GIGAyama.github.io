@@ -1,5 +1,51 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。 サブドメインから画像が読めないマニュアルと、その元の URL。",
  "generatedAt": "2026-08-29",
- "apps": {}
+ "apps": {
+  "kanji-town": {
+   "repo": "KANJI_Town",
+   "images": [
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/01-home.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/02-tutorial.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/03-grade-select.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/04-home-guide.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/05-start-button.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/06-read.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/07-reading-challenge.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/08-stroke-order.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/09-trace.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/10-trace-done.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/11-test-blank.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/12-test-written.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/13-graded.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/14-self-eval.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/15-session-result.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/16-flash.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/17-survival.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/18-boss.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/19-stats.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/20-stats-forecast.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/21-dictionary.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/22-dictionary-grade.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/23-achievements.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/24-login-bonus.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/25-town.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/26-craft.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/27-gacha.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/28-settings-theme.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/29-settings-study.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/30-drill-empty.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/31-drill-editor.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/32-drill-saved.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/33-drill-test-count.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/34-drill-test-question.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/35-drill-test-result.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/36-drill-share.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/37-peer-receive.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/38-settings-data.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/39-send-error.png",
+    "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/40-system-status.png"
+   ]
+  }
+ }
 }
