@@ -162,7 +162,7 @@ jobs:
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
         run: |
-          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/fonts/*.mjs standards/vendor/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/web/giga-app-links.js standards/skills/giga-reviewer/scripts/*.mjs standards/skills/giga-manual/scripts/*.mjs; do
+          for f in standards/lib/*.mjs standards/sw/*.mjs standards/gas/*.mjs standards/fonts/*.mjs standards/vendor/*.mjs standards/check-drift.mjs standards/records/records-export.js standards/records/records-hub-client.js standards/web/giga-gas-client.js standards/web/giga-app-links.js standards/skills/*/scripts/*.mjs; do
             node --check "$f"
           done
           # .gs は Node が拡張子を知らないので、写してから見る
