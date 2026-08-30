@@ -702,6 +702,32 @@
      "contains": "裸の <rt> は これまでどおり ふりがなになる"
     }
    ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "見出しの目印（【重要】【！！】【！】）を、ルビを落とさずに探していた。子ども向けマニュアルは書式のとおりに書くと【<ruby>重要<rt>じゅうよう</rt></ruby>】になる（重も要も 1年配当より上なので振る決まり）ため、目印が見つからない。manual-page.mjs の markHeadings では、書き手は色が付くつもりで書いたのにいちばん強い注意の節が他とまったく同じ見え方になり、lint-manual.mjs では「【重要】が多すぎる」の警告が永久に出なくなる。どちらもルビを落としてから探すようにした。出す側の文字は落とさない（目印の字は目次にも索引にも同じ形で出る）。あわせて実ブラウザで組み上がったページを測った。本文の段落はルビの有無で高さが変わらず（99px / 99px）、見出しだけ 8px 伸びる。ふりがなは 17px の本文に対して 8.5px（ブラウザ既定の 50%）で出る",
+   "guardedBy": [
+    {
+     "file": "tools/lib/manual-page.mjs",
+     "contains": "const plain = stripRuby(text);"
+    },
+    {
+     "file": "tools/lib/manual-page.test.mjs",
+     "contains": "目印にふりがなが振ってあっても、見出しに重みが付く"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "/【(?:重要|！！)】/.test(stripRuby(h.text))"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "目印にふりがなが振ってあっても、【重要】の多さを数え落とさない"
+    },
+    {
+     "file": "standards/skills/giga-manual/references/format.md",
+     "contains": "見出しの目印（【重要】【！！】【！】）は、ルビを振っても効く"
+    }
+   ]
   }
  ]
 }

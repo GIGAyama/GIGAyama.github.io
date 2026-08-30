@@ -157,7 +157,9 @@ export function lintManual(md) {
 
   /* 目印を乱発しない。全部に付けると、どれも目に入らなくなる。
      基準にした実物のマニュアルは 35 見出しのうち【重要】2 本・【！！】1 本だけ。 */
-  const marked = heads.filter((h) => h.level >= 2 && /【(?:重要|！！)】/.test(h.text));
+  /* ふりがなを落としてから見る。子ども向けでは【<ruby>重要<rt>じゅうよう</rt></ruby>】
+     と書くのが決まりどおりなので、素のままだと数え落とす */
+  const marked = heads.filter((h) => h.level >= 2 && /【(?:重要|！！)】/.test(stripRuby(h.text)));
   if (marked.length > Math.max(3, Math.round(heads.length * 0.15))) {
     say('warn', marked[0].line,
       `【重要】【！！】の付いた見出しが ${marked.length} 本ある（見出しは全 ${heads.length} 本）。`

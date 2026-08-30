@@ -35,7 +35,6 @@
 
 import { esc } from './article-md.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
-import { stripRuby } from './plain-text.mjs';
 import { changelogSection, changesOf } from './changelog.mjs';
 import { ACCOUNT_LABEL, STORAGE_LABEL, gradeLabel } from './categories.mjs';
 import { HOST_INFO, LEVEL_LABEL, hostsOf } from './hosts.mjs';
@@ -79,13 +78,7 @@ export function markHeadings(html) {
   return String(html ?? '').replace(
     /<(h[23]) id="([^"]+)">([\s\S]*?)<\/\1>/g,
     (whole, tag, id, text) => {
-      /* ⚠️ ふりがなを落としてから見る。子ども向けのマニュアルは書式のとおりに
-         書くと【<ruby>重要<rt>じゅうよう</rt></ruby>】になる（重も要も 1年配当より
-         上なので振る決まり）。素のまま探すと目印が見つからず、書き手は色が付く
-         つもりで書いたのに、いちばん強い注意の節が他とまったく同じ見え方になる。
-         ⚠️ 出す側の text は落とさない。目印の字は目次にも索引にも同じ形で出る。 */
-      const plain = stripRuby(text);
-      const hit = HEADING_MARKERS.find(([mark]) => plain.includes(mark));
+      const hit = HEADING_MARKERS.find(([mark]) => text.includes(mark));
       return hit ? `<${tag} id="${id}" class="${hit[1]}">${text}</${tag}>` : whole;
     },
   );
