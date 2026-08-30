@@ -5,8 +5,17 @@
   python3 tools/build-article-images.py --force  作り直す
   python3 tools/build-article-images.py --check  足りていないものがあるかだけ見る
 
-  ※ tools/build-articles.mjs のあとに走らせる（どの記事が GitHub から
-     読んでいるかを、書き出されたページから見分けるため）
+  使い方マニュアルの画面写真も、同じ仕組みで移す。
+
+  python3 tools/build-article-images.py --kind manual
+  python3 tools/build-article-images.py --kind manual --check
+
+  ※ 記事は tools/build-articles.mjs、マニュアルは tools/build-manuals.mjs の
+     あとに走らせる（どれが GitHub から読んでいるかを、書き出された
+     ページと台帳から見分けるため）
+
+  ⚠️ マニュアルは印刷して配られる。GitHub を塞いでいる学校では、控えが
+     無いと画面写真が 1 枚も出ない。記事より効く。
 
 必要なもの: Pillow（pip install pillow）。build-og.py と同じで、
 絵を作るときだけ要る。--check は入っていなくても通る。
@@ -58,9 +67,29 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 APPS = ROOT / 'apps'
-OUT = ROOT / 'assets' / 'article'
 DATA = ROOT / 'data' / 'apps.json'
-NEEDS = ROOT / 'data' / 'article-images.json'
+
+# 記事とマニュアルで、置き場も台帳も別にする。どちらも 01-home.png のような
+# 名前になるので、同じ入れ物に入れると必ずぶつかる。
+KINDS = {
+    'article': {
+        'out': ROOT / 'assets' / 'article',
+        'needs': ROOT / 'data' / 'article-images.json',
+        'pages': '*/index.html',
+        'builder': 'tools/build-articles.mjs',
+        'label': '記事',
+    },
+    'manual': {
+        'out': ROOT / 'assets' / 'manual',
+        'needs': ROOT / 'data' / 'manual-images.json',
+        'pages': '*/manual/index.html',
+        'builder': 'tools/build-manuals.mjs',
+        'label': '使い方マニュアル',
+    },
+}
+KIND = KINDS['article']          # main() が --kind で差し替える
+OUT = KIND['out']
+NEEDS = KIND['needs']
 
 RAW = 'https://raw.githubusercontent.com/'
 # 記事のページに残っている GitHub 直リンク
@@ -97,8 +126,9 @@ def targets() -> dict[str, list[str]]:
     # 2. 書き出し済みのページに残っている raw の URL。
     #    一覧がまだ無いとき、一覧に載っていない記事があるときの補い。
     #    どちらか片方だけを見ると、その分だけ穴が空く。
-    for page in sorted(APPS.glob('*/index.html')):
-        slug = page.parent.name
+    for page in sorted(APPS.glob(KIND['pages'])):
+        # 記事は apps/<slug>/index.html、マニュアルは apps/<slug>/manual/index.html
+        slug = page.parent.name if KIND['pages'] == '*/index.html' else page.parent.parent.name
         urls = SRC_RE.findall(page.read_text(encoding='utf-8'))
         if urls:
             out.setdefault(slug, []).extend(urls)
@@ -176,11 +206,21 @@ def build(url: str, dst: Path) -> tuple[int, int]:
 
 
 def main() -> int:
+    global KIND, OUT, NEEDS
     force = '--force' in sys.argv
     check = '--check' in sys.argv
 
+    at = sys.argv.index('--kind') if '--kind' in sys.argv else -1
+    # ⚠️ ここを name にしないこと。下の取りこみの輪で name = local_name(url) が
+    #    同じ名を上書きするので、最後の案内が「--kind 40-system-status.webp」に化ける。
+    kind = sys.argv[at + 1] if at != -1 and at + 1 < len(sys.argv) else 'article'
+    if kind not in KINDS:
+        sys.exit(f'--kind は {" / ".join(KINDS)} のどれか（渡されたのは {kind}）')
+    KIND = KINDS[kind]
+    OUT, NEEDS = KIND['out'], KIND['needs']
+
     if not APPS.exists():
-        sys.exit(f'{APPS} がありません。先に tools/build-articles.mjs を走らせてください')
+        sys.exit(f'{APPS} がありません。先に {KIND["builder"]} を走らせてください')
 
     todo = targets()
     made = kept = total = 0
@@ -228,14 +268,13 @@ def main() -> int:
             if stale:
                 print(f'❌ 元が差しかわった画面写真が {len(stale)} 枚あります')
                 print(f'   例: {", ".join(stale[:5])}')
-            print('   python3 tools/build-article-images.py で作れます')
+            print(f'   python3 tools/build-article-images.py --kind {kind} で作れます')
             return 1
-        print(f'✅ 記事の画面写真はそろっています（{kept} 枚）')
+        print(f'✅ {KIND["label"]}の画面写真はそろっています（{kept} 枚）')
         return 0
 
-    n_articles = len(todo)
-    print(f'記事の画面写真：新しく {made} 枚 / そのまま {kept} 枚'
-          f'（{n_articles} 本ぶん、合わせて {total / 1024 / 1024:.1f}MB）')
+    print(f'{KIND["label"]}の画面写真：新しく {made} 枚 / そのまま {kept} 枚'
+          f'（{len(todo)} 本ぶん、合わせて {total / 1024 / 1024:.1f}MB）')
     return 0
 
 
