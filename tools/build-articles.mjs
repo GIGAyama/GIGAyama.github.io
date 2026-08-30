@@ -43,7 +43,9 @@ import { mkdir, readFile, readdir, writeFile, rm, rmdir, access } from 'node:fs/
 import { renderArticle } from './lib/article-md.mjs';
 import { articlePage, headlineOf, relatedOf, summaryOf } from './lib/article-page.mjs';
 import { pickImageUrl } from './lib/article-images.mjs';
-import { ghApi, ghFindDoc, imageResolvers, reachable, servesFromDocs } from './lib/gh.mjs';
+import {
+  ghApi, ghFileChangedAt, ghFindDoc, imageResolvers, reachable, servesFromDocs,
+} from './lib/gh.mjs';
 
 const OWNER = 'GIGAyama';
 const ROOT = new URL('..', import.meta.url);
@@ -216,7 +218,13 @@ const main = async () => {
       images: article.images.length,
       imageHost,
       charCount: article.charCount,
-      updatedAt: app.updatedAt,
+      /* ⚠️ アプリの最終 push（app.updatedAt）で代えない。正本配布が 42 本へ
+            毎日 push するので、それを使うと全部の紹介ページが同じ日付に揃う。
+            実際 2026-08-30 の時点で sitemap の 90 URL 中 88 が同じ日だった。
+            見るのは note 記事そのものが最後に変わった日。
+            取れなかったときだけ push 日へ逃がす（空にすると「◯月◯日現在」や
+            article:modified_time が空のまま出てしまうため）。 */
+      updatedAt: (await ghFileChangedAt(app.repo, got.path, AGENT)) || app.updatedAt,
     });
     console.log(`  ✅ ${app.name}（${article.charCount}字 / 画像 ${article.images.length}枚 / ${imageHost}）`);
   }

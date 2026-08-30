@@ -50,7 +50,7 @@ test('アプリは名前順、紹介は新しい順に並ぶ', () => {
 
 test('ページに、その分類のアプリと本数が出る', () => {
   const g = groupByCategory(APPS, ARTICLES);
-  const html = categoryPage({ id: 'kokugo', groups: g, generatedAt: '2026-08-23' });
+  const html = categoryPage({ id: 'kokugo', groups: g, lastmod: '2026-08-23' });
   assert.match(html, /<h1 class="article__title">国語・言葉のアプリ<\/h1>/);
   assert.match(html, /2 本あります/);
   assert.match(html, /あアプリ/);
@@ -63,13 +63,13 @@ test('ページに、その分類のアプリと本数が出る', () => {
 
 test('紹介のあるアプリにだけ「紹介を読む」が付く', () => {
   const g = groupByCategory(APPS, ARTICLES);
-  const html = categoryPage({ id: 'kokugo', groups: g, generatedAt: '2026-08-23' });
+  const html = categoryPage({ id: 'kokugo', groups: g, lastmod: '2026-08-23' });
   assert.equal((html.match(/紹介を読む/g) || []).length, 1);
 });
 
 test('紹介が 1 本も無い分類でも、ページとして成り立つ', () => {
   const g = groupByCategory(APPS, []);
-  const html = categoryPage({ id: 'sansu', groups: g, generatedAt: '2026-08-23' });
+  const html = categoryPage({ id: 'sansu', groups: g, lastmod: '2026-08-23' });
   assert.match(html, /うアプリ/);
   assert.ok(!html.includes('<h2 class="cat-title">紹介</h2>'));
   assert.ok(!html.includes('article-list'));
@@ -77,15 +77,24 @@ test('紹介が 1 本も無い分類でも、ページとして成り立つ', ()
 
 test('いまいる分類は、自分自身へのリンクにしない', () => {
   const g = groupByCategory(APPS, ARTICLES);
-  const html = categoryPage({ id: 'kokugo', groups: g, generatedAt: '2026-08-23' });
+  const html = categoryPage({ id: 'kokugo', groups: g, lastmod: '2026-08-23' });
   assert.ok(!html.includes('href="/apps/category/kokugo/"'));
   assert.match(html, /aria-current="page">国語・言葉/);
   assert.match(html, /href="\/apps\/category\/sansu\/"/);
 });
 
+test('同じ入力を 2 回組むと、バイトまで同じ', () => {
+  /* ⚠️ 日付は中身のハッシュで決めている（tools/lib/lastmod.mjs）。並びが日に
+     よって変わると、中身が同じでもハッシュが動き、lastmod が毎朝進む形に戻る。
+     しかも「直したはず」なので誰も見に行かない。ここで押さえる。 */
+  const a = categoryPage({ id: 'kokugo', groups: groupByCategory(APPS, ARTICLES), lastmod: '2026-08-23' });
+  const b = categoryPage({ id: 'kokugo', groups: groupByCategory(APPS, ARTICLES), lastmod: '2026-08-23' });
+  assert.equal(a, b);
+});
+
 test('canonical と JSON-LD の URL がそろっている', () => {
   const g = groupByCategory(APPS, ARTICLES);
-  const html = categoryPage({ id: 'kokugo', groups: g, generatedAt: '2026-08-23' });
+  const html = categoryPage({ id: 'kokugo', groups: g, lastmod: '2026-08-23' });
   const url = categoryUrl('kokugo');
   assert.equal(url, 'https://giga-school.com/apps/category/kokugo/');
   assert.match(html, new RegExp(`<link rel="canonical" href="${url}">`));

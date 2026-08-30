@@ -47,7 +47,8 @@ import { pickImageUrl } from './lib/article-images.mjs';
 import { manualPage } from './lib/manual-page.mjs';
 import { summaryOf } from './lib/article-page.mjs';
 import {
-  ghApi, ghFindDoc, ghListMarkdown, ghText, imageResolvers, reachable, servesFromDocs, RAW,
+  ghFileChangedAt, ghFindDoc, ghListMarkdown, ghText, imageResolvers, reachable,
+  servesFromDocs, RAW,
 } from './lib/gh.mjs';
 
 const AGENT = 'giga-school-build-manuals';
@@ -83,22 +84,12 @@ async function fetchManual(repo) {
 /**
  * manual.md が最後に変わった日。取れなければ空文字。
  *
- * ⚠️ アプリの最終 push（app.updatedAt）で代えない。コードを 1 行直しただけの
- *    朝に、マニュアルまで「今日現在の画面です」になる。紙に刷って配るものなので、
- *    そこは嘘をつかない。
+ * 中身は tools/lib/gh.mjs の ghFileChangedAt に移した。同じ考え方が紹介記事にも
+ * 要ったため（あちらは app.updatedAt を使っていて、sitemap の 90 URL 中 88 が
+ * 同じ日付になる原因になっていた）。⚠️ の理由書きも向こうに移してある。
  */
-async function manualChangedAt(repo) {
-  try {
-    const res = await ghApi(
-      `${repo}/commits?path=${encodeURIComponent(`${MANUAL_DIR}/${MANUAL_NAME}`)}&per_page=1`, AGENT);
-    if (!res.ok) return '';
-    const list = await res.json();
-    const when = Array.isArray(list) ? list[0]?.commit?.committer?.date : null;
-    return when ? String(when).slice(0, 10) : '';
-  } catch (e) {
-    return '';
-  }
-}
+const manualChangedAt = (repo) =>
+  ghFileChangedAt(repo, `${MANUAL_DIR}/${MANUAL_NAME}`, AGENT);
 
 /**
  * 利用規約とプライバシーポリシーが、実際に届くか。

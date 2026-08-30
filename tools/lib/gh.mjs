@@ -18,6 +18,8 @@
  * リポジトリなので、認証を外せば読める。断られたときだけ 1 回やり直す。
  */
 
+import { jstDate } from './dates.mjs';
+
 export const OWNER = 'GIGAyama';
 const RAW = 'https://raw.githubusercontent.com/';
 
@@ -66,6 +68,86 @@ export async function ghText(repo, path, agent) {
   } catch (e) {
     return '';
   }
+}
+
+/**
+ * そのファイルが最後に変わった日（日本時間）。取れなければ空文字。
+ *
+ * ⚠️ アプリの最終 push（app.updatedAt）で代えない。コードを 1 行直しただけの
+ *    朝に、マニュアルまで「今日現在の画面です」になる。紙に刷って配るものなので、
+ *    そこは嘘をつかない。
+ *
+ * ⚠️ この「代えない」は、マニュアルだけの話ではなかった。紹介記事のほうは
+ *    app.updatedAt をそのまま使っていたので、2026-08-30 の時点で
+ *    **sitemap の 90 URL 中 88 が同じ日付**になっていた。正本配布
+ *    （.github/workflows/auto-distribute.yml）が 42 本のリポジトリへ毎日
+ *    push するため、全部の push 日が同じ日に揃うのが原因。
+ *    Google は lastmod が実態と合わないと**まるごと無視する**ので、
+ *    本当に更新した 1 本も区別されなくなっていた。
+ *
+ * @param {string} repo
+ * @param {string} path リポジトリの中での道（`docs/note/xxx.md` など）
+ * @param {string} [agent]
+ * @returns {Promise<string>} YYYY-MM-DD。取れなければ空文字
+ */
+export async function ghFileChangedAt(repo, path, agent) {
+  try {
+    const res = await ghApi(
+      `${repo}/commits?path=${encodeURIComponent(path)}&per_page=1`, agent);
+    if (!res.ok) return '';
+    const list = await res.json();
+    const when = Array.isArray(list) ? list[0]?.commit?.committer?.date : null;
+    return jstDate(when);
+  } catch (e) {
+    return '';
+  }
+}
+
+/**
+ * 正本配布を除いた、そのリポジトリの最後の更新日（日本時間）。分からなければ空文字。
+ *
+ * アプリ本体（<slug>.giga-school.com）の更新日には、リポジトリの push 日
+ * （pushed_at）を使っていた。ところが正本配布は 42 本すべてへ同じ日に push するので、
+ * **41 本ぜんぶが同じ updatedAt** になっていた。
+ *
+ * 配布のコミットは題で見分けられる（tools/distribute.mjs の BRANCH_NAME と PR_TITLE）。
+ * 配布が書き替えるのは `.claude/` `.agents/` `tools/build-sw.mjs` `sw/` だけで、
+ * **公開される HTML・CSS・JS には一切触れない**ので、除いても取りこぼしは出ない。
+ *
+ * ⚠️ 落とすのはこの 2 つだけに絞る。`chore(sw)` や `chore(gate)` まで落とすと、
+ *    Service Worker の版を刻み直した日＝**実際に配信物が変わった日**を見落とす。
+ *    迷ったら残す側に倒す。
+ *
+ * ⚠️ 30 件ぜんぶが配布のコミットだったときは、嘘の日付を作らず空文字を返す。
+ *    sitemap 側は空なら `<lastmod>` を出さない（省略は仕様どおり）。
+ *
+ * @param {string} repo
+ * @param {string} [agent]
+ * @returns {Promise<string>} YYYY-MM-DD。分からなければ空文字
+ */
+export async function ghContentChangedAt(repo, agent) {
+  try {
+    const res = await ghApi(`${repo}/commits?per_page=30`, agent);
+    if (!res.ok) return '';
+    const list = await res.json();
+    if (!Array.isArray(list)) return '';
+    const hit = list.find((c) => !isDistributionCommit(c?.commit?.message || ''));
+    return jstDate(hit?.commit?.committer?.date);
+  } catch (e) {
+    return '';
+  }
+}
+
+/**
+ * 正本配布が作ったコミットか。
+ *
+ * 題は tools/distribute.mjs が定数で持っている（PR_TITLE / BRANCH_NAME）。
+ * squash でマージしても題は残り、merge commit のほうは枝の名前が入る。
+ */
+export function isDistributionCommit(message) {
+  const first = String(message).split('\n')[0];
+  return first.startsWith('chore(standards): Sync with latest standards')
+    || /^Merge pull request #\d+ from [\w.-]+\/chore\/sync-standards$/.test(first);
 }
 
 /**

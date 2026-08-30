@@ -822,6 +822,60 @@
      "contains": "ふりがなを外してから切る"
     }
    ]
+  },
+  {
+   "date": "2026-08-31",
+   "symptom": "毎朝の組み直しが、SEO の機会損失になっていた。日付を new Date() で入れていたので、中身が 1 文字も変わっていない朝でも lastmod が今日になり、**sitemap の 90 URL 中 88 が同じ日付**、feed.xml は 21 個すべてが同じ値だった。Google は lastmod が実態と合わないと**まるごと無視する**ので、本当に更新した 1 本を出しても区別されない。根は 2 つ。①`data.generatedAt = new Date()`（実行日）が sitemap の固定 16 URL・index.html・各 JSON-LD・feed の reduce の初期値へ流れこむ ②アプリと紹介ページの更新日がリポジトリの push 日で、auto-distribute が 42 本へ毎日配るせいで全部が同じ日に揃う。直し方は「今日をページを組む関数から追い出す」の一点。中身のハッシュを台帳（data/lastmod.json）と突き合わせ、変わった日だけ日付を進める。⚠️ 日付を入れてからハッシュを取ると、ページ本文に載っている日付を自分で追いかけて毎日動くので、日付の場所に 0000-00-00 を置いて 1 回組み、それを測ってから決まった日付でもう 1 回組む。⚠️ git log は使えない（checkout が fetch-depth:1 なのでどの道を渡しても HEAD が返り、それらしい日付のまま毎朝今日になる）。⚠️ updatedAt の意味を作り替えてもいけない（build-articles/build-manuals が真偽で 42 本を絞っているので紹介ページが全部消える）。副作用として index.html が毎日変わらなくなり、sw.js の版が毎朝変わって全訪問者のキャッシュが失効するのも止まった",
+   "guardedBy": [
+    {
+     "file": "tools/lib/lastmod.test.mjs",
+     "contains": "中身が変わらなければ、日付は動かない"
+    },
+    {
+     "file": "tools/lib/lastmod.test.mjs",
+     "contains": "日付だけ違う 2 つの描画は、同じハッシュになる"
+    },
+    {
+     "file": "tools/lib/sitemap.test.mjs",
+     "contains": "全 URL が同じ日付に揃わない"
+    },
+    {
+     "file": "tools/lib/sitemap.test.mjs",
+     "contains": "アプリ本体は changedAt を使う（push 日ではない）"
+    },
+    {
+     "file": "tools/lib/feed.test.mjs",
+     "contains": "全 entry の updated が同じ値に揃わない"
+    },
+    {
+     "file": "tools/lib/feed.test.mjs",
+     "contains": "アプリだけの entry は、updated を公開日に固定する"
+    },
+    {
+     "file": "tools/lib/dates.test.mjs",
+     "contains": "日本時間では翌日になる"
+    },
+    {
+     "file": "tools/lib/gh.test.mjs",
+     "contains": "正本配布のコミットを見分ける"
+    },
+    {
+     "file": "tools/lib/category-page.test.mjs",
+     "contains": "同じ入力を 2 回組むと、バイトまで同じ"
+    },
+    {
+     "file": "tools/lib/lastmod.mjs",
+     "contains": "git log -1"
+    },
+    {
+     "file": "tools/sync-updates.mjs",
+     "contains": "updatedAt を作り替えてはいけない"
+    },
+    {
+     "file": ".github/workflows/sync-updates.yml",
+     "contains": "data/lastmod.json（日付の台帳）を外さないこと"
+    }
+   ]
   }
  ]
 }
