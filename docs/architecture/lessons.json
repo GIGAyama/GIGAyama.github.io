@@ -1,467 +1,485 @@
 {
- "_note": "SYSTEM_MASTER.md の教訓を機械が読める形にしたもの。各件に『どの検査が見張っているか』(guardedBy) を書く。tools/check-lessons.mjs が ①guardedBy も unguarded も無い教訓 ②書いた検査が実在しない教訓 を落とす。②が本体で、『検査 ID を書いたが実在しない』はこの艦隊が繰り返し踏んでいる型そのもの。",
- "_guard_shape": "{ file, contains } … その file にその文字列が在ることを確かめる。ID の表を別に持つと、名前を変えたときに片方だけ古くなる。",
- "lessons": [
-  {
-   "date": "2026-08-21",
-   "symptom": "SW のキャッシュ版数を上げ忘れ、児童端末に古い版が残りつづけた",
-   "guardedBy": [
+  "_note": "SYSTEM_MASTER.md の教訓を機械が読める形にしたもの。各件に『どの検査が見張っているか』(guardedBy) を書く。tools/check-lessons.mjs が ①guardedBy も unguarded も無い教訓 ②書いた検査が実在しない教訓 を落とす。②が本体で、『検査 ID を書いたが実在しない』はこの艦隊が繰り返し踏んでいる型そのもの。",
+  "_guard_shape": "{ file, contains } … その file にその文字列が在ることを確かめる。ID の表を別に持つと、名前を変えたときに片方だけ古くなる。",
+  "lessons": [
     {
-     "file": "standards/sw/build-sw-static.mjs",
-     "contains": "--check"
+      "date": "2026-08-21",
+      "symptom": "SW のキャッシュ版数を上げ忘れ、児童端末に古い版が残りつづけた",
+      "guardedBy": [
+        {
+          "file": "standards/sw/build-sw-static.mjs",
+          "contains": "--check"
+        },
+        {
+          "file": "standards/sw/build-sw-static.test.mjs",
+          "contains": "test("
+        }
+      ]
     },
     {
-     "file": "standards/sw/build-sw-static.test.mjs",
-     "contains": "test("
+      "date": "2026-08-22",
+      "symptom": "正本を直したのに配り忘れ、10 リポジトリの main が一斉に赤くなった",
+      "guardedBy": [
+        {
+          "file": "tools/check-distribution.mjs",
+          "contains": "配っていません"
+        },
+        {
+          "file": ".github/workflows/check-distribution.yml",
+          "contains": "schedule"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-24",
+      "symptom": "Quarto 紹介ページの画像リンクが切れ、main が赤くなった",
+      "guardedBy": [
+        {
+          "file": "tools/build-articles.mjs",
+          "contains": "raw.githubusercontent.com"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-25",
+      "symptom": "GITHUB_TOKEN による push は後続のワークフローを起動せず、検査が漏れた",
+      "guardedBy": [
+        {
+          "file": ".github/workflows/sync-updates.yml",
+          "contains": "build-sw.mjs"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": ".agents/skills が正本照合の外にあり、書き替えても緑のまま通った",
+      "guardedBy": [
+        {
+          "file": "standards/check-drift.mjs",
+          "contains": "SKILL_ROOTS"
+        },
+        {
+          "file": "standards/check-drift.mjs",
+          "contains": "unregisteredSkills"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "giga-reviewer の入口判定が Windows で一致せず、何も検査せず exit 0 になっていた",
+      "guardedBy": [
+        {
+          "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs",
+          "contains": "pathToFileURL"
+        },
+        {
+          "file": "standards/skills/giga-reviewer/scripts/lint-giga.test.mjs",
+          "contains": "test("
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "受け渡し口の APP_ID がプレースホルダーのままで、9 本の学習記録が 1 件も届いていなかった",
+      "guardedBy": [
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "normalize"
+        },
+        {
+          "file": "standards/check-drift.mjs",
+          "contains": "app-id"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "auto-distribute が PAT_TOKEN 未設定のまま走り、42 本ぶんの 403 で終わっていた",
+      "guardedBy": [
+        {
+          "file": ".github/workflows/auto-distribute.yml",
+          "contains": "PAT_TOKEN があるか先に確かめる"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "記事の画面写真の指紋が無く、画像 230 枚が毎回『差しかわった』と数えられていた",
+      "unguarded": "この検査は自動では復旧しない。赤くなったら人が build-article-images.py を走らせて指紋を作り直す。機械で直せる形が無いので、宣言して残す（2026-08-28）"
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "Google Fonts の text= が約 800 字で、HTTP 200 のまま効かなくなる",
+      "guardedBy": [
+        {
+          "file": "standards/fonts/build-fonts.mjs",
+          "contains": "assertSingleFace"
+        },
+        {
+          "file": "standards/fonts/build-fonts.test.mjs",
+          "contains": "assertSingleFace"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "正本へ足したものを、コミットする前に配布先へ写した（手元だけ緑で、正本が古いまま残る）",
+      "unguarded": "順番の約束であって、コミット前の状態を機械が見張る手だてが無い。CLAUDE.md・skills/giga-fleet・distribute.mjs のコメントの 3 か所に書いてある（2026-08-29）"
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "収録する字に日本語コメントの漢字まで数え、GAS へ埋めこむ CSS が 589KB になっていた",
+      "guardedBy": [
+        {
+          "file": "standards/lib/giga-v5-checks.mjs",
+          "contains": "stripComments"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "静的検査が『0 件』と言い、ブラウザは外を読んでいた（//cdn、<img src>、印刷ウィンドウの @import の 3 件）",
+      "guardedBy": [
+        {
+          "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs",
+          "contains": "(?:https?:)?"
+        },
+        {
+          "file": "standards/web/verify-no-external.mjs",
+          "contains": "context.on('request'"
+        },
+        {
+          "file": ".github/workflows/verify-runtime.yml",
+          "contains": "schedule"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "生成物の検査が、前に npm run build を置くだけで必ず緑になっていた（10 本）",
+      "guardedBy": [
+        {
+          "file": "standards/vendor/verify-generated.mjs",
+          "contains": "git"
+        },
+        {
+          "file": "standards/vendor/verify-generated.mjs",
+          "contains": "コミット"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "symptom": "中身を原本へ移したら、検査が見るものを失って緑になった（決め打ちの一覧）",
+      "unguarded": "『決め打ちの一覧を書かない』という書き方の約束で、機械で見張る形にできていない。検査する一覧は入口のファイル自身から読むこと（2026-08-28）"
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": ".agents/rules/gigaschool-standards.md が 42 本へ配られていたのに、どの standards-map.json にも載っておらず、書き替えても check-drift が exit 0 を返した",
+      "guardedBy": [
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "ensureFile('agents/rules/gigaschool-standards.md'"
+        },
+        {
+          "file": "standards/check-drift.test.mjs",
+          "contains": "ルールファイルを 1 行書き替えたら落ちる"
+        },
+        {
+          "file": "tools/check-distribution.mjs",
+          "contains": "agentContextProblems"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "Claude Code だけが常時ルールを読んでいなかった（.agents/rules は 43 本、CLAUDE.md は 3 本）",
+      "guardedBy": [
+        {
+          "file": "standards/agents/CLAUDE.md",
+          "contains": "@.agents/rules/gigaschool-standards.md"
+        },
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "STANDARDS_CLAUDE_MD"
+        },
+        {
+          "file": "tools/check-distribution.test.mjs",
+          "contains": "取りこみの行"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "配布のとりのこし検査が、配布と同じ push で起動して競走に負け、マージのたびに必ず赤くなっていた（2026-08-27 以降ほぼ全部）",
+      "guardedBy": [
+        {
+          "file": ".github/workflows/check-distribution.yml",
+          "contains": "workflow_run"
+        },
+        {
+          "file": "tools/check-distribution.test.mjs",
+          "contains": "配布のとりのこしは push で起動しない"
+        },
+        {
+          "file": "tools/check-distribution.test.mjs",
+          "contains": "workflow_run が指す名前が、配布ワークフローの name と一致する"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "実ブラウザ検査の『0 件を信じない』を要求の数で書いたら、接続できない URL が合格になった（失敗した navigation の要求も記録されるため）",
+      "guardedBy": [
+        {
+          "file": "standards/web/verify-no-external.mjs",
+          "contains": "okResponses"
+        },
+        {
+          "file": "standards/web/verify-no-external.mjs",
+          "contains": "成功した応答"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "fleet-status が古い手元のクローンを数え、配り終えた直後に「CLAUDE.md 3/42」と出した（GitHub 上は 42/42）",
+      "guardedBy": [
+        {
+          "file": "tools/fleet-status.mjs",
+          "contains": "cloneState"
+        },
+        {
+          "file": "tools/fleet-status.mjs",
+          "contains": "staleWarning"
+        },
+        {
+          "file": "tools/fleet-status.test.mjs",
+          "contains": "警告には「上の数字はその古い写しを数えたもの」と書く"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "紹介ページ 32 本と開発記録で「リンクをコピー」が押しても何も起きなかった。[data-copy] を拾うのは assets/app.js だけで、紹介ページは assets/article.js しか読んでいない。ボタンは画面に出ているので、目でも検査でも気づけなかった",
+      "guardedBy": [
+        {
+          "file": "assets/copy.js",
+          "contains": "[data-copy]"
+        },
+        {
+          "file": "tools/check-cards.mjs",
+          "contains": "押せるボタンの処理が読み込まれている"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "組み直したページを sync-updates.yml の PATHS に並べ忘れると、毎朝つくり直されては毎朝捨てられ、リポジトリには古いものが残る。検査は組み直したあとを見るので緑のまま通り、目でも検査でも気づけない",
+      "guardedBy": [
+        {
+          "file": "tools/check-outputs.mjs",
+          "contains": "PATHS"
+        },
+        {
+          "file": "tools/outputs.json",
+          "contains": "tools/build-manuals.mjs"
+        },
+        {
+          "file": "tools/check-outputs.test.mjs",
+          "contains": "PATHS に並べ忘れた道があると落ちる"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "紹介ページの組み立てが、1 本も取れなかった朝に「記事が全部無くなった」と見なして 32 本を削除し、その削除をコミットする作りだった。手元で GitHub API に届かない状態で 1 回走らせただけで実際に消えた",
+      "guardedBy": [
+        {
+          "file": "tools/build-articles.mjs",
+          "contains": "1 本も組めなかったときは、1 枚も消さない"
+        },
+        {
+          "file": "tools/build-manuals.mjs",
+          "contains": "1 本も組めなかったときは、1 枚も消さない"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "本文の囲みのクラスを増やすと、検索の索引（search-index.mjs の BODY_RE）から黙って落ちる。ページは正しく出るので気づけない",
+      "guardedBy": [
+        {
+          "file": "tools/lib/manual-page.test.mjs",
+          "contains": "search-index.mjs の見ている形と同じ"
+        },
+        {
+          "file": "tools/lib/search-index.mjs",
+          "contains": "BODY_RE"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "画像の直後に置いた段落が、組み立てに写真の説明とみなされて本文から外れる。節の中身をそこに書くと一段落まるごと添え字に降格し、見出しの直後がいきなり写真になる。週案エディタのマニュアルで 6 か所起き、公開ページを見るまで気づけなかった",
+      "guardedBy": [
+        {
+          "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+          "contains": "本文から外れて添え字になる"
+        },
+        {
+          "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+          "contains": "本文から外れる"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "画像の名前に空白があると、検査だけが通して組み立てが空白の手前までしか読まず、公開ページで画像が割れる。検査は ([^)]+)、組み立ては [^)\\s]+ と、取り方が違っていた",
+      "guardedBy": [
+        {
+          "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+          "contains": "組み立ては空白の手前"
+        },
+        {
+          "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+          "contains": "空白を入れない"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "見出しの目印（【重要】【！！】）を目次の文字としてしか扱っておらず、書き手は色が付くつもりで書いていたのに、出てきたページでは他の節とまったく同じ見え方だった",
+      "guardedBy": [
+        {
+          "file": "tools/lib/manual-page.test.mjs",
+          "contains": "目印のクラスは style.css に実体がある"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "正本の配布が、作業ツリーごと既定ブランチへ運んでいた。git add . して main へ直接 merge・push する作りなので、書きかけのファイルと、出ていた作業ブランチの未マージのコミットが「chore(standards): Sync with latest standards」というコミットに巻きこまれて main に載り、開いていた PR が「マージ済み」として閉じた",
+      "guardedBy": [
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "配る前から変更が"
+        },
+        {
+          "file": "tools/distribute.mjs",
+          "contains": "既定ブランチから枝を出す"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "共通部品が Shadow DOM に入れる <style> を、CSP の style-src 'self' が弾いていた。例外は飛ばず、リンクは出たまま見た目だけが落ちて、48px のタップ領域が 28px になっていた。艦隊は 'unsafe-inline' を付けている repo と付けていない repo に割れており、緩いほうで先に試したので気づけなかった",
+      "guardedBy": [
+        {
+          "file": "standards/web/giga-app-links.js",
+          "contains": "adoptedStyleSheets"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "CSP"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "部品の data-links を置き場所の <div> に書いても効かず、しかも黙って 4 つとも出た。絞ったつもりの側にはエラーも警告も出ないので、実ブラウザでリンクを数えるまで気づけない",
+      "guardedBy": [
+        {
+          "file": "standards/web/giga-app-links.js",
+          "contains": "slot.links"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "置き場所"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "共通部品が、画面を後から描くアプリ（React など）で置き場所を見つけられなかった。DOMContentLoaded の時点では <div data-giga-links> がまだ無い。置き場所が見つからないだけでなく、そこに書いた data-links も読めず、黙って既定の全部が画面のいちばん下に出ていた。フッターに置いたはずのリンクが本文の下に落ち、外したはずの「つかいかた」も出ていた",
+      "guardedBy": [
+        {
+          "file": "standards/web/giga-app-links.js",
+          "contains": "SLOT_WAIT_MS"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "後から来たら、出しなおして移す"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "後から描くアプリへの手当てを「置き場所を待ってから出す」と書いたせいで、置き場所を持たないアプリでリンクが 1.5 秒あとに出るようになっていた。フッターの無いアプリのほうが数が多いので、直したつもりが広いほうを遅くしていた。実ブラウザで 400ms の時点を測って気づいた",
+      "guardedBy": [
+        {
+          "file": "standards/web/giga-app-links.js",
+          "contains": "まず出す。待たせない"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "まず出して、あとで移す"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "行き先のリンクを高さ 48px のボタンとして出したせいで、フッターが 2 行 115px に太り、アプリの表示領域を押しつぶしていた。押せる大きさは要るが、見えている高さまで 48px にする必要は無かった。見た目は 26px のままにして、当たり判定だけを ::after で外へ広げる",
+      "guardedBy": [
+        {
+          "file": "standards/web/giga-app-links.js",
+          "contains": "min-inline-size:48px を外さないこと"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "見えている高さは細いまま"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "フッターの 1 行に収まる形になっている"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "symptom": "置き場所へ移した時点で見張りを畳んでいたので、画面によって出し入れされる React のフッター（宿題ポストの view!=='admin'、教材プリントメーカーの !currentTextbookId）では、画面を 1 回切り替えるとリンクが二度と戻らなかった。置き場所ごと消えるのに、消えたことを誰も見ていない。実ブラウザで往復させて気づいた",
+      "guardedBy": [
+        {
+          "file": "standards/web/giga-app-links.js",
+          "contains": "置き場所へ移したあとも見張りをやめないこと"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "置き場所ごと消えたら、出しなおす"
+        },
+        {
+          "file": "standards/web/giga-app-links.test.mjs",
+          "contains": "isConnected だけで決めない"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-30",
+      "symptom": "HTML コメントの中に書いた assets/*.css の /* を、JavaScript 用のコメント外しがブロックコメントの開始と取りちがえ、そのコメント自身の --> まで食べていた。残された <!-- がずっと後ろの --> と対になり、あいだの <script src=\"https://…\"> がまるごと消える。CDN の script をわざと注ぎこんでも B_NO_CDN_CODE が落ちず、npm run check は緑のまま check:self だけが見つけた。HTML コメントを先に落とすように順番を直した",
+      "guardedBy": [
+        {
+          "file": "standards/lib/giga-v5-checks.mjs",
+          "contains": "stripHtmlComments"
+        },
+        {
+          "file": "standards/lib/giga-v5-checks.test.mjs",
+          "contains": "HTML コメントの中の /* が、あとの <script src> を食べない"
+        },
+        {
+          "file": "standards/lib/giga-v5-checks.test.mjs",
+          "contains": "HTML コメントに /* があっても CDN を見のがさない"
+        }
+      ]
     }
-   ]
-  },
-  {
-   "date": "2026-08-22",
-   "symptom": "正本を直したのに配り忘れ、10 リポジトリの main が一斉に赤くなった",
-   "guardedBy": [
-    {
-     "file": "tools/check-distribution.mjs",
-     "contains": "配っていません"
-    },
-    {
-     "file": ".github/workflows/check-distribution.yml",
-     "contains": "schedule"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-24",
-   "symptom": "Quarto 紹介ページの画像リンクが切れ、main が赤くなった",
-   "guardedBy": [
-    {
-     "file": "tools/build-articles.mjs",
-     "contains": "raw.githubusercontent.com"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-25",
-   "symptom": "GITHUB_TOKEN による push は後続のワークフローを起動せず、検査が漏れた",
-   "guardedBy": [
-    {
-     "file": ".github/workflows/sync-updates.yml",
-     "contains": "build-sw.mjs"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": ".agents/skills が正本照合の外にあり、書き替えても緑のまま通った",
-   "guardedBy": [
-    {
-     "file": "standards/check-drift.mjs",
-     "contains": "SKILL_ROOTS"
-    },
-    {
-     "file": "standards/check-drift.mjs",
-     "contains": "unregisteredSkills"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "giga-reviewer の入口判定が Windows で一致せず、何も検査せず exit 0 になっていた",
-   "guardedBy": [
-    {
-     "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs",
-     "contains": "pathToFileURL"
-    },
-    {
-     "file": "standards/skills/giga-reviewer/scripts/lint-giga.test.mjs",
-     "contains": "test("
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "受け渡し口の APP_ID がプレースホルダーのままで、9 本の学習記録が 1 件も届いていなかった",
-   "guardedBy": [
-    {
-     "file": "tools/distribute.mjs",
-     "contains": "normalize"
-    },
-    {
-     "file": "standards/check-drift.mjs",
-     "contains": "app-id"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "auto-distribute が PAT_TOKEN 未設定のまま走り、42 本ぶんの 403 で終わっていた",
-   "guardedBy": [
-    {
-     "file": ".github/workflows/auto-distribute.yml",
-     "contains": "PAT_TOKEN があるか先に確かめる"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "記事の画面写真の指紋が無く、画像 230 枚が毎回『差しかわった』と数えられていた",
-   "unguarded": "この検査は自動では復旧しない。赤くなったら人が build-article-images.py を走らせて指紋を作り直す。機械で直せる形が無いので、宣言して残す（2026-08-28）"
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "Google Fonts の text= が約 800 字で、HTTP 200 のまま効かなくなる",
-   "guardedBy": [
-    {
-     "file": "standards/fonts/build-fonts.mjs",
-     "contains": "assertSingleFace"
-    },
-    {
-     "file": "standards/fonts/build-fonts.test.mjs",
-     "contains": "assertSingleFace"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "正本へ足したものを、コミットする前に配布先へ写した（手元だけ緑で、正本が古いまま残る）",
-   "unguarded": "順番の約束であって、コミット前の状態を機械が見張る手だてが無い。CLAUDE.md・skills/giga-fleet・distribute.mjs のコメントの 3 か所に書いてある（2026-08-29）"
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "収録する字に日本語コメントの漢字まで数え、GAS へ埋めこむ CSS が 589KB になっていた",
-   "guardedBy": [
-    {
-     "file": "standards/lib/giga-v5-checks.mjs",
-     "contains": "stripComments"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "静的検査が『0 件』と言い、ブラウザは外を読んでいた（//cdn、<img src>、印刷ウィンドウの @import の 3 件）",
-   "guardedBy": [
-    {
-     "file": "standards/skills/giga-reviewer/scripts/lint-giga.mjs",
-     "contains": "(?:https?:)?"
-    },
-    {
-     "file": "standards/web/verify-no-external.mjs",
-     "contains": "context.on('request'"
-    },
-    {
-     "file": ".github/workflows/verify-runtime.yml",
-     "contains": "schedule"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "生成物の検査が、前に npm run build を置くだけで必ず緑になっていた（10 本）",
-   "guardedBy": [
-    {
-     "file": "standards/vendor/verify-generated.mjs",
-     "contains": "git"
-    },
-    {
-     "file": "standards/vendor/verify-generated.mjs",
-     "contains": "コミット"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-28",
-   "symptom": "中身を原本へ移したら、検査が見るものを失って緑になった（決め打ちの一覧）",
-   "unguarded": "『決め打ちの一覧を書かない』という書き方の約束で、機械で見張る形にできていない。検査する一覧は入口のファイル自身から読むこと（2026-08-28）"
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": ".agents/rules/gigaschool-standards.md が 42 本へ配られていたのに、どの standards-map.json にも載っておらず、書き替えても check-drift が exit 0 を返した",
-   "guardedBy": [
-    {
-     "file": "tools/distribute.mjs",
-     "contains": "ensureFile('agents/rules/gigaschool-standards.md'"
-    },
-    {
-     "file": "standards/check-drift.test.mjs",
-     "contains": "ルールファイルを 1 行書き替えたら落ちる"
-    },
-    {
-     "file": "tools/check-distribution.mjs",
-     "contains": "agentContextProblems"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "Claude Code だけが常時ルールを読んでいなかった（.agents/rules は 43 本、CLAUDE.md は 3 本）",
-   "guardedBy": [
-    {
-     "file": "standards/agents/CLAUDE.md",
-     "contains": "@.agents/rules/gigaschool-standards.md"
-    },
-    {
-     "file": "tools/distribute.mjs",
-     "contains": "STANDARDS_CLAUDE_MD"
-    },
-    {
-     "file": "tools/check-distribution.test.mjs",
-     "contains": "取りこみの行"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "配布のとりのこし検査が、配布と同じ push で起動して競走に負け、マージのたびに必ず赤くなっていた（2026-08-27 以降ほぼ全部）",
-   "guardedBy": [
-    {
-     "file": ".github/workflows/check-distribution.yml",
-     "contains": "workflow_run"
-    },
-    {
-     "file": "tools/check-distribution.test.mjs",
-     "contains": "配布のとりのこしは push で起動しない"
-    },
-    {
-     "file": "tools/check-distribution.test.mjs",
-     "contains": "workflow_run が指す名前が、配布ワークフローの name と一致する"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "実ブラウザ検査の『0 件を信じない』を要求の数で書いたら、接続できない URL が合格になった（失敗した navigation の要求も記録されるため）",
-   "guardedBy": [
-    {
-     "file": "standards/web/verify-no-external.mjs",
-     "contains": "okResponses"
-    },
-    {
-     "file": "standards/web/verify-no-external.mjs",
-     "contains": "成功した応答"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "fleet-status が古い手元のクローンを数え、配り終えた直後に「CLAUDE.md 3/42」と出した（GitHub 上は 42/42）",
-   "guardedBy": [
-    {
-     "file": "tools/fleet-status.mjs",
-     "contains": "cloneState"
-    },
-    {
-     "file": "tools/fleet-status.mjs",
-     "contains": "staleWarning"
-    },
-    {
-     "file": "tools/fleet-status.test.mjs",
-     "contains": "警告には「上の数字はその古い写しを数えたもの」と書く"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "紹介ページ 32 本と開発記録で「リンクをコピー」が押しても何も起きなかった。[data-copy] を拾うのは assets/app.js だけで、紹介ページは assets/article.js しか読んでいない。ボタンは画面に出ているので、目でも検査でも気づけなかった",
-   "guardedBy": [
-    {
-     "file": "assets/copy.js",
-     "contains": "[data-copy]"
-    },
-    {
-     "file": "tools/check-cards.mjs",
-     "contains": "押せるボタンの処理が読み込まれている"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "組み直したページを sync-updates.yml の PATHS に並べ忘れると、毎朝つくり直されては毎朝捨てられ、リポジトリには古いものが残る。検査は組み直したあとを見るので緑のまま通り、目でも検査でも気づけない",
-   "guardedBy": [
-    {
-     "file": "tools/check-outputs.mjs",
-     "contains": "PATHS"
-    },
-    {
-     "file": "tools/outputs.json",
-     "contains": "tools/build-manuals.mjs"
-    },
-    {
-     "file": "tools/check-outputs.test.mjs",
-     "contains": "PATHS に並べ忘れた道があると落ちる"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "紹介ページの組み立てが、1 本も取れなかった朝に「記事が全部無くなった」と見なして 32 本を削除し、その削除をコミットする作りだった。手元で GitHub API に届かない状態で 1 回走らせただけで実際に消えた",
-   "guardedBy": [
-    {
-     "file": "tools/build-articles.mjs",
-     "contains": "1 本も組めなかったときは、1 枚も消さない"
-    },
-    {
-     "file": "tools/build-manuals.mjs",
-     "contains": "1 本も組めなかったときは、1 枚も消さない"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "本文の囲みのクラスを増やすと、検索の索引（search-index.mjs の BODY_RE）から黙って落ちる。ページは正しく出るので気づけない",
-   "guardedBy": [
-    {
-     "file": "tools/lib/manual-page.test.mjs",
-     "contains": "search-index.mjs の見ている形と同じ"
-    },
-    {
-     "file": "tools/lib/search-index.mjs",
-     "contains": "BODY_RE"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "画像の直後に置いた段落が、組み立てに写真の説明とみなされて本文から外れる。節の中身をそこに書くと一段落まるごと添え字に降格し、見出しの直後がいきなり写真になる。週案エディタのマニュアルで 6 か所起き、公開ページを見るまで気づけなかった",
-   "guardedBy": [
-    {
-     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
-     "contains": "本文から外れて添え字になる"
-    },
-    {
-     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
-     "contains": "本文から外れる"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "画像の名前に空白があると、検査だけが通して組み立てが空白の手前までしか読まず、公開ページで画像が割れる。検査は ([^)]+)、組み立ては [^)\\s]+ と、取り方が違っていた",
-   "guardedBy": [
-    {
-     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
-     "contains": "組み立ては空白の手前"
-    },
-    {
-     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
-     "contains": "空白を入れない"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "見出しの目印（【重要】【！！】）を目次の文字としてしか扱っておらず、書き手は色が付くつもりで書いていたのに、出てきたページでは他の節とまったく同じ見え方だった",
-   "guardedBy": [
-    {
-     "file": "tools/lib/manual-page.test.mjs",
-     "contains": "目印のクラスは style.css に実体がある"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "正本の配布が、作業ツリーごと既定ブランチへ運んでいた。git add . して main へ直接 merge・push する作りなので、書きかけのファイルと、出ていた作業ブランチの未マージのコミットが「chore(standards): Sync with latest standards」というコミットに巻きこまれて main に載り、開いていた PR が「マージ済み」として閉じた",
-   "guardedBy": [
-    {
-     "file": "tools/distribute.mjs",
-     "contains": "配る前から変更が"
-    },
-    {
-     "file": "tools/distribute.mjs",
-     "contains": "既定ブランチから枝を出す"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "共通部品が Shadow DOM に入れる <style> を、CSP の style-src 'self' が弾いていた。例外は飛ばず、リンクは出たまま見た目だけが落ちて、48px のタップ領域が 28px になっていた。艦隊は 'unsafe-inline' を付けている repo と付けていない repo に割れており、緩いほうで先に試したので気づけなかった",
-   "guardedBy": [
-    {
-     "file": "standards/web/giga-app-links.js",
-     "contains": "adoptedStyleSheets"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "CSP"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "部品の data-links を置き場所の <div> に書いても効かず、しかも黙って 4 つとも出た。絞ったつもりの側にはエラーも警告も出ないので、実ブラウザでリンクを数えるまで気づけない",
-   "guardedBy": [
-    {
-     "file": "standards/web/giga-app-links.js",
-     "contains": "slot.links"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "置き場所"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "共通部品が、画面を後から描くアプリ（React など）で置き場所を見つけられなかった。DOMContentLoaded の時点では <div data-giga-links> がまだ無い。置き場所が見つからないだけでなく、そこに書いた data-links も読めず、黙って既定の全部が画面のいちばん下に出ていた。フッターに置いたはずのリンクが本文の下に落ち、外したはずの「つかいかた」も出ていた",
-   "guardedBy": [
-    {
-     "file": "standards/web/giga-app-links.js",
-     "contains": "SLOT_WAIT_MS"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "後から来たら、出しなおして移す"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "後から描くアプリへの手当てを「置き場所を待ってから出す」と書いたせいで、置き場所を持たないアプリでリンクが 1.5 秒あとに出るようになっていた。フッターの無いアプリのほうが数が多いので、直したつもりが広いほうを遅くしていた。実ブラウザで 400ms の時点を測って気づいた",
-   "guardedBy": [
-    {
-     "file": "standards/web/giga-app-links.js",
-     "contains": "まず出す。待たせない"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "まず出して、あとで移す"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "行き先のリンクを高さ 48px のボタンとして出したせいで、フッターが 2 行 115px に太り、アプリの表示領域を押しつぶしていた。押せる大きさは要るが、見えている高さまで 48px にする必要は無かった。見た目は 26px のままにして、当たり判定だけを ::after で外へ広げる",
-   "guardedBy": [
-    {
-     "file": "standards/web/giga-app-links.js",
-     "contains": "min-inline-size:48px を外さないこと"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "見えている高さは細いまま"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "フッターの 1 行に収まる形になっている"
-    }
-   ]
-  },
-  {
-   "date": "2026-08-29",
-   "symptom": "置き場所へ移した時点で見張りを畳んでいたので、画面によって出し入れされる React のフッター（宿題ポストの view!=='admin'、教材プリントメーカーの !currentTextbookId）では、画面を 1 回切り替えるとリンクが二度と戻らなかった。置き場所ごと消えるのに、消えたことを誰も見ていない。実ブラウザで往復させて気づいた",
-   "guardedBy": [
-    {
-     "file": "standards/web/giga-app-links.js",
-     "contains": "置き場所へ移したあとも見張りをやめないこと"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "置き場所ごと消えたら、出しなおす"
-    },
-    {
-     "file": "standards/web/giga-app-links.test.mjs",
-     "contains": "isConnected だけで決めない"
-    }
-   ]
-  }
- ]
+  ]
 }
