@@ -40,6 +40,43 @@ const FENCE_RE = /^```/;
 const CODE_SLOT = (i) => `%%code${i}%%`;
 const CODE_SLOT_RE = /%%code(\d+)%%/g;
 
+/* ── ふりがな（<ruby>）だけは、書いたまま通す ────────────────────
+ *
+ * ここは生の HTML を一律に esc() している。本文に <script> を書かれても
+ * ただの字として出る、という守りかたで、それ自体は変えない。
+ *
+ * ただ 1 つだけ困っていたのが ふりがな だった。giga-manual の書式は
+ * 「子ども向けのマニュアルでは、ルビを HTML でそのまま書く」と決めていて、
+ * 対象学年が 1〜6 年のアプリでは そう書くのが正しい。ところが esc() が
+ * 一律にかかるので、公開ページには
+ *   &lt;ruby&gt;学&lt;rt&gt;がく&lt;/rt&gt;&lt;/ruby&gt;
+ * つまり「<ruby>学<rt>がく</rt></ruby>」という字がそのまま出ていた。
+ * 手元の Markdown 表示でも lint でも正しく見えるので、公開ページを
+ * 見るまで気づけない壊れ方をする（2026-08-30、Qalc のマニュアルで実際に
+ * 51 か所 踏んだ）。
+ *
+ * そこで `コード` と同じやり方で、esc() の前に預けて後で戻す。
+ * 許すのは <ruby> と、その中の <rt> <rp> だけ。属性は 1 つも通さない。
+ *
+ * ⚠️ 見出しでは使わないこと。目次（article-toc.mjs の textOf）は
+ *    タグを落として文字だけにするので、「学年」が「学がく年ねん」になる。
+ *    lint-manual.mjs がそこを見ている。 */
+const RUBY_SLOT = (i) => `%%ruby${i}%%`;
+const RUBY_SLOT_RE = /%%ruby(\d+)%%/g;
+
+/** <ruby>…</ruby> ひとかたまり。入れ子は考えない（ふりがなに入れ子はない）。 */
+const RUBY_RE = /<ruby>((?:(?!<\/?ruby>)[\s\S])*)<\/ruby>/g;
+
+/**
+ * <ruby> の中身を、許したタグだけ残して組み立て直す。
+ * 文字はすべて esc() を通すので、<rt> <rp> 以外は字として出る。
+ */
+const rubyHtml = (inner) => `<ruby>${
+  String(inner).replace(/<\/?(?:rt|rp)>|[\s\S]/g, (piece) => (
+    /^<\/?(?:rt|rp)>$/.test(piece) ? piece : esc(piece)
+  ))
+}</ruby>`;
+
 export const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;');
@@ -47,9 +84,13 @@ export const esc = (s) => String(s)
 /** 行のなかの記法。順番に意味がある（コードを先に逃がしてから、ほかを見る）。 */
 function inline(text) {
   const code = [];
+  const ruby = [];
   let s = String(text)
     // `コード` は中身をそのまま見せたい。先に預けておき、最後に戻す。
-    .replace(/`([^`]+)`/g, (_, c) => CODE_SLOT(code.push(c) - 1));
+    .replace(/`([^`]+)`/g, (_, c) => CODE_SLOT(code.push(c) - 1))
+    // ふりがなも預ける。`コード` のあとに見るので、コードの中の
+    // <ruby> は ふりがなにならず、字のまま出る。
+    .replace(RUBY_RE, (_, inner) => RUBY_SLOT(ruby.push(rubyHtml(inner)) - 1));
 
   s = esc(s)
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
@@ -63,7 +104,9 @@ function inline(text) {
     .replace(/(^|[^"=>])(https?:\/\/[^\s<)）」、。]+)/g,
       (_, before, u) => `${before}<a href="${u}" rel="noopener">${u}</a>`);
 
-  return s.replace(CODE_SLOT_RE, (_, i) => `<code>${esc(code[Number(i)])}</code>`);
+  return s
+    .replace(CODE_SLOT_RE, (_, i) => `<code>${esc(code[Number(i)])}</code>`)
+    .replace(RUBY_SLOT_RE, (_, i) => ruby[Number(i)]);
 }
 
 /**
