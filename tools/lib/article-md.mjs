@@ -25,6 +25,8 @@
  * （1 行であること、120 字以内であること）。
  */
 
+import { stripRuby } from './plain-text.mjs';
+
 /** 画像の下の一文を説明とみなす上限。XXX_automatic の CAPTION_MAX_CHARS と同じ。 */
 const CAPTION_MAX_CHARS = 120;
 
@@ -200,9 +202,18 @@ function blocksOf(markdown) {
   return blocks;
 }
 
-/** 段落が、直前の画像の説明として使える形か。 */
+/**
+ * 段落が、直前の画像の説明として使える形か。
+ *
+ * ⚠️ 長さは**ふりがなを外して**数える。子ども向けマニュアルの
+ *    「ここを 見て ください。」は 12 字だが、ルビを振ると 100 字を超える。
+ *    素の長さで見ると、書き手がふりがなを足しただけで説明文が本文の段落へ
+ *    格下げされ、写真から離れたところに出る。手元では何も起きず、
+ *    公開ページを見るまで気づけない。
+ */
 const looksLikeCaption = (block) =>
-  block?.kind === 'p' && !block.text.includes('\n') && block.text.length <= CAPTION_MAX_CHARS;
+  block?.kind === 'p' && !block.text.includes('\n')
+  && stripRuby(block.text).length <= CAPTION_MAX_CHARS;
 
 /**
  * 記事の Markdown を、ページに入れる HTML にする。
@@ -258,14 +269,14 @@ export function renderArticle(markdown, { imageUrl }) {
       }
 
       case 'p':
-        charCount += b.text.length;
+        charCount += stripRuby(b.text).length;   // ふりがなは字数に入れない
         if (!lead) lead = b.text;
         out.push(`<p>${inline(b.text)}</p>`);
         return;
 
       case 'ol':
       case 'ul': {
-        b.items.forEach((i) => { charCount += i.length; });
+        b.items.forEach((i) => { charCount += stripRuby(i).length; });
         /* 画面写真をはさんだ手順は、番号を続ける（b.start は blocksOf が決める）。
            付けないと、写真のたびに番号が 1 に戻る。 */
         const start = b.kind === 'ol' && b.start > 1 ? ` start="${b.start}"` : '';
@@ -274,7 +285,7 @@ export function renderArticle(markdown, { imageUrl }) {
       }
 
       case 'quote':
-        b.lines.forEach((l) => { charCount += l.length; });
+        b.lines.forEach((l) => { charCount += stripRuby(l).length; });   // 引用も同じ
         out.push('<blockquote>' + b.lines.map((l) => `<p>${inline(l)}</p>`).join('') + '</blockquote>');
         return;
 

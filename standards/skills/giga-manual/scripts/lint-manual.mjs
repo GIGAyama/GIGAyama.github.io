@@ -36,6 +36,24 @@ const EMPTY_NAMES = [
   'はじめに以外', '各種機能', 'その他の設定', 'まとめ',
 ];
 
+/**
+ * ふりがなを外して数える。
+ *
+ * ⚠️ 子ども向けマニュアルの本文には `<ruby>計算<rt>けいさん</rt></ruby>` が入る。
+ *    素の字は 2 字だが、文字列は 30 字ちかい。長さで見ている検査を素のまま
+ *    当てると、短すぎる見出しの警告が消え、写真の説明文が「長すぎる」と
+ *    誤って鳴る。読む長さで見たいのだから、markup は外してから数える。
+ *
+ *    ⚠️ ここに正本の tools/lib/plain-text.mjs を import しない。この検査は
+ *       42 本の配布先で単体で走るので、向こうには そのファイルが無い。
+ */
+const stripRuby = (t) => String(t)
+  .replace(/<(rt|rp)\b[^>]*>[\s\S]*?<\/\1>/gi, '')
+  .replace(/<\/?ruby\b[^>]*>/gi, '');
+
+/** 読む長さ。ふりがなは数に入れない。 */
+const readLen = (t) => stripRuby(t).length;
+
 /** 見出しの短さの下限。参照マニュアルの見出しは平均 14.8 字ある。 */
 const HEADING_MIN = 5;
 
@@ -119,9 +137,9 @@ export function lintManual(md) {
         + '何を・どうするのかが分かる名前にする（例「週案のセルから単元を選ぶ」）');
       continue;
     }
-    if (name.length < HEADING_MIN && !CONVENTIONAL.includes(name)) {
+    if (readLen(name) < HEADING_MIN && !CONVENTIONAL.includes(name)) {
       say('warn', h.line,
-        `見出し「${h.text}」が ${name.length} 字と短い。`
+        `見出し「${h.text}」が ${readLen(name)} 字と短い。`
         + '目次に並べたときに中身が分かるか確かめる');
     }
   }
@@ -284,12 +302,12 @@ export function lintManual(md) {
       const nextAt2 = rest.findIndex((x) => x.trim() !== '');
       const next2 = nextAt2 === -1 ? '' : rest[nextAt2].trim();
       const isCaption = next2 && !HEADING.test(next2) && !IMAGE_LINE.test(next2)
-        && !ORDERED.test(next2) && next2.length <= CAPTION_MAX;
+        && !ORDERED.test(next2) && readLen(next2) <= CAPTION_MAX;
       const after2 = isCaption
         ? rest.slice(nextAt2 + 1).find((x) => x.trim() !== '') ?? ''
         : next2;
       const breaks = after2 && !ORDERED.test(after2) && !HEADING.test(after2)
-        && !IMAGE_LINE.test(after2) && after2.trim().length > CAPTION_MAX;
+        && !IMAGE_LINE.test(after2) && readLen(after2.trim()) > CAPTION_MAX;
       /* ⚠️ 手順がそこで終わっているなら、何も壊れていない。
          この先に続きの手順があるときだけ言う。終わった手順のあとに
          ふつうの段落を書くのは当たり前のことなので、そこで鳴らすと
@@ -313,8 +331,8 @@ export function lintManual(md) {
     const alone = nextAt !== -1 && (lines[nextAt + 1] ?? '').trim() === '';
     const plain = next && !HEADING.test(next) && !IMAGE_LINE.test(next)
       && !ORDERED.test(next) && !/^\s*[-*]\s/.test(next) && !/^\s*```/.test(next);
-    if (plain && alone && next.length > CAPTION_MAX && next.length <= CAPTION_MAX * 2) {
-      say('warn', nextAt + 1, `画像の直後の 1 段落が ${next.length} 字。`
+    if (plain && alone && readLen(next) > CAPTION_MAX && readLen(next) <= CAPTION_MAX * 2) {
+      say('warn', nextAt + 1, `画像の直後の 1 段落が ${readLen(next)} 字。`
         + `${CAPTION_MAX} 字までならキャプションとして画像に添うが、超えると`
         + 'ふつうの本文になる（写真から離れて出る）');
     }
@@ -339,8 +357,8 @@ export function lintManual(md) {
         + 'ラベル行や箱の見出しなら、画像より前に移すか、あいだに写真を見るための一言を置く');
     }
     if (plain && alone && !LABEL.test(next)
-      && next.length > CAPTION_SHORT && next.length <= CAPTION_MAX) {
-      say('warn', nextAt + 1, `画像の直後の 1 段落が ${next.length} 字。`
+      && readLen(next) > CAPTION_SHORT && readLen(next) <= CAPTION_MAX) {
+      say('warn', nextAt + 1, `画像の直後の 1 段落が ${readLen(next)} 字。`
         + 'ここに書いたものは写真の説明とみなされ、本文から外れて添え字になる。'
         + '節の中身なら、画像より前に移すこと');
     }

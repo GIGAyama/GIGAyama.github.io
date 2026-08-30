@@ -632,6 +632,50 @@
      "contains": "押せるのに待てない"
     }
    ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "ふりがなを実際に振ってみたら、今度は「長さで見ている判定」が一斉に狂った。article-md.mjs の looksLikeCaption は写真の説明とみなす上限 120 字を素の Markdown で見ていたので、素で 57 字の説明文がルビを振ると 165 字になり、figcaption から本文の段落へ黙って格下げされる（写真から離れて出る）。charCount も markup を数えるので水増しされる。lint-manual.mjs は 5 か所で同じことをしていて、ルビ入りのマニュアルに当てると嘘の警告が 8 件出た（「画像の直後の 1 段落が 77 字」——読む長さは 23 字）。見出しの短さの検査は逆向きに壊れ、ルビで水増しされた短い見出しを見のがす。読む長さで見たいのだから、markup を外してから数えるようにした。lint-manual.mjs は 42 本で単体で走るので、正本の plain-text.mjs は import できず、同じ処理をその場に置いてある",
+   "guardedBy": [
+    {
+     "file": "tools/lib/article-md.mjs",
+     "contains": "stripRuby(block.text).length <= CAPTION_MAX_CHARS"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "ふりがなを振っても、写真の説明文は説明文のまま"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "字数は、ふりがなを外して数える"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "const readLen = (t) => stripRuby(t).length"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "ふりがなを振った説明文を「長すぎる」と言わない"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "ふりがなで水増しされた見出しでも、短ければ短いと言う"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "Qalc のマニュアル 434 か所へふりがなを振る作業を 9 つに割って進めたところ、1 つが「渡した通し番号」ではなく「自分に渡ったファイルの行番号」を返した。37 か所で別の字に別のよみが乗り、37 か所が空になった。読みを見直す役は、よみだけを突きあわせていたので気づかない。「ふりがなを外すと元の本文に戻る」という検査も、番号がずれたまま通る（本文は書き換わっていないため）。番号の重複と欠けを別に数えて捕まえた。分けて進める仕事では、返ってきた番号が渡した番号かを必ず別に確かめること。giga-manual の format.md に、振り終わったら機械で確かめる 2 点を書いた",
+   "guardedBy": [
+    {
+     "file": "standards/skills/giga-manual/references/format.md",
+     "contains": "振り終わったら、機械で確かめる"
+    },
+    {
+     "file": "standards/skills/giga-manual/references/format.md",
+     "contains": "通し番号を取りちがえて 37 か所に別のよみが乗った"
+    }
+   ]
   }
  ]
 }

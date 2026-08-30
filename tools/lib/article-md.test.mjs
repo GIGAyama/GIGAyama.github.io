@@ -221,3 +221,46 @@ test('ふりがなが 1 行に 2 つ あっても、それぞれ出る', () => {
   const { html } = render('<ruby>学<rt>がく</rt></ruby><ruby>年<rt>ねん</rt></ruby>');
   assert.equal(html, '<p><ruby>学<rt>がく</rt></ruby><ruby>年<rt>ねん</rt></ruby></p>');
 });
+
+/* ── ふりがなと、長さで見ている判定 ────────────────────────
+ * 子ども向けマニュアルの本文には <ruby>計算<rt>けいさん</rt></ruby> が入る。
+ * 素の字は 2 字だが、文字列は 30 字ちかい。長さを素のまま見ると、
+ * 書き手がふりがなを足しただけで組み立ての結論が変わる。
+ */
+
+const RUBY_CAP = 'ここを 見て ください。おすと <ruby>制限時間<rt>せいげんじかん</rt></ruby>の せっていが ひらき、'
+  + '<ruby>出題<rt>しゅつだい</rt></ruby>の じゅんばんと <ruby>問題<rt>もんだい</rt></ruby>の '
+  + '<ruby>種類<rt>しゅるい</rt></ruby>を えらべます。';
+const PLAIN_CAP = 'ここを 見て ください。おすと 制限時間の せっていが ひらき、'
+  + '出題の じゅんばんと 問題の 種類を えらべます。';
+const withCaption = (cap) => [
+  '# 題', '', '## 章', '', '本文です。', '', '![絵](images/01.png)', '', cap, '', 'つぎの 段落。', '',
+].join('\n');
+
+test('ふりがなを振っても、写真の説明文は説明文のまま', () => {
+  // 素で 57 字の説明文が、ルビを振ると 165 字になる。素の長さで見ていたころは
+  // ここで 120 字を超え、figcaption から本文の段落へ黙って格下げされていた
+  assert.ok(RUBY_CAP.length > 120 && PLAIN_CAP.length <= 120, 'この試験の前提が崩れている');
+  const r = renderArticle(withCaption(RUBY_CAP), { imageUrl: (t) => t });
+  assert.match(r.html, /<figcaption>/);
+  assert.equal(r.images[0].caption, RUBY_CAP);
+});
+
+test('字数は、ふりがなを外して数える', () => {
+  const a = renderArticle(withCaption(PLAIN_CAP), { imageUrl: (t) => t });
+  const b = renderArticle(withCaption(RUBY_CAP), { imageUrl: (t) => t });
+  assert.equal(b.charCount, a.charCount);
+});
+
+test('箇条書きの中のふりがなも字数に入れない', () => {
+  const a = renderArticle('# 題\n\n## 章\n\n- 計算の れんしゅう\n', { imageUrl: (t) => t });
+  const b = renderArticle('# 題\n\n## 章\n\n- <ruby>計算<rt>けいさん</rt></ruby>の れんしゅう\n', { imageUrl: (t) => t });
+  assert.equal(b.charCount, a.charCount);
+});
+
+test('引用の中のふりがなも字数に入れない', () => {
+  const a = renderArticle('# 題\n\n## 章\n\n> 計算の れんしゅう\n', { imageUrl: (t) => t });
+  const b = renderArticle('# 題\n\n## 章\n\n> <ruby>計算<rt>けいさん</rt></ruby>の れんしゅう\n', { imageUrl: (t) => t });
+  assert.equal(b.charCount, a.charCount);
+  assert.ok(a.charCount > 0, 'そもそも引用が数えられていない');
+});
