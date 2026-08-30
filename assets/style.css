@@ -1391,6 +1391,12 @@
     z-index: 2;
     margin: 0;
     padding-block-start: var(--s-1);
+    /* ボタンは縦にならぶ。あいだを空けないと、角丸どうしが接して
+       1 つの大きな箱に見え、2 つあることが分かりにくい。
+       ボタンが 1 つだけのアプリでは gap は効かないので、見た目は変わらない。 */
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
   }
   .card__note {
     position: relative;
