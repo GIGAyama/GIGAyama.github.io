@@ -23,12 +23,18 @@ import { fileURLToPath } from 'node:url';
 /* 置き場の一覧は check-drift.mjs から借りる。配る側と照合する側で別々に
    持つと、片方だけ直したときに「配ってはいるが誰も見ていない」置き場が生まれる。 */
 import { NORMALIZERS, SKILL_ROOTS } from '../standards/check-drift.mjs';
+/* 配布先ごとに埋める字。distribute.mjs は読みこむと配布が始まるので、
+   テストできるように純関数だけ別ファイルへ置いてある。 */
+import {
+  loadApps, fillPlaceholders, hasUnfilledPlaceholder, hasUnfilledAppId,
+} from './lib/app-placeholders.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, '..');
 const BASE_DIR = path.resolve(REPO_ROOT, '..');
 
 const STANDARDS_DIR = path.join(REPO_ROOT, 'standards');
+const APPS_JSON = path.join(REPO_ROOT, 'data', 'apps.json');
 const STANDARDS_SKILLS_DIR = path.join(STANDARDS_DIR, 'skills');
 /* ⚠️ 正本は standards/ の下に置く（最重要ルール 3）。以前は配布元が
       .agents/rules/ を指していた。ポータル自身のローカルコピーが同時に正本
@@ -134,6 +140,8 @@ const results = {
   noChange: [],
   failed: []
 };
+
+const apps = loadApps(APPS_JSON, fs.readFileSync);
 
 for (const repoName of targetRepos) {
   const repoDir = path.join(BASE_DIR, repoName);
@@ -266,6 +274,14 @@ for (const repoName of targetRepos) {
           const dstFile = path.join(repoDir, item.local);
           if (!fs.existsSync(srcFile)) continue;
 
+          /* 配布先ごとに埋める字（いまはアプリの表示名だけ）。
+             そう宣言している対応表の行のときだけ中身を読む。ほかは
+             読まずにそのまま複製する（画像などが来ても壊さないため）。 */
+          const fillsName = Array.isArray(item.normalize) && item.normalize.includes('app-name');
+          const rendered = fillsName
+            ? fillPlaceholders(fs.readFileSync(srcFile, 'utf8'), apps.get(repoName))
+            : null;
+
           /* ⚠️ normalize を見ずに上書きしない。
            *
            * 対応表の normalize は「配布先ごとに変えてよい場所」の宣言で、
@@ -282,23 +298,50 @@ for (const repoName of targetRepos) {
            *     appId が合わないと、配備されていても学習記録は 1 件も届かない。
            *
            * そこで「normalize したうえで一致しているなら、そのまま置く」。
-           * 正本が本当に変わったときだけ上書きする。 */
+           * 正本が本当に変わったときだけ上書きする。
+           *
+           * ⚠️ ただし 2026-08-30 に、この形だけでは足りないことが分かった。
+           *    埋める役がどこにも居なかったので、配布先には正本の
+           *    __APP_NAME__ が生のまま届き、normalize は「埋めた値」と
+           *    「プレースホルダー」を同じ形へそろえてしまうため、
+           *    ここで毎回 continue して永久に配りなおされなかった。
+           *    9 本中 8 本が「このページは、__APP_NAME__の学習記録を…」と
+           *    公開されていた。生のプレースホルダーは「配布先が決めた値」
+           *    ではないので、先に弾く。 */
           if (Array.isArray(item.normalize) && item.normalize.length > 0
               && fs.existsSync(dstFile)) {
-            let c = fs.readFileSync(srcFile, 'utf8');
+            let c = rendered ?? fs.readFileSync(srcFile, 'utf8');
             let l = fs.readFileSync(dstFile, 'utf8');
-            let known = true;
-            for (const n of item.normalize) {
-              const fn = NORMALIZERS[n];
-              if (!fn) { known = false; break; }
-              c = fn(c); l = fn(l);
+            if (!hasUnfilledPlaceholder(l)) {
+              let known = true;
+              for (const n of item.normalize) {
+                const fn = NORMALIZERS[n];
+                if (!fn) { known = false; break; }
+                c = fn(c); l = fn(l);
+              }
+              // 差がプレースホルダーの中だけなら、配布先の値を残す
+              if (known && c === l) continue;
             }
-            // 差がプレースホルダーの中だけなら、配布先の値を残す
-            if (known && c === l) continue;
           }
 
           fs.mkdirSync(path.dirname(dstFile), { recursive: true });
-          fs.copyFileSync(srcFile, dstFile);
+          if (rendered === null) {
+            fs.copyFileSync(srcFile, dstFile);
+          } else {
+            fs.writeFileSync(dstFile, rendered, 'utf8');
+            if (hasUnfilledPlaceholder(rendered)) {
+              console.warn(`  ⚠️ ${repoName}: ${item.local} のアプリ名を埋められなかった`
+                + '（data/apps.json に この repo が無い）');
+            }
+          }
+
+          /* __APP_ID__ は機械では埋められない（記録ハブの識別子で、slug とは
+             別物）。残っていると学習記録が 1 件も届かないので、必ず知らせる。 */
+          if (Array.isArray(item.normalize) && item.normalize.includes('app-id')
+              && hasUnfilledAppId(fs.readFileSync(dstFile, 'utf8'))) {
+            console.warn(`  ⚠️ ${repoName}: ${item.local} の __APP_ID__ が埋まっていない。`
+              + '記録ハブへ学習記録が届かないので、手で決めて入れること');
+          }
         }
       }
       if (Array.isArray(map.dirs)) {

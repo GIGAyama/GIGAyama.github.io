@@ -101,6 +101,15 @@ jobs:
       - name: 分野ごとの入口ページのテスト
         run: node --test tools/lib/category-page.test.mjs
       # 索引が静かに空になっても、画面には「見つかりません」と出るだけで気づけない
+      # 配布先ごとに埋める字。埋める役が居なかったせいで、9 本中 8 本が
+      # 「このページは、__APP_NAME__の学習記録を…」と公開されていた。
+      # check-drift は両側をプレースホルダーへそろえて比べるので緑のままだった。
+      - name: 配布先ごとに埋める字のテスト
+        run: node --test tools/lib/app-placeholders.test.mjs
+      # 記事・開発記録・マニュアルの 3 つが通る唯一の道。壊すと 3 つ同時に、
+      # しかも「ページは出るが中身が違う」形で崩れる
+      - name: Markdown を HTML にするところのテスト
+        run: node --test tools/lib/article-md.test.mjs
       - name: 記事の中を探す索引のテスト
         run: node --test tools/lib/search-index.test.mjs
       # 更新の記録。書いていないアプリに何かが出ると、31 本ぶんを目で確かめることになる

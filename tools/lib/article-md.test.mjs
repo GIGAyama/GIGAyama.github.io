@@ -178,3 +178,46 @@ test('記号を落とす', () => {
   const r = render('あ <script>alert(1)</script> い\n');
   assert.ok(!r.html.includes('<script>'));
 });
+
+/* -----------------------------------------------------------------
+ * ふりがな（<ruby>）を通す（2026-08-30 に直したところ）
+ *
+ * giga-manual の書式は「子ども向けのマニュアルでは、ルビを HTML で
+ * そのまま書く」と決めているのに、inline() の esc() が一律にかかるので、
+ * 公開ページには「<ruby>学<rt>がく</rt></ruby>」という字がそのまま出ていた。
+ * 手元の Markdown 表示でも lint でも正しく見えるため、公開ページを見るまで
+ * 気づけない。Qalc のマニュアルで 51 か所 踏んでから分かった。
+ *
+ * 通すのは <ruby> <rt> <rp> だけ。ここを緩めると、記事の本文に書いた
+ * HTML がそのまま動くようになってしまうので、下の 6 本で締めておく。
+ * --------------------------------------------------------------- */
+test('ふりがなは そのまま出る', () => {
+  const { html } = render('<ruby>学<rt>がく</rt></ruby>年です。');
+  assert.equal(html, '<p><ruby>学<rt>がく</rt></ruby>年です。</p>');
+});
+
+test('ふりがなの外がわの生 HTML は、これまでどおり字になる', () => {
+  const { html } = render('あ<script>alert(1)</script>い');
+  assert.equal(html, '<p>あ&lt;script&gt;alert(1)&lt;/script&gt;い</p>');
+});
+
+test('ふりがなの中に書いたタグも、<rt> <rp> 以外は字になる', () => {
+  const { html } = render('<ruby>学<rt><script>x</script></rt></ruby>');
+  assert.equal(html, '<p><ruby>学<rt>&lt;script&gt;x&lt;/script&gt;</rt></ruby></p>');
+});
+
+test('属性を持った <ruby> は通さない（丸ごと字になる）', () => {
+  const { html } = render('<ruby onclick="x">学<rt>がく</rt></ruby>');
+  assert.ok(!html.includes('<ruby'), 'ruby 要素として出てはいけない');
+  assert.ok(html.includes('&lt;ruby onclick=&quot;x&quot;&gt;'), '字として出る');
+});
+
+test('`コード` の中の <ruby> は ふりがなにならない', () => {
+  const { html } = render('`<ruby>学<rt>がく</rt></ruby>`');
+  assert.equal(html, '<p><code>&lt;ruby&gt;学&lt;rt&gt;がく&lt;/rt&gt;&lt;/ruby&gt;</code></p>');
+});
+
+test('ふりがなが 1 行に 2 つ あっても、それぞれ出る', () => {
+  const { html } = render('<ruby>学<rt>がく</rt></ruby><ruby>年<rt>ねん</rt></ruby>');
+  assert.equal(html, '<p><ruby>学<rt>がく</rt></ruby><ruby>年<rt>ねん</rt></ruby></p>');
+});
