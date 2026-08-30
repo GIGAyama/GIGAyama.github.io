@@ -7,6 +7,7 @@
  */
 
 import { esc } from './article-md.mjs';
+import { stripRuby } from './plain-text.mjs';
 import { readingOf, tocOf, withAnchors } from './article-toc.mjs';
 import { shareOf } from './article-share.mjs';
 import { changelogSection, changesOf } from './changelog.mjs';
@@ -21,9 +22,20 @@ export const OG_FALLBACK = `${SITE}/assets/og.png`;
 /** 題から連載名を外す。外れなければそのまま使う。 */
 export const headlineOf = (title) => String(title).replace(SERIES_RE, '').trim() || String(title).trim();
 
-/** 説明文。長すぎると検索結果で切られるので、句点で切って整える。 */
+/**
+ * 説明文。長すぎると検索結果で切られるので、句点で切って整える。
+ *
+ * 渡ってくるのは本文の最初の段落の**素の Markdown**。子ども向けの
+ * マニュアルはそこにふりがなを振るので、落とさないと
+ * `<ruby>計算<rt>けいさん</rt></ruby>` がそのまま `<meta name="description">` と
+ * og:description と JSON-LD に入る。検索結果に生のタグが出る形になる。
+ *
+ * ⚠️ 落とすのはふりがなだけにする。タグらしきものを丸ごと外すと、
+ *    「1 < 2 のとき > を使う」のような素の文が食われる。
+ *    渡ってくるのは HTML ではなく Markdown なので、`<` は字のことがある。
+ */
 export function summaryOf(lead, limit = 110) {
-  const s = String(lead).replace(/\s+/g, ' ').trim();
+  const s = stripRuby(lead).replace(/\s+/g, ' ').trim();
   if (s.length <= limit) return s;
   const cut = s.slice(0, limit);
   const at = Math.max(cut.lastIndexOf('。'), cut.lastIndexOf('、'));

@@ -19,7 +19,7 @@
 | パス | 役割 | 由来（最初の正本に昇格した実装） |
 |---|---|---|
 | `check-drift.mjs` | 各リポジトリの CI から呼ぶ、正本とのずれ検知 | 新規 |
-| `sw/build-sw-vite.mjs` | Vite 系アプリの SW 版数・先読み一覧をビルド成果物の中身から自動生成 | digitalcloset `tools/build-sw.mjs` |
+| `sw/build-sw-vite.mjs` | Vite 系アプリの SW 版数・先読み一覧をビルド成果物の中身から自動生成（`--check` で CI 照合） | digitalcloset `tools/build-sw.mjs` |
 | `sw/build-sw-static.mjs` | 生成物をコミットするアプリの SW 版数を、先読み対象の中身から自動生成（`--check` で CI 照合） | xxx_automatic `scripts/build-sw.mjs` |
 | `records/records-export.js` | 学習ログ(study.v1)の読み取り専用受け渡し口（iframe + postMessage） | qalc `public/records-export.js` |
 | `records/records-export.html` | 受け渡し口のページ（人が開いたとき用の説明） | qalc + viewport-fit 修正 |

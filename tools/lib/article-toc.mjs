@@ -26,6 +26,7 @@
  *
  * どの関数も、同じ HTML を何度通しても結果が変わらない（id は振り直す）。
  */
+import { plainText, rubyOnly } from './plain-text.mjs';
 
 /** h2・h3 を丸ごと拾う。すでに id が振ってあっても拾えるように属性は読み飛ばす。 */
 const HEADING_RE = /<h([23])\b[^>]*>([\s\S]*?)<\/h\1>/g;
@@ -36,8 +37,21 @@ const TOC_MIN = 3;
 /** 日本語を読む速さ。400〜600 字／分といわれるうちの真ん中を取る。 */
 const CHARS_PER_MINUTE = 500;
 
-/** 見出しの中の文字だけ。中身はすでにエスケープ済みなので、そのまま目次に置ける。 */
-const textOf = (html) => String(html).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+/**
+ * 見出しの中の文字だけ。ふりがな（`<rt>`）は中身ごと落とす。
+ * 落とさないと「学がく年ねん」になる（`plain-text.mjs` に経緯がある）。
+ */
+const textOf = (html) => plainText(html).replace(/\s+/g, ' ').trim();
+
+/**
+ * 目次のリンクに置く中身。ふりがなだけ残して、ほかのタグは外す。
+ *
+ * 外すのは、見出しの中にリンクや `<code>` があると目次の `<a>` の中へ
+ * 入れ子になってしまうため。ふりがなを残すのは、目次は漢字が読めない子が
+ * 最初に見るところで、そこだけ振り仮名が消えると読めなくなるため。
+ * 中身はすでにエスケープ済みなので、そのまま HTML に置ける。
+ */
+const labelOf = (html) => rubyOnly(html).replace(/\s+/g, ' ').trim();
 
 /**
  * 見出しに id を振り、目次の材料を取り出す。
@@ -47,7 +61,10 @@ const textOf = (html) => String(html).replace(/<[^>]+>/g, '').replace(/\s+/g, ' 
  * 記事の言い回しを直しただけで、外から張られたリンクが切れるため。
  *
  * @param {string} html 本文（renderArticle が返す html）
- * @returns {{html: string, headings: {level: number, id: string, text: string}[]}}
+ * @returns {{html: string,
+ *            headings: {level: number, id: string, text: string, label: string}[]}}
+ *          text はふりがなを落とした素の文字（数える・検索に載せる用）。
+ *          label はふりがなを残した HTML（目次に置く用）。
  */
 export function withAnchors(html) {
   const headings = [];
@@ -58,7 +75,7 @@ export function withAnchors(html) {
     const level = Number(lv);
     if (level === 2) { h2 += 1; h3 = 0; } else { h3 += 1; }
     const id = level === 2 ? `s-${h2}` : `s-${h2}-${h3}`;
-    headings.push({ level, id, text: textOf(inner) });
+    headings.push({ level, id, text: textOf(inner), label: labelOf(inner) });
     return `<h${lv} id="${id}">${inner}</h${lv}>`;
   });
 
@@ -80,7 +97,8 @@ export function tocOf(headings) {
 
   const items = [];
   for (const h of list) {
-    const link = `<a href="#${h.id}">${h.text}</a>`;
+    /* label はふりがなを残した HTML。無い呼び出し元のために text へ落ちる */
+    const link = `<a href="#${h.id}">${h.label || h.text}</a>`;
     if (h.level === 2) {
       items.push({ link, children: [] });
       continue;
@@ -122,8 +140,9 @@ ${li}
  * @returns {{minutes: number, chars: number}}
  */
 export function readingOf(html) {
-  const chars = String(html ?? '')
-    .replace(/<[^>]+>/g, '')
+  /* ふりがなを数に入れない。子ども向けの本文は総ルビに近いことがあり、
+     入れると読む時間が倍近く出る。 */
+  const chars = plainText(html)
     .replace(/\s+/g, '')
     .length;
   const minutes = Math.max(5, Math.round(chars / CHARS_PER_MINUTE / 5) * 5);

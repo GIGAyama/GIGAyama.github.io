@@ -28,7 +28,8 @@ test('見出しに連番の id を振る', () => {
   assert.match(html, /<h3 id="s-2-2">/);
   assert.match(html, /<h2 id="s-3">/);
   assert.equal(headings.length, 5);   // h2 が 3 本と h3 が 2 本
-  assert.deepEqual(headings[0], { level: 2, id: 's-1', text: '🏫 はじめに' });
+  assert.deepEqual(headings[0],
+    { level: 2, id: 's-1', text: '🏫 はじめに', label: '🏫 はじめに' });
 });
 
 test('何度通しても同じ結果になる', () => {
@@ -75,4 +76,49 @@ test('読む時間は 5 分単位に丸め、下は 5 分で止める', () => {
   assert.equal(readingOf('あ'.repeat(7300)).minutes, 15);
   assert.equal(readingOf('あ'.repeat(100)).minutes, 5);
   assert.equal(readingOf('').minutes, 5);
+});
+
+/* ── ふりがな（子ども向けマニュアルの見出し） ───────────────────
+ * 2026-08-30、Qalc の使い方マニュアルで目次が
+ * 「1ねん学がく年ねんから…」になった。見出しからタグを外すだけだと
+ * <rt> の中身が残る。詳しくは plain-text.mjs。
+ */
+
+const RUBY_BODY = [
+  '<h2>1<ruby>年<rt>ねん</rt></ruby>から6<ruby>年<rt>ねん</rt></ruby>まで</h2>',
+  '<p>本文。</p>',
+  '<h2>つかいかた</h2>',
+  '<p>本文。</p>',
+  '<h2>こまったとき</h2>',
+  '<p>本文。</p>',
+].join('\n');
+
+test('見出しのふりがなは、数える側の文字には入らない', () => {
+  const { headings } = withAnchors(RUBY_BODY);
+  assert.equal(headings[0].text, '1年から6年まで');
+});
+
+test('目次のリンクにはふりがなを残す', () => {
+  // 目次は、漢字が読めない子が最初に見るところ。ここで振り仮名が消えると読めない
+  const { headings } = withAnchors(RUBY_BODY);
+  const toc = tocOf(headings);
+  assert.match(toc, /<ruby>年<rt>ねん<\/rt><\/ruby>/);
+  assert.ok(!toc.includes('年ねん'), '目次に「年ねん」が出ている');
+});
+
+test('見出しの中のリンクは目次で入れ子にしない', () => {
+  const { headings } = withAnchors([
+    '<h2><a href="/x">はじめに</a></h2>',
+    '<h2>つぎ</h2>',
+    '<h2>おわり</h2>',
+  ].join('\n'));
+  const toc = tocOf(headings);
+  assert.ok(!/<a[^>]*>[^<]*<a/.test(toc), '目次の <a> の中に <a> が入っている');
+});
+
+test('読む時間にふりがなを数えない', () => {
+  // 総ルビに近い本文だと、数に入れると読む時間が倍近く出る
+  const plain = readingOf('<p>' + '学年'.repeat(500) + '</p>');
+  const ruby = readingOf('<p>' + '<ruby>学年<rt>がくねん</rt></ruby>'.repeat(500) + '</p>');
+  assert.equal(ruby.chars, plain.chars);
 });
