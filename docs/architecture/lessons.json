@@ -632,6 +632,136 @@
      "contains": "押せるのに待てない"
     }
    ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "ふりがなを実際に振ってみたら、今度は「長さで見ている判定」が一斉に狂った。article-md.mjs の looksLikeCaption は写真の説明とみなす上限 120 字を素の Markdown で見ていたので、素で 57 字の説明文がルビを振ると 165 字になり、figcaption から本文の段落へ黙って格下げされる（写真から離れて出る）。charCount も markup を数えるので水増しされる。lint-manual.mjs は 5 か所で同じことをしていて、ルビ入りのマニュアルに当てると嘘の警告が 8 件出た（「画像の直後の 1 段落が 77 字」——読む長さは 23 字）。見出しの短さの検査は逆向きに壊れ、ルビで水増しされた短い見出しを見のがす。読む長さで見たいのだから、markup を外してから数えるようにした。lint-manual.mjs は 42 本で単体で走るので、正本の plain-text.mjs は import できず、同じ処理をその場に置いてある",
+   "guardedBy": [
+    {
+     "file": "tools/lib/article-md.mjs",
+     "contains": "stripRuby(block.text).length <= CAPTION_MAX_CHARS"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "ふりがなを振っても、写真の説明文は説明文のまま"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "字数は、ふりがなを外して数える"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "const readLen = (t) => stripRuby(t).length"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "ふりがなを振った説明文を「長すぎる」と言わない"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "ふりがなで水増しされた見出しでも、短ければ短いと言う"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "Qalc のマニュアル 434 か所へふりがなを振る作業を 9 つに割って進めたところ、1 つが「渡した通し番号」ではなく「自分に渡ったファイルの行番号」を返した。37 か所で別の字に別のよみが乗り、37 か所が空になった。読みを見直す役は、よみだけを突きあわせていたので気づかない。「ふりがなを外すと元の本文に戻る」という検査も、番号がずれたまま通る（本文は書き換わっていないため）。番号の重複と欠けを別に数えて捕まえた。分けて進める仕事では、返ってきた番号が渡した番号かを必ず別に確かめること。giga-manual の format.md に、振り終わったら機械で確かめる 2 点を書いた",
+   "guardedBy": [
+    {
+     "file": "standards/skills/giga-manual/references/format.md",
+     "contains": "振り終わったら、機械で確かめる"
+    },
+    {
+     "file": "standards/skills/giga-manual/references/format.md",
+     "contains": "通し番号を取りちがえて 37 か所に別のよみが乗った"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "ふりがなを振れるようにしたあと、公開の道すじを洗い直して 2 つ出た。① 画像の alt は inline() を通らず esc() で属性に入るので、説明文（caption）がalt に回る形（画像行に alt を書かなかったとき）だと、ルビの markup がそのまま属性に入る。読み上げソフトはタグの名前を読み、画像が出ない端末では写真の代わりに生の markup が画面に出る。alt は「漢字が読めない子」のための出口なのに、ふりがなを振った人ほどそこが壊れる。stripRuby してから渡す。② rubyHtml は裸の <rt> だけを通していたが、<rt lang=\"ja\"> のように属性が付くと開きタグだけ字に落ちて閉じの </rt> が生で出ていた。ブラウザは対の無い </rt> を捨てるので、ふりがなが注記から外れて地の文に並ぶ。骨組み（ruby 系のタグ）が許した形でなければ <ruby> ごと字にする。中身の <script> などはこれまでどおりその場で字にする（骨組みは壊れないので、ふりがなまで諦める理由が無い）",
+   "guardedBy": [
+    {
+     "file": "tools/lib/article-md.mjs",
+     "contains": "const alt = stripRuby(b.alt || caption"
+    },
+    {
+     "file": "tools/lib/article-md.mjs",
+     "contains": "const rubyIsPlain"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "画像の alt にふりがなの markup を入れない"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "は丸ごと字にする（半分だけ通さない）"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "裸の <rt> は これまでどおり ふりがなになる"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "見出しの目印（【重要】【！！】【！】）を、ルビを落とさずに探していた。子ども向けマニュアルは書式のとおりに書くと【<ruby>重要<rt>じゅうよう</rt></ruby>】になる（重も要も 1年配当より上なので振る決まり）ため、目印が見つからない。manual-page.mjs の markHeadings では、書き手は色が付くつもりで書いたのにいちばん強い注意の節が他とまったく同じ見え方になり、lint-manual.mjs では「【重要】が多すぎる」の警告が永久に出なくなる。どちらもルビを落としてから探すようにした。出す側の文字は落とさない（目印の字は目次にも索引にも同じ形で出る）。あわせて実ブラウザで組み上がったページを測った。本文の段落はルビの有無で高さが変わらず（99px / 99px）、見出しだけ 8px 伸びる。ふりがなは 17px の本文に対して 8.5px（ブラウザ既定の 50%）で出る",
+   "guardedBy": [
+    {
+     "file": "tools/lib/manual-page.mjs",
+     "contains": "const plain = stripRuby(text);"
+    },
+    {
+     "file": "tools/lib/manual-page.test.mjs",
+     "contains": "目印にふりがなが振ってあっても、見出しに重みが付く"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "/【(?:重要|！！)】/.test(stripRuby(h.text))"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "目印にふりがなが振ってあっても、【重要】の多さを数え落とさない"
+    },
+    {
+     "file": "standards/skills/giga-manual/references/format.md",
+     "contains": "見出しの目印（【重要】【！！】【！】）は、ルビを振っても効く"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "「ルビが入ると狂うところ」を公開の道すじ全体から洗い直したら、さらに 4 つ出た。① lint-manual.mjs の中身を見る検査が 5 か所とも素の文字列に当たっていた。ルビは語の途中に markup を挟むので「## <ruby>学校</ruby>で<ruby>使</ruby>うときは」の中に「学校で使うときは」という連続した並びは無く、includes() が false になる。機械が足す節の検出・中身の無い見出し・目印の前置き外し・用意するものの語・見出しの括弧が、すべて「ふりがなを振った書き手だけがすり抜ける」形だった。② 組み立てが通さない書き方（属性つき・大文字・余分な空白・<rb>・閉じ忘れ）はその <ruby> が丸ごと字として公開ページに出るのに、検査が何も言わなかった。書き手の画面では正しく見えるので、公開ページを見るまで気づけない。落とすようにした。③ plain-text.mjs の READING_RE が </rt> を必ず求めていた。HTML では閉じタグを省けて、ブラウザも組み立ても <ruby>学年<rt>がくねん</ruby> を通すので、ページは正しく出るのに目次と索引にだけ「学年がくねん」が残る。④ assets/article.js が拡大した絵の説明を textContent で写していた。textContent は <rt> の中身までつなぐので「計算けいさんの がめん」になる。節ごと写して、ふりがなをふりがなのまま出すようにした",
+   "guardedBy": [
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "const plain = (t) => stripRuby(t).trim();"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
+     "contains": "ふりがなの書き方が通りません"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "機械が足す節は、ふりがなを振っても見つける"
+    },
+    {
+     "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
+     "contains": "閉じ忘れた <ruby> を落とす"
+    },
+    {
+     "file": "tools/lib/plain-text.mjs",
+     "contains": "閉じタグは省略できる"
+    },
+    {
+     "file": "tools/lib/plain-text.test.mjs",
+     "contains": "閉じタグを省いた <rt> も落とす"
+    },
+    {
+     "file": "assets/article.js",
+     "contains": "textContent で写さない"
+    }
+   ]
   }
  ]
 }

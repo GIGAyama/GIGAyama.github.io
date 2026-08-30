@@ -43,7 +43,15 @@
 
     img.src = link.getAttribute('href');
     img.alt = source ? source.alt : '';
-    caption.textContent = text ? text.textContent : '';
+
+    /* ⚠️ textContent で写さない。textContent は <rt> の中身までつなぐので、
+       ふりがなの付いた説明が「計算けいさんの がめん です。」になる。
+       子ども向けマニュアルの説明文にはふりがなが入る（実物で 15/56 枚）。
+       節ごと写せば、拡大した絵の下でもふりがなはふりがなのまま出る。
+       写す中身は組み立てが作ったもので、書き手の生 HTML は既に字にしてある。 */
+    var copy = text ? text.cloneNode(true) : null;
+    while (caption.firstChild) caption.removeChild(caption.firstChild);
+    if (copy) { while (copy.firstChild) caption.appendChild(copy.firstChild); }
     caption.hidden = !caption.textContent;
 
     dialog.showModal();

@@ -234,3 +234,88 @@ test('ふりがなが 1 行に 2 つ あっても、それぞれ出る', () => {
   const { html } = render('<ruby>学<rt>がく</rt></ruby><ruby>年<rt>ねん</rt></ruby>');
   assert.equal(html, '<p><ruby>学<rt>がく</rt></ruby><ruby>年<rt>ねん</rt></ruby></p>');
 });
+
+/* ── ふりがなと、長さで見ている判定 ────────────────────────
+ * 子ども向けマニュアルの本文には <ruby>計算<rt>けいさん</rt></ruby> が入る。
+ * 素の字は 2 字だが、文字列は 30 字ちかい。長さを素のまま見ると、
+ * 書き手がふりがなを足しただけで組み立ての結論が変わる。
+ */
+
+const RUBY_CAP = 'ここを 見て ください。おすと <ruby>制限時間<rt>せいげんじかん</rt></ruby>の せっていが ひらき、'
+  + '<ruby>出題<rt>しゅつだい</rt></ruby>の じゅんばんと <ruby>問題<rt>もんだい</rt></ruby>の '
+  + '<ruby>種類<rt>しゅるい</rt></ruby>を えらべます。';
+const PLAIN_CAP = 'ここを 見て ください。おすと 制限時間の せっていが ひらき、'
+  + '出題の じゅんばんと 問題の 種類を えらべます。';
+const withCaption = (cap) => [
+  '# 題', '', '## 章', '', '本文です。', '', '![絵](images/01.png)', '', cap, '', 'つぎの 段落。', '',
+].join('\n');
+
+test('ふりがなを振っても、写真の説明文は説明文のまま', () => {
+  // 素で 57 字の説明文が、ルビを振ると 165 字になる。素の長さで見ていたころは
+  // ここで 120 字を超え、figcaption から本文の段落へ黙って格下げされていた
+  assert.ok(RUBY_CAP.length > 120 && PLAIN_CAP.length <= 120, 'この試験の前提が崩れている');
+  const r = renderArticle(withCaption(RUBY_CAP), { imageUrl: (t) => t });
+  assert.match(r.html, /<figcaption>/);
+  assert.equal(r.images[0].caption, RUBY_CAP);
+});
+
+test('字数は、ふりがなを外して数える', () => {
+  const a = renderArticle(withCaption(PLAIN_CAP), { imageUrl: (t) => t });
+  const b = renderArticle(withCaption(RUBY_CAP), { imageUrl: (t) => t });
+  assert.equal(b.charCount, a.charCount);
+});
+
+test('箇条書きの中のふりがなも字数に入れない', () => {
+  const a = renderArticle('# 題\n\n## 章\n\n- 計算の れんしゅう\n', { imageUrl: (t) => t });
+  const b = renderArticle('# 題\n\n## 章\n\n- <ruby>計算<rt>けいさん</rt></ruby>の れんしゅう\n', { imageUrl: (t) => t });
+  assert.equal(b.charCount, a.charCount);
+});
+
+test('引用の中のふりがなも字数に入れない', () => {
+  const a = renderArticle('# 題\n\n## 章\n\n> 計算の れんしゅう\n', { imageUrl: (t) => t });
+  const b = renderArticle('# 題\n\n## 章\n\n> <ruby>計算<rt>けいさん</rt></ruby>の れんしゅう\n', { imageUrl: (t) => t });
+  assert.equal(b.charCount, a.charCount);
+  assert.ok(a.charCount > 0, 'そもそも引用が数えられていない');
+});
+
+/* ── ふりがなと、alt・許していないタグ ────────────────────── */
+
+test('画像の alt にふりがなの markup を入れない', () => {
+  // alt は inline() を通らず esc() で属性に入る。落とさずに渡すと、
+  // 読み上げソフトはタグの名前を読み、画像が出ない端末では生の markup が画面に出る
+  const cap = '<ruby>設定<rt>せってい</rt></ruby>の ボタンを おします。';
+  const r = renderArticle(`# 題\n\n## 章\n\n![](a.png)\n\n${cap}\n`, { imageUrl: (t) => t });
+  assert.equal(r.images[0].alt, '設定の ボタンを おします。');
+  assert.ok(!r.html.includes('alt="&lt;ruby'), 'alt にタグが字として入っている');
+  assert.match(r.html, /<figcaption><ruby>設定<rt>せってい<\/rt><\/ruby>/, '説明文のふりがなまで落ちている');
+});
+
+test('画像の行に自分でふりがなを書いても、alt は素の字になる', () => {
+  const r = renderArticle('# 題\n\n## 章\n\n![<ruby>設定<rt>せってい</rt></ruby>の画面](a.png)\n\n説明。\n',
+    { imageUrl: (t) => t });
+  assert.equal(r.images[0].alt, '設定の画面');
+});
+
+/* 許していないタグが混じったら、半分だけ通さずに丸ごと字にする。
+   2026-08-30 まで、<rt lang="ja"> は開きだけ字に落ちて閉じの </rt> が生で出ていた。
+   ブラウザは対の無い </rt> を捨てるので、ふりがなが注記から外れて地の文に並ぶ。 */
+const rtCount = (html) => [(html.match(/<rt[^>]*>/g) || []).length, (html.match(/<\/rt>/g) || []).length];
+
+test('裸の <rt> は これまでどおり ふりがなになる', () => {
+  const r = renderArticle('# 題\n\n## 章\n\n<ruby>学<rt>がく</rt></ruby>年\n', { imageUrl: (t) => t });
+  assert.match(r.html, /<ruby>学<rt>がく<\/rt><\/ruby>/);
+  assert.deepEqual(rtCount(r.html), [1, 1]);
+});
+
+for (const [name, src] of [
+  ['属性つきの <rt>', '<ruby>学<rt lang="ja">がく</rt></ruby>'],
+  ['閉じ括弧の前の空白', '<ruby>学<rt >がく</rt></ruby>'],
+  ['<rb> つきの完全形', '<ruby><rb>学</rb><rt>がく</rt></ruby>'],
+]) {
+  test(`${name} は丸ごと字にする（半分だけ通さない）`, () => {
+    const r = renderArticle(`# 題\n\n## 章\n\n${src}\n`, { imageUrl: (t) => t });
+    assert.deepEqual(rtCount(r.html), [0, 0], '対の無いタグが公開ページに出ている');
+    assert.ok(!/<ruby>/.test(r.html), 'ふりがなとして組み上がってしまっている');
+    assert.match(r.html, /&lt;ruby&gt;/, '丸ごと字になっていない');
+  });
+}

@@ -205,3 +205,28 @@ test('目印のクラスは style.css に実体がある', async () => {
     assert.ok(css.includes(`.${cls}`), `${cls} の装飾が style.css に無い`);
   }
 });
+
+/* ── 見出しの目印とふりがな ──────────────────────────────
+ * 子ども向けのマニュアルは、書式のとおりに書くと
+ * 【<ruby>重要<rt>じゅうよう</rt></ruby>】になる（重も要も 1年配当より上）。
+ * 素のまま探すと目印が見つからず、書き手は色が付くつもりで書いたのに、
+ * いちばん強い注意の節が他とまったく同じ見え方になる。
+ */
+
+test('目印にふりがなが振ってあっても、見出しに重みが付く', () => {
+  const html = '<h2 id="s-1">【<ruby>重要<rt>じゅうよう</rt></ruby>】かならず '
+    + '<ruby>読<rt>よ</rt></ruby>む</h2>';
+  const out = markHeadings(html);
+  assert.match(out, /class="prose__h--important"/);
+  assert.match(out, /<ruby>重要<rt>じゅうよう<\/rt><\/ruby>/, '目印のふりがなまで落ちている');
+});
+
+test('【！！】は【重要】より先に見る（ふりがなが入っても順は変わらない）', () => {
+  const html = '<h2 id="s-1">【！！】<ruby>取<rt>と</rt></ruby>りけせません</h2>';
+  assert.match(markHeadings(html), /class="prose__h--danger"/);
+});
+
+test('目印が無い見出しは、そのまま返す', () => {
+  const html = '<h2 id="s-1"><ruby>設定<rt>せってい</rt></ruby>を かえる</h2>';
+  assert.equal(markHeadings(html), html);
+});

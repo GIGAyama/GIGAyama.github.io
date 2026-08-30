@@ -25,10 +25,10 @@
  * （1 行であること、120 字以内であること）。
  */
 
+import { stripRuby } from './plain-text.mjs';
+
 /** 画像の下の一文を説明とみなす上限。XXX_automatic の CAPTION_MAX_CHARS と同じ。 */
 const CAPTION_MAX_CHARS = 120;
-
-import { stripRuby } from './plain-text.mjs';
 
 const TITLE_RE = /^#\s+(.+?)\s*$/;
 const HEADING_RE = /^(#{2,6})\s+(.+?)\s*$/;
@@ -60,9 +60,8 @@ const CODE_SLOT_RE = /%%code(\d+)%%/g;
  * そこで `コード` と同じやり方で、esc() の前に預けて後で戻す。
  * 許すのは <ruby> と、その中の <rt> <rp> だけ。属性は 1 つも通さない。
  *
- * ⚠️ 見出しでは使わないこと。目次（article-toc.mjs の textOf）は
- *    タグを落として文字だけにするので、「学年」が「学がく年ねん」になる。
- *    lint-manual.mjs がそこを見ている。 */
+ * 見出しで使ってよい。目次（article-toc.mjs）はふりがなを付けたまま出し、
+ * 検索の索引と読了時間は plain-text.mjs でふりがなを落としてから数える。 */
 const RUBY_SLOT = (i) => `%%ruby${i}%%`;
 const RUBY_SLOT_RE = /%%ruby(\d+)%%/g;
 
@@ -70,8 +69,26 @@ const RUBY_SLOT_RE = /%%ruby(\d+)%%/g;
 const RUBY_RE = /<ruby>((?:(?!<\/?ruby>)[\s\S])*)<\/ruby>/g;
 
 /**
- * <ruby> の中身を、許したタグだけ残して組み立て直す。
- * 文字はすべて esc() を通すので、<rt> <rp> 以外は字として出る。
+ * ふりがなの骨組みが、そのまま通せる形になっているか。
+ *
+ * 裸の <rt> </rt> <rp> </rp> を取りのぞいたあとに、まだ ruby 系のタグが
+ * 残っていたら false。そのときは <ruby> ごと字にする。
+ *
+ * ⚠️ 半分だけ通さないための判定である。2026-08-30 まで、<rt lang="ja"> のように
+ *    属性が付くと開きタグだけが字に落ち、閉じの </rt> は生のまま出ていた。
+ *    ブラウザは対の無い </rt> を捨てるので、ふりがなが注記から外れて地の文に
+ *    並び、読み手には `学<rt lang="ja">がく` という列が見える。<rb> も同じ。
+ *
+ * ⚠️ 見るのは ruby 系のタグだけにする。中身に書かれた <script> などは
+ *    これまでどおり、その場で字にすればよい（骨組みは壊れないので、
+ *    ふりがなまで諦める理由が無い）。
+ */
+const RUBY_PARTS = /<\/?(?:ruby|rt|rp|rb|rtc|rbc)\b/i;
+const rubyIsPlain = (inner) => !RUBY_PARTS.test(String(inner).replace(/<\/?(?:rt|rp)>/g, ''));
+
+/**
+ * <ruby> の中身を組み立て直す。rubyIsPlain を通ったものだけが来るので、
+ * 残っているタグは裸の <rt> <rp> だけ。ほかの文字は esc() を通す。
  */
 const rubyHtml = (inner) => `<ruby>${
   String(inner).replace(/<\/?(?:rt|rp)>|[\s\S]/g, (piece) => (
@@ -92,7 +109,10 @@ function inline(text) {
     .replace(/`([^`]+)`/g, (_, c) => CODE_SLOT(code.push(c) - 1))
     // ふりがなも預ける。`コード` のあとに見るので、コードの中の
     // <ruby> は ふりがなにならず、字のまま出る。
-    .replace(RUBY_RE, (_, inner) => RUBY_SLOT(ruby.push(rubyHtml(inner)) - 1));
+    /* 許していないタグが混じっていたら預けない。そのまま esc() に流れて
+       丸ごと字になる——書式が約束しているとおりの出かたになる。 */
+    .replace(RUBY_RE, (whole, inner) => (
+      rubyIsPlain(inner) ? RUBY_SLOT(ruby.push(rubyHtml(inner)) - 1) : whole));
 
   s = esc(s)
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
@@ -202,9 +222,18 @@ function blocksOf(markdown) {
   return blocks;
 }
 
-/** 段落が、直前の画像の説明として使える形か。 */
+/**
+ * 段落が、直前の画像の説明として使える形か。
+ *
+ * ⚠️ 長さは**ふりがなを外して**数える。子ども向けマニュアルの
+ *    「ここを 見て ください。」は 12 字だが、ルビを振ると 100 字を超える。
+ *    素の長さで見ると、書き手がふりがなを足しただけで説明文が本文の段落へ
+ *    格下げされ、写真から離れたところに出る。手元では何も起きず、
+ *    公開ページを見るまで気づけない。
+ */
 const looksLikeCaption = (block) =>
-  block?.kind === 'p' && !block.text.includes('\n') && block.text.length <= CAPTION_MAX_CHARS;
+  block?.kind === 'p' && !block.text.includes('\n')
+  && stripRuby(block.text).length <= CAPTION_MAX_CHARS;
 
 /**
  * 記事の Markdown を、ページに入れる HTML にする。
@@ -252,7 +281,11 @@ export function renderArticle(markdown, { imageUrl }) {
         const caption = looksLikeCaption(next) ? next.text : '';
         if (caption) skipNext = true;   // 同じ文を本文にも出さない
         const src = imageUrl(b.target);
-        const alt = b.alt || caption || '';
+        /* ⚠️ alt は inline() を通らず esc() で属性に入る。ふりがなを落とさずに
+           渡すと、読み上げソフトはタグの名前をそのまま読み、画像が出ない端末では
+           写真の代わりに生の markup が画面に出る。alt は「漢字が読めない子」の
+           ための出口なのに、ふりがなを振った人ほど そこが壊れることになる。 */
+        const alt = stripRuby(b.alt || caption || '');
         images.push({ src, alt, caption });
         /* 画像はリンクで包む。JavaScript があれば拡大して見せ、
            無ければ画像そのものが開く。縦長の画面写真は、本文の中では
