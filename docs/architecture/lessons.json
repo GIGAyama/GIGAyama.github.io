@@ -501,7 +501,7 @@
   },
   {
    "date": "2026-08-30",
-   "symptom": "giga-manual の書式は「子ども向けのマニュアルではルビを HTML でそのまま書く」と決めているのに、article-md.mjs の inline() が esc() を無条件にかけるため、公開ページには <ruby>学<rt>がく</rt></ruby> という字がそのまま出ていた。手元の Markdown 表示でも lint-manual.mjs でも正しく見えるので、公開ページを見るまで気づけない。Qalc のマニュアルで 51 か所踏んだ。<ruby> <rt> <rp> だけの許可リストを入れて通し、属性つきは丸ごと字のままにした。見出しでは目次（article-toc.mjs の textOf）がタグを落として「学がく年ねん」になるので、そこは lint で止める",
+   "symptom": "giga-manual の書式は「子ども向けのマニュアルではルビを HTML でそのまま書く」と決めているのに、article-md.mjs の inline() が esc() を無条件にかけるため、公開ページには <ruby>学<rt>がく</rt></ruby> という字がそのまま出ていた。手元の Markdown 表示でも lint-manual.mjs でも正しく見えるので、公開ページを見るまで気づけない。Qalc のマニュアルで 51 か所踏んだ。<ruby> <rt> <rp> だけの許可リストを入れて通し、属性つきは丸ごと字のままにした。このとき見出しについては「ルビを使わない」と lint で止めたが、同じ日に外した。止めた理由（目次と索引が <rt> の中身まで拾う）は組み立ての側の欠陥で、しかも目次は漢字の読めない子がいちばん最初に見るところである。書き手を縛って直したことにするのは順序が逆だった。plain-text.mjs を参照",
    "guardedBy": [
     {
      "file": "tools/lib/article-md.mjs",
@@ -520,12 +520,8 @@
      "contains": "ふりがなの外がわの生 HTML は、これまでどおり字になる"
     },
     {
-     "file": "standards/skills/giga-manual/scripts/lint-manual.mjs",
-     "contains": "見出しの中でルビを使わない"
-    },
-    {
      "file": "standards/skills/giga-manual/scripts/lint-manual.test.mjs",
-     "contains": "見出しの中のルビは警告する"
+     "contains": "見出しの中のルビは何も言わない"
     }
    ]
   },
@@ -552,6 +548,88 @@
     {
      "file": "tools/distribute.mjs",
      "contains": "hasUnfilledPlaceholder(l)"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "HTML から字だけ取り出すところが 4 か所あり、どれも replace(/<[^>]+>/g, \"\") と書いてあったので、ふりがな（<rt>）の中身が残っていた。目次（article-toc.mjs の textOf）、検索の索引（search-index.mjs の strip）、読了時間（readingOf）、SNS カードと meta description（article-page.mjs の summaryOf。ここは素の Markdown が渡るので生のタグが出る）。子ども向けマニュアルの目次が「1ねん学がく年ねんから6ねん学がく年ねんまで」になった。plain-text.mjs に stripRuby / plainText / rubyOnly を置いて 4 か所を通した。目次のリンクだけはルビを残す（漢字の読めない子が最初に見るところなので）。書式の側の「見出しにルビを使わない」という逃げは外した",
+   "guardedBy": [
+    {
+     "file": "tools/lib/plain-text.mjs",
+     "contains": "export const plainText"
+    },
+    {
+     "file": "tools/lib/plain-text.test.mjs",
+     "contains": "1 つの見出しに複数のふりがながあっても、まとめて落ちない"
+    },
+    {
+     "file": "tools/lib/article-toc.test.mjs",
+     "contains": "目次のリンクにはふりがなを残す"
+    },
+    {
+     "file": "tools/lib/article-toc.test.mjs",
+     "contains": "読む時間にふりがなを数えない"
+    },
+    {
+     "file": "tools/lib/search-index.test.mjs",
+     "contains": "索引にふりがなを入れない"
+    },
+    {
+     "file": "tools/lib/article-page.test.mjs",
+     "contains": "説明文にふりがなのタグを残さない"
+    },
+    {
+     "file": ".github/workflows/standards-ci.yml",
+     "contains": "node --test tools/lib/plain-text.test.mjs"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "正本 sw/build-sw-vite.mjs に --check が無く、しかもべき等でなかった。2 回目に走らせると「dist/sw.js の目印を書き換えられませんでした」で落ちる（置換の前後が同じかどうかで判定していたため、合っているときも壊れていると読める）。--check は黙って無視して dist/sw.js を書き換えるので、検査のつもりが作業ツリーを変え、レビューでは「検査は通った」と読まれる。それでいて SessionStart のフック（announce-checks.mjs）と共通ルールの表と giga-reviewer は、42 本すべてに向けて node tools/build-sw.mjs --check を案内していた。目印の行が在るかで見るようにして --check を実装し、フックの側も build-sw.mjs の中身を読んで --check を持つものだけ案内する",
+   "guardedBy": [
+    {
+     "file": "standards/sw/build-sw-vite.mjs",
+     "contains": "const check = process.argv.includes('--check')"
+    },
+    {
+     "file": "standards/sw/build-sw-vite.test.mjs",
+     "contains": "2 回目も落ちない。合っていれば「最新です」と言って 0 で終わる"
+    },
+    {
+     "file": "standards/sw/build-sw-vite.test.mjs",
+     "contains": "--check は刻む前なら落ちる。しかも書きこまない"
+    },
+    {
+     "file": "standards/agents/hooks/announce-checks.mjs",
+     "contains": "readSafe(path.join(root, 'tools/build-sw.mjs'), read).includes('--check')"
+    },
+    {
+     "file": "standards/agents/hooks/announce-checks.test.mjs",
+     "contains": "build-sw.mjs が --check を受けつけないなら出さない"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "capture.mjs は click() のときだけふりがなを落としていたので、押せる文字と待てる文字が食い違っていた。click(\"へやに入る\") は通るのに waitFor(\"へやに入る\") は通らない。clickTo は中で waitFor を呼ぶため、画面は進んでいるのに「画面が変わっていない可能性がある」と言って落ち、原因が押した側にあると読める。あわせて click() が el.click() しか出していなかったので、onPointerDown だけを見ているボタン（反応を速くしたい子ども向けのキーパッド）は「押せたことになるのに何も起きない」だった。visibleText は rt,rp を CSS で消してから innerText を読み、click は pointerdown→mousedown→pointerup→mouseup→click の順で出すようにした",
+   "guardedBy": [
+    {
+     "file": "standards/skills/note-article/scripts/capture.mjs",
+     "contains": "st.textContent = 'rt,rp{display:none!important}'"
+    },
+    {
+     "file": "standards/skills/note-article/scripts/capture.mjs",
+     "contains": "const tap = (el) =>"
+    },
+    {
+     "file": "standards/skills/note-article/references/screenshots.md",
+     "contains": "`onPointerDown` だけを見ているボタンがある"
+    },
+    {
+     "file": "standards/skills/note-article/references/screenshots.md",
+     "contains": "押せるのに待てない"
     }
    ]
   }

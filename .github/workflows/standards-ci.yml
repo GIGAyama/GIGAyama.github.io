@@ -88,9 +88,16 @@ jobs:
         run: |
           node --test tools/check-lessons.test.mjs
           node tools/check-lessons.mjs
+      # ふりがなの落とし方。目次・索引・説明文の 3 か所が同じ関数を通るので、
+      # 効かなくなると 3 か所で同時に「学がく年ねん」が出る
+      - name: ふりがなを落とすところのテスト
+        run: node --test tools/lib/plain-text.test.mjs
       # 目次が壊れると、朝の組み直しで 31 本の紹介ページが一斉に同じ形で崩れる
       - name: 紹介ページの目次と読了時間のテスト
         run: node --test tools/lib/article-toc.test.mjs
+      # 紹介ページの骨組みと説明文。ここが CI に無いまま長く来ていた
+      - name: 紹介ページの組み立てのテスト
+        run: node --test tools/lib/article-page.test.mjs
       # 画像の読む先。ここが崩れると、絵の入る場所だけが黙って空く
       - name: 画面写真の読む先のテスト
         run: node --test tools/lib/article-images.test.mjs

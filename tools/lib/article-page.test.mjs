@@ -5,7 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { renderArticle } from './article-md.mjs';
-import { articlePage, linkCards } from './article-page.mjs';
+import { articlePage, linkCards, summaryOf } from './article-page.mjs';
 
 const APP = {
   repo: 'Qalc', name: 'Qalc', slug: 'qalc', category: 'sansu', hosts: [],
@@ -107,4 +107,28 @@ test('前に貼ったものが要らなくなったら外す', () => {
 test('manuals を渡さなくても落ちない（呼ぶ側を直し忘れたとき）', () => {
   const { html } = linkCards(HTML, { articles: new Set(['qalc']) });
   assert.ok(html.includes('href="/apps/qalc/"'));
+});
+
+/* ── ふりがな ──────────────────────────────────────
+ * summaryOf に渡ってくるのは本文の最初の段落の素の Markdown。
+ * 子ども向けマニュアルはそこにふりがなを振るので、落とさないと
+ * <meta name="description"> と og:description と JSON-LD に
+ * 生のタグが入る。検索結果に出るのはこの文字列である。
+ */
+
+test('説明文にふりがなのタグを残さない', () => {
+  const lead = 'この アプリは <ruby>計算<rt>けいさん</rt></ruby>の れんしゅうを します。';
+  assert.equal(summaryOf(lead), 'この アプリは 計算の れんしゅうを します。');
+});
+
+test('ふりがなを落としてから長さを数える', () => {
+  // 落とす前に数えると、ふりがなのぶんだけ早く切られて本文が入らない
+  const lead = '<ruby>計算<rt>けいさん</rt></ruby>'.repeat(20);
+  assert.equal(summaryOf(lead, 110), '計算'.repeat(20));
+});
+
+test('説明文では、ふりがな以外の < > を食わない', () => {
+  // 渡ってくるのは Markdown。タグらしきものを丸ごと外すと素の文が消える
+  const lead = '1 < 2 のとき > を使います。';
+  assert.equal(summaryOf(lead), lead);
 });

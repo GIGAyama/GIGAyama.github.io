@@ -31,12 +31,19 @@
  * 途中で失敗した日でも、索引だけが古いまま取り残されることがない。
  */
 
+import { plainText } from './plain-text.mjs';
+
 /** 本文の始まりと終わり。build-articles.mjs / build-manuals.mjs が書き出す形と同じ。 */
 const BODY_RE = /<div class="prose prose--article">\n([\s\S]*?)\n    <\/div>/;
 /** 目次で id を振ってある見出し。節の切れ目になる。 */
 const SECTION_RE = /<h2 id="(s-\d+)">([\s\S]*?)<\/h2>/g;
 
-const strip = (html) => String(html).replace(/<[^>]+>/g, '');
+/**
+ * タグを外して文字だけにする。ふりがな（`<rt>`）は中身ごと落とす。
+ * 落とさないと索引に「学がく年ねん」が入り、当たったときに読めない
+ * 見出しが検索結果に出る（`plain-text.mjs` に経緯がある）。
+ */
+const strip = (html) => plainText(html);
 
 /**
  * 索引に入れる形。

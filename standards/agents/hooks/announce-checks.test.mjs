@@ -40,10 +40,21 @@ test('build-sw.mjs が無いリポジトリでは、その行を出さない', (
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('build-sw.mjs が在れば出す', () => {
-  const dir = repo({ 'package.json': pkg({}), 'tools/build-sw.mjs': '// x' });
+test('build-sw.mjs が --check を受けつけるなら出す', () => {
+  const dir = repo({ 'package.json': pkg({}), 'tools/build-sw.mjs': "if (process.argv.includes('--check')) {}" });
   try {
     assert.ok(availableChecks(dir).includes('node tools/build-sw.mjs --check'));
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('build-sw.mjs が --check を受けつけないなら出さない', () => {
+  /* 受けつけない版に --check を渡すと、黙って無視して dist/sw.js を書き換える。
+     検査のつもりで走らせた人の作業ツリーが変わり、しかもレビューでは
+     「検査は通った」と読まれる。2026-08-30 まで、正本の Vite 版が
+     この形だったのに、ここは中身を見ずに出していた。 */
+  const dir = repo({ 'package.json': pkg({}), 'tools/build-sw.mjs': '// 手書き。引数は見ていない' });
+  try {
+    assert.ok(!availableChecks(dir).some((c) => c.includes('build-sw')));
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
@@ -75,9 +86,23 @@ test('check は build のあとに走らせる、と添える（dist/ を読む�
 });
 
 test('package.json が壊れていても落ちない', () => {
-  const dir = repo({ 'package.json': 'これは JSON ではない', 'tools/build-sw.mjs': '// x' });
+  const dir = repo({
+    'package.json': 'これは JSON ではない',
+    'tools/build-sw.mjs': "process.argv.includes('--check')",
+  });
   try {
     assert.deepEqual(availableChecks(dir), ['node tools/build-sw.mjs --check']);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('build-sw.mjs を読めなくても落ちない（読めないなら出さない）', () => {
+  const dir = repo({ 'package.json': pkg({ test: 'node --test' }) });
+  try {
+    const checks = availableChecks(dir, {
+      exists: () => true,
+      read: (p) => { if (String(p).includes('build-sw')) throw new Error('読めない'); return pkg({ test: 'node --test' }); },
+    });
+    assert.ok(!checks.some((c) => c.includes('build-sw')));
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 

@@ -81,3 +81,30 @@ test('索引は slug の順に並び、読むためではないので詰めて�
   assert.equal(data.items[0].n, 'さきの');
   assert.ok(!json.includes('\\n  "items"'), '字下げを入れていない');
 });
+
+/* ── ふりがな ──────────────────────────────────────
+ * 子ども向けアプリのマニュアルは見出しにも本文にもふりがなを振る。
+ * タグを外すだけだと <rt> の中身が残り、索引に「学がく年ねん」が入る。
+ * 検索に当たったときに、読めない見出しと読めない抜粋が出る。
+ */
+
+const pageOf = (body) => `<!DOCTYPE html>
+<html lang="ja">
+<body>
+  <main class="wrap article">
+    <div class="prose prose--article">
+${body}
+    </div>
+  </main>
+</body>
+</html>`;
+
+test('索引にふりがなを入れない', () => {
+  const page = pageOf([
+    '<h2 id="s-1">1<ruby>年<rt>ねん</rt></ruby>の<ruby>計算<rt>けいさん</rt></ruby></h2>',
+    '<p><ruby>問題<rt>もんだい</rt></ruby>をとく。</p>',
+  ].join('\n'));
+  const [got] = sectionsOf(page, { slug: 'qalc', name: 'Qalc' });
+  assert.equal(got.h, '1年の計算');
+  assert.equal(got.t, '問題をとく。');
+});
