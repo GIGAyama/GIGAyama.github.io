@@ -676,6 +676,32 @@
      "contains": "通し番号を取りちがえて 37 か所に別のよみが乗った"
     }
    ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "ふりがなを振れるようにしたあと、公開の道すじを洗い直して 2 つ出た。① 画像の alt は inline() を通らず esc() で属性に入るので、説明文（caption）がalt に回る形（画像行に alt を書かなかったとき）だと、ルビの markup がそのまま属性に入る。読み上げソフトはタグの名前を読み、画像が出ない端末では写真の代わりに生の markup が画面に出る。alt は「漢字が読めない子」のための出口なのに、ふりがなを振った人ほどそこが壊れる。stripRuby してから渡す。② rubyHtml は裸の <rt> だけを通していたが、<rt lang=\"ja\"> のように属性が付くと開きタグだけ字に落ちて閉じの </rt> が生で出ていた。ブラウザは対の無い </rt> を捨てるので、ふりがなが注記から外れて地の文に並ぶ。骨組み（ruby 系のタグ）が許した形でなければ <ruby> ごと字にする。中身の <script> などはこれまでどおりその場で字にする（骨組みは壊れないので、ふりがなまで諦める理由が無い）",
+   "guardedBy": [
+    {
+     "file": "tools/lib/article-md.mjs",
+     "contains": "const alt = stripRuby(b.alt || caption"
+    },
+    {
+     "file": "tools/lib/article-md.mjs",
+     "contains": "const rubyIsPlain"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "画像の alt にふりがなの markup を入れない"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "は丸ごと字にする（半分だけ通さない）"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "裸の <rt> は これまでどおり ふりがなになる"
+    }
+   ]
   }
  ]
 }

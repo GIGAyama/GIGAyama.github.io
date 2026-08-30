@@ -264,3 +264,45 @@ test('引用の中のふりがなも字数に入れない', () => {
   assert.equal(b.charCount, a.charCount);
   assert.ok(a.charCount > 0, 'そもそも引用が数えられていない');
 });
+
+/* ── ふりがなと、alt・許していないタグ ────────────────────── */
+
+test('画像の alt にふりがなの markup を入れない', () => {
+  // alt は inline() を通らず esc() で属性に入る。落とさずに渡すと、
+  // 読み上げソフトはタグの名前を読み、画像が出ない端末では生の markup が画面に出る
+  const cap = '<ruby>設定<rt>せってい</rt></ruby>の ボタンを おします。';
+  const r = renderArticle(`# 題\n\n## 章\n\n![](a.png)\n\n${cap}\n`, { imageUrl: (t) => t });
+  assert.equal(r.images[0].alt, '設定の ボタンを おします。');
+  assert.ok(!r.html.includes('alt="&lt;ruby'), 'alt にタグが字として入っている');
+  assert.match(r.html, /<figcaption><ruby>設定<rt>せってい<\/rt><\/ruby>/, '説明文のふりがなまで落ちている');
+});
+
+test('画像の行に自分でふりがなを書いても、alt は素の字になる', () => {
+  const r = renderArticle('# 題\n\n## 章\n\n![<ruby>設定<rt>せってい</rt></ruby>の画面](a.png)\n\n説明。\n',
+    { imageUrl: (t) => t });
+  assert.equal(r.images[0].alt, '設定の画面');
+});
+
+/* 許していないタグが混じったら、半分だけ通さずに丸ごと字にする。
+   2026-08-30 まで、<rt lang="ja"> は開きだけ字に落ちて閉じの </rt> が生で出ていた。
+   ブラウザは対の無い </rt> を捨てるので、ふりがなが注記から外れて地の文に並ぶ。 */
+const rtCount = (html) => [(html.match(/<rt[^>]*>/g) || []).length, (html.match(/<\/rt>/g) || []).length];
+
+test('裸の <rt> は これまでどおり ふりがなになる', () => {
+  const r = renderArticle('# 題\n\n## 章\n\n<ruby>学<rt>がく</rt></ruby>年\n', { imageUrl: (t) => t });
+  assert.match(r.html, /<ruby>学<rt>がく<\/rt><\/ruby>/);
+  assert.deepEqual(rtCount(r.html), [1, 1]);
+});
+
+for (const [name, src] of [
+  ['属性つきの <rt>', '<ruby>学<rt lang="ja">がく</rt></ruby>'],
+  ['閉じ括弧の前の空白', '<ruby>学<rt >がく</rt></ruby>'],
+  ['<rb> つきの完全形', '<ruby><rb>学</rb><rt>がく</rt></ruby>'],
+]) {
+  test(`${name} は丸ごと字にする（半分だけ通さない）`, () => {
+    const r = renderArticle(`# 題\n\n## 章\n\n${src}\n`, { imageUrl: (t) => t });
+    assert.deepEqual(rtCount(r.html), [0, 0], '対の無いタグが公開ページに出ている');
+    assert.ok(!/<ruby>/.test(r.html), 'ふりがなとして組み上がってしまっている');
+    assert.match(r.html, /&lt;ruby&gt;/, '丸ごと字になっていない');
+  });
+}
