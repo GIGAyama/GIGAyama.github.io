@@ -268,7 +268,11 @@ export function renderArticle(markdown, { imageUrl }) {
     switch (b.kind) {
       case 'title':
         // 題は <h1> としてページ側が出す。本文には入れない。
-        if (!title) title = b.text;
+        /* ⚠️ 題からはふりがなを外す。題は「字」として使われるところしか無い——
+           <title> と og:title と JSON-LD と共有の文と一覧の台帳。どれも esc() を
+           通って属性や本文に入るので、markup を残すと字のまま出る（ページの
+           <h1> も esc(title) で、ルビにはならない）。 */
+        if (!title) title = stripRuby(b.text).trim();
         return;
 
       case 'h':

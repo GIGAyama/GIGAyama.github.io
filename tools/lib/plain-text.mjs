@@ -80,3 +80,22 @@ export const plainText = (html) => stripRuby(html).replace(ANY_TAG_RE, '');
  * @returns {string}
  */
 export const rubyOnly = (html) => String(html ?? '').replace(OTHER_TAG_RE, '');
+
+/** `<rt>` の中身だけ。`<rp>`（ルビ非対応むけのかっこ）は読みではないので採らない。 */
+const RT_RE = /<rt\b[^>]*>((?:(?!<\/?(?:rt|rp|ruby)\b)[\s\S])*)/gi;
+
+/**
+ * ふりがなの**よみだけ**を並べて返す。
+ *
+ * 検索の索引に足すためのもの。索引の本文（`t`）はふりがなを落とした字なので、
+ * 「けいさん」と打っても「計算」の節に当たらない。**漢字が読めない子ほど
+ * かなで探す**ので、いちばん要る人に当たらない索引になっていた。
+ * 見せる文字には混ぜず、探すときだけ足す。
+ *
+ * @param {string} html
+ * @returns {string} よみを空白でつないだもの（無ければ空文字）
+ */
+export const readingsOf = (html) => [...String(html ?? '').matchAll(RT_RE)]
+  .map((m) => m[1].replace(/<[^>]*>/g, '').trim())
+  .filter(Boolean)
+  .join(' ');

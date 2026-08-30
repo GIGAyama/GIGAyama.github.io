@@ -762,6 +762,66 @@
      "contains": "textContent で写さない"
     }
    ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "ふりがなの後始末を、判断が要るとして残していた 3 つを実測して片づけた。① ふりがなの大きさ。style.css に ruby / rt の規則が 1 つも無く、ブラウザ既定の 50% のままだった（本文 17px に対し 8.5px、説明文と目次は 7px）。ふりがなは漢字が読めない子のためだけに在るのに、ページの中でいちばん小さい。.62em（小さい字の上は .7em、印刷は .68em）にして 10.5px / 9.8px にした。段落の高さは変わらず（99px）、刷り上がりは 58 → 59 ページ。⚠️ 「印刷では本文 10pt に対し 5pt」は誤り。.prose--article は rem 指定なので印刷でも 17px のままで、8.5px（≒6.4pt）だった。10pt を継ぐのは目次のほう。② 印刷の画面写真。max-block-size: 92mm で高さだけ縛っていたので、縦長（56 枚中 48 枚＝85%）の幅が潰れる。真ん中の 1 枚で 38mm、いちばん細いもの（780×3800）で 19mm——爪ほどの幅で、写真の中の字が読めない。「縛らないと 1 枚で 1 ページを食う」と註にあったが実測するとそうならず、150mm にしても 58 → 59 ページ（章ごとの改ページの余白が吸う）。③ 検索の索引にふりがなのよみが無く、「けいさん」と打っても「計算」の節に当たらなかった。漢字が読めない子ほど かなで探すのに、いちばん要る人に当たらない索引になっていた。見せる文字とは別の入れ物（r / hr）によみを入れ、探すときだけ使う。実測で「せいげんじかん」0 → 3 節、「こくふく」0 → 4 節。索引は 1 本あたり +6%",
+   "guardedBy": [
+    {
+     "file": "assets/style.css",
+     "contains": ".prose rt {"
+    },
+    {
+     "file": "assets/style.css",
+     "contains": "max-block-size: 150mm"
+    },
+    {
+     "file": "tools/lib/plain-text.mjs",
+     "contains": "export const readingsOf"
+    },
+    {
+     "file": "tools/lib/search-index.mjs",
+     "contains": "readingsOf(m[2])"
+    },
+    {
+     "file": "tools/lib/search-index.test.mjs",
+     "contains": "ふりがなのよみを、探すためだけに索引へ入れる"
+    },
+    {
+     "file": "assets/search.js",
+     "contains": "fr: fold(it.r"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-30",
+   "symptom": "紹介記事の道すじにも、ふりがなで狂う検査が 9 か所あった。lint-article.mjs は素の行に当てていたので、ルビが語の途中に markup を挟むと「結論から言うと」「子どもたちが計算を練習していました」を見のがし、字数は 2 倍にふくらみ、説明文の切り出しはタグの途中で切れる。9 か所を別々に直すのではなく、**読みこんだ行からふりがなを外す**ようにした（コード枠の中はそのまま。行は消さないので行番号がずれない）。あわせて renderArticle が返す題からもふりがなを外した。題は <title>・og:title・JSON-LD・共有の文・一覧の台帳と、「字」としてしか使われず、どれも esc() を通るので markup が字のまま出る（ページの <h1> も esc(title) なのでルビにはならない）。開発記録の要約も同じで、素の 20 字が 90 字を超えて切れ目がタグの途中に落ちていた",
+   "guardedBy": [
+    {
+     "file": "standards/skills/note-article/scripts/lint-article.mjs",
+     "contains": "ふりがなを外してから見る"
+    },
+    {
+     "file": "standards/skills/note-article/scripts/lint-article.test.mjs",
+     "contains": "ふりがなを振っても、言い回しの検査は当たる"
+    },
+    {
+     "file": "standards/skills/note-article/scripts/lint-article.test.mjs",
+     "contains": "字数にふりがなを数えない"
+    },
+    {
+     "file": "tools/lib/article-md.mjs",
+     "contains": "題からはふりがなを外す"
+    },
+    {
+     "file": "tools/lib/article-md.test.mjs",
+     "contains": "題からはふりがなを外す（題は「字」としてしか使われない）"
+    },
+    {
+     "file": "tools/build-devlog.mjs",
+     "contains": "ふりがなを外してから切る"
+    }
+   ]
   }
  ]
 }

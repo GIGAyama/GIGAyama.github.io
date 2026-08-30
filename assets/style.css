@@ -1862,6 +1862,28 @@
   }
 
   /* 記事の本文。読みやすさだけを見て、幅と行間をとる */
+  /* ── ふりがな（ruby / rt）─────────────────────────────────
+     子ども向けマニュアルの本文に入る。ブラウザ既定の rt は親の 50% で、
+     17px の本文なら 8.5px、印刷の 10pt なら 5pt になる。
+     ふりがなは**漢字が読めない子のためだけに在る**ものなので、
+     ページの中でいちばん小さいのは順序が逆である。
+
+     ⚠️ 行の高さは触らない。.prose--article は 1.95 あり、実測で
+        ふりがなの有無に関わらず段落の高さは変わらない（99px / 99px）。
+        ここで比を上げても、はみ出すのは見出しだけ（63px → 71px）。 */
+  .prose ruby { ruby-position: over; }
+  .prose rt {
+    font-size: .62em;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.1;
+  }
+  /* 小さい字の上に乗るぶんは、比を上げないと読めない
+     （説明文 .875rem = 14px、目次の柱も .875rem） */
+  .prose__fig figcaption rt,
+  .article__rail rt,
+  .toc rt { font-size: .7em; }
+
   .prose--article { font-size: 1.0625rem; line-height: 1.95; }
   .prose--article > * + * { margin-block-start: var(--s-5); }
   /* 見出しは 2 段階で見分けがつくようにする。
@@ -3000,9 +3022,17 @@
   .manual .prose--article h2:first-of-type { break-before: auto; }
   .manual .prose--article h3, .manual .prose--article li { break-inside: avoid; }
   .manual .prose__fig { break-inside: avoid; }
-  /* 画面写真の 57% は縦長（assets/article.js の冒頭に実測がある）。
-     縛らないと 1 枚で 1 ページを食う */
-  .manual .prose__fig img { max-block-size: 92mm; inline-size: auto; }
+  /* 画面写真は 85% が縦長（Qalc のマニュアル 56 枚で実測。780×3120 のような
+     細長いものが並ぶ）。高さだけで縛ると幅が潰れる——92mm では真ん中の 1 枚が
+     幅 38mm、いちばん細いもの（780×3800）は 19mm になる。指の爪ほどの幅で、
+     画面の中の字はもう読めない。子ども向けアプリの写真には、そのアプリ自身の
+     ふりがなが写っているので、そこが読めないと写真の用が無くなる。
+
+     ⚠️ 「縛らないと 1 枚で 1 ページを食う」と書いてあったが、実測するとそうならない。
+        章ごとに改ページするぶんの余白が吸うので、92mm → 150mm でも刷り上がりは
+        58 → 59 ページ、1 枚しか増えない（Qalc のマニュアル・A4・余白 15mm で実測）。
+        150mm にすると真ん中の 1 枚が 62mm 幅になり、字が読める側に戻る。 */
+  .manual .prose__fig img { max-block-size: 150mm; max-inline-size: 100%; inline-size: auto; }
   .manual .manual__school { break-before: page; border: 1px solid #999; }
   .manual .manual__hosts li, .manual .manual__facts > div { break-inside: avoid; }
   /* 紙ではリンクを押せないので、行き先を字で出す。
@@ -3015,6 +3045,9 @@
   .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
   .hero::before, .hero::after { display: none; }
   body { font-size: 10pt; line-height: 1.6; }
+  /* 刷ったものは、画面より小さい字で読むことになる。既定の 50% だと
+     10pt の本文に対して 5pt——大人でも読みにくい大きさになる */
+  .prose rt, .toc rt, .prose__fig figcaption rt { font-size: .68em; }
   .cards { display: block; }
   .card {
     break-inside: avoid;
