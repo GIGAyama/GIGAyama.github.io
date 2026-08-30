@@ -23,13 +23,15 @@ import { todayJst, jstDate } from './lib/dates.mjs';
 import {
   normalizeLedger, serializeLedger, siteLastmod, stamp, stampStatic,
 } from './lib/lastmod.mjs';
-import { ghContentChangedAt } from './lib/gh.mjs';
+import { ghContentChangedAt, ghDoc } from './lib/gh.mjs';
+import { changesFeed, latestChanges } from './lib/changelog.mjs';
 
 const OWNER = 'GIGAyama';
 const AGENT = 'giga-school-sync-updates';
 const ROOT = new URL('..', import.meta.url);
 const DATA = new URL('data/apps.json', ROOT);
 const LEDGER = new URL('data/lastmod.json', ROOT);
+const CHANGELOG = new URL('data/changelog.json', ROOT);
 const PROFILE = new URL('profile/index.html', ROOT);
 const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
@@ -53,7 +55,6 @@ const FEED = new URL('feed.xml', ROOT);
 const shown = (item) => item.hidden !== true;
 
 const NEW_LIMIT = 8;      // 「新しく公開したアプリ」に並べる数
-const UPDATED_LIMIT = 6;  // 「最近手を入れたもの」に並べる日付の数
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -67,7 +68,20 @@ const jpShort = (iso) => {
   return `${m}月${d}日`;
 };
 
-/** GitHub から公開日（リポジトリ作成日）と最終 push 日を取り直す。 */
+/**
+ * GitHub から公開日（リポジトリ作成日）と最終 push 日を取り直し、
+ * ついでに各リポジトリの docs/CHANGELOG.md を集める。
+ *
+ * ⚠️ CHANGELOG を**ここで**集めるのには理由がある。tools/build-articles.mjs は
+ *    note 記事のある 32 本しか回らず、tools/build-manuals.mjs は 2 本しか回らない。
+ *    **全 39 本を回るのはここだけ**なので、あちらで集めると紹介記事の無い 7 本
+ *    （じどう車ずかん・こころスコープ・音楽制作スタジオ・体育ノート・
+ *    共有フォルダ同期くん・しりとりファイター・学習サイトリンク集）の更新が
+ *    トップページから丸ごと落ちる。
+ *
+ * @returns {Promise<{changelogs: Record<string,string>, unread: string[]}>}
+ *   changelogs は repo → docs/CHANGELOG.md の中身。unread は読めなかった repo
+ */
 async function refresh(items) {
   const token = process.env.GITHUB_TOKEN;
   const headers = {
@@ -76,6 +90,8 @@ async function refresh(items) {
     ...(token ? { authorization: `Bearer ${token}` } : {}),
   };
   let changed = 0, failed = 0;
+  const changelogs = {};   // repo → 中身。書いていない repo は載せない
+  const unread = [];       // 読めなかった repo（「置いていない」とは別）
 
   /* 手元のトークンが他のリポジトリを読めないことがある。
      断られたら、認証なしでもう一度だけ試す（どれも公開リポジトリなので読める）。 */
@@ -117,13 +133,53 @@ async function refresh(items) {
          取れなかったときは空のままにする（sitemap 側が lastmod を出さない）。 */
       const content = await ghContentChangedAt(item.repo, AGENT);
       if (content !== (item.changedAt || '')) { item.changedAt = content; changed++; }
+
+      /* 「何が変わったか」。本人が書いたものだけを読む（理由は tools/lib/changelog.mjs）。
+         ⚠️ 「置いていない」と「読めなかった」を分ける。混ぜると、GitHub が見えない
+            朝に 39 本ぶんが一斉に空になり、そのまま台帳を消してコミットする。 */
+      const doc = await ghDoc(item.repo, 'docs/CHANGELOG.md', AGENT);
+      if (doc.failed) unread.push(item.repo);
+      else if (doc.text) changelogs[item.repo] = doc.text;
     } catch (e) {
       console.warn(`  取得できず ${item.repo}: ${e.message}`);
       failed++;
     }
   }
-  console.log(`GitHub から取得：更新 ${changed} 件 / 失敗 ${failed} 件`);
-  return items;
+  console.log(`GitHub から取得：更新 ${changed} 件 / 失敗 ${failed} 件`
+    + ` / 更新ログを書いているアプリ ${Object.keys(changelogs).length} 本`);
+  return { changelogs, unread };
+}
+
+/**
+ * 集めた更新ログを、前の台帳と突き合わせて安全に混ぜる。
+ *
+ * ⚠️ 「読めなかった」を「消された」と取り違えない。読めなかった repo は
+ *    前の値を据え置く。全部読めなかった朝は 1 文字も書き替えない
+ *    （tools/build-articles.mjs の「1 本も組めなかったら書き替えない」と同じ扱い）。
+ *
+ * @returns {{apps: Record<string,string>, held: number} | null} null は「書き替えない」
+ */
+export function mergeChangelogs(before, { changelogs, unread }, total) {
+  if (total > 0 && unread.length === total) return null;   // 1 本も読めなかった
+  const apps = { ...changelogs };
+  let held = 0;
+  for (const repo of unread) {
+    if (before[repo]) { apps[repo] = before[repo]; held++; }
+  }
+  return { apps, held };
+}
+
+/** 台帳の書き出し。道の順に並べて、差分が読めるようにする。 */
+function serializeChangelogs(apps) {
+  const sorted = {};
+  for (const repo of Object.keys(apps).sort()) sorted[repo] = apps[repo];
+  return JSON.stringify({
+    _comment: '各アプリの docs/CHANGELOG.md を tools/sync-updates.mjs --fetch が集めたもの。'
+      + '手で書かない。書き方の正本は giga-changelog スキル。'
+      + '⚠️ generatedAt を足さないこと。中身が変わっていない朝にも差分が立ち、'
+      + '毎朝の空コミットに紛れて本物の更新に気づけなくなる。',
+    apps: sorted,
+  }, null, 1) + '\n';
 }
 
 function row(item, iso) {
@@ -140,84 +196,64 @@ function row(item, iso) {
             </li>`;
 }
 
-/** 同じ日にまとめて手を入れることが多いので、日付ごとに 1 行にまとめる。 */
-function groupRow(iso, list) {
-  const NAMES = 6;
-  const shown = list.slice(0, NAMES).map((i) => {
-    const href = i.slug
-      ? `https://${i.slug}.giga-school.com/`
-      : `https://github.com/${OWNER}/${i.repo}`;
-    const rel = i.slug ? '' : ' rel="noopener"';
-    return `<a class="timeline__name" href="${href}"${rel}>${esc(i.name)}</a>`;
-  }).join('<span class="timeline__sep">・</span>');
-  const rest = list.length - Math.min(list.length, NAMES);
-  const more = rest > 0 ? `<span class="timeline__more">ほか ${rest} 本</span>` : '';
-  return `            <li class="timeline__row timeline__row--group" style="--cat:${CATEGORY_COLOR.other}">
-              <time class="timeline__date" datetime="${iso}">${jpShort(iso)}</time>
-              <span class="timeline__names">${shown}${more}</span>
-            </li>`;
+/**
+ * 全アプリの「更新したこと」を並べる列。1 本も書かれていなければ空文字。
+ *
+ * ⚠️ **push 日を並べる形に戻さない。** 2026-08-31 まで、ここは各リポジトリの
+ *    最終 push 日とアプリ名を日付ごとにまとめていた。正本配布が 42 本へ毎日
+ *    push するので **41 本が 1 行に潰れ**、「8月29日 ／ 6 本 ／ ほか 35 本」しか
+ *    出ていなかった。8/25 まで遡っても同じで、更新ログとして一度も働いていない。
+ *
+ *    「何が変わったか」は、使う人から見て何が変わったかであって、リポジトリで
+ *    何をしたかではない（tools/lib/changelog.mjs の冒頭。2026-08-24 に実測して
+ *    出した結論）。だからコミットからは作らず、本人が書いた docs/CHANGELOG.md
+ *    だけを読む。書いていないアプリは出ない。1 本も無ければ列ごと出ない。
+ */
+function changesColumn(groups) {
+  if (!groups.length) return '';
+  return `
+        <section class="updates__col" aria-labelledby="updates-changes">
+          <h3 class="updates__title" id="updates-changes">更新したこと</h3>
+${changesFeed(groups, esc, jpShort)}
+        </section>`;
 }
 
-/**
- * 「最近手を入れた」日。
- *
- * ⚠️ push 日（updatedAt）をそのまま出さない。正本配布が 42 本へ毎日 push する
- *    ので、41 本ぜんぶが同じ日になり、この節が 1 行に潰れる。changedAt は
- *    配布のコミットを除いた最後の更新日（tools/lib/gh.mjs）。
- *    取れなかったものだけ push 日へ逃がす。
- */
-const touchedAt = (i) => i.changedAt || i.updatedAt;
-
-function render(data) {
+function render(data, groups = []) {
   const items = data.items.filter((i) => shown(i) && i.publishedAt && i.updatedAt);
   const apps = items.filter((i) => i.kind === 'app');
   const tools = items.filter((i) => i.kind === 'tool');
 
-  const byNew = [...items].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
-  const byUpdated = [...items]
-    .filter((i) => touchedAt(i) && touchedAt(i) !== i.publishedAt)
+  const byNew = [...items].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)
     /* 同じ日のものは名前で決める。並びが日によって変わると、中身が同じでも
        ハッシュが動いて lastmod が毎日進む（tools/lib/lastmod.mjs の ⚠️ を見ること）。 */
-    .sort((a, b) => touchedAt(b).localeCompare(touchedAt(a))
-      || String(a.slug || a.repo).localeCompare(String(b.slug || b.repo)));
+    || String(a.slug || a.repo).localeCompare(String(b.slug || b.repo)));
 
   const first = items.reduce((min, i) => (i.publishedAt < min ? i.publishedAt : min),
     items[0].publishedAt);
 
   const newRows = byNew.slice(0, NEW_LIMIT).map((i) => row(i, i.publishedAt)).join('\n');
 
-  /* 日付ごとにまとめる。同じ日に何本も触ることが多いため。 */
-  const byDate = new Map();
-  byUpdated.forEach((i) => {
-    if (!byDate.has(touchedAt(i))) byDate.set(touchedAt(i), []);
-    byDate.get(touchedAt(i)).push(i);
-  });
-  const updRows = [...byDate.entries()]
-    .slice(0, UPDATED_LIMIT)
-    .map(([iso, list]) => groupRow(iso, list.sort((a, b) => a.name.localeCompare(b.name, 'ja'))))
-    .join('\n');
+  const changes = changesColumn(groups);
+  /* 列が 1 本だけのときは幅を止める。auto-fit は空のトラックを畳むので、
+     放っておくと「新しく公開したもの」が親幅いっぱいに広がり、日付とタグの
+     あいだが間延びする。状態を HTML に出しておくと、崩れたときに気づける。 */
+  const single = changes ? '' : ' updates--single';
 
   return `      <p class="updates__note">
         はじめて公開したのは <time datetime="${first}">${jpDate(first)}</time>。
         いま公開しているのは Web アプリ ${apps.length} 本と、拡張機能・ツール ${tools.length} 本です。
-        この節は毎朝 GitHub を見て自動で書き直しています。
+        新しく公開したものは毎朝 GitHub を見て、更新したことは作者が書いたものを読んで、
+        この節を書き直しています。
       </p>
-      <div class="updates">
+      <div class="updates${single}">
         <section class="updates__col" aria-labelledby="updates-new">
           <h3 class="updates__title" id="updates-new">新しく公開したもの</h3>
           <ol class="timeline">
 ${newRows}
           </ol>
-        </section>
-        <section class="updates__col" aria-labelledby="updates-touched">
-          <h3 class="updates__title" id="updates-touched">最近手を入れたもの</h3>
-          <ol class="timeline">
-${updRows}
-          </ol>
-        </section>
+        </section>${changes}
       </div>`;
 }
-
 
 /** index.html の印（marker）で囲まれた部分だけを差し替える。 */
 function replaceBlock(html, name, body) {
@@ -236,8 +272,22 @@ function replaceBlock(html, name, body) {
  *    2 回目は決まった日付で書き出すため（tools/lib/lastmod.mjs の ⚠️ を見ること）。
  *    ここを main() の中に手続きで書き戻すと 2 回呼べなくなり、日付が毎朝動く形に戻る。
  */
-function applyIndexEdits(raw, { data, articles, manuals }, lastmod) {
-  let html = replaceBlock(raw, 'updates', render(data));
+function applyIndexEdits(raw, { data, articles, manuals, changelogs = {} }, lastmod) {
+  /* どのリポジトリのアプリかと、その行き先。読んで気になった人が次に知りたいのは
+     「これは何か」なので、紹介ページを第一候補にする。無ければアプリ本体。 */
+  const withArticle = new Set(articles.map((a) => a.slug).filter(Boolean));
+  const byRepo = new Map(data.items.map((i) => [i.repo, i]));
+  const appOf = (repo) => {
+    const item = byRepo.get(repo);
+    if (!item || !shown(item) || !item.slug) return null;
+    return {
+      name: item.name,
+      href: withArticle.has(item.slug)
+        ? `/apps/${item.slug}/`
+        : `https://${item.slug}.giga-school.com/`,
+    };
+  };
+  let html = replaceBlock(raw, 'updates', render(data, latestChanges(changelogs, appOf)));
 
   /* 本数と最終更新日も、数え直した値に合わせる */
   const apps = data.items.filter((i) => shown(i) && i.kind === 'app').length;
@@ -279,10 +329,28 @@ const main = async () => {
   /* 日付の台帳。無ければ空から始める（初回だけ、すべてのページが今日になる）。 */
   const ledger = normalizeLedger(await readJson(LEDGER, null));
 
+  /* 各アプリが書いた更新ログ。--fetch のときだけ取り直す。
+     ⚠️ --fetch なしの 2 回目は読むだけ。読んで捨てると 2 回目で台帳が消える。 */
+  let changelogs = (await readJson(CHANGELOG, {})).apps ?? {};
+
   if (process.argv.includes('--fetch')) {
     /* hidden のものは見に行かない。取り下げたリポジトリが読めなくても、
        毎朝おなじ警告が出続けるだけで、直しようがないため。 */
-    await refresh(data.items.filter(shown));
+    const targets = data.items.filter(shown);
+    const got = await refresh(targets);
+    const merged = mergeChangelogs(changelogs, got, targets.length);
+    if (!merged) {
+      /* 1 本も読めなかった。GitHub が見えていないだけなので、台帳は触らない。
+         赤にして気づけるようにする（朝の流れは止めない）。 */
+      console.warn('⚠️ 更新ログを 1 本も読めなかった。data/changelog.json は書き替えない。');
+      process.exitCode = 1;
+    } else {
+      changelogs = merged.apps;
+      if (merged.held) {
+        console.warn(`⚠️ 読めなかった ${merged.held} 本は、前の更新ログを据え置いた。`);
+      }
+      await writeFile(CHANGELOG, serializeChangelogs(changelogs));
+    }
   }
 
   /* 紹介ページの一覧。まだ作っていなければ、無いものとして進む */
@@ -295,7 +363,7 @@ const main = async () => {
   /* ---------- トップページ ---------- */
   const rawIndex = await readFile(PAGE, 'utf8');
   const index = stamp(ledger, '/',
-    (lm) => applyIndexEdits(rawIndex, { data, articles, manuals }, lm), today);
+    (lm) => applyIndexEdits(rawIndex, { data, articles, manuals, changelogs }, lm), today);
   await writeFile(PAGE, index.text);
 
   /* ---------- 紹介ページの一覧（/apps/）----------
@@ -416,6 +484,7 @@ const main = async () => {
   const moved = Object.entries(ledger.pages).filter(([, v]) => v.lastmod === today).length;
   console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本`
     + ` / 紹介 ${articles.length} 本 / 分類 ${cats} 枚`
+    + ` / 更新ログ ${Object.keys(changelogs).length} 本`
     + ` / 中身が変わったページ ${moved} 枚（サイト全体の最終更新 ${data.generatedAt}）`);
 };
 

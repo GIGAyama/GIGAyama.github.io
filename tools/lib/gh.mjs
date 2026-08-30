@@ -51,7 +51,43 @@ export async function ghApi(path, agent = 'giga-school-build') {
 }
 
 /**
+ * リポジトリの中のファイル 1 本を取ってくる。「置いていない」と「取れなかった」を分ける。
+ *
+ * ⚠️ **この 2 つを混ぜてはいけない。** ghText は両方を空文字で返すので、
+ *    42 本ぶんをまとめて集める側から見ると、GitHub が見えない朝と
+ *    「まだ誰も書いていない朝」の区別がつかない。区別できないまま台帳を
+ *    書き替えると、**見えなかっただけの朝に全部を消してコミットする**。
+ *    2026-08-29 に紹介ページ 32 本が消えたのと同じ型
+ *    （tools/build-articles.mjs の「1 本も組めなかったら書き替えない」を見ること）。
+ *
+ * @param {string} repo
+ * @param {string} path リポジトリの中での道（`docs/CHANGELOG.md` など）
+ * @param {string} [agent]
+ * @returns {Promise<{text: string, missing: boolean, failed: boolean}>}
+ */
+export async function ghDoc(repo, path, agent) {
+  try {
+    const res = await ghApi(`${repo}/contents/${path}`, agent);
+    /* ghApi は 401/403/404 のとき匿名でもう一度試す。それでも 404 なら、
+       本当に置いていない（どれも公開リポジトリなので隠れて見えないことはない）。 */
+    if (res.status === 404) return { text: '', missing: true, failed: false };
+    if (!res.ok) return { text: '', missing: false, failed: true };
+    const json = await res.json();
+    if (json.encoding !== 'base64') return { text: '', missing: false, failed: true };
+    return {
+      text: Buffer.from(json.content, 'base64').toString('utf8'),
+      missing: false,
+      failed: false,
+    };
+  } catch (e) {
+    return { text: '', missing: false, failed: true };
+  }
+}
+
+/**
  * リポジトリの中のファイル 1 本を、文字として取ってくる。無ければ空文字。
+ *
+ * 「置いていない」のか「取れなかった」のかを見分けたいときは ghDoc を使う。
  *
  * @param {string} repo
  * @param {string} path リポジトリの中での道（`docs/CHANGELOG.md` など）
@@ -59,15 +95,7 @@ export async function ghApi(path, agent = 'giga-school-build') {
  * @returns {Promise<string>}
  */
 export async function ghText(repo, path, agent) {
-  try {
-    const res = await ghApi(`${repo}/contents/${path}`, agent);
-    if (!res.ok) return '';
-    const json = await res.json();
-    if (json.encoding !== 'base64') return '';
-    return Buffer.from(json.content, 'base64').toString('utf8');
-  } catch (e) {
-    return '';
-  }
+  return (await ghDoc(repo, path, agent)).text;
 }
 
 /**

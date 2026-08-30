@@ -163,6 +163,17 @@ jobs:
       # 外しても手元では何も起きず、気づくのは翌朝ページが崩れてからになる
       - name: 使い方マニュアルの書式の検査のテスト
         run: node --test standards/skills/giga-manual/scripts/*.test.mjs
+      # 更新ログの書式。書いたのに出ない形（## 2026/08/23、中身の無い日付）を
+      # 書き手の手元で落とす。ここが無いと、気づくのは翌朝ページに出ないときになる。
+      # ⚠️ 正規表現がポータルの tools/lib/changelog.mjs の写しなので、
+      #    食い違っていないかは tools/lib/changelog.test.mjs のほうで見ている
+      - name: 更新ログの書式の検査のテスト
+        run: node --test standards/skills/giga-changelog/scripts/*.test.mjs
+      # 朝の組み直しの安全弁。GitHub が見えなかっただけの朝に、更新ログの台帳を
+      # 空で上書きしてコミットすると、公開ページから全アプリの更新が消える。
+      # 「置いていない」と「読めなかった」を分けているかを、ここで押さえる
+      - name: 更新ログの取りこみの安全弁のテスト
+        run: node --test tools/sync-updates.test.mjs
       # 書き出し先の台帳。PATHS に並べ忘れた道は、毎朝つくられては毎朝捨てられ、
       # しかも検査は組み直したあとを見るので緑のまま通る
       - name: 書き出し先が PATHS に並んでいるか

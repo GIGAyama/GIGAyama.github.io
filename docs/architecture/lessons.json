@@ -873,7 +873,53 @@
     },
     {
      "file": ".github/workflows/sync-updates.yml",
-     "contains": "data/lastmod.json（日付の台帳）を外さないこと"
+     "contains": "2 つの台帳を外さないこと"
+    }
+   ]
+  },
+  {
+   "date": "2026-08-31",
+   "symptom": "トップの「最近手を入れたもの」は、更新ログのつもりで作ったのに一度も働いていなかった。出どころが各リポジトリの push 日で、正本配布が 42 本へ毎日 push するため **41 本が 1 行に潰れ**、「8月29日 ／ アプリ名 6 本 ／ ほか 35 本」しか出ていない（8/25 まで遡っても同じ）。何が良くなったのかは一切出ない。手書きの docs/CHANGELOG.md を読む仕組み（tools/lib/changelog.mjs・CSS・紹介ページとマニュアルへの差し込み）は 2026-08-24 に完成していたのに、**書き方を教える正本も雛形も配っていなかったので 42 本で 0 本のまま**だった。giga-manual は「更新履歴は機械が足す」と指示し手書きをエラーにしていたので、指示だけが先行していた。直し方は ①giga-changelog スキルを作って 42 本へ配る ②トップの列を CHANGELOG 由来にし、0 本なら列ごと出さない ③集めるのは全 39 本を回る sync-updates --fetch の 1 か所にして、build-articles（32 本しか回らない）と build-manuals（2 本）の重複 fetch をやめる。⚠️ 集めるときは「置いていない」と「読めなかった」を分ける（ghDoc）。混ぜると GitHub が見えない朝に 39 本ぶんを空で上書きしてコミットする。⚠️ changesOf はコード枠の中の `- 行` を項目として拾っていた（書き方の例を貼ると公開ページに出る）",
+   "guardedBy": [
+    {
+     "file": "tools/distribution.json",
+     "contains": "giga-changelog"
+    },
+    {
+     "file": "standards/skills/giga-manual/references/format.md",
+     "contains": "giga-changelog"
+    },
+    {
+     "file": "standards/skills/giga-scaffold/SKILL.md",
+     "contains": "docs/CHANGELOG.md` は最初から置く"
+    },
+    {
+     "file": "standards/skills/giga-changelog/scripts/lint-changelog.test.mjs",
+     "contains": "日付の見出しの形ちがいを落とす"
+    },
+    {
+     "file": "tools/lib/changelog.test.mjs",
+     "contains": "スキル側の写しと、ここの正規表現が食い違っていない"
+    },
+    {
+     "file": "tools/lib/changelog.test.mjs",
+     "contains": "コード枠の中の「- 行」を項目として拾わない"
+    },
+    {
+     "file": "tools/lib/changelog.test.mjs",
+     "contains": "キーの並びを変えても、同じものが出る"
+    },
+    {
+     "file": "tools/lib/gh.mjs",
+     "contains": "ghDoc"
+    },
+    {
+     "file": "tools/sync-updates.mjs",
+     "contains": "全 39 本を回るのはここだけ"
+    },
+    {
+     "file": ".github/workflows/sync-updates.yml",
+     "contains": "data/changelog.json"
     }
    ]
   }

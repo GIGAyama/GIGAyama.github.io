@@ -47,7 +47,7 @@ import { pickImageUrl } from './lib/article-images.mjs';
 import { manualPage } from './lib/manual-page.mjs';
 import { summaryOf } from './lib/article-page.mjs';
 import {
-  ghFileChangedAt, ghFindDoc, ghListMarkdown, ghText, imageResolvers, reachable,
+  ghFileChangedAt, ghFindDoc, ghListMarkdown, imageResolvers, reachable,
   servesFromDocs, RAW,
 } from './lib/gh.mjs';
 
@@ -57,6 +57,7 @@ const DATA = new URL('data/apps.json', ROOT);
 const INDEX = new URL('data/manuals.json', ROOT);
 const MIRROR_NEEDS = new URL('data/manual-images.json', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
+const CHANGELOG = new URL('data/changelog.json', ROOT);
 const APPS_DIR = new URL('apps/', ROOT);
 
 /** マニュアルの置き場と名前。giga-manual スキルと同じ約束。 */
@@ -139,6 +140,13 @@ const main = async () => {
   try {
     beforeMirror = JSON.parse(await readFile(MIRROR_NEEDS, 'utf8')).apps ?? {};
   } catch (e) { /* data/manual-images.json がまだ無い */ }
+
+  /* 各アプリが書いた更新ログ。集めるのは tools/sync-updates.mjs --fetch の役目。
+     まだ無ければ「誰も書いていない」として進む（節が出ないだけ）。 */
+  let changelogs = {};
+  try {
+    changelogs = JSON.parse(await readFile(CHANGELOG, 'utf8')).apps ?? {};
+  } catch (e) { /* data/changelog.json がまだ無い */ }
 
   const built = [];
   const pages = [];
@@ -223,7 +231,9 @@ const main = async () => {
     const html = manualPage({
       app, manual, updatedAt,
       hasArticle: hasArticle.has(app.slug),
-      changelog: await ghText(app.repo, 'docs/CHANGELOG.md', AGENT),
+      /* ⚠️ ここで GitHub を叩くのはやめた。この道具はマニュアルのある数本しか
+         回らないので、集めるのは全 39 本を回る sync-updates.mjs --fetch の役目。 */
+      changelog: changelogs[app.repo] ?? '',
       ...legal,
     });
     if (!dry) {

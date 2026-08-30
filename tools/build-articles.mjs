@@ -52,6 +52,7 @@ const ROOT = new URL('..', import.meta.url);
 const DATA = new URL('data/apps.json', ROOT);
 const INDEX = new URL('data/articles.json', ROOT);
 const MIRROR_NEEDS = new URL('data/article-images.json', ROOT);
+const CHANGELOG = new URL('data/changelog.json', ROOT);
 const MANUALS = new URL('data/manuals.json', ROOT);
 const RAW = 'https://raw.githubusercontent.com/';
 const PAGE = new URL('index.html', ROOT);
@@ -95,17 +96,14 @@ function usesOf(page) {
  *
  * 「何が変わったか」はコミットからは作らない（理由は tools/lib/changelog.mjs）。
  * 本人が書いたものだけを読む。
+ *
+ * ⚠️ ここで GitHub を叩くのはやめた。この道具は note 記事のある 32 本しか回らない
+ *    ので、ここで集めるとトップページに出す全 39 本ぶんが揃わない。集めるのは
+ *    全 39 本を回る tools/sync-updates.mjs --fetch の役目で、こちらは
+ *    data/changelog.json を読むだけにしてある（GitHub を叩く回数も 32 回減る）。
  */
-async function fetchChangelog(repo) {
-  try {
-    const res = await api(`${repo}/contents/docs/CHANGELOG.md`);
-    if (!res.ok) return '';
-    const json = await res.json();
-    if (json.encoding !== 'base64') return '';
-    return Buffer.from(json.content, 'base64').toString('utf8');
-  } catch (e) {
-    return '';           // 取れなくてもページは組む。節が出ないだけ
-  }
+function changelogOf(ledger, repo) {
+  return ledger[repo] ?? '';
 }
 
 const main = async () => {
@@ -129,6 +127,13 @@ const main = async () => {
   try {
     beforeMirror = JSON.parse(await readFile(MIRROR_NEEDS, 'utf8')).apps ?? {};
   } catch (e) { /* まだ 1 本も無い */ }
+
+  /* 各アプリが書いた更新ログ。集めるのは tools/sync-updates.mjs --fetch の役目。
+     まだ無ければ「誰も書いていない」として進む（節が出ないだけ）。 */
+  let changelogs = {};
+  try {
+    changelogs = JSON.parse(await readFile(CHANGELOG, 'utf8')).apps ?? {};
+  } catch (e) { /* data/changelog.json がまだ無い */ }
 
   /* 使い方マニュアルのあるアプリ。記事から入口を出すかどうかに使う。
      まだ組んでいなければ「無い」として進む（明日の朝には入る）。 */
@@ -281,7 +286,7 @@ const main = async () => {
     try { await access(card); ogCard = `https://giga-school.com/assets/og/${app.slug}.jpg`; }
     catch (e) { /* まだ作っていない */ }
     const html = articlePage({ app, article, related, prev, next,
-      use: uses.get(app.slug) ?? [], ogCard, changelog: await fetchChangelog(app.repo),
+      use: uses.get(app.slug) ?? [], ogCard, changelog: changelogOf(changelogs, app.repo),
       devlogCount: devlogCounts.get(app.slug) ?? 0,
       /* ⚠️ tools/build-manuals.mjs より「あと」に走らせること。先に走ると、
          マニュアルを公開した当日だけ、記事から入口が出ない
