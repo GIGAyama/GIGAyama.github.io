@@ -136,3 +136,4 @@ jobs:
         run: |
           python3 tools/build-og.py --check
           python3 tools/build-article-images.py --check
+          python3 tools/build-article-images.py --check --kind manual

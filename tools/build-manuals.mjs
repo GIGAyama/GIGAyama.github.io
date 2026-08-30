@@ -143,6 +143,12 @@ const main = async () => {
     before = JSON.parse(await readFile(INDEX, 'utf8')).items ?? [];
   } catch (e) { /* data/manuals.json がまだ無い。初めての朝 */ }
 
+  /* 控えが要る一覧も、--repo のときに他のアプリを落とさないよう前回ぶんを読む */
+  let beforeMirror = {};
+  try {
+    beforeMirror = JSON.parse(await readFile(MIRROR_NEEDS, 'utf8')).apps ?? {};
+  } catch (e) { /* data/manual-images.json がまだ無い */ }
+
   const built = [];
   const pages = [];
   const mirrorNeeds = {};
@@ -276,17 +282,30 @@ const main = async () => {
       }
     }
 
+    /* ⚠️ --repo で 1 本だけ組んだときに built でそのまま上書きすると、
+       **前から載っていた行が台帳から消える。** 後始末は止めてあるので
+       ページは残り、台帳だけが欠ける。トップの導線も検索の索引も台帳を
+       見ているので、ページは在るのにどこからも辿れない形になる。
+       2026-08-30 に実際に踏んだ（週案エディタが 1 本消えた）。
+       前回のぶんに重ねる。 */
+    const items = only
+      ? [...new Map([...before, ...built].map((x) => [x.slug, x])).values()]
+        .sort((a, b) => a.slug.localeCompare(b.slug))
+      : built.sort((a, b) => a.slug.localeCompare(b.slug));
+
     await writeFile(INDEX, JSON.stringify({
       _comment: 'tools/build-manuals.mjs が書き出す。手で書き足さない。',
       generatedAt: data.generatedAt,
-      items: built.sort((a, b) => a.slug.localeCompare(b.slug)),
+      items,
     }, null, 1) + '\n');
 
     await writeFile(MIRROR_NEEDS, JSON.stringify({
       _comment: 'tools/build-manuals.mjs が書き出す。手で書き足さない。'
         + ' サブドメインから画像が読めないマニュアルと、その元の URL。',
       generatedAt: data.generatedAt,
-      apps: Object.fromEntries(Object.entries(mirrorNeeds).sort(([a], [b]) => a.localeCompare(b))),
+      apps: Object.fromEntries(
+        Object.entries(only ? { ...beforeMirror, ...mirrorNeeds } : mirrorNeeds)
+          .sort(([a], [b]) => a.localeCompare(b))),
     }, null, 1) + '\n');
   }
 

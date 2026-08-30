@@ -166,6 +166,19 @@ test('charCount は段落・箇条書き・引用だけを数える', () => {
   assert.equal(r.charCount, 9, '題と見出しは数えない');
 });
 
+test('charCount はふりがなを数えない', () => {
+  /* <ruby>漢字<rt>かんじ</rt></ruby> は「漢字」の 2 字。生のまま数えると 30 字になり、
+     子ども向けマニュアルの「読むのに約 N 分」が 1.5 倍に化ける（2026-08-30）。 */
+  const r = render('# 題\n\n## 見出し\n\n<ruby>漢字<rt>かんじ</rt></ruby>を おぼえる\n');
+  assert.equal(r.charCount, '漢字を おぼえる'.length);
+});
+
+test('charCount はふりがな以外のタグには手を出さない', () => {
+  /* すでに公開している記事の字数を動かさないための線引き。 */
+  const r = render('# 題\n\n## 見出し\n\n**ふとい**字\n');
+  assert.equal(r.charCount, '**ふとい**字'.length);
+});
+
 test('囲みの中は本文として扱わない', () => {
   const r = render('```\n1. これは手順ではない\n## これは見出しではない\n```\n');
   assert.ok(r.html.includes('<pre tabindex="0">'), 'キーボードで中を動かせるようにする');

@@ -1,0 +1,162 @@
+{
+ "01-home.webp": {
+  "bytes": 264792,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/01-home.png"
+ },
+ "02-tutorial.webp": {
+  "bytes": 179338,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/02-tutorial.png"
+ },
+ "03-grade-select.webp": {
+  "bytes": 236390,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/03-grade-select.png"
+ },
+ "04-home-guide.webp": {
+  "bytes": 274043,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/04-home-guide.png"
+ },
+ "05-start-button.webp": {
+  "bytes": 241985,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/05-start-button.png"
+ },
+ "06-read.webp": {
+  "bytes": 117480,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/06-read.png"
+ },
+ "07-reading-challenge.webp": {
+  "bytes": 130228,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/07-reading-challenge.png"
+ },
+ "08-stroke-order.webp": {
+  "bytes": 120964,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/08-stroke-order.png"
+ },
+ "09-trace.webp": {
+  "bytes": 107485,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/09-trace.png"
+ },
+ "10-trace-done.webp": {
+  "bytes": 127433,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/10-trace-done.png"
+ },
+ "11-test-blank.webp": {
+  "bytes": 96040,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/11-test-blank.png"
+ },
+ "12-test-written.webp": {
+  "bytes": 149484,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/12-test-written.png"
+ },
+ "13-graded.webp": {
+  "bytes": 178559,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/13-graded.png"
+ },
+ "14-self-eval.webp": {
+  "bytes": 180737,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/14-self-eval.png"
+ },
+ "15-session-result.webp": {
+  "bytes": 187312,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/15-session-result.png"
+ },
+ "16-flash.webp": {
+  "bytes": 55722,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/16-flash.png"
+ },
+ "17-survival.webp": {
+  "bytes": 71032,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/17-survival.png"
+ },
+ "18-boss.webp": {
+  "bytes": 133521,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/18-boss.png"
+ },
+ "19-stats.webp": {
+  "bytes": 179959,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/19-stats.png"
+ },
+ "20-stats-forecast.webp": {
+  "bytes": 144490,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/20-stats-forecast.png"
+ },
+ "21-dictionary.webp": {
+  "bytes": 144098,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/21-dictionary.png"
+ },
+ "22-dictionary-grade.webp": {
+  "bytes": 60683,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/22-dictionary-grade.png"
+ },
+ "23-achievements.webp": {
+  "bytes": 198380,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/23-achievements.png"
+ },
+ "24-login-bonus.webp": {
+  "bytes": 168546,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/24-login-bonus.png"
+ },
+ "25-town.webp": {
+  "bytes": 145028,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/25-town.png"
+ },
+ "26-craft.webp": {
+  "bytes": 177412,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/26-craft.png"
+ },
+ "27-gacha.webp": {
+  "bytes": 133676,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/27-gacha.png"
+ },
+ "28-settings-theme.webp": {
+  "bytes": 161003,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/28-settings-theme.png"
+ },
+ "29-settings-study.webp": {
+  "bytes": 92508,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/29-settings-study.png"
+ },
+ "30-drill-empty.webp": {
+  "bytes": 67063,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/30-drill-empty.png"
+ },
+ "31-drill-editor.webp": {
+  "bytes": 160377,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/31-drill-editor.png"
+ },
+ "32-drill-saved.webp": {
+  "bytes": 99685,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/32-drill-saved.png"
+ },
+ "33-drill-test-count.webp": {
+  "bytes": 172633,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/33-drill-test-count.png"
+ },
+ "34-drill-test-question.webp": {
+  "bytes": 77505,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/34-drill-test-question.png"
+ },
+ "35-drill-test-result.webp": {
+  "bytes": 155011,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/35-drill-test-result.png"
+ },
+ "36-drill-share.webp": {
+  "bytes": 157493,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/36-drill-share.png"
+ },
+ "37-peer-receive.webp": {
+  "bytes": 94152,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/37-peer-receive.png"
+ },
+ "38-settings-data.webp": {
+  "bytes": 165303,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/38-settings-data.png"
+ },
+ "39-send-error.webp": {
+  "bytes": 88136,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/39-send-error.png"
+ },
+ "40-system-status.webp": {
+  "bytes": 165463,
+  "url": "https://raw.githubusercontent.com/GIGAyama/KANJI_Town/HEAD/docs/manual/images/40-system-status.png"
+ }
+}

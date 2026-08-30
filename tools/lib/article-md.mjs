@@ -252,6 +252,14 @@ export function renderArticle(markdown, { imageUrl }) {
   let title = '';
   let lead = '';
   let charCount = 0;
+  /* ⚠️ 生の Markdown をそのまま数えないこと。ふりがなを書いた本文は
+     <ruby>漢字<rt>かんじ</rt></ruby> の 30 字が「漢字」の 2 字ぶんなのに
+     30 字として数えられる。マイ漢字タウンのマニュアルで 12,107 字 →
+     18,615 字（+54%）になり、「読むのに約 25 分」が 38 分に化けた。
+     ⚠️ ここで plainText（タグを全部落とす）を使わないのは、既に公開して
+        いる 32 本の記事の字数まで動くから。ふりがなだけ落とせば、
+        ふりがなを使っていない記事は 1 字も変わらない。 */
+  const countable = (text) => stripRuby(text).length;
   let skipNext = false;
 
   blocks.forEach((b, at) => {
@@ -293,14 +301,14 @@ export function renderArticle(markdown, { imageUrl }) {
       }
 
       case 'p':
-        charCount += stripRuby(b.text).length;   // ふりがなは字数に入れない
+        charCount += countable(b.text);
         if (!lead) lead = b.text;
         out.push(`<p>${inline(b.text)}</p>`);
         return;
 
       case 'ol':
       case 'ul': {
-        b.items.forEach((i) => { charCount += stripRuby(i).length; });
+        b.items.forEach((i) => { charCount += countable(i); });
         /* 画面写真をはさんだ手順は、番号を続ける（b.start は blocksOf が決める）。
            付けないと、写真のたびに番号が 1 に戻る。 */
         const start = b.kind === 'ol' && b.start > 1 ? ` start="${b.start}"` : '';
@@ -309,7 +317,7 @@ export function renderArticle(markdown, { imageUrl }) {
       }
 
       case 'quote':
-        b.lines.forEach((l) => { charCount += stripRuby(l).length; });   // 引用も同じ
+        b.lines.forEach((l) => { charCount += countable(l); });
         out.push('<blockquote>' + b.lines.map((l) => `<p>${inline(l)}</p>`).join('') + '</blockquote>');
         return;
 
