@@ -160,17 +160,39 @@ def remote_size(url: str) -> int | None:
         return None
 
 
-def is_stale(url: str, name: str, seen: dict) -> bool:
-    """元が差しかわっていないか。控えの大きさと今の大きさを比べる。
+# 控えと元の関係。3 つある。真偽の 2 つに潰さないこと（下の ⚠️ を読むこと）
+FRESH = 'fresh'        # 元と同じ。そのままでよい
+CHANGED = 'changed'    # 元が差しかわった。作り直しが要る
+UNKNOWN = 'unknown'    # 分からない。元に届かなかったか、いつの控えかの記録が無い
+
+
+def freshness(url: str, name: str, seen: dict) -> str:
+    """控えが元と合っているか。FRESH / CHANGED / UNKNOWN のどれかを返す。
 
     撮り直した画像は、名前が同じまま中身だけ変わる。ここを見ないと、
     古い写真がページに出たまま誰も気づかない。
+
+    ⚠️ ここはかつて is_stale() という真偽を返す関数で、「分からない」が
+       両側に潰れていた。**潰れ方が、深刻度と逆向きだった。**
+
+         ・元に届かなかったとき（remote_size が None）→ False＝「そのまま」
+           GitHub が落ちた朝は 317 枚ぜんぶが黙って緑になる。
+           重い側（欠け）が見えなくなる形。
+         ・いつの控えかの記録が無いとき → True＝「差しかわった」
+           2026-08-26 に 11 本ぶんの .sources.json が無く、**毎朝 230 枚が
+           偽の警報**になった。同じ出力に混ざっていた kanji-town の実欠け 8 枚は
+           238 件の 3% として埋もれ、2 朝またいで初めて直された。
+
+       どちらも「確かめられなかった」であって、「そのまま」でも
+       「差しかわった」でもない。分けて言う。
     """
     was = seen.get(name, {}).get('bytes')
     if not isinstance(was, int):
-        return True            # いつの控えか分からないものは、作り直して控えを取る
+        return UNKNOWN         # いつの控えか分からない
     now = remote_size(url)
-    return now is not None and now != was
+    if now is None:
+        return UNKNOWN         # 元に届かなかった
+    return CHANGED if now != was else FRESH
 
 
 def local_name(url: str) -> str:
@@ -226,6 +248,7 @@ def main() -> int:
     made = kept = total = 0
     missing: list[str] = []
     stale: list[str] = []
+    unknown: list[str] = []
 
     for slug, urls in todo.items():
         seen = load_sources(slug)
@@ -235,13 +258,18 @@ def main() -> int:
             dst = OUT / slug / name
             if dst.exists() and not force:
                 # 名前が同じまま中身が差しかわっていないかを見る
-                if not is_stale(url, name, seen):
+                state = freshness(url, name, seen)
+                if state == FRESH:
                     kept += 1
                     total += dst.stat().st_size
                     continue
                 if check:
-                    stale.append(f'{slug}/{name}')
+                    # 「差しかわった」と「確かめられなかった」を混ぜない。
+                    # 前者は直すべきこと、後者はこちらの都合で見えなかっただけ
+                    (stale if state == CHANGED else unknown).append(f'{slug}/{name}')
                     continue
+                # 作るほうは、これまでどおり CHANGED も UNKNOWN も作り直す。
+                # UNKNOWN は作り直せば指紋が取れて、次から確かめられるようになる
             elif not dst.exists() and check:
                 missing.append(f'{slug}/{name}')
                 continue
@@ -268,9 +296,19 @@ def main() -> int:
             if stale:
                 print(f'❌ 元が差しかわった画面写真が {len(stale)} 枚あります')
                 print(f'   例: {", ".join(stale[:5])}')
+            if unknown:
+                print(f'   （ほかに {len(unknown)} 枚は元と照らせていません）')
             print(f'   python3 tools/build-article-images.py --kind {kind} で作れます')
             return 1
-        print(f'✅ {KIND["label"]}の画面写真はそろっています（{kept} 枚）')
+        # ⚠️ 控えが在ることと、元と照らせたことは別。混ぜて「そろっています」と
+        #    言い切ると、GitHub が落ちた朝の緑と、ほんとうに確かめた朝の緑が
+        #    見分けられなくなる。分けて言う。
+        print(f'✅ {KIND["label"]}の画面写真はそろっています（{kept + len(unknown)} 枚）')
+        if unknown:
+            print(f'⚠️ うち {len(unknown)} 枚は、元と照らせていません')
+            print(f'   例: {", ".join(unknown[:5])}')
+            print('   raw.githubusercontent.com に届かなかったか、いつの控えかの')
+            print('   記録（.sources.json）が無いものです。控えは在るので止めません。')
         return 0
 
     print(f'{KIND["label"]}の画面写真：新しく {made} 枚 / そのまま {kept} 枚'
