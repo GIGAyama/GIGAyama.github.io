@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       # 突き合わせの計算そのものを先に確かめる。
       # 計算が壊れていたら、巡回の結果は読む価値がない。

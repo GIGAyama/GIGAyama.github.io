@@ -15,11 +15,14 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # 実測の最長 1.5 分（30 回の成功、中央 1.0 分）。10 倍。外へ出るのは画面写真の HEAD だけ
+    # 既定は 360 分。固まったときに 6 時間ぶん食ってから落ちる
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - name: 正本の品質ゲート自身のテスト
         run: node --test standards/lib/*.test.mjs
       - name: 正本の GAS モジュールのテスト
