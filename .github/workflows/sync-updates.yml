@@ -150,8 +150,24 @@ jobs:
       # 画面写真の控えがまだ無いまま main に入り、**誰にも気づかれずに main が
       # 赤い状態**になる。2026-08-24 に quarto でそれが起きた。
       # 作るには Pillow が要るので、ここでは足りないことを言うだけにする。
-      - name: 共有の絵と画面写真がそろっているか
-        run: |
-          python3 tools/build-og.py --check
-          python3 tools/build-article-images.py --check
-          python3 tools/build-article-images.py --check --kind manual
+      # ⚠️ 3 本を 1 つの run にまとめないこと。既定のシェルは `bash -e` なので、
+      #    最初に落ちた 1 本でステップが終わり、**残りは 1 行も出ない**。
+      #    それでは「やり残しの一覧」にならず、直す人は出ている分だけ直して
+      #    終わったと読み、翌朝また別の赤を見ることになる。
+      #    2026-08-31 は og ✅ → 記事 ✅ → マニュアル ❌ の順だったので 56 枚が
+      #    見えたが、og が欠けていれば 56 枚は隠れたままだった。
+      #
+      # ⚠️ `!cancelled()` を付けるのは、上の push が競合で落ちた日にも見るため。
+      #    条件を書かないと、直前のステップが赤い朝は点検ごと skip される。
+      #    main の状態がいちばん分からない日に限って何も分からなくなる。
+      - name: 共有の絵がそろっているか
+        if: ${{ !cancelled() }}
+        run: python3 tools/build-og.py --check
+
+      - name: 紹介記事の画面写真がそろっているか
+        if: ${{ !cancelled() }}
+        run: python3 tools/build-article-images.py --check
+
+      - name: 使い方マニュアルの画面写真がそろっているか
+        if: ${{ !cancelled() }}
+        run: python3 tools/build-article-images.py --check --kind manual
