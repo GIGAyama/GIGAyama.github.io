@@ -1,0 +1,170 @@
+{
+ "01-overview.webp": {
+  "bytes": 289976,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/01-overview.png"
+ },
+ "02-notice.webp": {
+  "bytes": 426276,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/02-notice.png"
+ },
+ "03-home-empty.webp": {
+  "bytes": 221350,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/03-home-empty.png"
+ },
+ "04-add-pdf.webp": {
+  "bytes": 22825,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/04-add-pdf.png"
+ },
+ "05-library.webp": {
+  "bytes": 283336,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/05-library.png"
+ },
+ "06-delete-confirm.webp": {
+  "bytes": 437067,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/06-delete-confirm.png"
+ },
+ "07-editor-plain.webp": {
+  "bytes": 201590,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/07-editor-plain.png"
+ },
+ "08-toolbar.webp": {
+  "bytes": 229873,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/08-toolbar.png"
+ },
+ "09-toolbar-draw.webp": {
+  "bytes": 12662,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/09-toolbar-draw.png"
+ },
+ "10-page-nav.webp": {
+  "bytes": 9903,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/10-page-nav.png"
+ },
+ "11-page-jump.webp": {
+  "bytes": 19640,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/11-page-jump.png"
+ },
+ "12-right-tools.webp": {
+  "bytes": 19599,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/12-right-tools.png"
+ },
+ "13-pencil.webp": {
+  "bytes": 241560,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/13-pencil.png"
+ },
+ "14-marker.webp": {
+  "bytes": 242733,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/14-marker.png"
+ },
+ "15-eraser.webp": {
+  "bytes": 241240,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/15-eraser.png"
+ },
+ "16-clear-confirm.webp": {
+  "bytes": 330619,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/16-clear-confirm.png"
+ },
+ "17-shape-menu.webp": {
+  "bytes": 27575,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/17-shape-menu.png"
+ },
+ "18-sticky-menu.webp": {
+  "bytes": 21519,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/18-sticky-menu.png"
+ },
+ "19-link-menu.webp": {
+  "bytes": 24008,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/19-link-menu.png"
+ },
+ "20-objects.webp": {
+  "bytes": 289242,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/20-objects.png"
+ },
+ "21-stamp-eval.webp": {
+  "bytes": 82524,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/21-stamp-eval.png"
+ },
+ "22-stamp-math.webp": {
+  "bytes": 66867,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/22-stamp-math.png"
+ },
+ "23-stamp-placed.webp": {
+  "bytes": 320278,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/23-stamp-placed.png"
+ },
+ "24-mystamp-form.webp": {
+  "bytes": 389589,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/24-mystamp-form.png"
+ },
+ "25-mystamp-tab.webp": {
+  "bytes": 50429,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/25-mystamp-tab.png"
+ },
+ "26-view-menu.webp": {
+  "bytes": 43162,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/26-view-menu.png"
+ },
+ "27-half-right.webp": {
+  "bytes": 255760,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/27-half-right.png"
+ },
+ "28-half-switch.webp": {
+  "bytes": 9107,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/28-half-switch.png"
+ },
+ "29-presentation.webp": {
+  "bytes": 293550,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/29-presentation.png"
+ },
+ "30-fullscreen.webp": {
+  "bytes": 369802,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/30-fullscreen.png"
+ },
+ "31-timer.webp": {
+  "bytes": 337609,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/31-timer.png"
+ },
+ "32-qr-page.webp": {
+  "bytes": 262251,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/32-qr-page.png"
+ },
+ "33-qr-done.webp": {
+  "bytes": 275703,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/33-qr-done.png"
+ },
+ "34-print-preview.webp": {
+  "bytes": 236647,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/34-print-preview.png"
+ },
+ "35-share.webp": {
+  "bytes": 294530,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/35-share.png"
+ },
+ "36-guest-passcode.webp": {
+  "bytes": 311111,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/36-guest-passcode.png"
+ },
+ "37-guest-done.webp": {
+  "bytes": 247307,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/37-guest-done.png"
+ },
+ "38-backup-buttons.webp": {
+  "bytes": 18062,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/38-backup-buttons.png"
+ },
+ "39-import-preview.webp": {
+  "bytes": 433190,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/39-import-preview.png"
+ },
+ "40-drive-panel.webp": {
+  "bytes": 54867,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/40-drive-panel.png"
+ },
+ "41-shortcuts.webp": {
+  "bytes": 361297,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/41-shortcuts.png"
+ },
+ "42-script-error.webp": {
+  "bytes": 102294,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/42-script-error.png"
+ }
+}
