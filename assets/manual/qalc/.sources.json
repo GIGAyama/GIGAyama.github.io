@@ -1,0 +1,226 @@
+{
+ "01-home.webp": {
+  "bytes": 192941,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/01-home.png"
+ },
+ "02-home-topbar.webp": {
+  "bytes": 55299,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/02-home-topbar.png"
+ },
+ "03-home-level.webp": {
+  "bytes": 47045,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/03-home-level.png"
+ },
+ "04-home-bottom.webp": {
+  "bytes": 61367,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/04-home-bottom.png"
+ },
+ "05-home-mode-buttons.webp": {
+  "bytes": 112844,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/05-home-mode-buttons.png"
+ },
+ "06-drill-select.webp": {
+  "bytes": 133075,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/06-drill-select.png"
+ },
+ "07-drill-grade-tab.webp": {
+  "bytes": 147391,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/07-drill-grade-tab.png"
+ },
+ "08-drill-picked.webp": {
+  "bytes": 164558,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/08-drill-picked.png"
+ },
+ "09-nigate-box.webp": {
+  "bytes": 69170,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/09-nigate-box.png"
+ },
+ "10-drill-start.webp": {
+  "bytes": 176514,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/10-drill-start.png"
+ },
+ "11-game.webp": {
+  "bytes": 126778,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/11-game.png"
+ },
+ "12-game-keypad.webp": {
+  "bytes": 84037,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/12-game-keypad.png"
+ },
+ "13-game-combo.webp": {
+  "bytes": 93340,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/13-game-combo.png"
+ },
+ "14-answer-bar.webp": {
+  "bytes": 79077,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/14-answer-bar.png"
+ },
+ "15-tool-open.webp": {
+  "bytes": 111023,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/15-tool-open.png"
+ },
+ "16-tool-hissan.webp": {
+  "bytes": 90860,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/16-tool-hissan.png"
+ },
+ "17-tool-bunsuu.webp": {
+  "bytes": 116535,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/17-tool-bunsuu.png"
+ },
+ "18-tool-tokei.webp": {
+  "bytes": 127593,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/18-tool-tokei.png"
+ },
+ "19-memo.webp": {
+  "bytes": 98720,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/19-memo.png"
+ },
+ "20-quit.webp": {
+  "bytes": 224133,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/20-quit.png"
+ },
+ "21-resume.webp": {
+  "bytes": 75947,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/21-resume.png"
+ },
+ "22-levelup.webp": {
+  "bytes": 183004,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/22-levelup.png"
+ },
+ "23-result.webp": {
+  "bytes": 121971,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/23-result.png"
+ },
+ "24-result-mistakes.webp": {
+  "bytes": 62755,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/24-result-mistakes.png"
+ },
+ "25-mission.webp": {
+  "bytes": 62251,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/25-mission.png"
+ },
+ "26-mission-get.webp": {
+  "bytes": 71982,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/26-mission-get.png"
+ },
+ "27-shop.webp": {
+  "bytes": 148469,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/27-shop.png"
+ },
+ "28-shop-tabs.webp": {
+  "bytes": 91398,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/28-shop-tabs.png"
+ },
+ "29-shop-buy.webp": {
+  "bytes": 235204,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/29-shop-buy.png"
+ },
+ "30-shop-equipped.webp": {
+  "bytes": 147792,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/30-shop-equipped.png"
+ },
+ "31-shop-theme.webp": {
+  "bytes": 153408,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/31-shop-theme.png"
+ },
+ "32-shop-gacha.webp": {
+  "bytes": 216005,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/32-shop-gacha.png"
+ },
+ "33-home-after-play.webp": {
+  "bytes": 283755,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/33-home-after-play.png"
+ },
+ "34-records.webp": {
+  "bytes": 69638,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/34-records.png"
+ },
+ "35-graph.webp": {
+  "bytes": 65725,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/35-graph.png"
+ },
+ "36-host-room.webp": {
+  "bytes": 102298,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/36-host-room.png"
+ },
+ "37-host-mode.webp": {
+  "bytes": 59318,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/37-host-mode.png"
+ },
+ "38-host-accept.webp": {
+  "bytes": 80966,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/38-host-accept.png"
+ },
+ "39-host-approve.webp": {
+  "bytes": 92843,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/39-host-approve.png"
+ },
+ "40-host-members.webp": {
+  "bytes": 62801,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/40-host-members.png"
+ },
+ "41-join.webp": {
+  "bytes": 153908,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/41-join.png"
+ },
+ "42-waiting.webp": {
+  "bytes": 98128,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/42-waiting.png"
+ },
+ "43-boss-rule.webp": {
+  "bytes": 69846,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/43-boss-rule.png"
+ },
+ "44-boss-play.webp": {
+  "bytes": 256858,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/44-boss-play.png"
+ },
+ "45-boss-result.webp": {
+  "bytes": 215947,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/45-boss-result.png"
+ },
+ "46-terr-rule.webp": {
+  "bytes": 69822,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/46-terr-rule.png"
+ },
+ "47-terr-team.webp": {
+  "bytes": 77572,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/47-terr-team.png"
+ },
+ "48-terr-board.webp": {
+  "bytes": 212850,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/48-terr-board.png"
+ },
+ "49-terr-result.webp": {
+  "bytes": 260942,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/49-terr-result.png"
+ },
+ "50-manager.webp": {
+  "bytes": 78166,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/50-manager.png"
+ },
+ "51-course-edit.webp": {
+  "bytes": 88118,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/51-course-edit.png"
+ },
+ "52-import-code.webp": {
+  "bytes": 70625,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/52-import-code.png"
+ },
+ "53-import-ai.webp": {
+  "bytes": 99612,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/53-import-ai.png"
+ },
+ "54-teiji.webp": {
+  "bytes": 187886,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/54-teiji.png"
+ },
+ "55-teiji-big.webp": {
+  "bytes": 171117,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/55-teiji-big.png"
+ },
+ "56-offline.webp": {
+  "bytes": 85223,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/56-offline.png"
+ }
+}
