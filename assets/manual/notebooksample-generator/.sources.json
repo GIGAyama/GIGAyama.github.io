@@ -1,0 +1,138 @@
+{
+ "01-home.webp": {
+  "bytes": 379413,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/01-home.png"
+ },
+ "02-panel.webp": {
+  "bytes": 95337,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/02-panel.png"
+ },
+ "03-topbar.webp": {
+  "bytes": 29363,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/03-topbar.png"
+ },
+ "04-statusbar.webp": {
+  "bytes": 11795,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/04-statusbar.png"
+ },
+ "05-print-buttons.webp": {
+  "bytes": 11422,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/05-print-buttons.png"
+ },
+ "06-text-input.webp": {
+  "bytes": 33849,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/06-text-input.png"
+ },
+ "07-first-sample.webp": {
+  "bytes": 218739,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/07-first-sample.png"
+ },
+ "08-template-select.webp": {
+  "bytes": 10055,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/08-template-select.png"
+ },
+ "09-kokugo12.webp": {
+  "bytes": 175151,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/09-kokugo12.png"
+ },
+ "10-math17.webp": {
+  "bytes": 170642,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/10-math17.png"
+ },
+ "11-genko400.webp": {
+  "bytes": 140611,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/11-genko400.png"
+ },
+ "12-layout-fields.webp": {
+  "bytes": 29371,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/12-layout-fields.png"
+ },
+ "13-horizontal.webp": {
+  "bytes": 247996,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/13-horizontal.png"
+ },
+ "14-grid-none.webp": {
+  "bytes": 154203,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/14-grid-none.png"
+ },
+ "15-header-on.webp": {
+  "bytes": 219298,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/15-header-on.png"
+ },
+ "16-fontsize.webp": {
+  "bytes": 7755,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/16-fontsize.png"
+ },
+ "17-macro-help.webp": {
+  "bytes": 110185,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/17-macro-help.png"
+ },
+ "18-tags-text.webp": {
+  "bytes": 29493,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/18-tags-text.png"
+ },
+ "19-tags-result.webp": {
+  "bytes": 218739,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/19-tags-result.png"
+ },
+ "20-shapes-blank.webp": {
+  "bytes": 189717,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/20-shapes-blank.png"
+ },
+ "21-drag-select.webp": {
+  "bytes": 256729,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/21-drag-select.png"
+ },
+ "22-toolbar.webp": {
+  "bytes": 26909,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/22-toolbar.png"
+ },
+ "23-blank-applied.webp": {
+  "bytes": 218368,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/23-blank-applied.png"
+ },
+ "24-support-modal.webp": {
+  "bytes": 443889,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/24-support-modal.png"
+ },
+ "25-trace.webp": {
+  "bytes": 197642,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/25-trace.png"
+ },
+ "26-fill.webp": {
+  "bytes": 147771,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/26-fill.png"
+ },
+ "27-alerts.webp": {
+  "bytes": 58381,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/27-alerts.png"
+ },
+ "28-multipage.webp": {
+  "bytes": 529632,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/28-multipage.png"
+ },
+ "29-data-modal.webp": {
+  "bytes": 439785,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/29-data-modal.png"
+ },
+ "30-saved-list.webp": {
+  "bytes": 465973,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/30-saved-list.png"
+ },
+ "31-gdrive.webp": {
+  "bytes": 32241,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/31-gdrive.png"
+ },
+ "32-keyboard-help.webp": {
+  "bytes": 438193,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/32-keyboard-help.png"
+ },
+ "33-mobile.webp": {
+  "bytes": 196502,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/33-mobile.png"
+ },
+ "34-mobile-drawer.webp": {
+  "bytes": 117653,
+  "url": "https://raw.githubusercontent.com/GIGAyama/NotebookSample_Generator/HEAD/docs/manual/images/34-mobile-drawer.png"
+ }
+}
