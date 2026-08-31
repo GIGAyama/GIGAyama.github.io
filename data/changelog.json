@@ -1,0 +1,4 @@
+{
+ "_comment": "各アプリの docs/CHANGELOG.md を tools/sync-updates.mjs --fetch が集めたもの。手で書かない。書き方の正本は giga-changelog スキル。⚠️ generatedAt を足さないこと。中身が変わっていない朝にも差分が立ち、毎朝の空コミットに紛れて本物の更新に気づけなくなる。",
+ "apps": {}
+}

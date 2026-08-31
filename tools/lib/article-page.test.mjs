@@ -132,3 +132,11 @@ test('説明文では、ふりがな以外の < > を食わない', () => {
   const lead = '1 < 2 のとき > を使います。';
   assert.equal(summaryOf(lead), lead);
 });
+
+test('同じ入力を 2 回組むと、バイトまで同じ', () => {
+  /* ⚠️ 日付は中身のハッシュで決めている（tools/lib/lastmod.mjs）。組み立てが
+     日によって揺れると、中身が同じでもハッシュが動き、lastmod が毎朝進む形に
+     戻る。しかも「直したはず」なので誰も見に行かない。ここで押さえる。 */
+  assert.equal(page(), page());
+  assert.equal(page({ hasManual: true }), page({ hasManual: true }));
+});

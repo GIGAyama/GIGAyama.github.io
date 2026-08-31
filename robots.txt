@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
 
+# ⚠️ このリポジトリは GitHub Pages の「main ブランチのルート直配信」で公開している。
+#    .nojekyll も置いてあるので、**リポジトリの中のファイルがそのまま URL になる**。
+#    README.md（45KB）や CLAUDE.md、tools/*.mjs、standards/ 以下まで取得できる。
+#    どれも読み手に向けて書いたものではないので、検索の対象から外す。
+#
+# ⚠️ Disallow はアクセス制御ではない。クロールを止めるだけで、URL を知っていれば
+#    誰でも取れる。本当に出したくないものは、リポジトリの外に置くしかない。
+#    （docs/devlog/ の published: false の下書きは、いまも素の Markdown で取得できる）
+Disallow: /tools/
+Disallow: /standards/
+Disallow: /docs/
+Disallow: /.agents/
+Disallow: /.claude/
+Disallow: /README.md
+Disallow: /CLAUDE.md
+
 Sitemap: https://giga-school.com/sitemap.xml

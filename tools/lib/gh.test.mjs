@@ -8,7 +8,9 @@
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ghApi, ghFindDoc, ghListMarkdown, ghText, imageResolvers, reachable } from './gh.mjs';
+import {
+  ghApi, ghFindDoc, ghListMarkdown, ghText, imageResolvers, isDistributionCommit, reachable,
+} from './gh.mjs';
 
 /** fetch を差し替える。呼ばれた記録を残す。 */
 function fakeFetch(handler) {
@@ -162,4 +164,26 @@ test('拡張子は WebP に置き替わる（大文字でも）', () => {
   });
   assert.equal(r.onMirror('images/01-home.PNG'), '/assets/article/qalc/01-home.webp');
   assert.equal(r.onMirror('images/02-a.jpg'), '/assets/article/qalc/02-a.webp');
+});
+
+test('正本配布のコミットを見分ける', () => {
+  /* アプリ本体の lastmod は「配布を除いた最後の更新日」で決める。ここが崩れると
+     41 本ぜんぶが同じ日付に揃い、Google が lastmod をまるごと無視する状態に戻る。
+     題は tools/distribute.mjs が定数で持っている（PR_TITLE / BRANCH_NAME）。 */
+  assert.equal(isDistributionCommit('chore(standards): Sync with latest standards'), true);
+  assert.equal(isDistributionCommit(
+    'Merge pull request #42 from GIGAyama/chore/sync-standards'), true);
+  /* 本文つき（squash マージ）でも題で見分ける */
+  assert.equal(isDistributionCommit(
+    'chore(standards): Sync with latest standards\n\n* 正本を配った'), true);
+});
+
+test('配布でないコミットは落とさない（控えめに倒す）', () => {
+  /* ⚠️ chore(sw) まで落とすと、SW の版を刻み直した日＝実際に配信物が
+     変わった日を見落とす。落とすのは配布の 2 つだけ。 */
+  assert.equal(isDistributionCommit('chore(sw): 版を刻み直す'), false);
+  assert.equal(isDistributionCommit('chore(gate): 品質ゲートを入れる'), false);
+  assert.equal(isDistributionCommit('fix: ルビが公開ページで壊れるのを直す'), false);
+  assert.equal(isDistributionCommit('Merge pull request #7 from GIGAyama/feat/thing'), false);
+  assert.equal(isDistributionCommit(''), false);
 });
