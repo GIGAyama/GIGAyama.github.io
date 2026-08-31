@@ -23,7 +23,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-01-23",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "DigitalCloset",
@@ -38,7 +38,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-09",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Digital_textbook",
@@ -54,7 +54,7 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Gamification",
@@ -76,7 +76,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Gobblet",
@@ -96,7 +96,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Haiku-meeting",
@@ -114,7 +114,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Homework_barcordreader",
@@ -128,7 +128,7 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-03-05",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Ice_slide-puzzle",
@@ -148,7 +148,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2026-03-01",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "JIDOSHA_ZUKAN",
@@ -161,7 +161,7 @@
     1
    ],
    "publishedAt": "2026-08-10",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "KAKE_Master",
@@ -175,7 +175,7 @@
    ],
    "storage": "device",
    "publishedAt": "2026-07-23",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "KANA_Master",
@@ -188,7 +188,7 @@
     1
    ],
    "publishedAt": "2026-03-02",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "KANJI_Town",
@@ -213,7 +213,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-16",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "KEISAN-BLOCK",
@@ -228,7 +228,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-07-24",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Keisan-Card",
@@ -243,7 +243,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-06-12",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "MIRAI-Compass",
@@ -261,7 +261,7 @@
    ],
    "account": "google",
    "publishedAt": "2026-01-29",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Moral_note",
@@ -277,7 +277,7 @@
     6
    ],
    "publishedAt": "2026-02-15",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Music-production_studio",
@@ -298,7 +298,7 @@
     6
    ],
    "publishedAt": "2026-03-12",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "NotebookSample_Generator",
@@ -315,7 +315,7 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-03-29",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "online-100square-calculation",
@@ -335,7 +335,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-16",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "online-manuscript-paper-lite",
@@ -355,7 +355,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-07",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "online-manuscript-paper-pro",
@@ -375,7 +375,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-08",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Online-Publisher-pro",
@@ -395,7 +395,7 @@
    "account": "teacher",
    "storage": "google",
    "publishedAt": "2026-03-07",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "PhysicalEducation_note",
@@ -411,7 +411,7 @@
     6
    ],
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Qalc",
@@ -436,7 +436,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-11",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Quarto",
@@ -455,7 +455,7 @@
    ],
    "account": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Quoridor",
@@ -475,7 +475,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Reading-Books",
@@ -499,7 +499,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-01",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Reflection_Journal",
@@ -522,7 +522,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Reversi",
@@ -542,7 +542,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "SchoolPlan_Editor",
@@ -560,7 +560,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Shared-Folder-Sync",
@@ -571,7 +571,7 @@
    "hosts": [],
    "grades": [],
    "publishedAt": "2026-02-01",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Shiritori_fighter",
@@ -586,7 +586,7 @@
     3
    ],
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Townmap_Mikke",
@@ -605,7 +605,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "tsubomi-learning",
@@ -618,7 +618,7 @@
     1
    ],
    "publishedAt": "2026-06-01",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Typa",
@@ -635,7 +635,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-07-29",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Werewolf",
@@ -653,7 +653,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "word_basket",
@@ -673,7 +673,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-13",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "XXX_automatic",
@@ -687,7 +687,7 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-08-07",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "app_launcher",
@@ -697,7 +697,7 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Blackboard_Timer",
@@ -707,7 +707,7 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   },
   {
    "repo": "Linker-Clipper",
@@ -717,7 +717,7 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-03-25",
-   "updatedAt": "2026-08-29"
+   "updatedAt": "2026-08-30"
   }
  ]
 }
