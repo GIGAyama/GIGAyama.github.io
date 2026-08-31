@@ -157,6 +157,17 @@ jobs:
       # 11 本の記事の画像が 21 枚まとめて出なくなる。見るだけなので Pillow は要らない
       - name: 記事の画面写真がそろっているか
         run: python3 tools/build-article-images.py --check
+      # マニュアルの画面写真。記事と同じ危険だが、**マニュアルのほうが効く**。
+      # 印刷して配られるものなので、GitHub を塞いでいる学校で控えが無いと
+      # 「どのボタンを押すか」の絵が 1 枚も出ない。
+      # ⚠️ これが朝の流れ（sync-updates.yml）にしか無かったせいで、
+      #    人の PR は緑で通り、翌朝の bot コミットで初めて赤くなっていた。
+      #    2026-08-30 に kanji-town で、翌 08-31 に qalc で、同じ形で 2 度起きた。
+      # ⚠️ 通信が断たれても赤くならない。remote_size() が None を返すと
+      #    is_stale() は False（＝そのまま）に倒れるので、緑で抜ける。
+      #    実測: 通信を塞いで 2 秒で ✅。つながっていれば 14 秒
+      - name: 使い方マニュアルの画面写真がそろっているか
+        run: python3 tools/build-article-images.py --check --kind manual
       - name: GIGA標準検査のテスト
         run: node --test standards/skills/giga-reviewer/scripts/*.test.mjs
       # マニュアルの書式。見出しの並びから目次と検索の索引が作られるので、
@@ -188,6 +199,18 @@ jobs:
         run: |
           node --test tools/check-no-external.test.mjs
           node tools/check-no-external.mjs
+      # カードの data-slug。「開く」の行き先と食い違うと、押したのとは別の
+      # アプリを開いたことになり、その記録が端末に残り続ける。
+      # 台帳（data/manuals.json）とページの食い違いもここで見ている。
+      # ⚠️ これも朝の流れにしか無かった。人が index.html や data/apps.json を
+      #    直す PR では、誰も見ていない状態だった
+      - name: カードの data-slug が食い違っていないか
+        run: node tools/check-cards.mjs
+      # 旧アドレスの受け皿。data/apps.json の slug が壊れると、404.html の
+      # 転送が黙って効かなくなる。外から張られたリンクが死ぬので、
+      # 気づくのは「開かない」と言われたときになる
+      - name: 旧アドレスの受け皿が壊れていないか
+        run: node tools/check-404-redirect.mjs
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
