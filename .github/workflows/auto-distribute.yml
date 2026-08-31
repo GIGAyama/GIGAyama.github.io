@@ -19,6 +19,28 @@ permissions:
   contents: write
   pull-requests: write
 
+# ⚠️ 走らせるのは一度に 1 本だけ。distribute.mjs は 42 本すべてに対し
+#    固定名の枝 chore/sync-standards を `git push --force` し（:475）、
+#    `gh pr merge --delete-branch` でマージする（:487-490）。名前が固定なので、
+#    2 本が重なると **A が押した枝を B が上書きし、A の --delete-branch が
+#    B の枝を消す**、という並びが成立する。
+#    2026-08-30 に実際に重なった（run 26 が 12:34:59-12:40:46Z、
+#    run 27 が 12:36:34-12:42:28Z。4 分あまり並走）。両方 success で済んだのは
+#    順序の運でしかない。main へのマージが 2 分以内に続くのは常態なので、
+#    いつ起きてもおかしくない。
+#
+# ⚠️ cancel-in-progress は false。true にすると、42 本の途中で配布が切られ、
+#    **半分だけ新しい艦隊**が残る。どこまで配ったかは記録に出ないので、
+#    次の配布まで誰も気づけない。sync-updates.yml が false なのも同じ理由。
+#
+# 保留は GitHub の仕様で 1 本だけになり、古い保留は取り消される。それでよい。
+# distribute.mjs が配るのは checkout した作業ツリーの standards/ なので（:33, :36）、
+# 最後に走る回がいちばん新しい main を配れば、取り消された中間の回のぶんも
+# そこに含まれている。
+concurrency:
+  group: auto-distribute
+  cancel-in-progress: false
+
 jobs:
   distribute:
     runs-on: ubuntu-latest
