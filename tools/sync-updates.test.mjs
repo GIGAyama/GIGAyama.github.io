@@ -12,7 +12,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mergeChangelogs } from './sync-updates.mjs';
+import { applyIndexEdits, mergeChangelogs } from './sync-updates.mjs';
 
 const BEFORE = { Qalc: '## 2026-08-01\n- 前の中身\n', Typa: '## 2026-07-01\n- 前の中身\n' };
 
@@ -50,4 +50,63 @@ test('読めなかったものが前の台帳にも無ければ、増やさな�
 test('見に行く相手が 0 本のときは、書き替えない側に倒さない', () => {
   /* hidden ばかりで対象が 0 本、という形。unread も 0 なので「全部失敗」ではない */
   assert.deepEqual(mergeChangelogs({}, { changelogs: {}, unread: [] }, 0), { apps: {}, held: 0 });
+});
+
+/* ── ポータル自身の更新ログ ───────────────────────────────
+ *
+ * ⚠️ ポータルは data/apps.json に載っていない。appOf がここを拾わないと、
+ *    docs/CHANGELOG.md を書いても**どこにも出ない**。出しどころの無い所へ
+ *    書かせるのは、更新ログの決まり（書いていないアプリには何も出ない）を
+ *    裏返すことになるので、出す側を検査で押さえておく。
+ */
+
+const RAW = [
+  '<main>',
+  '<!-- updates:start -->',
+  'ここが差し替わる',
+  '      <!-- updates:end -->',
+  '</main>',
+].join('\n');
+
+const DATA = {
+  items: [{
+    repo: 'Qalc', name: '計算れんしゅう', kind: 'app', slug: 'qalc',
+    category: 'sansu', publishedAt: '2026-06-01', updatedAt: '2026-08-01',
+  }],
+};
+
+const build = (changelogs) => applyIndexEdits(
+  RAW, { data: DATA, articles: [], manuals: [], changelogs }, '2026-08-31',
+);
+
+test('ポータル自身が書いた更新ログも、トップの「更新したこと」に出る', () => {
+  const html = build({ 'GIGAyama.github.io': '## 2026-08-30\n- 字が小さくて読みにくかったのを直しました\n' });
+  assert.ok(html.includes('giga-school.com（このサイト）'), 'サイト自身の名前が出ていない');
+  assert.ok(html.includes('字が小さくて読みにくかったのを直しました'));
+});
+
+test('ポータルの行き先はトップ（data/apps.json に載っていないので slug が無い）', () => {
+  const html = build({ 'GIGAyama.github.io': '## 2026-08-30\n- なにかを直しました\n' });
+  assert.ok(html.includes('href="/"'), 'リンク先が無いと、書いても押せない行になる');
+});
+
+test('配布先のアプリと並べて出せる', () => {
+  const html = build({
+    'GIGAyama.github.io': '## 2026-08-30\n- サイトの字を大きくしました\n',
+    Qalc: '## 2026-08-30\n- ヒントを出せるようにしました\n',
+  });
+  assert.ok(html.includes('giga-school.com（このサイト）'));
+  assert.ok(html.includes('計算れんしゅう'));
+});
+
+test('ポータルが書いていなければ、何も増えない', () => {
+  const html = build({ Qalc: '## 2026-08-30\n- ヒントを出せるようにしました\n' });
+  assert.ok(!html.includes('giga-school.com（このサイト）'));
+});
+
+test('data/apps.json に載っていないリポジトリは、これまでどおり落とす', () => {
+  /* ポータルだけを名指しで通す。名前の分からないものまで通すと、
+     消したリポジトリの更新ログが名無しで出つづける。 */
+  const html = build({ 'GIGAyama/なにか': '## 2026-08-30\n- なにかを直しました\n' });
+  assert.ok(!html.includes('なにかを直しました'));
 });

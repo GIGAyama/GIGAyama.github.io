@@ -13,7 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   inspectRepo, cdnViolations, fixFor, fleetRepos, buildStatus, todoLines,
-  cloneState, staleWarning,
+  cloneState, staleWarning, appsWithoutChangelog,
 } from './fleet-status.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -195,4 +195,78 @@ test('警告には「上の数字はその古い写しを数えたもの」と�
   assert.ok(text.includes('古い写しを数えたもの'), '数字が疑わしいことを言っていない');
   assert.ok(text.includes('git -C'), '取得のしかたを示していない');
   assert.ok(text.includes('fetch していません'), 'この警告自体の限界を言っていない');
+});
+
+/* ── 更新ログが 1 行も無いもの ─────────────────────────────
+ *
+ * ⚠️ 配ったことと使われていることは別。giga-changelog スキルは 42 本すべてに
+ *    在るのに、2026-08-31 に数えたら書いていたのは 0 本だった。
+ *    ここが減らないなら、hook（remind-changelog.mjs）が発火していない。
+ */
+
+const APPS = {
+  items: [
+    { repo: 'Qalc', slug: 'qalc' },
+    { repo: 'Typa', slug: 'typa' },
+    { repo: 'Kakushita', slug: 'kakushita', hidden: true },
+  ],
+};
+
+test('書いていないアプリを並べる', () => {
+  const changelog = { apps: { Qalc: '## 2026-08-30\n- ヒントを出せるようにしました\n' } };
+  assert.deepEqual(appsWithoutChangelog(APPS, changelog), ['Typa']);
+});
+
+test('1 本も書いていなければ、全部が並ぶ（これが出発点だった）', () => {
+  assert.deepEqual(appsWithoutChangelog(APPS, { apps: {} }), ['Qalc', 'Typa']);
+});
+
+test('台帳がまだ無くても数える', () => {
+  assert.deepEqual(appsWithoutChangelog(APPS, undefined), ['Qalc', 'Typa']);
+});
+
+test('サイトに載せていないものは数えない（直しようがないものを並べない）', () => {
+  const all = appsWithoutChangelog(APPS, { apps: {} });
+  assert.ok(!all.includes('Kakushita'));
+});
+
+test('書式を外したものは「置いてある」ではなく「0 行」と数える', () => {
+  /* ## 2026/08/30 は組み立て側が拾わない。公開ページには 1 行も出ないのに、
+     鍵の有無で数えると「書いてある」に見える。いちばん気づけない形。 */
+  const changelog = { apps: { Qalc: '## 2026/08/30\n- ヒントを出せるようにしました\n' } };
+  assert.ok(appsWithoutChangelog(APPS, changelog).includes('Qalc'));
+});
+
+test('日付だけあって中身が無いものも 0 行と数える', () => {
+  const changelog = { apps: { Qalc: '## 2026-08-30\n\n## 2026-08-29\n' } };
+  assert.ok(appsWithoutChangelog(APPS, changelog).includes('Qalc'));
+});
+
+test('古い日付しか無くても、書いてあるなら数えない（上限 3 日で切らない）', () => {
+  const many = ['2026-08-30', '2026-08-29', '2026-08-28', '2026-08-27', '2026-06-01']
+    .map((d) => `## ${d}\n- なにかを直しました\n`).join('\n');
+  assert.deepEqual(appsWithoutChangelog({ items: [{ repo: 'Qalc' }] }, { apps: { Qalc: many } }), []);
+});
+
+test('buildStatus が noChangelog を持ち、todoLines が直し方まで出す', () => {
+  const status = buildStatus(['Qalc', 'Typa'], APPS,
+    () => ({ v5Gate: true, check: true }), () => null, { apps: {} });
+  assert.deepEqual(status.noChangelog, ['Qalc', 'Typa']);
+  const line = todoLines(status).find((l) => l.includes('更新ログが1行も無い'));
+  assert.ok(line, '作業待ち行列に出ていない');
+  assert.ok(line.includes('giga-changelog'), '何を使えばよいか書いていない');
+  assert.ok(line.includes('lint-changelog.mjs'), '書式を外すと出ないことを言っていない');
+  assert.ok(line.includes('Qalc'));
+});
+
+test('changelog を渡さない古い呼び方でも壊れない', () => {
+  const status = buildStatus(['Qalc'], { items: [] }, () => ({ check: true }));
+  assert.deepEqual(status.noChangelog, []);
+});
+
+test('全部書いてあれば、その行は出ない', () => {
+  const written = { apps: { Qalc: '## 2026-08-30\n- a\n', Typa: '## 2026-08-30\n- b\n' } };
+  const status = buildStatus(['Qalc', 'Typa'], APPS,
+    () => ({ v5Gate: true, check: true }), () => null, written);
+  assert.equal(todoLines(status).find((l) => l.includes('更新ログが1行も無い')), undefined);
 });

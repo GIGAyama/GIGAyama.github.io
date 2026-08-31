@@ -42,6 +42,16 @@ const SEARCH = new URL('data/search-index.json', ROOT);
 const PRESS = new URL('press/index.html', ROOT);
 const FEED = new URL('feed.xml', ROOT);
 
+/* ポータル自身の更新ログ。
+   ⚠️ ポータルは data/apps.json に載っていない（あそこは配布先のアプリの一覧で、
+      載せると本数に混ざり、紹介ページまで作られる）。だからここで名前と行き先を
+      与えないと、docs/CHANGELOG.md を書いても永久にどこにも出ない。
+      「出しどころの無いところへ書かせない」は更新ログの決まりそのものなので、
+      ポータルにも hook で書かせるなら、出す側もここに 1 本だけ用意する。 */
+const SELF_REPO = 'GIGAyama.github.io';
+const SELF_NAME = 'giga-school.com（このサイト）';
+const SELF_CHANGELOG = new URL('docs/CHANGELOG.md', ROOT);
+
 /**
  * サイトに載せるものか。
  *
@@ -145,8 +155,17 @@ async function refresh(items) {
       failed++;
     }
   }
+  /* ポータル自身の分。同じチェックアウトに在るので GitHub を叩かない。
+     読めなくても unread には入れない —— unread は「GitHub が見えなかった」印で、
+     全部が unread なら台帳を丸ごと据え置く判断に使う。手元に無いだけのものを
+     混ぜると、その判断が狂う。 */
+  let self = '';
+  try { self = await readFile(SELF_CHANGELOG, 'utf8'); } catch { /* まだ書いていない */ }
+  if (self.trim()) changelogs[SELF_REPO] = self;
+
   console.log(`GitHub から取得：更新 ${changed} 件 / 失敗 ${failed} 件`
-    + ` / 更新ログを書いているアプリ ${Object.keys(changelogs).length} 本`);
+    + ` / 更新ログを書いているアプリ ${Object.keys(changelogs).length} 本`
+    + `${self.trim() ? '（うち 1 本はこのサイト自身）' : ''}`);
   return { changelogs, unread };
 }
 
@@ -278,6 +297,9 @@ function applyIndexEdits(raw, { data, articles, manuals, changelogs = {} }, last
   const withArticle = new Set(articles.map((a) => a.slug).filter(Boolean));
   const byRepo = new Map(data.items.map((i) => [i.repo, i]));
   const appOf = (repo) => {
+    /* ポータル自身。data/apps.json には載っていないので、ここで名前と行き先を与える
+       （上の SELF_REPO の ⚠️ を見ること）。 */
+    if (repo === SELF_REPO) return { name: SELF_NAME, href: '/' };
     const item = byRepo.get(repo);
     if (!item || !shown(item) || !item.slug) return null;
     return {

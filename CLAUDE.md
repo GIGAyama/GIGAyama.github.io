@@ -81,7 +81,7 @@ node tools/verify-runtime.mjs          # 公開中の画面を実ブラウザで
 | `.agents/skills/<名前>/` | Antigravity（Gemini） | 同上 |
 | `.agents/rules/gigaschool-standards.md` | Antigravity | 正本 `standards/agents/rules/` へのシンボリックリンク |
 | `CLAUDE.md`（リポジトリ直下） | Claude Code | 上のルールを `@` で取りこむ。正本は `standards/agents/CLAUDE.md` |
-| `.claude/settings.json` ＋ `.claude/hooks/` | Claude Code | 正本 `standards/agents/`。配布先でだけ働く（下記） |
+| `.claude/settings.json` ＋ `.claude/hooks/` | Claude Code | 正本 `standards/agents/`。`guard-canonical` は配布先でだけ働く（下記）。`remind-changelog` は**ポータルでも働く** |
 | `.claude/agents/` | Claude Code | 正本 `standards/agents/subagents/`。`giga-auditor`（疑う側に立って調べる）と `giga-migrator`（v5 ゲートを 1 本ずつ移行する） |
 | `.mcp.json` ＋ `tools/mcp/` | Claude Code | **ポータルだけ**。艦隊を横断する問いは正本を持つ側でしか答えられない |
 
@@ -98,6 +98,16 @@ stdio の JSON-RPC を Node 標準だけで書いてある）。
 **ポータルでは働かない**（`standards/check-drift.mjs` の有無で判定）。正本を持つ側で
 止めると正本そのものが直せなくなる。
 `announce-checks.mjs`（SessionStart）は、そのリポジトリに**実在する**検査だけを出す。
+
+**更新ログの書き忘れは、`remind-changelog.mjs`（PreToolUse・`Bash`）が止める。**
+使う人から見て変わる直しを `docs/CHANGELOG.md` 無しでコミットしようとしたとき、
+**1 回だけ** exit 2 で止めて書き方を返す。もう一度同じコマンドを走らせれば通る
+（使う人から見て何も変わらない直しのための逃げ道。塞ぐと嘘の更新ログが足される）。
+2026-08-31、スキルを 42 本へ配り終えた日に数えたら書いていたのは **0 本**だった。
+配ったことと使われていることは別なので、`node tools/fleet-status.mjs --todo` の
+「更新ログが1行も無い」の本数で見届ける。
+**ポータルでも働く**（`.claude/settings.json` はポータル専用。この hook だけを持ち、
+`guard-canonical` は入れない）。
 
 ⚠️ **hook は必ず fail-open。** 読み込みでも解析でも、おかしければ黙って通す。
 壊れた hook が 42 本の編集を止めるほうが、防ごうとしている事故よりはるかに重い。

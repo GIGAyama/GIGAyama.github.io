@@ -32,6 +32,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 /* 止めたい CDN の一覧は giga-reviewer の正本から借りる。
    2 か所に持つと、片方だけ直したときに食い違う。 */
 import { FORBIDDEN_CDN_HOSTS } from '../standards/skills/giga-reviewer/scripts/lint-giga.mjs';
+/* 「1 行も書いていない」を、鍵の有無ではなく中身で数えるため。
+   書式を外した CHANGELOG は公開ページに何も出さないので、置いてあっても 0 行と数える。 */
+import { changesOf } from './lib/changelog.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, '..');
@@ -117,6 +120,35 @@ export function fixFor(host) {
   return 'standards/vendor/build-vendor.mjs で取りこむ（アイコンは webfont ごとではなく、使用分の SVG を mask-image に）';
 }
 
+/**
+ * 更新ログを 1 行も書いていないアプリ。
+ *
+ * ── なぜ数えるのか ────────────────────────────────
+ * giga-changelog スキルは 42 本すべてへ配ってあり、集める仕組みも出す先も
+ * 揃っている。それでも 2026-08-31 に数えたら data/changelog.json は
+ * `{"apps":{}}` ——**42 本中 0 本**だった。配ったことと使われていることは別で、
+ * 分けて見ないと「入れたから大丈夫」で止まる。
+ *
+ * remind-changelog.mjs（PreToolUse の hook）を入れたあと、ここの数が減るかどうかが
+ * 効いたかどうかの答えになる。減らなければ hook が発火していない。
+ *
+ * ⚠️ 鍵の有無で数えないこと。`## 2026/08/31` のように書式を外した CHANGELOG は
+ *    置いてあっても公開ページに 1 行も出さない。書いた本人からは書いたつもりに
+ *    見えるので、いちばん気づけない形になる。中身を読んで数える。
+ *
+ * @param {object} apps data/apps.json
+ * @param {object} changelog data/changelog.json（`{apps: {repo: 中身}}`）
+ * @returns {string[]} リポジトリ名（サイトに載っているものだけ）
+ */
+export function appsWithoutChangelog(apps, changelog) {
+  const written = changelog?.apps ?? {};
+  return (apps.items ?? [])
+    .filter((it) => it.hidden !== true && it.repo)
+    /* 上限を大きく取る。既定の 3 は「出す数」であって「在るかどうか」ではない */
+    .filter((it) => changesOf(written[it.repo] ?? '', Number.MAX_SAFE_INTEGER).length === 0)
+    .map((it) => it.repo);
+}
+
 /** 台帳にある全リポジトリ（targets ＋ skills.extra） */
 export function fleetRepos(ledger) {
   const extra = ledger.skills?.extra ?? [];
@@ -124,7 +156,7 @@ export function fleetRepos(ledger) {
 }
 
 /** 行列を組む。measured / unmeasured を分けて返す（推測で埋めない） */
-export function buildStatus(repos, apps, inspect, cloneOf = () => null) {
+export function buildStatus(repos, apps, inspect, cloneOf = () => null, changelog = { apps: {} }) {
   const measured = [];
   const unmeasured = [];
   const stale = [];
@@ -136,7 +168,11 @@ export function buildStatus(repos, apps, inspect, cloneOf = () => null) {
           「配られていない」と読める表を出してしまう（2026-08-29 に実測）。 */
     if (cloneOf(repo)?.stale) stale.push(repo);
   }
-  return { measured, unmeasured, stale, cdn: cdnViolations(apps) };
+  return {
+    measured, unmeasured, stale,
+    cdn: cdnViolations(apps),
+    noChangelog: appsWithoutChangelog(apps, changelog),
+  };
 }
 
 /** 作業待ち行列。何をすればよいかまで書く */
@@ -158,6 +194,18 @@ export function todoLines(status) {
   const noCheck = status.measured.filter((r) => !r.check).map((r) => r.repo);
   if (noCheck.length) {
     out.push(`[検査そのものが無い] ${noCheck.length} 本: npm run check が無い\n    ${noCheck.join(', ')}`);
+  }
+  /* ⚠️ ここは「調べていない」ではなく「書かれていない」。data/changelog.json は
+        毎朝 GitHub から集めたものなので、手元にクローンが無くても数えられる
+        （measured / unmeasured の別とは関係がない）。 */
+  const noLog = status.noChangelog ?? [];
+  if (noLog.length) {
+    out.push(
+      `[更新ログが1行も無い] ${noLog.length} 本: docs/CHANGELOG.md に使う人向けの 1 行が無い\n`
+      + '    → そのリポジトリで giga-changelog スキル（直したその場で 1 行、使う人の言葉で）\n'
+      + '    → 書式を外すと置いてあっても出ない。lint-changelog.mjs に通すこと\n'
+      + `    ${noLog.join(', ')}`,
+    );
   }
   return out;
 }
@@ -192,11 +240,18 @@ function printStale(status) {
 function main() {
   const ledger = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'tools/distribution.json'), 'utf8'));
   const apps = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data/apps.json'), 'utf8'));
+  /* 毎朝 tools/sync-updates.mjs --fetch が集めたもの。まだ無ければ空から始める
+     （「1 本も書いていない」と読める。実際そこが出発点だった）。 */
+  let changelog = { apps: {} };
+  try {
+    changelog = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data/changelog.json'), 'utf8'));
+  } catch { /* 無い・壊れている。空として進む */ }
   const repos = fleetRepos(ledger);
   const status = buildStatus(
     repos, apps,
     (r) => inspectRepo(path.join(BASE_DIR, r)),
     (r) => cloneState(path.join(BASE_DIR, r)),
+    changelog,
   );
 
   if (process.argv.includes('--json')) {
@@ -239,6 +294,10 @@ function main() {
   console.log(`  v5 ゲート ${count('v5Gate')}  ・ SW版数 ${count('buildSw')}  ・ CLAUDE.md ${count('claudeMd')}`
     + `  ・ hook ${count('hooks')}  ・ npm run check ${count('check')}`);
   if (status.cdn.length) console.log(`  ⚠️ Zero-CDN 違反 ${status.cdn.length} 本（--todo で直し方を出します）`);
+  if (status.noChangelog?.length) {
+    console.log(`  ⚠️ 更新ログが 1 行も無い ${status.noChangelog.length} 本`
+      + '（配ってあるスキルが使われていない、ということ。--todo で一覧が出ます）');
+  }
   if (status.unmeasured.length) {
     console.log(`  ⚠️ 手元に無くて調べられなかった ${status.unmeasured.length} 本（調べていない、であって、きれい、ではありません）`);
   }
