@@ -922,6 +922,28 @@
      "contains": "data/changelog.json"
     }
    ]
+  },
+  {
+   "date": "2026-08-31",
+   "symptom": "社内の PC から giga-school.com が **「カテゴリ：マルウェア」でブロック**された。原因は /apps/qalc/manual/ で、画面写真 56 枚を raw.githubusercontent.com から読んでいた。あのホストは実行ファイルの置き場に使われるため、学校や会社のフィルタリングでは既定でマルウェア扱いのことがある。**1 ページが外から読んだだけで、ドメインごと止まる。** 控え（assets/manual/qalc/*.webp 56 枚）は 2026-08-31 00:56 に置いてあったが、ページを組み直すのは毎朝 23:30 の自動処理なので、HTML だけが raw を指したまま残っていた。⚠️ いちばんの問題は、**ポータルの配信物に Zero-CDN を掛ける検査が 1 つも無かった**こと。giga-reviewer は各アプリのリポジトリを見る道具、standards/web/verify-no-external.mjs は週 1 回・数ページだけの実測で、毎朝機械が組み立てるマニュアルと紹介ページは誰も見ていなかった。⚠️ ブラウザの console に出た favicon.ico の 503 は、フィルタが返した遮断応答であって原因ではない。⚠️ 数えるのは読み込みだけにする。<a href> や og:image まで数えると共有ボタンで毎回赤くなり、いつも赤い検査は読まれなくなる",
+   "guardedBy": [
+    {
+     "file": "tools/check-no-external.mjs",
+     "contains": "raw.githubusercontent.com"
+    },
+    {
+     "file": "tools/check-no-external.test.mjs",
+     "contains": "いま配信しているものに、外からの読み込みが無い"
+    },
+    {
+     "file": ".github/workflows/standards-ci.yml",
+     "contains": "node tools/check-no-external.mjs"
+    },
+    {
+     "file": ".github/workflows/sync-updates.yml",
+     "contains": "node tools/check-no-external.mjs"
+    }
+   ]
   }
  ]
 }

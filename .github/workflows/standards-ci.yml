@@ -180,6 +180,14 @@ jobs:
         run: |
           node --test tools/check-outputs.test.mjs
           node tools/check-outputs.mjs
+      # 配信するページの Zero-CDN。giga-reviewer は各アプリのリポジトリを見る
+      # 道具で、ポータル自身が毎朝組み立てたページは誰も見ていなかった。
+      # 2026-08-31 に、そこから raw.githubusercontent.com を読んでいるのが
+      # 見つかっている（学校のフィルタリングでは「マルウェア」に当たる）。
+      - name: 配信するページが外から読み込んでいないか
+        run: |
+          node --test tools/check-no-external.test.mjs
+          node tools/check-no-external.mjs
       - name: 正本のワークフローが YAML として読めるか
         run: python3 -c "import yaml,sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" standards/gas/deploy.yml
       - name: 正本の構文検査
