@@ -78,6 +78,14 @@ jobs:
       - name: 旧アドレスの受け皿が壊れていないか
         run: node tools/check-404-redirect.mjs
 
+      # 組み直したページが、自分のドメインの外から読み込んでいないか。
+      # 2026-08-31、/apps/qalc/manual/ が画面写真 56 枚を
+      # raw.githubusercontent.com から読んでいて、社内のフィルタリングが
+      # 「カテゴリ：マルウェア」で giga-school.com ごと止めた。
+      # 組み直すのは毎朝の自動処理なので、誰も目で見ない。ここで止める。
+      - name: 外から読み込んでいないか（Zero-CDN）
+        run: node tools/check-no-external.mjs
+
       # index.html は Service Worker の先読み一覧に入っている。書き替えたのに
       # 版を刻み直さないと、キャッシュ名が変わらないので、書き替えた入口が
       # 端末に届かない。しかもここは GITHUB_TOKEN で push するため、

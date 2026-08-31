@@ -37,6 +37,7 @@
  "checks": [
   "tools/check-cards.mjs",
   "tools/check-404-redirect.mjs",
+  "tools/check-no-external.mjs",
   "tools/check-outputs.mjs",
   "tools/check-lessons.mjs",
   "tools/check-distribution.mjs"
