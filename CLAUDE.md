@@ -54,7 +54,7 @@ node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
 node --test standards/agents/hooks/*.test.mjs
-node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs tools/fleet-status.test.mjs tools/check-lessons.test.mjs tools/mcp/*.test.mjs
+node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs tools/fleet-status.test.mjs tools/check-lessons.test.mjs tools/check-no-external.test.mjs tools/mcp/*.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
 
 # 正本ドリフト検査（--standards は必須。省くと exit 2）
@@ -64,6 +64,7 @@ node tools/check-lessons.mjs           # 教訓が検査に落ちているか（
 # SW版数検査 / 配布状況監査 / 正本一括配布
 node tools/build-sw.mjs --check
 node tools/check-outputs.mjs           # 組み直したものが朝の PATHS に並んでいるか
+node tools/check-no-external.mjs       # 配信するページが外から読み込んでいないか（Zero-CDN）
 node tools/check-distribution.mjs --skip-repo-list
 node tools/distribute.mjs --dry-run
 
