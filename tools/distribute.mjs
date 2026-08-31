@@ -59,6 +59,7 @@ const AGENT_RUNTIME_FILES = [
   ['agents/settings.json', '.claude/settings.json'],
   ['agents/hooks/guard-canonical.mjs', '.claude/hooks/guard-canonical.mjs'],
   ['agents/hooks/announce-checks.mjs', '.claude/hooks/announce-checks.mjs'],
+  ['agents/hooks/remind-changelog.mjs', '.claude/hooks/remind-changelog.mjs'],
   /* サブエージェント。大量のファイルを読むが結論だけ要る作業を、
      親のセッションの文脈を埋めずに回すため。 */
   ['agents/subagents/giga-auditor.md', '.claude/agents/giga-auditor.md'],

@@ -1,0 +1,17 @@
+{
+  "_note": "ポータル専用。正本 standards/agents/settings.json の写しではない（standards-map.json の unmanaged に宣言してある）。あちらは配布先向けで guard-canonical.mjs を含むが、正本を持つ側でそれを働かせると正本そのものが直せなくなるため、ここには入れない。各自の設定は .claude/settings.local.json へ（あちらは配らないし照合もしない）。",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "_why": "ポータルは giga-school.com そのもの。使う人から見て何かが変わる直しを、更新ログ（docs/CHANGELOG.md）を書かずにコミットしようとしたら 1 回だけ止める。配布先の 42 本だけに入れて正本を持つ側が免れると、いちばんよく直す場所が抜ける。hook 本体は正本へのシンボリックリンク（写しを作らない）。",
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/remind-changelog.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

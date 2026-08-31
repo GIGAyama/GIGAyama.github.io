@@ -944,6 +944,56 @@
      "contains": "node tools/check-no-external.mjs"
     }
    ]
+  },
+  {
+   "date": "2026-08-31",
+   "symptom": "更新ログの仕組みを一式そろえた（giga-changelog スキルを 42 本へ配布・集める側の sync-updates --fetch・出す側 3 か所・書式検査・CI）のに、その日のうちに数えたら data/changelog.json は `{\"apps\":{}}` ——**42 本中 0 本**だった。**配ったことと、使われていることは別**で、スキルは「更新ログを書いて」と言われたときにしか動かないので、言われなければ永遠に動かない。ルール文書にも「コミット前に 1 行足すこと」と書いてあったが、書かれなかった。guard-canonical.mjs のときとまったく同じ「文書のお願いだけでは止まらない」型。直し方は ①PreToolUse の hook（remind-changelog.mjs）で、使う人から見て変わる直しを 更新ログ無しでコミットしようとしたら**1 回だけ**止める ②hook の無い Antigravity 向けに ルール正本へ節を足す ③ポータル自身にも入れる ④fleet-status --todo に「更新ログが 1 行も無い」を出して、効いたかどうかを数で見届ける。⚠️ **満たすまで止める形にしないこと。** 使う人から見て何も変わらない直し（CI・検査・道具・正本の同期）は実際に多く、そこで止めつづけると書き手は止まらないために**嘘の更新ログを足す**。それは「使う人から見て何が変わったか」という定義そのものを壊すので、書かれないことより悪い。⚠️ **コミットの題からの自動生成に戻さないこと**（2026-08-24 に 3 本を数えて捨てた道）。⚠️ 1 回で終わらせるための控えは `.git/` に置く。作業ツリーに置くと distribute.mjs の `git add .` に紛れて 42 本へ撒かれる。⚠️ 「まだ書いていない」は鍵の有無ではなく中身で数える。`## 2026/08/31` のように書式を外したものは置いてあっても公開ページに 1 行も出ないので、鍵で数えると書いたつもりのまま見落とす。⚠️ ポータルは data/apps.json に載っていないので、appOf に名指しで足さないとdocs/CHANGELOG.md を書いてもどこにも出ない（出しどころの無い所へ書かせない）",
+   "guardedBy": [
+    {
+     "file": "standards/agents/hooks/remind-changelog.mjs",
+     "contains": "isCommitCommand"
+    },
+    {
+     "file": "standards/agents/hooks/remind-changelog.mjs",
+     "contains": "2 回目は通す"
+    },
+    {
+     "file": "standards/agents/hooks/remind-changelog.test.mjs",
+     "contains": "2 回目は通す。逃げ道が無いと嘘の更新ログが足される"
+    },
+    {
+     "file": "standards/agents/hooks/remind-changelog.test.mjs",
+     "contains": "控えは .git/ の中に置くこと"
+    },
+    {
+     "file": "standards/agents/settings.json",
+     "contains": "remind-changelog.mjs"
+    },
+    {
+     "file": "tools/distribute.mjs",
+     "contains": "remind-changelog.mjs"
+    },
+    {
+     "file": "standards/agents/rules/gigaschool-standards.md",
+     "contains": "remind-changelog.mjs"
+    },
+    {
+     "file": "tools/fleet-status.mjs",
+     "contains": "appsWithoutChangelog"
+    },
+    {
+     "file": "tools/fleet-status.test.mjs",
+     "contains": "更新ログが1行も無い"
+    },
+    {
+     "file": "tools/sync-updates.test.mjs",
+     "contains": "ポータル自身が書いた更新ログも"
+    },
+    {
+     "file": ".github/workflows/standards-ci.yml",
+     "contains": "standards/agents/hooks/*.test.mjs"
+    }
+   ]
   }
  ]
 }

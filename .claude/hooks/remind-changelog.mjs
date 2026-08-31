@@ -1,0 +1,1 @@
+../../standards/agents/hooks/remind-changelog.mjs

@@ -66,6 +66,26 @@
   {
    "local": ".agents/skills/giga-manual",
    "reason": "正本 standards/skills/giga-manual へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-29）"
+  },
+  {
+   "local": ".claude/skills/giga-changelog",
+   "reason": "正本 standards/skills/giga-changelog へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-31）"
+  },
+  {
+   "local": ".agents/skills/giga-changelog",
+   "reason": "正本 standards/skills/giga-changelog へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-31）"
+  },
+  {
+   "local": ".claude/skills/README.md",
+   "reason": "正本 standards/skills/README.md へのシンボリックリンク。同上（2026-08-31）。.agents/skills/ 側だけ張ってあり、こちらが抜けていた"
+  },
+  {
+   "local": ".claude/hooks/remind-changelog.mjs",
+   "reason": "正本 standards/agents/hooks/remind-changelog.mjs へのシンボリックリンク。ポータルは正本を持つ側なので写しを作らない（2026-08-31）"
+  },
+  {
+   "local": ".claude/settings.json",
+   "reason": "ポータル専用の設定を持つ（2026-08-31）。配布物の正本 standards/agents/settings.json は guard-canonical.mjs を含むが、正本を持つ側でそれを働かせると正本そのものが直せなくなるため、ここには更新ログの hook だけを置く"
   }
  ]
 }
