@@ -391,7 +391,7 @@ ${FOOTER}
  * @param {object} o
  * @param {object[]} o.articles data/articles.json の items
  * @param {object[]} o.apps     data/apps.json の items（hidden を含む）
- * @param {string} o.generatedAt
+ * @param {string} o.lastmod
  * @returns {string} ページ 1 枚ぶんの HTML
  */
 /** 分野ごとの入口へのリンク。数はアプリの本数（記事の本数ではない）。 */
@@ -405,7 +405,7 @@ function catChips(apps) {
   }).filter(Boolean).join('');
 }
 
-export function articleIndexPage({ articles, apps, generatedAt }) {
+export function articleIndexPage({ articles, apps, lastmod }) {
   const url = `${SITE}/apps/`;
   const byslug = new Map(apps.map((a) => [a.slug, a]));
 
@@ -431,7 +431,7 @@ export function articleIndexPage({ articles, apps, generatedAt }) {
         inLanguage: 'ja',
         url,
         isPartOf: { '@id': `${SITE}/#website` },
-        dateModified: generatedAt,
+        dateModified: lastmod,
         mainEntity: {
           '@type': 'ItemList',
           numberOfItems: items.length,

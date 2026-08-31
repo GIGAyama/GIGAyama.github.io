@@ -233,7 +233,7 @@ async function main() {
     await mkdir(dir, { recursive: true });
     await writeFile(new URL('index.html', dir), devlogIndex({ entries: [], byApp: [] }));
     console.log(`開発記録：公開 0 本（下書き ${skipped} 本${blocked ? ` / 止めた ${blocked} 本` : ''}）`);
-    await writeFile(OUT, `${JSON.stringify({ generatedAt: new Date().toISOString().slice(0, 10), items: [] }, null, 1)}\n`);
+    await writeFile(OUT, `${JSON.stringify({ generatedAt: '', items: [] }, null, 1)}\n`);
     return 0;
   }
 
@@ -263,9 +263,15 @@ async function main() {
 
   /* 索引。sitemap と検査がこれを読む。html は重いので落とす */
   const index = entries.map(({ html, headings, ...rest }) => rest);
+  /* ⚠️ ここに「今日」を書かない。data/devlog.json は朝の流れの PATHS に入って
+        いるので、実行日を入れると**記事が 1 本も増えていない朝でも必ず差分が出る**。
+        そうなると sync-updates.yml の「変更なし。コミットしない。」が永久に
+        発火せず、毎朝の commit が止まらない。載っている記事のいちばん新しい日付にする。 */
+  const newest = entries.reduce((max, e) => (e.date > max ? e.date : max), '');
   await writeFile(OUT, `${JSON.stringify({
-    _comment: 'tools/build-devlog.mjs が書き出す。手で直さない。',
-    generatedAt: new Date().toISOString().slice(0, 10),
+    _comment: 'tools/build-devlog.mjs が書き出す。手で直さない。'
+      + ' generatedAt は載っている記録のいちばん新しい日付（実行日ではない）。',
+    generatedAt: newest,
     items: index,
   }, null, 1)}\n`);
 

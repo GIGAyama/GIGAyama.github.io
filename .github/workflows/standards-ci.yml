@@ -134,6 +134,17 @@ jobs:
       # 壊れると 3 つ同時に、しかも「置いていないアプリ」と区別のつかない形で落ちる
       - name: GitHub の取り口のテスト
         run: node --test tools/lib/gh.test.mjs
+      # 公開ページの日付。ここが崩れると lastmod が毎朝いっせいに「今日」へ動き、
+      # Google は lastmod をまるごと無視するようになる（2026-08-30 に 90 URL 中 88 が
+      # 同じ日付だった）。しかも**直したはず**のあとに崩れるので、誰も見に行かない
+      - name: 日付を日本時間で切るところのテスト
+        run: node --test tools/lib/dates.test.mjs
+      - name: 日付の台帳のテスト
+        run: node --test tools/lib/lastmod.test.mjs
+      - name: サイトマップの組み立てのテスト
+        run: node --test tools/lib/sitemap.test.mjs
+      - name: Atom フィードの組み立てのテスト
+        run: node --test tools/lib/feed.test.mjs
       # 数字の表記（A10）。書き手が読む検査なので、嘘の警告が出ると本物が読み飛ばされる。
       # note 版と開発記録版で助数詞と除外がそろっていることも、ここで見る
       - name: 数量の表記の検査のテスト
@@ -152,6 +163,17 @@ jobs:
       # 外しても手元では何も起きず、気づくのは翌朝ページが崩れてからになる
       - name: 使い方マニュアルの書式の検査のテスト
         run: node --test standards/skills/giga-manual/scripts/*.test.mjs
+      # 更新ログの書式。書いたのに出ない形（## 2026/08/23、中身の無い日付）を
+      # 書き手の手元で落とす。ここが無いと、気づくのは翌朝ページに出ないときになる。
+      # ⚠️ 正規表現がポータルの tools/lib/changelog.mjs の写しなので、
+      #    食い違っていないかは tools/lib/changelog.test.mjs のほうで見ている
+      - name: 更新ログの書式の検査のテスト
+        run: node --test standards/skills/giga-changelog/scripts/*.test.mjs
+      # 朝の組み直しの安全弁。GitHub が見えなかっただけの朝に、更新ログの台帳を
+      # 空で上書きしてコミットすると、公開ページから全アプリの更新が消える。
+      # 「置いていない」と「読めなかった」を分けているかを、ここで押さえる
+      - name: 更新ログの取りこみの安全弁のテスト
+        run: node --test tools/sync-updates.test.mjs
       # 書き出し先の台帳。PATHS に並べ忘れた道は、毎朝つくられては毎朝捨てられ、
       # しかも検査は組み直したあとを見るので緑のまま通る
       - name: 書き出し先が PATHS に並んでいるか

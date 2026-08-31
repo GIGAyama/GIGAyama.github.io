@@ -5,6 +5,8 @@
  "tools": {
   "tools/sync-updates.mjs": [
    "data/apps.json",
+   "data/lastmod.json",
+   "data/changelog.json",
    "index.html",
    "sitemap.xml",
    "feed.xml",

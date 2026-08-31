@@ -9,6 +9,7 @@
  */
 
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 
 import { CATEGORY_LABEL, CATEGORY_COLOR } from './lib/categories.mjs';
 import { articleIndexPage, linkCards } from './lib/article-page.mjs';
@@ -16,10 +17,22 @@ import { CATEGORY_BASE, categoryPage, groupByCategory } from './lib/category-pag
 import { filteringPage } from './lib/filtering-page.mjs';
 import { searchIndex } from './lib/search-index.mjs';
 import { pressPage } from './lib/press-page.mjs';
+import { sitemap } from './lib/sitemap.mjs';
+import { feed } from './lib/feed.mjs';
+import { todayJst, jstDate } from './lib/dates.mjs';
+import {
+  normalizeLedger, serializeLedger, siteLastmod, stamp, stampStatic,
+} from './lib/lastmod.mjs';
+import { ghContentChangedAt, ghDoc } from './lib/gh.mjs';
+import { changesFeed, latestChanges } from './lib/changelog.mjs';
 
 const OWNER = 'GIGAyama';
+const AGENT = 'giga-school-sync-updates';
 const ROOT = new URL('..', import.meta.url);
 const DATA = new URL('data/apps.json', ROOT);
+const LEDGER = new URL('data/lastmod.json', ROOT);
+const CHANGELOG = new URL('data/changelog.json', ROOT);
+const PROFILE = new URL('profile/index.html', ROOT);
 const PAGE = new URL('index.html', ROOT);
 const MAP = new URL('sitemap.xml', ROOT);
 const ARTICLES = new URL('data/articles.json', ROOT);
@@ -42,7 +55,6 @@ const FEED = new URL('feed.xml', ROOT);
 const shown = (item) => item.hidden !== true;
 
 const NEW_LIMIT = 8;      // 「新しく公開したアプリ」に並べる数
-const UPDATED_LIMIT = 6;  // 「最近手を入れたもの」に並べる日付の数
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -56,7 +68,20 @@ const jpShort = (iso) => {
   return `${m}月${d}日`;
 };
 
-/** GitHub から公開日（リポジトリ作成日）と最終 push 日を取り直す。 */
+/**
+ * GitHub から公開日（リポジトリ作成日）と最終 push 日を取り直し、
+ * ついでに各リポジトリの docs/CHANGELOG.md を集める。
+ *
+ * ⚠️ CHANGELOG を**ここで**集めるのには理由がある。tools/build-articles.mjs は
+ *    note 記事のある 32 本しか回らず、tools/build-manuals.mjs は 2 本しか回らない。
+ *    **全 39 本を回るのはここだけ**なので、あちらで集めると紹介記事の無い 7 本
+ *    （じどう車ずかん・こころスコープ・音楽制作スタジオ・体育ノート・
+ *    共有フォルダ同期くん・しりとりファイター・学習サイトリンク集）の更新が
+ *    トップページから丸ごと落ちる。
+ *
+ * @returns {Promise<{changelogs: Record<string,string>, unread: string[]}>}
+ *   changelogs は repo → docs/CHANGELOG.md の中身。unread は読めなかった repo
+ */
 async function refresh(items) {
   const token = process.env.GITHUB_TOKEN;
   const headers = {
@@ -65,6 +90,8 @@ async function refresh(items) {
     ...(token ? { authorization: `Bearer ${token}` } : {}),
   };
   let changed = 0, failed = 0;
+  const changelogs = {};   // repo → 中身。書いていない repo は載せない
+  const unread = [];       // 読めなかった repo（「置いていない」とは別）
 
   /* 手元のトークンが他のリポジトリを読めないことがある。
      断られたら、認証なしでもう一度だけ試す（どれも公開リポジトリなので読める）。 */
@@ -92,18 +119,67 @@ async function refresh(items) {
         continue;
       }
       const json = await res.json();
-      const pushed = (json.pushed_at || '').slice(0, 10);
-      const created = (json.created_at || '').slice(0, 10);
+      const pushed = jstDate(json.pushed_at);
+      const created = jstDate(json.created_at);
       /* publishedAt は最初のコミット日を手で入れてある。空のときだけ補う。 */
       if (!item.publishedAt && created) { item.publishedAt = created; changed++; }
       if (pushed && pushed !== item.updatedAt) { item.updatedAt = pushed; changed++; }
+
+      /* 正本配布を除いた「本当に中身が変わった日」。
+         ⚠️ updatedAt（push 日）と別に持つ。updatedAt を作り替えてはいけない
+            —— tools/build-articles.mjs と tools/build-manuals.mjs が
+            `a.publishedAt && a.updatedAt` の真偽で 42 本を絞っているので、
+            意味を変えたり空にしたりすると**紹介ページが全部消える**。
+         取れなかったときは空のままにする（sitemap 側が lastmod を出さない）。 */
+      const content = await ghContentChangedAt(item.repo, AGENT);
+      if (content !== (item.changedAt || '')) { item.changedAt = content; changed++; }
+
+      /* 「何が変わったか」。本人が書いたものだけを読む（理由は tools/lib/changelog.mjs）。
+         ⚠️ 「置いていない」と「読めなかった」を分ける。混ぜると、GitHub が見えない
+            朝に 39 本ぶんが一斉に空になり、そのまま台帳を消してコミットする。 */
+      const doc = await ghDoc(item.repo, 'docs/CHANGELOG.md', AGENT);
+      if (doc.failed) unread.push(item.repo);
+      else if (doc.text) changelogs[item.repo] = doc.text;
     } catch (e) {
       console.warn(`  取得できず ${item.repo}: ${e.message}`);
       failed++;
     }
   }
-  console.log(`GitHub から取得：更新 ${changed} 件 / 失敗 ${failed} 件`);
-  return items;
+  console.log(`GitHub から取得：更新 ${changed} 件 / 失敗 ${failed} 件`
+    + ` / 更新ログを書いているアプリ ${Object.keys(changelogs).length} 本`);
+  return { changelogs, unread };
+}
+
+/**
+ * 集めた更新ログを、前の台帳と突き合わせて安全に混ぜる。
+ *
+ * ⚠️ 「読めなかった」を「消された」と取り違えない。読めなかった repo は
+ *    前の値を据え置く。全部読めなかった朝は 1 文字も書き替えない
+ *    （tools/build-articles.mjs の「1 本も組めなかったら書き替えない」と同じ扱い）。
+ *
+ * @returns {{apps: Record<string,string>, held: number} | null} null は「書き替えない」
+ */
+export function mergeChangelogs(before, { changelogs, unread }, total) {
+  if (total > 0 && unread.length === total) return null;   // 1 本も読めなかった
+  const apps = { ...changelogs };
+  let held = 0;
+  for (const repo of unread) {
+    if (before[repo]) { apps[repo] = before[repo]; held++; }
+  }
+  return { apps, held };
+}
+
+/** 台帳の書き出し。道の順に並べて、差分が読めるようにする。 */
+function serializeChangelogs(apps) {
+  const sorted = {};
+  for (const repo of Object.keys(apps).sort()) sorted[repo] = apps[repo];
+  return JSON.stringify({
+    _comment: '各アプリの docs/CHANGELOG.md を tools/sync-updates.mjs --fetch が集めたもの。'
+      + '手で書かない。書き方の正本は giga-changelog スキル。'
+      + '⚠️ generatedAt を足さないこと。中身が変わっていない朝にも差分が立ち、'
+      + '毎朝の空コミットに紛れて本物の更新に気づけなくなる。',
+    apps: sorted,
+  }, null, 1) + '\n';
 }
 
 function row(item, iso) {
@@ -120,255 +196,63 @@ function row(item, iso) {
             </li>`;
 }
 
-/** 同じ日にまとめて手を入れることが多いので、日付ごとに 1 行にまとめる。 */
-function groupRow(iso, list) {
-  const NAMES = 6;
-  const shown = list.slice(0, NAMES).map((i) => {
-    const href = i.slug
-      ? `https://${i.slug}.giga-school.com/`
-      : `https://github.com/${OWNER}/${i.repo}`;
-    const rel = i.slug ? '' : ' rel="noopener"';
-    return `<a class="timeline__name" href="${href}"${rel}>${esc(i.name)}</a>`;
-  }).join('<span class="timeline__sep">・</span>');
-  const rest = list.length - Math.min(list.length, NAMES);
-  const more = rest > 0 ? `<span class="timeline__more">ほか ${rest} 本</span>` : '';
-  return `            <li class="timeline__row timeline__row--group" style="--cat:${CATEGORY_COLOR.other}">
-              <time class="timeline__date" datetime="${iso}">${jpShort(iso)}</time>
-              <span class="timeline__names">${shown}${more}</span>
-            </li>`;
+/**
+ * 全アプリの「更新したこと」を並べる列。1 本も書かれていなければ空文字。
+ *
+ * ⚠️ **push 日を並べる形に戻さない。** 2026-08-31 まで、ここは各リポジトリの
+ *    最終 push 日とアプリ名を日付ごとにまとめていた。正本配布が 42 本へ毎日
+ *    push するので **41 本が 1 行に潰れ**、「8月29日 ／ 6 本 ／ ほか 35 本」しか
+ *    出ていなかった。8/25 まで遡っても同じで、更新ログとして一度も働いていない。
+ *
+ *    「何が変わったか」は、使う人から見て何が変わったかであって、リポジトリで
+ *    何をしたかではない（tools/lib/changelog.mjs の冒頭。2026-08-24 に実測して
+ *    出した結論）。だからコミットからは作らず、本人が書いた docs/CHANGELOG.md
+ *    だけを読む。書いていないアプリは出ない。1 本も無ければ列ごと出ない。
+ */
+function changesColumn(groups) {
+  if (!groups.length) return '';
+  return `
+        <section class="updates__col" aria-labelledby="updates-changes">
+          <h3 class="updates__title" id="updates-changes">更新したこと</h3>
+${changesFeed(groups, esc, jpShort)}
+        </section>`;
 }
 
-function render(data) {
+function render(data, groups = []) {
   const items = data.items.filter((i) => shown(i) && i.publishedAt && i.updatedAt);
   const apps = items.filter((i) => i.kind === 'app');
   const tools = items.filter((i) => i.kind === 'tool');
 
-  const byNew = [...items].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
-  const byUpdated = [...items]
-    .filter((i) => i.updatedAt !== i.publishedAt)
-    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const byNew = [...items].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)
+    /* 同じ日のものは名前で決める。並びが日によって変わると、中身が同じでも
+       ハッシュが動いて lastmod が毎日進む（tools/lib/lastmod.mjs の ⚠️ を見ること）。 */
+    || String(a.slug || a.repo).localeCompare(String(b.slug || b.repo)));
 
   const first = items.reduce((min, i) => (i.publishedAt < min ? i.publishedAt : min),
     items[0].publishedAt);
 
   const newRows = byNew.slice(0, NEW_LIMIT).map((i) => row(i, i.publishedAt)).join('\n');
 
-  /* 日付ごとにまとめる。同じ日に何本も触ることが多いため。 */
-  const byDate = new Map();
-  byUpdated.forEach((i) => {
-    if (!byDate.has(i.updatedAt)) byDate.set(i.updatedAt, []);
-    byDate.get(i.updatedAt).push(i);
-  });
-  const updRows = [...byDate.entries()]
-    .slice(0, UPDATED_LIMIT)
-    .map(([iso, list]) => groupRow(iso, list.sort((a, b) => a.name.localeCompare(b.name, 'ja'))))
-    .join('\n');
+  const changes = changesColumn(groups);
+  /* 列が 1 本だけのときは幅を止める。auto-fit は空のトラックを畳むので、
+     放っておくと「新しく公開したもの」が親幅いっぱいに広がり、日付とタグの
+     あいだが間延びする。状態を HTML に出しておくと、崩れたときに気づける。 */
+  const single = changes ? '' : ' updates--single';
 
   return `      <p class="updates__note">
         はじめて公開したのは <time datetime="${first}">${jpDate(first)}</time>。
         いま公開しているのは Web アプリ ${apps.length} 本と、拡張機能・ツール ${tools.length} 本です。
-        この節は毎日 GitHub を見て自動で書き直しています（${jpDate(data.generatedAt)}時点）。
+        新しく公開したものは毎朝 GitHub を見て、更新したことは作者が書いたものを読んで、
+        この節を書き直しています。
       </p>
-      <div class="updates">
+      <div class="updates${single}">
         <section class="updates__col" aria-labelledby="updates-new">
           <h3 class="updates__title" id="updates-new">新しく公開したもの</h3>
           <ol class="timeline">
 ${newRows}
           </ol>
-        </section>
-        <section class="updates__col" aria-labelledby="updates-touched">
-          <h3 class="updates__title" id="updates-touched">最近手を入れたもの</h3>
-          <ol class="timeline">
-${updRows}
-          </ol>
-        </section>
+        </section>${changes}
       </div>`;
-}
-
-/**
- * sitemap.xml を組み立てる。
- *
- * トップページのほかに、各アプリのサブドメイン（<slug>.giga-school.com）も載せる。
- * アプリは 1 本ずつ別のホストなので、トップページを見ただけでは Google が
- * すべてを追い切れない。ここに並べておくと取りこぼしが減る。
- *
- * 別ホストの URL を 1 つのサイトマップに書けるのは、Search Console で
- * giga-school.com を「ドメイン プロパティ」として登録し、サブドメインまで
- * 所有権が確認できている場合。URL プレフィックスのプロパティしかないと、
- * サブドメインの行は無視される。
- *
- * lastmod は各リポジトリの最終 push 日（updatedAt）。slug のないものは
- * 公開先が GitHub 側なので、ここには載せない。
- *
- * 紹介ページ（/apps/<slug>/）も載せる。一覧は tools/build-articles.mjs が
- * data/articles.json に書き出す。まだ無いときは、アプリの行だけで組む。
- */
-/**
- * 更新を追えるようにする（Atom）。
- *
- * 一度アプリに辿り着いた人が、次に何が出たかを知る手段がサイトに無かった。
- * X と note は続けるかどうかが本人次第だが、フィードは置いておけば勝手に届く。
- *
- * 中身は「読むもの」に絞る。紹介記事と、記事がまだ無い新しいアプリ。
- * 「最近手を入れたもの」は入れない。細かい push が流れ続けるだけで、
- * 購読している側にとっては報せる値打ちが無い。
- *
- * 日付は data/apps.json の YYYY-MM-DD しか持っていないので、
- * その日の始まり（日本時間）として書く。時刻まで正確である必要はない。
- */
-function feed(data, articles = []) {
-  const SITE = 'https://giga-school.com';
-  const stamp = (iso) => `${iso}T00:00:00+09:00`;
-  const byslug = new Map(data.items.map((i) => [i.slug, i]));
-  const hasArticle = new Set(articles.map((a) => a.slug));
-
-  /* 紹介記事。読むものとしては、これが本体 */
-  const fromArticles = articles
-    .filter((a) => a.slug && byslug.get(a.slug) && shown(byslug.get(a.slug)))
-    .map((a) => {
-      const app = byslug.get(a.slug);
-      return {
-        id: `${SITE}/apps/${a.slug}/`,
-        href: `${SITE}/apps/${a.slug}/`,
-        title: a.headline || a.title,
-        summary: a.summary,
-        published: app.publishedAt,
-        updated: a.updatedAt || app.updatedAt,
-        category: CATEGORY_LABEL[app.category] || CATEGORY_LABEL.other,
-      };
-    });
-
-  /* 記事がまだ無いアプリ。公開したこと自体は報せる値打ちがある */
-  const fromApps = data.items
-    .filter((i) => shown(i) && i.slug && i.publishedAt && !hasArticle.has(i.slug))
-    .map((i) => ({
-      id: `https://${i.slug}.giga-school.com/`,
-      href: `https://${i.slug}.giga-school.com/`,
-      title: i.name,
-      summary: `${i.name} を公開しました。`,
-      published: i.publishedAt,
-      updated: i.updatedAt || i.publishedAt,
-      category: CATEGORY_LABEL[i.category] || CATEGORY_LABEL.other,
-    }));
-
-  /* 新しく公開した順。多すぎても読まれないので 20 件で切る */
-  const entries = [...fromArticles, ...fromApps]
-    .sort((a, b) => (b.published || '').localeCompare(a.published || '')
-      || String(a.title).localeCompare(String(b.title), 'ja'))
-    .slice(0, 20);
-
-  /* フィード自体の更新日は、いちばん新しい記事に合わせる */
-  const latest = entries.reduce((m, e) => (e.updated > m ? e.updated : m), data.generatedAt);
-
-  const body = entries.map((e) => `  <entry>
-    <title>${esc(e.title)}</title>
-    <link rel="alternate" type="text/html" href="${esc(e.href)}"/>
-    <id>${esc(e.id)}</id>
-    <published>${stamp(e.published)}</published>
-    <updated>${stamp(e.updated)}</updated>
-    <category term="${esc(e.category)}"/>
-    <summary type="text">${esc(e.summary)}</summary>
-  </entry>`).join('\n');
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<!-- tools/sync-updates.mjs が data/apps.json と data/articles.json から書き出す。手で書き足さない。 -->
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
-  <title>GIGA school｜学校で使える Web アプリ</title>
-  <subtitle>小学校の教員がつくった Web アプリと、その紹介記事の更新</subtitle>
-  <link rel="self" type="application/atom+xml" href="${SITE}/feed.xml"/>
-  <link rel="alternate" type="text/html" href="${SITE}/"/>
-  <id>${SITE}/</id>
-  <updated>${stamp(latest)}</updated>
-  <author>
-    <name>GIGAyama</name>
-    <uri>${SITE}/</uri>
-  </author>
-  <rights>© GIGAyama</rights>
-${body}
-</feed>
-`;
-}
-
-function sitemap(data, articles = [], devlog = [], manuals = []) {
-  const url = (loc, lastmod, changefreq, priority) =>
-    `  <url>
-    <loc>${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`;
-
-  const entries = [url('https://giga-school.com/', data.generatedAt, 'weekly', '1.0')];
-
-  /* 紹介ページの一覧。記事が増えるたびに変わる */
-  if (articles.length) {
-    entries.push(url('https://giga-school.com/apps/', data.generatedAt, 'weekly', '0.9'));
-    /* フィードも載せておく。更新の速いページとしてクローラに拾わせる */
-    entries.push(url('https://giga-school.com/feed.xml', data.generatedAt, 'daily', '0.5'));
-  }
-  /* 教科・分野ごとの入口。「国語 アプリ 小学校」で探している人の着地点になる。
-     トップページの絞り込み（?cat=）は JavaScript が要るうえ、行き先が
-     トップページ 1 枚なので、検索の受け皿にならない */
-  Object.keys(CATEGORY_LABEL).forEach((id) => {
-    entries.push(url(`https://giga-school.com/${CATEGORY_BASE}/${id}/`,
-      data.generatedAt, 'weekly', '0.7'));
-  });
-  /* 校内のフィルタリングの一覧。「アプリ名 フィルタリング 許可」で探す
-     情報担当の先生の着地点になる */
-  entries.push(url('https://giga-school.com/filtering/', data.generatedAt, 'weekly', '0.6'));
-  /* 開発記録。読み手が違う（生成 AI でアプリを作っている人）ので、
-     アプリの一覧より低い優先度にしてある。
-     ⚠️ 公開されている記事だけを載せる。下書きを載せると 404 が並ぶ */
-  for (const e of devlog) {
-    entries.push(url(`https://giga-school.com/devlog/${e.slug}/${e.name}/`, e.date, 'yearly', '0.4'));
-  }
-  /* /devlog/ は 0 本でも存在する。全ページのフッターが張ってあるので、
-     build-devlog.mjs が空の入口だけは必ず書く（あちらのコメントと対）。 */
-  entries.push(url('https://giga-school.com/devlog/', data.generatedAt, 'weekly', '0.5'));
-  if (devlog.length) {
-    for (const slug of new Set(devlog.map((e) => e.slug))) {
-      entries.push(url(`https://giga-school.com/devlog/${slug}/`, data.generatedAt, 'monthly', '0.4'));
-    }
-  }
-  /* 自己紹介。だれがつくっているのかは、学校で使うかどうかの判断材料になる */
-  entries.push(url('https://giga-school.com/profile/', data.generatedAt, 'monthly', '0.5'));
-  /* 掲載用の資料。めったに変わらないが、媒体の担当者に見つけてほしい */
-  entries.push(url('https://giga-school.com/press/', data.generatedAt, 'monthly', '0.4'));
-
-  /* 紹介ページ。アプリ本体より先に置く。中身のある文章はこちらにある */
-  articles
-    .filter((a) => a.slug && a.updatedAt)
-    .slice()
-    .sort((a, b) => a.slug.localeCompare(b.slug))
-    .forEach((a) => {
-      entries.push(url(`https://giga-school.com/apps/${a.slug}/`, a.updatedAt, 'monthly', '0.9'));
-    });
-
-  /* 使い方マニュアル。紹介ページより少し低い重み。
-     ⚠️ lastmod は manual.md が最後に変わった日で、アプリの push 日ではない
-        （tools/build-manuals.mjs を見ること）。 */
-  manuals
-    .filter((m) => m.slug && m.updatedAt)
-    .slice()
-    .sort((a, b) => a.slug.localeCompare(b.slug))
-    .forEach((m) => {
-      entries.push(url(`https://giga-school.com/apps/${m.slug}/manual/`, m.updatedAt, 'monthly', '0.7'));
-    });
-
-  data.items
-    .filter((i) => shown(i) && i.slug && i.updatedAt)
-    .sort((a, b) => a.slug.localeCompare(b.slug))
-    .forEach((i) => {
-      entries.push(url(`https://${i.slug}.giga-school.com/`, i.updatedAt, 'monthly',
-        i.kind === 'app' ? '0.8' : '0.6'));
-    });
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<!-- tools/sync-updates.mjs が data/apps.json から書き出す。手で書き足さない。 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries.join('\n')}
-</urlset>
-`;
 }
 
 /** index.html の印（marker）で囲まれた部分だけを差し替える。 */
@@ -380,18 +264,30 @@ function replaceBlock(html, name, body) {
   return html.slice(0, i + start.length) + '\n' + body + '\n      ' + html.slice(j);
 }
 
-const main = async () => {
-  const data = JSON.parse(await readFile(DATA, 'utf8'));
-
-  if (process.argv.includes('--fetch')) {
-    /* hidden のものは見に行かない。取り下げたリポジトリが読めなくても、
-       毎朝おなじ警告が出続けるだけで、直しようがないため。 */
-    await refresh(data.items.filter(shown));
-    data.generatedAt = new Date().toISOString().slice(0, 10);
-  }
-
-  let html = await readFile(PAGE, 'utf8');
-  html = replaceBlock(html, 'updates', render(data));
+/**
+ * index.html を組み直す。
+ *
+ * ⚠️ 日付（フッタの「最終更新」）を引数で受け取り、**2 回呼べる形**にしてある。
+ *    1 回目は日付の場所に SENTINEL を入れて中身のハッシュを測るため、
+ *    2 回目は決まった日付で書き出すため（tools/lib/lastmod.mjs の ⚠️ を見ること）。
+ *    ここを main() の中に手続きで書き戻すと 2 回呼べなくなり、日付が毎朝動く形に戻る。
+ */
+function applyIndexEdits(raw, { data, articles, manuals, changelogs = {} }, lastmod) {
+  /* どのリポジトリのアプリかと、その行き先。読んで気になった人が次に知りたいのは
+     「これは何か」なので、紹介ページを第一候補にする。無ければアプリ本体。 */
+  const withArticle = new Set(articles.map((a) => a.slug).filter(Boolean));
+  const byRepo = new Map(data.items.map((i) => [i.repo, i]));
+  const appOf = (repo) => {
+    const item = byRepo.get(repo);
+    if (!item || !shown(item) || !item.slug) return null;
+    return {
+      name: item.name,
+      href: withArticle.has(item.slug)
+        ? `/apps/${item.slug}/`
+        : `https://${item.slug}.giga-school.com/`,
+    };
+  };
+  let html = replaceBlock(raw, 'updates', render(data, latestChanges(changelogs, appOf)));
 
   /* 本数と最終更新日も、数え直した値に合わせる */
   const apps = data.items.filter((i) => shown(i) && i.kind === 'app').length;
@@ -400,83 +296,156 @@ const main = async () => {
     .replace(/(<dt>公開中のアプリ<\/dt><dd>)\d+/, `$1${apps}`)
     .replace(/(<dt>拡張機能・ツール<\/dt><dd>)\d+/, `$1${tools}`)
     .replace(/(最終更新：<time datetime=")[\d-]+(">)[^<]+/,
-      `$1${data.generatedAt}$2${jpDate(data.generatedAt)}`);
-
-  await writeFile(DATA, JSON.stringify(data, null, 1) + '\n');
-
-  /* 紹介ページの一覧。まだ作っていなければ、無いものとして進む */
-  let articles = [];
-  try {
-    articles = JSON.parse(await readFile(ARTICLES, 'utf8')).items ?? [];
-  } catch (e) { /* data/articles.json が無い。アプリの行だけで組む */ }
-  /* 使い方マニュアル。tools/build-manuals.mjs が書き出す。0 本のこともある */
-  let manuals = [];
-  try {
-    manuals = JSON.parse(await readFile(MANUALS, 'utf8')).items ?? [];
-  } catch (e) { /* data/manuals.json がまだ無い */ }
+      `$1${lastmod}$2${jpDate(lastmod)}`);
 
   /* トップのカードに「紹介を読む」と「使い方を見る」を貼る。
      ⚠️ ここは以前 tools/build-articles.mjs がやっていた。index.html を書くのは
         元々この道具の役目で、書き手が 2 人いること自体が順番の罠になっていた。
         しかも紹介とマニュアルは card__actions を丸ごと入れ替える作りなので、
         別々に貼ると、あとから貼ったほうが前のを消す。1 回でまとめて貼る。 */
-  const linked = linkCards(html, {
+  return linkCards(html, {
     articles: new Set(articles.map((a) => a.slug).filter(Boolean)),
     manuals: new Set(manuals.map((m) => m.slug).filter(Boolean)),
-  });
-  html = linked.html;
-  await writeFile(PAGE, html);
-  /* 開発記録。tools/build-devlog.mjs が書き出す。公開 0 本のこともある */
-  let devlog = [];
+  }).html;
+}
+
+/** JSON を読む。無ければ（壊れていれば）既定値で進む。 */
+async function readJson(url, fallback) {
   try {
-    devlog = JSON.parse(await readFile(new URL('data/devlog.json', ROOT), 'utf8')).items ?? [];
-  } catch (e) { /* data/devlog.json が無い。開発記録なしで組む */ }
+    return JSON.parse(await readFile(url, 'utf8'));
+  } catch (e) {
+    return fallback;
+  }
+}
 
-  await writeFile(MAP, sitemap(data, articles, devlog, manuals));
-  await writeFile(FEED, feed(data, articles));
+const main = async () => {
+  const data = JSON.parse(await readFile(DATA, 'utf8'));
 
-  /* 紹介ページの一覧（/apps/）。記事が 1 本も無いときは作らない。
-     作ってしまうと、空のページがサイトマップと食い違う。 */
-  if (articles.length) {
-    await mkdir(new URL('apps/', ROOT), { recursive: true });
-    await writeFile(APPS_INDEX, articleIndexPage({
-      articles,
-      apps: data.items,
-      generatedAt: data.generatedAt,
-    }));
+  /* ⚠️ 「今日」を知ってよいのは、ここと tools/lib/lastmod.mjs の resolveLastmod だけ。
+        ページを組む関数へ渡さない。渡せるようにすると、いつか誰かが
+        「日付が無いから今日でいいか」と書いて、元の壊れ方に戻る。 */
+  const today = todayJst();
+
+  /* 日付の台帳。無ければ空から始める（初回だけ、すべてのページが今日になる）。 */
+  const ledger = normalizeLedger(await readJson(LEDGER, null));
+
+  /* 各アプリが書いた更新ログ。--fetch のときだけ取り直す。
+     ⚠️ --fetch なしの 2 回目は読むだけ。読んで捨てると 2 回目で台帳が消える。 */
+  let changelogs = (await readJson(CHANGELOG, {})).apps ?? {};
+
+  if (process.argv.includes('--fetch')) {
+    /* hidden のものは見に行かない。取り下げたリポジトリが読めなくても、
+       毎朝おなじ警告が出続けるだけで、直しようがないため。 */
+    const targets = data.items.filter(shown);
+    const got = await refresh(targets);
+    const merged = mergeChangelogs(changelogs, got, targets.length);
+    if (!merged) {
+      /* 1 本も読めなかった。GitHub が見えていないだけなので、台帳は触らない。
+         赤にして気づけるようにする（朝の流れは止めない）。 */
+      console.warn('⚠️ 更新ログを 1 本も読めなかった。data/changelog.json は書き替えない。');
+      process.exitCode = 1;
+    } else {
+      changelogs = merged.apps;
+      if (merged.held) {
+        console.warn(`⚠️ 読めなかった ${merged.held} 本は、前の更新ログを据え置いた。`);
+      }
+      await writeFile(CHANGELOG, serializeChangelogs(changelogs));
+    }
   }
 
-  /* 教科・分野ごとの入口（/apps/category/<id>/）。
-     8 分野ぶんを毎回書き直す。アプリが 1 本も無い分野は作らない
-     （空のページがサイトマップと食い違う）。 */
+  /* 紹介ページの一覧。まだ作っていなければ、無いものとして進む */
+  const articles = (await readJson(ARTICLES, {})).items ?? [];
+  /* 使い方マニュアル。tools/build-manuals.mjs が書き出す。0 本のこともある */
+  const manuals = (await readJson(MANUALS, {})).items ?? [];
+  /* 開発記録。tools/build-devlog.mjs が書き出す。公開 0 本のこともある */
+  const devlog = (await readJson(new URL('data/devlog.json', ROOT), {})).items ?? [];
+
+  /* ---------- トップページ ---------- */
+  const rawIndex = await readFile(PAGE, 'utf8');
+  const index = stamp(ledger, '/',
+    (lm) => applyIndexEdits(rawIndex, { data, articles, manuals, changelogs }, lm), today);
+  await writeFile(PAGE, index.text);
+
+  /* ---------- 紹介ページの一覧（/apps/）----------
+     記事が 1 本も無いときは作らない。作ってしまうと、空のページがサイトマップと食い違う。 */
+  if (articles.length) {
+    await mkdir(new URL('apps/', ROOT), { recursive: true });
+    const page = stamp(ledger, '/apps/',
+      (lm) => articleIndexPage({ articles, apps: data.items, lastmod: lm }), today);
+    await writeFile(APPS_INDEX, page.text);
+  } else {
+    delete ledger.pages['/apps/'];
+  }
+
+  /* ---------- 教科・分野ごとの入口（/apps/category/<id>/）----------
+     8 分野ぶんを毎回書き直す。アプリが 1 本も無い分野は作らない。 */
   const groups = groupByCategory(data.items, articles);
   let cats = 0;
   for (const id of Object.keys(CATEGORY_LABEL)) {
+    const key = `/${CATEGORY_BASE}/${id}/`;
     /* アプリが 1 本も無い分野は作らない。空のページがサイトマップと食い違う。
        前に作ってあれば消す。最後の 1 本を取り下げた分野のページが、
-       中身のないまま検索に残り続けるのを避ける。 */
+       中身のないまま検索に残り続けるのを避ける。
+       ⚠️ 台帳からも消す。残すと、消したページの行がサイトマップに並び続ける。 */
     if (!groups.get(id).apps.length) {
       await rm(new URL(`${CATEGORY_BASE}/${id}/`, ROOT), { recursive: true, force: true });
+      delete ledger.pages[key];
       continue;
     }
     await mkdir(new URL(`${CATEGORY_BASE}/${id}/`, ROOT), { recursive: true });
-    await writeFile(new URL(`${CATEGORY_BASE}/${id}/index.html`, ROOT),
-      categoryPage({ id, groups, generatedAt: data.generatedAt }));
+    const page = stamp(ledger, key, (lm) => categoryPage({ id, groups, lastmod: lm }), today);
+    await writeFile(new URL(`${CATEGORY_BASE}/${id}/index.html`, ROOT), page.text);
     cats++;
   }
 
-  /* 校内のフィルタリングに出す「許可するアドレス」の一覧。
+  /* ---------- 校内のフィルタリングに出す「許可するアドレス」の一覧 ----------
      29 本の記事がそれぞれ書いていたものを 1 枚にまとめる。
      data/apps.json の hosts から組み立てるので、アプリが増えても書き忘れない。
      ⚠️ Web アプリだけ。Chrome の拡張機能（kind: tool）は
         サブドメインから配られないので、許可するアドレスという話にならない。 */
   const webApps = data.items.filter((a) => a.slug && a.kind === 'app' && a.hidden !== true);
   await mkdir(new URL('filtering/', ROOT), { recursive: true });
-  await writeFile(new URL('filtering/index.html', ROOT),
-    filteringPage({ apps: webApps, generatedAt: data.generatedAt }));
+  const filtering = stamp(ledger, '/filtering/',
+    (lm) => filteringPage({ apps: webApps, lastmod: lm }), today);
+  await writeFile(new URL('filtering/index.html', ROOT), filtering.text);
 
-  /* 紹介記事の中を探すための索引。書き出し済みのページから作るので、
-     GitHub を見に行かなくても作り直せる。検索の欄に触れるまで読み込まれない。 */
+  /* ---------- 掲載用の資料（/press/）----------
+     数字を手で書くと、ここだけ古くなって媒体に古い本数が載ることになる。毎回組み直す。 */
+  await mkdir(new URL('press/', ROOT), { recursive: true });
+  const press = stamp(ledger, '/press/',
+    (lm) => pressPage({ apps: data.items, articles, lastmod: lm }), today);
+  await writeFile(PRESS, press.text);
+
+  /* ---------- 自己紹介（/profile/）----------
+     どの道具も書き出していない静的なページなので、ファイルの中身を直に測る。
+     これを入れるまで、ここだけ実行日が貼られていて、本当の日付が出ていなかった。 */
+  try {
+    stampStatic(ledger, '/profile/', await readFile(PROFILE, 'utf8'), today);
+  } catch (e) {
+    delete ledger.pages['/profile/'];         // ページごと無くなった
+  }
+
+  /* ---------- feed.xml と sitemap.xml ----------
+     ⚠️ どちらの組み立てにも「今日」を渡さない。日付は上で台帳が決めたものと、
+        記事・マニュアル・アプリがそれぞれ持っている「中身が変わった日」だけを使う。 */
+  const stamps = Object.fromEntries(
+    Object.entries(ledger.pages).map(([key, v]) => [key, v.lastmod]));
+  const atom = feed({ data, articles, fallback: siteLastmod(ledger) });
+  await writeFile(FEED, atom.xml);
+  await writeFile(MAP,
+    sitemap({ data, articles, devlog, manuals, stamps, feedUpdated: atom.updated }));
+
+  /* generatedAt は「サイトの中身が最後に変わった日」。実行日ではない。
+     ⚠️ 名前は変えない。tools/lib/search-index.test.mjs が見ているほか、
+        build-articles / build-manuals もこの名前で読む。意味だけを直してある。 */
+  /* ⚠️ 前の値を reduce の初期値に渡さない。台帳より新しい値がいちど入ると、
+        以後どのページが変わっても**その値が最大のまま居座り続ける**。
+        台帳が空のときだけ、前の値を残す。 */
+  data.generatedAt = siteLastmod(ledger) || data.generatedAt || '';
+
+  /* ---------- 紹介記事の中を探すための索引 ----------
+     書き出し済みのページから作るので、GitHub を見に行かなくても作り直せる。
+     検索の欄に触れるまで読み込まれない。 */
   if (articles.length) {
     const pages = [];
     for (const a of articles) {
@@ -507,13 +476,24 @@ const main = async () => {
     await writeFile(SEARCH, searchIndex(pages, data.generatedAt));
   }
 
-  /* 掲載用の資料（/press/）。数字を手で書くと、ここだけ古くなって
-     媒体に古い本数が載ることになる。毎回組み直す。 */
-  await mkdir(new URL('press/', ROOT), { recursive: true });
-  await writeFile(PRESS, pressPage({ apps: data.items, articles, generatedAt: data.generatedAt }));
+  await writeFile(DATA, JSON.stringify(data, null, 1) + '\n');
+  await writeFile(LEDGER, serializeLedger(ledger));
 
+  const apps = data.items.filter((i) => shown(i) && i.kind === 'app').length;
+  const tools = data.items.filter((i) => shown(i) && i.kind === 'tool').length;
+  const moved = Object.entries(ledger.pages).filter(([, v]) => v.lastmod === today).length;
   console.log(`更新情報を書き直した：アプリ ${apps} 本 / ツール ${tools} 本`
-    + ` / 紹介 ${articles.length} 本 / 分類 ${cats} 枚 / ${data.generatedAt} 時点`);
+    + ` / 紹介 ${articles.length} 本 / 分類 ${cats} 枚`
+    + ` / 更新ログ ${Object.keys(changelogs).length} 本`
+    + ` / 中身が変わったページ ${moved} 枚（サイト全体の最終更新 ${data.generatedAt}）`);
 };
 
-await main();
+/* ⚠️ import されたときは走らせない。以前はここが `await main();` だったので、
+      読みこんだ瞬間に GitHub を叩いてファイルを書き出していた。
+      tools/lib/sitemap.test.mjs のような検査が書けなかったのは、
+      書き忘れではなく**この形のせい**だった（tools/check-lessons.mjs と同じ作法）。 */
+const invokedDirectly = process.argv[1]
+  && pathToFileURL(process.argv[1]).href === import.meta.url;
+if (invokedDirectly) await main();
+
+export { applyIndexEdits, render, main };

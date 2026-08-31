@@ -25,9 +25,9 @@ const len = (s) => [...s].length;
  * @param {object} o
  * @param {object[]} o.apps     data/apps.json の items
  * @param {object[]} o.articles data/articles.json の items
- * @param {string} o.generatedAt
+ * @param {string} o.lastmod
  */
-export function pressPage({ apps, articles, generatedAt }) {
+export function pressPage({ apps, articles, lastmod }) {
   const url = `${SITE}/press/`;
   const shown = apps.filter((i) => i.hidden !== true);
   const appCount = shown.filter((i) => i.kind === 'app').length;
@@ -114,7 +114,7 @@ export function pressPage({ apps, articles, generatedAt }) {
         inLanguage: 'ja',
         url,
         isPartOf: { '@id': `${SITE}/#website` },
-        dateModified: generatedAt,
+        dateModified: lastmod,
       },
       {
         '@type': 'BreadcrumbList',
@@ -188,7 +188,7 @@ ${blurbHtml}
 
     <section class="press-section" aria-labelledby="facts-title">
       <h2 class="press-title" id="facts-title">数字と基本情報</h2>
-      <p class="press-lead">${esc(generatedAt)} 時点。毎朝、公開しているものから数え直しています。</p>
+      <p class="press-lead">${esc(lastmod)} 現在の数字です。毎朝、公開しているものから数え直しています。</p>
       <dl class="press-facts">
 ${facts}
       </dl>

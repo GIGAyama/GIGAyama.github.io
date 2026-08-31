@@ -44,7 +44,8 @@
    "giga-scaffold",
    "giga-reviewer",
    "giga-fleet",
-   "giga-manual"
+   "giga-manual",
+   "giga-changelog"
   ],
   "extra": [
    "Blackboard_Timer",

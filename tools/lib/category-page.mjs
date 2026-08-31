@@ -80,10 +80,10 @@ function others(current, groups) {
  * @param {object} o
  * @param {string} o.id 分類の id（kokugo など）
  * @param {Map} o.groups groupByCategory() の結果
- * @param {string} o.generatedAt
+ * @param {string} o.lastmod
  * @returns {string}
  */
-export function categoryPage({ id, groups, generatedAt }) {
+export function categoryPage({ id, groups, lastmod }) {
   const label = CATEGORY_LABEL[id];
   const color = CATEGORY_COLOR[id] || CATEGORY_COLOR.other;
   const { apps, articles } = groups.get(id);
@@ -128,7 +128,7 @@ export function categoryPage({ id, groups, generatedAt }) {
         inLanguage: 'ja',
         url,
         isPartOf: { '@id': `${SITE}/#website` },
-        dateModified: generatedAt,
+        dateModified: lastmod,
         mainEntity: {
           '@type': 'ItemList',
           numberOfItems: apps.length,

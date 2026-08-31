@@ -1,0 +1,57 @@
+{
+ "_comment": "そのページの中身が最後に変わった日。tools/sync-updates.mjs が書く。手で直さない。hash は日付の場所に 0000-00-00 を置いて組んだときの sha256 なので、日付が動いてもハッシュは動かない。⚠️ この台帳が消えると、翌朝すべてのページが「今日」に揃う（直したはずの症状がそのまま戻る）。.github/workflows/sync-updates.yml の PATHS から外さないこと。",
+ "pages": {
+  "/": {
+   "hash": "9fa8918ee59eea46",
+   "lastmod": "2026-08-31"
+  },
+  "/apps/": {
+   "hash": "657ca8ab6d5419f5",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/gakkyu/": {
+   "hash": "950169437dbd10c5",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/game/": {
+   "hash": "06bb185b8ce49bfd",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/kokugo/": {
+   "hash": "8dfa5f48ee437751",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/koumu/": {
+   "hash": "9f7558984eef4481",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/other/": {
+   "hash": "308d9ddb50b661e9",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/sansu/": {
+   "hash": "95c4ec3b119a1c33",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/seisaku/": {
+   "hash": "75d94a1b70e67f29",
+   "lastmod": "2026-08-25"
+  },
+  "/apps/category/tankyu/": {
+   "hash": "cb054b3cd6537a99",
+   "lastmod": "2026-08-25"
+  },
+  "/filtering/": {
+   "hash": "15e0960136232959",
+   "lastmod": "2026-08-29"
+  },
+  "/press/": {
+   "hash": "5069168f395dacba",
+   "lastmod": "2026-08-29"
+  },
+  "/profile/": {
+   "hash": "34369afe74eafb24",
+   "lastmod": "2026-08-26"
+  }
+ }
+}

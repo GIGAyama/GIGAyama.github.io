@@ -97,18 +97,28 @@ jobs:
         #    古い数字が残り続け、しかも検査は組み直したあとの新しいページを
         #    見るので緑のままになる。**目でも検査でも気づけない**。
         #    上の各手順が書き出す先を、ひとつ残らずここに並べる。
-        #      tools/sync-updates.mjs  data/apps.json / index.html / sitemap.xml /
-        #                              feed.xml / apps/ / filtering/ / press/ /
+        #      tools/sync-updates.mjs  data/apps.json / data/lastmod.json /
+        #                              data/changelog.json / index.html /
+        #                              sitemap.xml / feed.xml / apps/ / filtering/ / press/ /
         #                              data/search-index.json
         #      tools/build-devlog.mjs  data/devlog.json / devlog/
         #      tools/build-articles.mjs data/articles.json / apps/ /
-      #                              data/article-images.json
+        #                              data/article-images.json
         #      tools/build-manuals.mjs data/manuals.json / apps/<slug>/manual/ /
         #                              data/manual-images.json
         #      tools/build-sw.mjs      sw.js
+        #
+        # ⚠️ 2 つの台帳を外さないこと。
+        #    data/lastmod.json … 毎朝捨てられると、翌朝すべてのページの lastmod が
+        #      「今日」に揃う。2026-08-30 の時点で 90 URL 中 88 が同じ日付だった
+        #      状態が、そのまま戻る。
+        #    data/changelog.json … 各アプリが書いた更新ログ。捨てられると、
+        #      トップの「更新したこと」が毎朝消えてはまた出る。
+        #    どちらも組み直したあとを見る検査は緑のまま通るので、気づけない。
         run: |
-          PATHS="data/apps.json data/articles.json data/manuals.json data/devlog.json \
-                 data/search-index.json \
+          PATHS="data/apps.json data/lastmod.json data/changelog.json \
+                 data/articles.json data/manuals.json \
+                 data/devlog.json data/search-index.json \
                  data/article-images.json data/manual-images.json \
                  index.html sitemap.xml feed.xml sw.js apps/ devlog/ filtering/ press/"
           # git diff は追跡ずみのものしか見ない。新しく増えたページ（新しい

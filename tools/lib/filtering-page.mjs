@@ -56,10 +56,10 @@ export function allHosts(apps) {
 }
 
 /**
- * @param {{apps: object[], generatedAt: string}} input
+ * @param {{apps: object[], lastmod: string}} input
  * @returns {string}
  */
-export function filteringPage({ apps, generatedAt }) {
+export function filteringPage({ apps, lastmod }) {
   const title = '校内のフィルタリングで許可するアドレス';
   const description = `giga-school.com のアプリ ${apps.length} 本を校内で使うために、`
     + 'フィルタリングで許可するアドレスの一覧です。アプリごとに要るものと、'
@@ -109,7 +109,7 @@ ${rows.map((h) => `        <tr>
         inLanguage: 'ja',
         url: FILTERING_URL,
         isPartOf: { '@id': `${SITE}/#website` },
-        dateModified: generatedAt,
+        dateModified: lastmod,
       },
       {
         '@type': 'BreadcrumbList',

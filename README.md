@@ -52,7 +52,7 @@ assets/
 sw.js                 オフラインでも開けるようにする仕組み（Service Worker）
 data/apps.json        掲載しているものの一覧と、公開日・最終更新日
 data/articles.json    紹介ページの一覧（tools/build-articles.mjs が書き出す）
-tools/sync-updates.mjs  日付を GitHub から取り直し、「更新情報」「紹介ページの一覧」「sitemap.xml」を組み直す
+tools/sync-updates.mjs  日付と更新ログを GitHub から取り直し、「更新情報」「紹介ページの一覧」「sitemap.xml」を組み直す
 tools/build-articles.mjs  各アプリの note 記事から紹介ページを組み直す
 tools/check-404-redirect.mjs  旧アドレスの受け皿が壊れていないか調べる
 tools/check-cards.mjs  カードの data-slug・件数・本数が、data/ の数と食い違っていないか調べる
@@ -412,8 +412,12 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
 
 - 日付の出どころは GitHub API です。`updatedAt` は最後に push された日
   （`pushed_at`）、`publishedAt` は最初のコミット日を `data/apps.json` に入れてあります。
-- 同じ日にまとめて手を入れることが多いので、「最近手を入れたもの」は**日付ごとに 1 行**に
-  まとめています。
+- 右の列「更新したこと」は、各アプリが書いた `docs/CHANGELOG.md` を集めたものです。
+  **push 日は使いません。** 正本配布が 42 本へ毎日 push するので、push 日を並べると
+  41 本が 1 行に潰れ、「8月29日 ／ 6 本 ／ ほか 35 本」しか出ませんでした（2026-08-31 に直しました）。
+  書き方は `giga-changelog` スキルにあります。
+- **1 本も書かれていない日は、列ごと出しません。** 残った 1 列は幅を止めます
+  （`.updates--single`）。
 - 毎朝 6 時すぎ（日本時間）に GitHub Actions が走り、変わっていたときだけコミットします。
   Actions のページから手で実行することもできます。
 - アプリを増やしたときは、`index.html` にカードを足したあと `data/apps.json` にも 1 行足して
@@ -510,7 +514,21 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
 **何が変わったのかは分かりません。** 一度使った先生が「新しくなった」と
 気づける材料が、どこにもありませんでした。
 
-アプリのリポジトリに `docs/CHANGELOG.md` を置くと、紹介ページに出ます。
+アプリのリポジトリに `docs/CHANGELOG.md` を置くと、**3 か所**に出ます。
+
+| 出る先 | 何件 |
+| --- | --- |
+| トップページの「更新したこと」 | 全アプリ横断。新しい 4 日付・全体 12 項目・1 アプリ 1 日 3 項目まで |
+| 紹介ページ `/apps/<slug>/` | 直近 3 日付 |
+| 使い方マニュアル `/apps/<slug>/manual/` | 直近 3 日付 |
+
+**書き方の正本は `giga-changelog` スキル**（`standards/skills/giga-changelog/`）です。
+42 本すべてに配られます。手元で `scripts/lint-changelog.mjs` を通すと、
+「書いたのに出ない」形（`## 2026/08/23` のような書式ちがい、中身の無い日付）を落とせます。
+
+集めるのは `tools/sync-updates.mjs --fetch` の 1 か所だけで、`data/changelog.json` に置きます。
+`build-articles.mjs`（note 記事のある 32 本しか回らない）や `build-manuals.mjs`（数本）で
+集めると、紹介記事の無いアプリの更新がトップから丸ごと落ちるためです。
 
 ```md
 ## 2026-08-23

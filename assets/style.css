@@ -1376,6 +1376,45 @@
     .timeline__tag { grid-column: 2; font-size: .625rem; }
   }
 
+  /* ---------- 更新したこと（トップの右の列） ----------
+     各アプリの docs/CHANGELOG.md を集めて、日付ごとに並べる。
+
+     ⚠️ .timeline を流用しない。あちらは `5.5em minmax(0,1fr) auto` の 3 列で
+        1 行 1 項目。「〜しました」を入れるとアプリ名の置き場が無くなる。
+     ⚠️ .changes（紹介ページの囲み）も流用しない。あちらは本文幅の囲み箱なので、
+        2 カラムの中に入れると囲みの中に囲みが入る。
+
+     日付は左の列に置かず**行頭の見出しに上げて、その下にぶら下げる**。
+     .updates は 340px まで縮むので、日付に 5.5em を取ると
+     「〜しました」に 250px しか残らず読めなくなる。
+     幅で分岐せず縦積み一本にしてあるのは、片方だけ崩れるのを避けるため。 */
+  .changelog { display: grid; gap: var(--s-4); }
+  .changelog__at { display: grid; gap: 6px; }
+  .changelog__date {
+    font-size: .8125rem;
+    font-weight: 700;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .changelog__list { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
+  .changelog__item {
+    display: grid;
+    gap: 2px;
+    padding-inline-start: var(--s-3);
+    border-inline-start: 2px solid var(--line-strong);
+  }
+  .changelog__app { font-size: .875rem; font-weight: 600; }
+  .changelog__what {
+    font-size: .9375rem;
+    line-height: 1.8;
+    color: var(--ink-2);
+  }
+
+  /* 更新ログがまだ 1 本も書かれていない日は、列がひとつになる。
+     auto-fit は空のトラックを畳むので、放っておくと「新しく公開したもの」が
+     親幅いっぱいに広がり、日付とタグのあいだが間延びする。 */
+  .updates--single { grid-template-columns: minmax(0, min(560px, 100%)); }
+
   /* 紹介ページへのボタン。
      はじめは card__foot の中に、プライバシーや利用規約と同じ大きさの
      文字リンクとして置いていたが、それでは埋もれて気づかれない。
