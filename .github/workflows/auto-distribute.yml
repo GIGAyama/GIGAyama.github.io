@@ -44,6 +44,9 @@ concurrency:
 jobs:
   distribute:
     runs-on: ubuntu-latest
+    # 実測の最長 5.9 分（42 本の clone と push）。5 倍。 ここで切られると 42 本の途中で配布が止まり、半分だけ新しい艦隊が残る
+    # 既定は 360 分。固まったときに 6 時間ぶん食ってから落ちる
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,7 +54,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       # ⚠️ ここで止めないと、原因の見えない 403 が 42 本ぶん並ぶ。
       #

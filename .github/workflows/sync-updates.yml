@@ -19,12 +19,15 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    # 実測の最長 2.4 分。8 倍。42 本ぶんの GitHub API を叩くので、向こうが遅い朝のぶんを見ておく
+    # 既定は 360 分。固まったときに 6 時間ぶん食ってから落ちる
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 24
 
       - name: 日付を取り直して index.html を組み直す
         env:
