@@ -56,11 +56,28 @@ jobs:
           npx --yes --prefix "$RUNNER_TEMP/pw" playwright install --with-deps chromium
           echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
 
+      # ⚠️ inputs を ${{ }} で run: に直に展開しない。GitHub が script injection
+      #    として名指ししている型そのもので、展開はシェルが読む**前**に起きるので、
+      #    空白やクォートを含む値を渡すだけでコマンドが割れる。
+      #    書き込み権限のある人しか押せないので深刻度は低いが、直せる形なので直す。
+      #    env: に入れて "$SLUG" として渡せば、何を入れても 1 つの引数のまま届く。
+      #
+      # ⚠️ 空でも --slug "" を渡してよい。verify-runtime.mjs の arg()（:64-68）は
+      #    次の語が空なら fallback の null を返すので、--slug を付けないのと同じ
+      #    「全部測る」に落ちる。分岐を書く必要が無い。
+      #    （実測: --slug "" → null、--slug typa → "typa"、
+      #      --slug "a; rm -rf /" → "a; rm -rf /" の 1 引数。シェルは通らない）
+      #
+      # ⚠️ set -o pipefail を置くのは、tee が終了コードを飲むため。
+      #    この手順のあとは成果物を上げるだけで、失敗を拾うところが無い。
+      #    --strict は渡していないので平常時は 0 のまま。**落ちたときだけ**見える。
       - name: 公開中の画面を巡回する
         env:
           NODE_PATH: ${{ env.NODE_PATH }}
+          SLUG: ${{ inputs.slug }}
         run: |
-          node tools/verify-runtime.mjs ${{ inputs.slug && format('--slug {0}', inputs.slug) || '' }} \
+          set -o pipefail
+          node tools/verify-runtime.mjs --slug "$SLUG" \
             | tee "$RUNNER_TEMP/runtime.txt"
 
       - name: 結果を残す
