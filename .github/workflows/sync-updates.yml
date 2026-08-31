@@ -139,7 +139,27 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -- $PATHS
           git commit -m "chore: 更新情報を書き直す（自動）"
-          git push
+          # ⚠️ push を素で撃たない。組み直しからここまでのあいだに人のマージが
+          #    入ると非 fast-forward で落ち、**その朝の組み直しが丸ごと捨てられる**。
+          #    commit はできているが push されないまま、ランナーごと消える。
+          #    窓は実測で約 1 分（2026-08-30 は checkout 23:29:43Z → push 23:30:42Z）。
+          #    上の concurrency（:15-17）は sync-updates 同士の重なりしか防がない。
+          #
+          # 落ちたら「main が進んだ」とみて、載せ直して 1 回だけやり直す。
+          # ⚠️ 2 回はやらない。同じ数秒にもう一度ぶつかることは考えにくく、
+          #    輪にすると忙しい main を相手に回り続ける。
+          # ⚠️ ぶつかったら黙って片方を選ばない。ここに並ぶのは全部生成物だが、
+          #    人が手で直した生成物（2026-08-31 の #126 がそう）もありうる。
+          #    -X theirs で押し通すと、その直しが誰にも見えないまま消える。
+          if ! git push; then
+            echo "push が落ちた。main が進んだとみて、載せ直して 1 回だけやり直す。"
+            git pull --rebase origin main || {
+              git rebase --abort || true
+              echo "::error::組み直したものと人の直しが同じファイルでぶつかりました。手で見てください。"
+              exit 1
+            }
+            git push
+          fi
 
       # ⚠️ コミットの「あと」に見る。ここで止めると、その日の紹介ページの
       #    組み直しごと落ちてしまう。赤は「やり残しの一覧」として読む
