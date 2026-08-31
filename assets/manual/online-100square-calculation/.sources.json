@@ -1,0 +1,126 @@
+{
+ "01-home.webp": {
+  "bytes": 85053,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/01-home.png"
+ },
+ "02-install-button.webp": {
+  "bytes": 94411,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/02-install-button.png"
+ },
+ "03-areas.webp": {
+  "bytes": 98192,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/03-areas.png"
+ },
+ "04-header.webp": {
+  "bytes": 59920,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/04-header.png"
+ },
+ "05-board.webp": {
+  "bytes": 14423,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/05-board.png"
+ },
+ "06-tools.webp": {
+  "bytes": 29916,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/06-tools.png"
+ },
+ "07-select-mode.webp": {
+  "bytes": 61698,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/07-select-mode.png"
+ },
+ "08-hikizan.webp": {
+  "bytes": 96125,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/08-hikizan.png"
+ },
+ "09-select-count.webp": {
+  "bytes": 61581,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/09-select-count.png"
+ },
+ "10-count-30.webp": {
+  "bytes": 94958,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/10-count-30.png"
+ },
+ "11-start-button.webp": {
+  "bytes": 61237,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/11-start-button.png"
+ },
+ "12-playing.webp": {
+  "bytes": 106929,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/12-playing.png"
+ },
+ "13-current-problem.webp": {
+  "bytes": 12119,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/13-current-problem.png"
+ },
+ "14-handwriting.webp": {
+  "bytes": 29916,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/14-handwriting.png"
+ },
+ "15-handwriting-drawn.webp": {
+  "bytes": 30178,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/15-handwriting-drawn.png"
+ },
+ "16-handwriting-read.webp": {
+  "bytes": 26024,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/16-handwriting-read.png"
+ },
+ "17-handwriting-two.webp": {
+  "bytes": 37139,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/17-handwriting-two.png"
+ },
+ "18-numpad.webp": {
+  "bytes": 24395,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/18-numpad.png"
+ },
+ "19-cell-correct.webp": {
+  "bytes": 15436,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/19-cell-correct.png"
+ },
+ "20-quit-confirm.webp": {
+  "bytes": 280008,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/20-quit-confirm.png"
+ },
+ "21-result.webp": {
+  "bytes": 150623,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/21-result.png"
+ },
+ "22-settings.webp": {
+  "bytes": 376757,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/22-settings.png"
+ },
+ "23-settings-position.webp": {
+  "bytes": 158723,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/23-settings-position.png"
+ },
+ "24-input-left.webp": {
+  "bytes": 150553,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/24-input-left.png"
+ },
+ "25-autoscore-marked.webp": {
+  "bytes": 19483,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/25-autoscore-marked.png"
+ },
+ "26-stats-top.webp": {
+  "bytes": 300238,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/26-stats-top.png"
+ },
+ "27-stats-firsttry.webp": {
+  "bytes": 46667,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/27-stats-firsttry.png"
+ },
+ "28-stats-history.webp": {
+  "bytes": 41262,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/28-stats-history.png"
+ },
+ "29-print.webp": {
+  "bytes": 14212,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/29-print.png"
+ },
+ "30-presentation.webp": {
+  "bytes": 109914,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/30-presentation.png"
+ },
+ "31-update-notice.webp": {
+  "bytes": 136633,
+  "url": "https://raw.githubusercontent.com/GIGAyama/online-100square-calculation/HEAD/docs/manual/images/31-update-notice.png"
+ }
+}
