@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-09-01",
+ "generatedAt": "2026-09-02",
  "items": [
   {
    "slug": "digital-textbook",
@@ -16,6 +16,21 @@
    "updatedAt": "2026-08-31",
    "termsUrl": "https://digital-textbook.giga-school.com/terms.html",
    "privacyUrl": "https://digital-textbook.giga-school.com/privacy.html"
+  },
+  {
+   "slug": "homework-barcordreader",
+   "repo": "Homework_barcordreader",
+   "name": "宿題ポスト",
+   "title": "宿題ポスト 使い方マニュアル",
+   "summary": "「宿題ポスト」を初めて開いた先生が、このページだけで最後まで使えるようにまとめたものです。児童が毎朝する操作と、先生が使う11のタブを、画面写真つきで順に説明します。",
+   "source": "docs/manual/manual.md",
+   "chapters": 17,
+   "images": 40,
+   "imageHost": "mirror",
+   "charCount": 13750,
+   "updatedAt": "2026-09-01",
+   "termsUrl": "https://homework-barcordreader.giga-school.com/terms.html",
+   "privacyUrl": "https://homework-barcordreader.giga-school.com/privacy.html"
   },
   {
    "slug": "kanji-town",
@@ -76,6 +91,21 @@
    "updatedAt": "2026-09-01",
    "termsUrl": "https://online-manuscript-paper-lite.giga-school.com/terms.html",
    "privacyUrl": "https://online-manuscript-paper-lite.giga-school.com/privacy.html"
+  },
+  {
+   "slug": "online-manuscript-paper-pro",
+   "repo": "online-manuscript-paper-pro",
+   "name": "オンライン原稿用紙 Pro",
+   "title": "オンライン原稿用紙 Pro つかいかた",
+   "summary": "このページは、オンライン原稿用紙 Pro を はじめて 開く人のための つかいかたです。画面の 写真と 見くらべながら、上から じゅんに 読んでください。後半には、先生だけが つかう 画面の 説明も あります。",
+   "source": "docs/manual/manual.md",
+   "chapters": 21,
+   "images": 45,
+   "imageHost": "subdomain",
+   "charCount": 15645,
+   "updatedAt": "2026-09-01",
+   "termsUrl": "https://online-manuscript-paper-pro.giga-school.com/terms.html",
+   "privacyUrl": "https://online-manuscript-paper-pro.giga-school.com/privacy.html"
   },
   {
    "slug": "qalc",

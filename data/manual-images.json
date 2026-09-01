@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。 サブドメインから画像が読めないマニュアルと、その元の URL。",
- "generatedAt": "2026-09-01",
+ "generatedAt": "2026-09-02",
  "apps": {
   "digital-textbook": {
    "repo": "Digital_textbook",
@@ -47,6 +47,51 @@
     "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/40-drive-panel.png",
     "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/41-shortcuts.png",
     "https://raw.githubusercontent.com/GIGAyama/Digital_textbook/HEAD/docs/manual/images/42-script-error.png"
+   ]
+  },
+  "homework-barcordreader": {
+   "repo": "Homework_barcordreader",
+   "images": [
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/01-standby.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/02-install-button.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/03-pin.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/04-pin-change.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/05-admin-home.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/06-tabs.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/07-roster.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/08-roster-bulk.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/09-task-rules.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/10-task-add.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/11-task-period.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/12-task-restday.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/13-rest-suggestion.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/14-keypad.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/15-student-tasks.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/16-student-selected.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/17-feeling.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/18-complete.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/19-dashboard.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/20-dashboard-badge.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/21-operations.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/22-handover.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/23-forgotten-panel.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/24-forgotten-record.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/25-support-candidates.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/26-support-record.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/27-support-impact.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/28-support-timeline.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/29-family.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/30-class-insights.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/31-class-plan.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/32-report-center.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/33-report-print.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/34-settings.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/35-backup.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/36-snapshots.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/37-drive.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/38-year-update.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/39-ai-panel.png",
+    "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/40-offline.png"
    ]
   },
   "kanji-town": {
