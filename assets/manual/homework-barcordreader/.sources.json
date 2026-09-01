@@ -1,0 +1,162 @@
+{
+ "01-standby.webp": {
+  "bytes": 97425,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/01-standby.png"
+ },
+ "02-install-button.webp": {
+  "bytes": 16219,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/02-install-button.png"
+ },
+ "03-pin.webp": {
+  "bytes": 86601,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/03-pin.png"
+ },
+ "04-pin-change.webp": {
+  "bytes": 25082,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/04-pin-change.png"
+ },
+ "05-admin-home.webp": {
+  "bytes": 255570,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/05-admin-home.png"
+ },
+ "06-tabs.webp": {
+  "bytes": 26041,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/06-tabs.png"
+ },
+ "07-roster.webp": {
+  "bytes": 129609,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/07-roster.png"
+ },
+ "08-roster-bulk.webp": {
+  "bytes": 85808,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/08-roster-bulk.png"
+ },
+ "09-task-rules.webp": {
+  "bytes": 108034,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/09-task-rules.png"
+ },
+ "10-task-add.webp": {
+  "bytes": 70196,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/10-task-add.png"
+ },
+ "11-task-period.webp": {
+  "bytes": 53421,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/11-task-period.png"
+ },
+ "12-task-restday.webp": {
+  "bytes": 34566,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/12-task-restday.png"
+ },
+ "13-rest-suggestion.webp": {
+  "bytes": 43448,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/13-rest-suggestion.png"
+ },
+ "14-keypad.webp": {
+  "bytes": 105439,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/14-keypad.png"
+ },
+ "15-student-tasks.webp": {
+  "bytes": 125494,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/15-student-tasks.png"
+ },
+ "16-student-selected.webp": {
+  "bytes": 133807,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/16-student-selected.png"
+ },
+ "17-feeling.webp": {
+  "bytes": 105624,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/17-feeling.png"
+ },
+ "18-complete.webp": {
+  "bytes": 93575,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/18-complete.png"
+ },
+ "19-dashboard.webp": {
+  "bytes": 254388,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/19-dashboard.png"
+ },
+ "20-dashboard-badge.webp": {
+  "bytes": 100581,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/20-dashboard-badge.png"
+ },
+ "21-operations.webp": {
+  "bytes": 284518,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/21-operations.png"
+ },
+ "22-handover.webp": {
+  "bytes": 350945,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/22-handover.png"
+ },
+ "23-forgotten-panel.webp": {
+  "bytes": 224927,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/23-forgotten-panel.png"
+ },
+ "24-forgotten-record.webp": {
+  "bytes": 11192,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/24-forgotten-record.png"
+ },
+ "25-support-candidates.webp": {
+  "bytes": 306239,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/25-support-candidates.png"
+ },
+ "26-support-record.webp": {
+  "bytes": 323292,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/26-support-record.png"
+ },
+ "27-support-impact.webp": {
+  "bytes": 365614,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/27-support-impact.png"
+ },
+ "28-support-timeline.webp": {
+  "bytes": 307860,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/28-support-timeline.png"
+ },
+ "29-family.webp": {
+  "bytes": 261517,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/29-family.png"
+ },
+ "30-class-insights.webp": {
+  "bytes": 308098,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/30-class-insights.png"
+ },
+ "31-class-plan.webp": {
+  "bytes": 356282,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/31-class-plan.png"
+ },
+ "32-report-center.webp": {
+  "bytes": 181524,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/32-report-center.png"
+ },
+ "33-report-print.webp": {
+  "bytes": 210802,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/33-report-print.png"
+ },
+ "34-settings.webp": {
+  "bytes": 266809,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/34-settings.png"
+ },
+ "35-backup.webp": {
+  "bytes": 30300,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/35-backup.png"
+ },
+ "36-snapshots.webp": {
+  "bytes": 45676,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/36-snapshots.png"
+ },
+ "37-drive.webp": {
+  "bytes": 52309,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/37-drive.png"
+ },
+ "38-year-update.webp": {
+  "bytes": 37633,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/38-year-update.png"
+ },
+ "39-ai-panel.webp": {
+  "bytes": 302809,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/39-ai-panel.png"
+ },
+ "40-offline.webp": {
+  "bytes": 124500,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Homework_barcordreader/HEAD/docs/manual/images/40-offline.png"
+ }
+}
