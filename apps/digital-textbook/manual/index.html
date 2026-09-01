@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>教材プリントメーカー の使い方｜GIGA school</title>
+  <meta name="description" content="このページは、手元の PDF を読みこんで、その上に書きこみ、児童生徒の端末へ配ったり紙に印刷したりするための Web アプリ「教材プリントメーカー」の使い方です。画面の写真と見くらべながら、上から順にお読みください。">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://giga-school.com/apps/digital-textbook/manual/">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="教材プリントメーカー の使い方">
+  <meta property="og:description" content="このページは、手元の PDF を読みこんで、その上に書きこみ、児童生徒の端末へ配ったり紙に印刷したりするための Web アプリ「教材プリントメーカー」の使い方です。画面の写真と見くらべながら、上から順にお読みください。">
+  <meta property="og:url" content="https://giga-school.com/apps/digital-textbook/manual/">
+  <meta property="og:image" content="https://giga-school.com/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/article.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://giga-school.com/apps/digital-textbook/manual/#manual",
+      "headline": "教材プリントメーカー の使い方",
+      "description": "このページは、手元の PDF を読みこんで、その上に書きこみ、児童生徒の端末へ配ったり紙に印刷したりするための Web アプリ「教材プリントメーカー」の使い方です。画面の写真と見くらべながら、上から順にお読みください。",
+      "image": "https://giga-school.com/assets/og.png",
+      "inLanguage": "ja",
+      "proficiencyLevel": "Beginner",
+      "datePublished": "2026-02-11",
+      "dateModified": "2026-08-31",
+      "author": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "publisher": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "mainEntityOfPage": "https://giga-school.com/apps/digital-textbook/manual/",
+      "about": {
+        "@type": "WebApplication",
+        "name": "教材プリントメーカー",
+        "url": "https://digital-textbook.giga-school.com/",
+        "operatingSystem": "Web ブラウザ",
+        "inLanguage": "ja",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "GIGA school",
+          "item": "https://giga-school.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "紹介",
+          "item": "https://giga-school.com/apps/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "教材プリントメーカー",
+          "item": "https://giga-school.com/apps/digital-textbook/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "使い方",
+          "item": "https://giga-school.com/apps/digital-textbook/manual/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap article article--read manual">
+    <nav class="crumbs no-print" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/">紹介</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/digital-textbook/">教材プリントメーカー</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">使い方</span>
+    </nav>
+
+    <header class="article__head">
+      <p class="article__series">使い方マニュアル</p>
+      <h1 class="article__title">教材プリントメーカー の使い方</h1>
+      <p class="article__meta">
+        <time datetime="2026-08-31">2026/08/31</time> 現在の画面です
+        <span class="article__len">全 18 章・読むのに約 30 分</span>
+      </p>
+      <p class="article__actions no-print">
+        <a class="btn btn--primary" href="https://digital-textbook.giga-school.com/">教材プリントメーカー を開く</a>
+        <a class="btn btn--ghost" href="/apps/digital-textbook/">つくった理由を読む</a>
+      </p>
+    </header>
+
+    <aside class="article__rail" aria-label="このページの案内">
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">「教材プリントメーカー」でできること（はじめに）</a>
+            <ol class="toc__sub"><li><a href="#s-1-1">使うのは誰か、何がいるのか</a></li><li><a href="#s-1-2">書きこみの保存について</a></li></ol>
+          </li>
+          <li><a href="#s-2">読む前の準備と、最初に出る著作権の注意</a>
+            <ol class="toc__sub"><li><a href="#s-2-1">アプリを開いて、注意を読む</a></li></ol>
+          </li>
+          <li><a href="#s-3">アプリとして端末に入れる（初回のみ）</a>
+            <ol class="toc__sub"><li><a href="#s-3-1">Chromebook・Windows・Android の端末に入れる</a></li><li><a href="#s-3-2">iPad・iPhone に入れる（Safari）</a></li></ol>
+          </li>
+          <li><a href="#s-4">PDF を取りこんで教材にする・いらない教材を消す</a>
+            <ol class="toc__sub"><li><a href="#s-4-1">PDF を読みこむ</a></li><li><a href="#s-4-2">一覧から教材を開く</a></li><li><a href="#s-4-3">いらなくなった教材を消す</a></li></ol>
+          </li>
+          <li><a href="#s-5">教材の画面の見かたと、ツールバーの出し入れ</a>
+            <ol class="toc__sub"><li><a href="#s-5-1">開いた直後の画面と、ツールバーの出しかた</a></li><li><a href="#s-5-2">書く道具と色の並び</a></li></ol>
+          </li>
+          <li><a href="#s-6">ページを送る・ページを指定して飛ぶ・大きさを変える</a>
+            <ol class="toc__sub"><li><a href="#s-6-1">前後のページへ送る</a></li><li><a href="#s-6-2">ページ番号を押して、目当てのページへ飛ぶ</a></li><li><a href="#s-6-3">表示の大きさを変える</a></li></ol>
+          </li>
+          <li><a href="#s-7">えんぴつ・マーカー・けしごむで書きこむ</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">えんぴつで手書きする</a></li><li><a href="#s-7-2">マーカーで線を引く</a></li><li><a href="#s-7-3">書いたものを消す（けしごむ）</a></li><li><a href="#s-7-4">このページの書きこみを、まとめて消す</a></li></ol>
+          </li>
+          <li><a href="#s-8">図形・もじ・ふせん・リンクをページに置く</a>
+            <ol class="toc__sub"><li><a href="#s-8-1">四角・丸・直線・矢印を描く</a></li><li><a href="#s-8-2">文字を打ちこむ</a></li><li><a href="#s-8-3">ふせんを貼る</a></li><li><a href="#s-8-4">Web ページや音声のボタンを置く</a></li></ol>
+          </li>
+          <li><a href="#s-9">スタンプを押す・自分のスタンプを作る</a>
+            <ol class="toc__sub"><li><a href="#s-9-1">用意されているスタンプを押す</a></li><li><a href="#s-9-2">自分だけのスタンプを作る（マイスタンプ）</a></li></ol>
+          </li>
+          <li><a href="#s-10">授業で見せる（半ページ表示・提示モード・全画面）</a>
+            <ol class="toc__sub"><li><a href="#s-10-1">縦向きの画面で読みやすくする（半ページ表示）</a></li><li><a href="#s-10-2">電子黒板に大きく映す（提示モード）</a></li><li><a href="#s-10-3">ページだけを画面いっぱいに映す（全画面）</a></li></ol>
+          </li>
+          <li><a href="#s-11">タイマーとストップウォッチで時間をはかる</a>
+            <ol class="toc__sub"><li><a href="#s-11-1">タイマーで残り時間をはかる</a></li><li><a href="#s-11-2">ストップウォッチで、かかった時間をはかる</a></li></ol>
+          </li>
+          <li><a href="#s-12">プリントのQRコードを読み取る</a>
+            <ol class="toc__sub"><li><a href="#s-12-1">QRコードを囲んで読み取る</a></li></ol>
+          </li>
+          <li><a href="#s-13">いま開いているページを紙に印刷する</a>
+            <ol class="toc__sub"><li><a href="#s-13-1">印刷する前に確かめること</a></li></ol>
+          </li>
+          <li><a href="#s-14">児童生徒の端末へ教材を配る（共有・あいことば）</a>
+            <ol class="toc__sub"><li><a href="#s-14-1">先生の端末で共有を始める</a></li><li><a href="#s-14-2">児童生徒の端末で受け取る</a></li></ol>
+          </li>
+          <li><a href="#s-15">書きこみを守る（バックアップの書き出しと取りこみ）</a>
+            <ol class="toc__sub"><li><a href="#s-15-1">バックアップを書き出す</a></li><li><a href="#s-15-2">バックアップを取りこむ</a></li></ol>
+          </li>
+          <li><a href="#s-16">Googleドライブとつないで、別の端末と同期する</a>
+            <ol class="toc__sub"><li><a href="#s-16-1">ドライブにつなぐ</a></li><li><a href="#s-16-2">保存する・復元する・自動保存にする</a></li></ol>
+          </li>
+          <li><a href="#s-17">キーボードとタブレットでの操作</a>
+            <ol class="toc__sub"><li><a href="#s-17-1">キーボードのショートカット</a></li><li><a href="#s-17-2">タブレット・スマートフォンでのなぞり操作</a></li></ol>
+          </li>
+          <li><a href="#s-18">うまくいかないとき</a>
+            <ol class="toc__sub"><li><a href="#s-18-1">画面が真っ白のまま、または「ライブラリの読み込みに失敗しました」と出る</a></li><li><a href="#s-18-2">書きこんだものが消えた</a></li><li><a href="#s-18-3">PDF が読みこめない</a></li><li><a href="#s-18-4">道具のバーが見あたらない</a></li><li><a href="#s-18-5">動きが重い、カクカクする</a></li><li><a href="#s-18-6">印刷したら色や枠が出ない</a></li><li><a href="#s-18-7">共有（配布）ができない</a></li><li><a href="#s-18-8">QRコードが読み取れない</a></li><li><a href="#s-18-9">Googleドライブにつなぐとエラーが出る</a></li><li><a href="#s-18-10">「あたらしい バージョンが あります」と出た</a></li><li><a href="#s-18-11">それでも解決しないとき</a></li></ol>
+          </li>
+        </ol>
+      </nav>
+    </details>
+      <div class="manual__tools no-print">
+        <button type="button" class="btn btn--ghost" data-print>印刷する</button>
+        <button type="button" class="btn btn--ghost" data-copy="https://giga-school.com/apps/digital-textbook/manual/"
+                data-copy-label="このページのリンク">リンクをコピー</button>
+      </div>
+    </aside>
+
+    <div class="prose prose--article">
+<p>このページは、手元の PDF を読みこんで、その上に書きこみ、児童生徒の端末へ配ったり紙に印刷したりするための Web アプリ「教材プリントメーカー」の使い方です。画面の写真と見くらべながら、上から順にお読みください。</p>
+<p>本アプリは、学校教育法第34条第2項に定める「学習者用デジタル教科書」ではありません。教科書発行者とは関係のない、個人が作成した教材ビューアです。公開しているアドレス（<code>digital-textbook.giga-school.com</code>）とリポジトリの名前は、作りはじめたころの経緯からそのまま残っていますが、画面に出る名前は「教材プリントメーカー」です。</p>
+<h2 id="s-1">「教材プリントメーカー」でできること（はじめに）</h2>
+<p>先生がご自身で作ったプリントの PDF を読みこむと、その上にえんぴつ・マーカー・ふせん・スタンプで書きこめるようになります。書きこんだものは、そのまま電子黒板に大きく映したり、紙に印刷したり、児童生徒の端末へ配ったりできます。</p>
+<p>会員登録もインストールも要りません。ブラウザで開けばすぐ使えます。読みこんだ PDF と書きこみは、すべて先生の端末の中（ブラウザの保存領域）にだけ残り、どこかのサーバーへ送られることはありません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/01-overview.webp"><img src="/assets/manual/digital-textbook/01-overview.webp" alt="書きこんだ教材の画面" loading="lazy" decoding="async"></a><figcaption>えんぴつ・ふせん・スタンプを置いた例です。</figcaption></figure>
+<h3 id="s-1-1">使うのは誰か、何がいるのか</h3>
+<p>この説明は先生に向けて書いています。児童生徒の端末で使うのは、先生から配られた教材を開くところ（この文書の「児童生徒の端末へ教材を配る」の章）だけです。</p>
+<p>読みはじめる前に、次のものをお手元にご用意ください。</p>
+<ul><li>インターネットにつながる端末（Chromebook、Windows、iPad、Android のいずれでも動きます）</li><li>ブラウザ（Chrome、Edge、Safari のいずれか）</li><li>読みこみたい PDF ファイル（先生がご自身で作ったもの、または権利の処理が済んでいるもの）</li><li>アプリのアドレス <code>https://digital-textbook.giga-school.com/</code></li><li>Google ドライブと同期する場合のみ、学校の Google アカウント（使わなければ不要です）</li></ul>
+<h3 id="s-1-2">書きこみの保存について</h3>
+<p>書きこんだものは、手が止まるとすぐに自動で保存されます。「保存」ボタンはありません。タブを閉じるときや、ほかのアプリに切り替えたときにも、取りこぼさずに保存します。</p>
+<p>ただし保存先はその端末の中だけです。端末を初期化したり、ブラウザの「閲覧データを削除」をしたりすると消えます。学期に一度はバックアップを取っておくことをおすすめします（「書きこみを守る」の章）。</p>
+<h2 id="s-2">読む前の準備と、最初に出る著作権の注意</h2>
+<p>はじめてアプリを開いたときだけ、取りこんでよい資料の範囲についての注意が出ます。ここを読んでいただくところから始まります。</p>
+<h3 id="s-2-1">アプリを開いて、注意を読む</h3>
+<p>ブラウザのアドレス欄に <code>https://digital-textbook.giga-school.com/</code> と入れて開いてください。画面の中ほどに「使うときの注意」という白い窓が出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/02-notice.webp"><img src="/assets/manual/digital-textbook/02-notice.webp" alt="使うときの注意の画面" loading="lazy" decoding="async"></a><figcaption>はじめて開いたときだけ出る画面です。</figcaption></figure>
+<p>書かれているのは、取りこめるのは先生がご自身で作った資料や、権利の処理が済んでいる資料だということです。教科書・ドリル・ワークブックなど市販の教材を丸ごと取りこんで配ることは、著作権法第35条（学校その他の教育機関における複製等）の範囲を超えます。第35条には「著作権者の利益を不当に害することとなる場合は、この限りでない」という条件があり、1 冊まるごとの取りこみと配布はこれにあたります。</p>
+<p>このアプリの共有機能は「先生の端末から児童生徒の端末へ配る」ためのものです。配ってよい資料かどうかの判断は、お使いになる先生の責任になります。</p>
+<p>読み終えたら「わかりました」を押してください。次からは出ません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/03-home-empty.webp"><img src="/assets/manual/digital-textbook/03-home-empty.webp" alt="教材がまだ 1 つも無い画面" loading="lazy" decoding="async"></a><figcaption>これが最初の画面「わたしのプリント・教材」です。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>はじめて開くときだけ、インターネットにつながっている必要があります。一度開いておけば、次からはつながっていなくても起動します。授業の前日に一度開いておくと安心です。</li><li>「わかりました」を押したことはこの端末にだけ記録されます。別の端末や別のブラウザで開くと、もう一度出ます。</li><li>同じ内容は、このページの上のほうと、アプリの説明書きにも書いてあります。</li></ul>
+<h2 id="s-3">アプリとして端末に入れる（初回のみ）</h2>
+<p>ホーム画面やデスクトップに入れておくと、ブラウザを開かずにすぐ使えます。アドレス欄も消えるので、画面を広く使えます。この章の操作は 1 回だけで、ふだんの利用には要りません。</p>
+<h3 id="s-3-1">Chromebook・Windows・Android の端末に入れる</h3>
+<p>Chrome が「このサイトはアプリとして入れられる」と判断すると、最初の画面の右上に「アプリを入れる」というオレンジ色のボタンが出ます。</p>
+<p>入れる手順:</p>
+<ol><li>最初の画面「わたしのプリント・教材」の右上を見てください。</li><li>「アプリを入れる」を押してください。確認の小さな窓が出ます。</li><li>「インストール」を選んでください。デスクトップやホーム画面にアイコンができます。</li></ol>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>ボタンが出ないことがあります。ブラウザが判断してから出るので、開いた直後は出ません。数秒待ってみてください。</li><li>すでにアプリとして開いているときは、このボタンは出ません。</li><li>ボタンが出ないままでも、アドレス欄の右はしにある小さなアイコン（下向き矢印の付いた四角）から同じことができます。</li><li>入れなくてもアプリは同じように使えます。書きこんだものも共通です。</li></ul>
+<h3 id="s-3-2">iPad・iPhone に入れる（Safari）</h3>
+<p>iPad と iPhone には、上のようなボタンが出ません。ブラウザの側から入れていただきます。</p>
+<p>入れる手順:</p>
+<ol><li>Safari でアプリを開いてください（Chrome ではなく Safari です）。</li><li>画面の下（iPad は上）にある共有ボタン（四角に上向きの矢印が付いたマーク）を押してください。</li><li>メニューを下へスクロールして「ホーム画面に追加」を押してください。</li><li>右上の「追加」を押してください。ホーム画面にアイコンができます。</li></ol>
+<p>【！！】最重要注意事項:</p>
+<ul><li>iPad と iPhone をお使いの先生は、必ずこの操作をしてください。Safari には「7 日間使わなかったサイトのデータを消す」というしくみがあり、ホーム画面に追加していないと、長い休みのあとに書きこみが消えていることがあります。</li><li>ホーム画面に追加しておくと、この対象から外れます。</li><li>すでに書きこみがある状態で追加しても、書きこみは消えません。</li></ul>
+<h2 id="s-4">PDF を取りこんで教材にする・いらない教材を消す</h2>
+<p>最初の画面「わたしのプリント・教材」で、PDF を読みこんで教材にします。読みこんだ教材はこの画面に並び、押すと開きます。</p>
+<h3 id="s-4-1">PDF を読みこむ</h3>
+<p>読みこみの手順:</p>
+<ol><li>最初の画面の左上にある、点線で囲まれた「新しいPDFを追加」の四角を押してください。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/04-add-pdf.webp"><img src="/assets/manual/digital-textbook/04-add-pdf.webp" alt="新しいPDFを追加のボタン" loading="lazy" decoding="async"></a><figcaption>赤い枠で囲んだところを押します。</figcaption></figure>
+<ol start="2"><li>端末の中から PDF ファイルを選んでください。</li><li>「変換中...」と出ます。ページを 1 枚ずつ絵にしているところなので、そのままお待ちください。</li><li>「PDFを読み込みました」と出て、その教材がそのまま開きます。</li></ol>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>ファイル名から拡張子を除いたものが、そのまま教材の名前になります（<code>さんすうプリント.pdf</code> なら「さんすうプリント」）。あとから名前を変えることはできないので、読みこむ前にファイル名を整えておくと探しやすくなります。</li><li>ページ数の多い PDF は時間がかかります。読みこみ中は画面を閉じないでください。</li><li>パスワードのかかった PDF は読みこめません。「PDFの読み込みに失敗しました」と出ます。</li><li>300 ページを超えるような PDF は、メモリの少ない Chromebook で途中で止まることがあります。分けてから読みこんでください。</li></ul>
+<h3 id="s-4-2">一覧から教材を開く</h3>
+<p>一覧へ戻ると、読みこんだ教材が表紙つきのカードで並びます。カードには教材の名前とページ数が出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/05-library.webp"><img src="/assets/manual/digital-textbook/05-library.webp" alt="教材が 2 冊ならんだ一覧" loading="lazy" decoding="async"></a><figcaption>カードを押すと、その教材が開きます。</figcaption></figure>
+<p>前に開いていた教材とページは覚えているので、次に開いたときはその続きから始まります。</p>
+<h3 id="s-4-3">いらなくなった教材を消す</h3>
+<p>カードの表紙の右上に、ゴミ箱のマークが出ます（カードに触れると濃く出ます）。押すと確認の窓が出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/06-delete-confirm.webp"><img src="/assets/manual/digital-textbook/06-delete-confirm.webp" alt="教材の削除の確認" loading="lazy" decoding="async"></a><figcaption>「削除する」を押すと消えます。</figcaption></figure>
+<p>【！！】最重要注意事項:</p>
+<ul><li>消えるのは教材だけではありません。その教材に書きこんだ線・ふせん・スタンプも、すべて一緒に消えます。</li><li>元に戻すことはできません。「元に戻す」（Ctrl + Z）でも戻せません。</li><li>消す前に、バックアップを書き出しておくことをおすすめします（「書きこみを守る」の章）。</li><li>迷ったら「キャンセル」を押してください。何も起きません。</li></ul>
+<h2 id="s-5">教材の画面の見かたと、ツールバーの出し入れ</h2>
+<p>教材を開くと、画面いっぱいがページになります。道具はふだん隠れていて、必要なときだけ呼び出す形です。ページを広く使うための作りです。</p>
+<h3 id="s-5-1">開いた直後の画面と、ツールバーの出しかた</h3>
+<p>開いた直後は、左上に「一覧へ戻る」と「ツール」の 2 つだけが出ています。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/07-editor-plain.webp"><img src="/assets/manual/digital-textbook/07-editor-plain.webp" alt="教材を開いた直後の画面" loading="lazy" decoding="async"></a><figcaption>赤い枠の「ツール」を押すと道具が出ます。</figcaption></figure>
+<p>「ツール」を押すと、道具のならんだバーが画面の上から下りてきます。使い終わったら、バーのいちばん右にある「隠す」でしまえます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/08-toolbar.webp"><img src="/assets/manual/digital-textbook/08-toolbar.webp" alt="ツールバーを出したところ" loading="lazy" decoding="async"></a><figcaption>左から順に、戻す・書く道具・置く道具・見せかた・共有と並びます。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>教材を開いた直後は「選択」の状態です。いきなり線が引かれてしまわないための作りなので、書きこむときはまず道具を選んでください。</li><li>ツールバーは、教材を開くたびに隠れた状態から始まります。</li><li>画面の幅が狭いと、ツールバーは 2 段に折り返して出ます。ボタンが減っているわけではありません。</li><li>「一覧へ戻る」を押すと、書きこみを保存してから一覧に戻ります。保存の操作は要りません。</li></ul>
+<h3 id="s-5-2">書く道具と色の並び</h3>
+<p>ツールバーの左半分に、書くための道具がまとまっています。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/09-toolbar-draw.webp"><img src="/assets/manual/digital-textbook/09-toolbar-draw.webp" alt="書く道具と色" loading="lazy" decoding="async"></a><figcaption>左から、戻す・やり直し・選択・えんぴつ・マーカー・けしごむ・QR 読み取り・色です。</figcaption></figure>
+<p>それぞれの道具の使い方は、このあとの章で説明します。色は黒・赤・青・緑・オレンジの 5 色で、えんぴつ・マーカー・もじ・図形に共通で使われます。選んだ色は、次に選び直すまでそのままです。</p>
+<h2 id="s-6">ページを送る・ページを指定して飛ぶ・大きさを変える</h2>
+<p>ページを行き来する道具は画面の下に、大きさを変える道具は画面の右下にあります。どちらもツールバーを隠していても使えます。</p>
+<h3 id="s-6-1">前後のページへ送る</h3>
+<p>画面の下の中央に、黒い横長のバーが出ています。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/10-page-nav.webp"><img src="/assets/manual/digital-textbook/10-page-nav.webp" alt="ページを送るバー" loading="lazy" decoding="async"></a><figcaption>左右の矢印で 1 ページずつ送ります。まん中は「いま何ページめか」です。</figcaption></figure>
+<p>送りかたは 3 通りあります。どれを使っても同じです。</p>
+<ul><li>画面下のバーの矢印を押す</li><li>キーボードの右矢印キー・左矢印キーを押す</li><li>選択の状態のときに、教材の上を左右になぞる（スワイプする）</li></ul>
+<h3 id="s-6-2">ページ番号を押して、目当てのページへ飛ぶ</h3>
+<p>ページ数の多い教材では、1 ページずつ送るより速く着きます。</p>
+<p>飛ばしかたの手順:</p>
+<ol><li>画面下のバーのまん中にある「3 / 12」のような数字を押してください。</li><li>数字を入れる小さな窓が出ます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/11-page-jump.webp"><img src="/assets/manual/digital-textbook/11-page-jump.webp" alt="ページ移動の入力欄" loading="lazy" decoding="async"></a><figcaption>数字を入れて Enter を押すと、そのページへ飛びます。</figcaption></figure>
+<ol start="3"><li>行きたいページの番号を入れて、Enter を押してください。</li></ol>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>教材にないページ番号を入れると「1 から ◯ の間で入力してください」と出ます。</li><li>ページを移すと、拡大していた倍率は 100% に戻ります。</li><li>ページを移すと、そのページの「元に戻す」の履歴は作り直されます。前のページの操作までさかのぼることはできません。</li></ul>
+<h3 id="s-6-3">表示の大きさを変える</h3>
+<p>画面の右下に、道具が縦に並んでいます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/12-right-tools.webp"><img src="/assets/manual/digital-textbook/12-right-tools.webp" alt="画面の右下の道具" loading="lazy" decoding="async"></a><figcaption>上から、拡大・倍率・縮小・提示モード・印刷・このページを消す、です。</figcaption></figure>
+<p>いちばん上の虫めがねに＋の付いたボタンで大きく、その下の−の付いたボタンで小さくなります。あいだに出ている数字が、いまの倍率です。50% から 300% まで変わります。キーボードの上矢印キー・下矢印キーでも同じことができます。</p>
+<p>端末を回したり、ウィンドウの大きさを変えたりすると、ページ全体が画面に収まる大きさに自動で合わせ直します。</p>
+<h2 id="s-7">えんぴつ・マーカー・けしごむで書きこむ</h2>
+<p>ここからが書きこみです。道具を選んでから、教材の上をなぞってください。書いたものは自動で保存されます。</p>
+<h3 id="s-7-1">えんぴつで手書きする</h3>
+<p>書きかたの手順:</p>
+<ol><li>ツールバーの、えんぴつのマークを押してください。</li><li>色のならびから、使いたい色を押してください。</li><li>教材の上をなぞってください。線が引かれます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/13-pencil.webp"><img src="/assets/manual/digital-textbook/13-pencil.webp" alt="えんぴつで書いたところ" loading="lazy" decoding="async"></a><figcaption>赤いえんぴつで書いた線です。</figcaption></figure>
+<h3 id="s-7-2">マーカーで線を引く</h3>
+<p>マーカーは太さのある半透明の線です。下の文字が透けて見えるので、教科書の言葉をなぞるのに向いています。</p>
+<p>引きかたの手順:</p>
+<ol><li>ツールバーの、マーカーのマークを押してください。</li><li>色を選んでください。</li><li>なぞりたいところの上をなぞってください。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/14-marker.webp"><img src="/assets/manual/digital-textbook/14-marker.webp" alt="マーカーで線を引いたところ" loading="lazy" decoding="async"></a><figcaption>オレンジのマーカーで、問題の上をなぞりました。</figcaption></figure>
+<h3 id="s-7-3">書いたものを消す（けしごむ）</h3>
+<p>けしごむは、押したものを 1 つまるごと消す道具です。線の途中だけをこすって消すことはできません。</p>
+<p>消しかたの手順:</p>
+<ol><li>ツールバーの、けしごむのマークを押してください。</li><li>消したい線・ふせん・スタンプを押してください。それが丸ごと消えます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/15-eraser.webp"><img src="/assets/manual/digital-textbook/15-eraser.webp" alt="マーカーを消したあと" loading="lazy" decoding="async"></a><figcaption>マーカーの線だけが消え、えんぴつの線は残っています。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>1 本の線・1 つのスタンプ・1 枚のふせんが、消える単位です。長い線を一部だけ短くすることはできません。</li><li>消しすぎたときは「元に戻す」（Ctrl + Z、Mac は ⌘ + Z）で戻せます。</li><li>選択の状態で対象を選び、Delete キーまたは BackSpace キーを押しても消せます。</li><li>書きこみの履歴は、そのページごとに 30 手ぶんまで覚えています。それより前の状態には戻せません。</li></ul>
+<h3 id="s-7-4">このページの書きこみを、まとめて消す</h3>
+<p>1 つずつ消すのではなく、いま開いているページの書きこみを全部消すこともできます。画面の右下にある、赤いゴミ箱のマークです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/16-clear-confirm.webp"><img src="/assets/manual/digital-textbook/16-clear-confirm.webp" alt="ページの消去の確認" loading="lazy" decoding="async"></a><figcaption>「消去する」を押すと、そのページの書きこみが全部消えます。</figcaption></figure>
+<p>【！！】最重要注意事項:</p>
+<ul><li>消えるのは、いま開いている 1 ページの書きこみだけです。ほかのページや、ほかの教材には影響しません。</li><li>押した直後なら「元に戻す」（Ctrl + Z）で戻せますが、ページを移したり教材を閉じたりすると戻せなくなります。</li><li>迷ったら「キャンセル」を押してください。</li></ul>
+<h2 id="s-8">図形・もじ・ふせん・リンクをページに置く</h2>
+<p>手書き以外に、形の決まったものを置けます。置いたものは、選択の状態でドラッグすると動かせますし、四隅をつまむと大きさと向きを変えられます。</p>
+<h3 id="s-8-1">四角・丸・直線・矢印を描く</h3>
+<p>ツールバーの「図形」を押すと、4 つのマークが出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/17-shape-menu.webp"><img src="/assets/manual/digital-textbook/17-shape-menu.webp" alt="図形のメニュー" loading="lazy" decoding="async"></a><figcaption>左から、四角・丸・直線・矢印です。</figcaption></figure>
+<p>描きかたの手順:</p>
+<ol><li>「図形」を押して、描きたい形を選んでください。</li><li>色のならびから色を選んでください。</li><li>教材の上を、描きたい大きさにドラッグしてください。ドラッグした大きさで描かれます。</li></ol>
+<h3 id="s-8-2">文字を打ちこむ</h3>
+<p>ツールバーの「もじ」を押すと、ページの中央に文字が置かれ、そのまま打ちこめる状態になります。</p>
+<p>打ちかたの手順:</p>
+<ol><li>ツールバーの「もじ」を押してください。</li><li>そのまま文字を打ってください。最初から入っている文字は、打ちはじめると置きかわります。</li><li>打ち終わったら Esc キーを押すか、ページの別のところを押してください。</li></ol>
+<p>あとから直したいときは、選択の状態でその文字をダブルクリックすると、また打てるようになります。</p>
+<h3 id="s-8-3">ふせんを貼る</h3>
+<p>ふせんは 4 色あります。ツールバーの「ふせん」を押すと、色が出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/18-sticky-menu.webp"><img src="/assets/manual/digital-textbook/18-sticky-menu.webp" alt="ふせんの色のメニュー" loading="lazy" decoding="async"></a><figcaption>左から、黄・ピンク・水色・黄緑です。</figcaption></figure>
+<p>貼りかたの手順:</p>
+<ol><li>ツールバーの「ふせん」を押してください。</li><li>色を押してください。ページの中央にふせんが置かれ、そのまま打てる状態になります。</li><li>文字を打って、Esc キーを押してください。</li></ol>
+<h3 id="s-8-4">Web ページや音声のボタンを置く</h3>
+<p>ページの上に丸いボタンを置いて、ダブルクリックで Web ページを開いたり、音を鳴らしたりできます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/19-link-menu.webp"><img src="/assets/manual/digital-textbook/19-link-menu.webp" alt="リンクのメニュー" loading="lazy" decoding="async"></a><figcaption>「Webを開く」と「音声再生」の 2 つから選びます。</figcaption></figure>
+<p>置きかたの手順:</p>
+<ol><li>ツールバーの「リンク」を押してください。</li><li>「Webを開く」か「音声再生」を選んでください。</li><li>ブラウザの入力窓が出るので、アドレス（URL）を貼りつけて「OK」を押してください。</li><li>ページの中央に丸いボタンが置かれます。青が Web ページ、ピンクが音声です。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/20-objects.webp"><img src="/assets/manual/digital-textbook/20-objects.webp" alt="置いたものがならんだページ" loading="lazy" decoding="async"></a><figcaption>図形・もじ・ふせん・リンクを置いたところです。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>開く・鳴らすのはダブルクリックです。1 回押しただけでは選択されるだけで、何も起きません。</li><li>音声は「インターネット上にある音声ファイルのアドレス」を指すしくみです。端末の中の音声ファイルをドラッグして入れることはできません。</li><li><code>https://</code> や <code>http://</code> を付けずに入れた場合は、<code>https://</code> を頭に足して扱います。</li><li>置いたものはすべて、選択の状態でドラッグして動かせます。四隅の丸をつまむと大きさが変わります。</li></ul>
+<h2 id="s-9">スタンプを押す・自分のスタンプを作る</h2>
+<p>評価の朱印から算数の図形まで、167 種類のスタンプが入っています。押すとページの中央に置かれるので、そこから動かして使います。</p>
+<h3 id="s-9-1">用意されているスタンプを押す</h3>
+<p>ツールバーの「スタンプ」を押すと、スタンプのならんだパネルが開きます。上にある帯がタブで、教科ごとに分かれています。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/21-stamp-eval.webp"><img src="/assets/manual/digital-textbook/21-stamp-eval.webp" alt="評価のスタンプ" loading="lazy" decoding="async"></a><figcaption>「評価」のタブ。はなまる、朱印、100点などが並びます。</figcaption></figure>
+<p>タブは 7 つあります。評価が 16 種、国語が 41 種、算数が 42 種、英語が 10 種、理社が 34 種、生活が 24 種、そして自分で作った「マイ」です。タブの帯は横に流れるので、右のほうにあるタブは帯を左へなぞると出てきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/22-stamp-math.webp"><img src="/assets/manual/digital-textbook/22-stamp-math.webp" alt="算数のスタンプ" loading="lazy" decoding="async"></a><figcaption>「算数」のタブ。位取り表、筆算のわく、立体図形などがあります。</figcaption></figure>
+<p>押しかたの手順:</p>
+<ol><li>ツールバーの「スタンプ」を押してください。</li><li>使いたい教科のタブを押してください。</li><li>スタンプを押してください。ページの中央に置かれます。</li><li>そのままドラッグして、置きたいところへ動かしてください。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/23-stamp-placed.webp"><img src="/assets/manual/digital-textbook/23-stamp-placed.webp" alt="スタンプを押したページ" loading="lazy" decoding="async"></a><figcaption>筆算のわくと、はなまるを置いたところです。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>押すと必ずページの中央に置かれます。押したい場所を先に選ぶことはできないので、置いてから動かしてください。</li><li>半ページ表示のときは、いま見えている側の中央に置かれます。</li><li>「分度器」や「三角定規」は絵柄としてのスタンプです。角度を測れる目盛りの付いた道具ではありません。</li><li>置いたスタンプは、四隅をつまんで大きさと向きを変えられます。</li></ul>
+<h3 id="s-9-2">自分だけのスタンプを作る（マイスタンプ）</h3>
+<p>よく使う言葉は、自分のスタンプとして登録できます。作ったスタンプは「マイ」のタブに並びます。</p>
+<p>作りかたの手順:</p>
+<ol><li>ツールバーの「スタンプ」を押して、タブの帯を左へなぞり、いちばん右の「マイ」を押してください。</li><li>「新しいスタンプを作る」を押してください。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/24-mystamp-form.webp"><img src="/assets/manual/digital-textbook/24-mystamp-form.webp" alt="マイスタンプ作成の画面" loading="lazy" decoding="async"></a><figcaption>文字・枠の形・色の 3 つを決めます。</figcaption></figure>
+<ol start="3"><li>「スタンプの文字」に入れる文字を打ってください。5 文字まで入りますが、1 文字から 3 文字が読みやすくおすすめです。</li><li>「枠の形」を、枠なし・丸・四角から選んでください。</li><li>「色」の四角を押して、好きな色を選んでください。</li><li>「保存して追加」を押してください。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/25-mystamp-tab.webp"><img src="/assets/manual/digital-textbook/25-mystamp-tab.webp" alt="マイのタブに並んだスタンプ" loading="lazy" decoding="async"></a><figcaption>作ったスタンプが「マイ」のタブに並びます。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>作ったスタンプは、そのスタンプの右上に出る × で消せます。</li><li>マイスタンプはこの端末に保存されます。バックアップにも含まれるので、別の端末へ引きつげます。</li><li>絵文字も文字として入れられます。</li></ul>
+<h2 id="s-10">授業で見せる（半ページ表示・提示モード・全画面）</h2>
+<p>一斉授業で使うための見せかたが 3 つあります。どれも見せかたを変えるだけで、書きこみの位置や保存された内容には影響しません。</p>
+<h3 id="s-10-1">縦向きの画面で読みやすくする（半ページ表示）</h3>
+<p>見開きの紙面をタブレットの縦向きで映すと、文字が小さくなりがちです。半ページ表示は、ページを中央で切って半分ずつ映します。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/26-view-menu.webp"><img src="/assets/manual/digital-textbook/26-view-menu.webp" alt="表示のメニュー" loading="lazy" decoding="async"></a><figcaption>「ページ全体を表示」「左半分から読む」「右半分から読む」から選びます。</figcaption></figure>
+<p>選びかたの手順:</p>
+<ol><li>ツールバーの「表示」を押してください。</li><li>「左半分から読む」または「右半分から読む」を押してください。</li><li>元に戻すときは、同じところから「ページ全体を表示」を押してください。</li></ol>
+<p>国語の教科書のように紙面を右から読むものは「右半分から読む」を選んでください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/27-half-right.webp"><img src="/assets/manual/digital-textbook/27-half-right.webp" alt="右半分から読んでいるところ" loading="lazy" decoding="async"></a><figcaption>見開きのページの右半分だけが映っています。</figcaption></figure>
+<p>半ページ表示のあいだは、画面下のバーに「左」「右」の切りかえが出ます。ここからでも、いま見ている側を変えられます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/28-half-switch.webp"><img src="/assets/manual/digital-textbook/28-half-switch.webp" alt="左右の切りかえ" loading="lazy" decoding="async"></a><figcaption>いま見ている側が、黄色く出ます。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>ページを送ると「いま見ている半分 → もう半分 → 次のページの前半分」の順に進みます。</li><li>切り取って見せているだけなので、書きこみの位置はずれません。保存されている内容も変わりません。</li><li>ただし印刷だけは、見えている半分だけが紙に出ます（「いま開いているページを紙に印刷する」の章）。</li><li>選んだ見せかたは覚えているので、次に開いたときも同じ見せかたになります。</li><li>スタンプを押すと、いま見えている側の中央に置かれます。</li></ul>
+<h3 id="s-10-2">電子黒板に大きく映す（提示モード）</h3>
+<p>画面の右下にある、モニターのマークを押してください。文字とボタンがひとまわり大きくなり、教室のうしろの席からも読める大きさになります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/29-presentation.webp"><img src="/assets/manual/digital-textbook/29-presentation.webp" alt="提示モードにしたところ" loading="lazy" decoding="async"></a><figcaption>ボタンも文字も大きくなり、押したボタンが色つきになります。</figcaption></figure>
+<p>もう一度同じボタンを押すと元に戻ります。</p>
+<h3 id="s-10-3">ページだけを画面いっぱいに映す（全画面）</h3>
+<p>ツールバーの「全画面」を押すと、ヘッダーもツールバーも隠れて、ページだけが画面いっぱいになります。キーボードの F キーでも切り替わります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/30-fullscreen.webp"><img src="/assets/manual/digital-textbook/30-fullscreen.webp" alt="全画面にしたところ" loading="lazy" decoding="async"></a><figcaption>右上の小さなボタンで、全画面をやめられます。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>全画面のあいだも、ページ送りと拡大縮小のボタンは出たままです。</li><li>元に戻すには、右上のボタンを押すか、F キーか Esc キーを押してください。</li><li>iPhone の Safari など、ブラウザの全画面に対応していない端末では、まわりのボタンを隠す「集中モード」として働きます。</li><li>提示モードと全画面は、いっしょに使えます。</li></ul>
+<h2 id="s-11">タイマーとストップウォッチで時間をはかる</h2>
+<p>活動の時間をはかる小さなパネルを、教材の画面に出したままにできます。ツールバーの「タイマー」を押すと、画面の左上に出ます。</p>
+<h3 id="s-11-1">タイマーで残り時間をはかる</h3>
+<p>「あと何分」を見せたいときは、こちらを使います。パネルは 5 分から始まります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/31-timer.webp"><img src="/assets/manual/digital-textbook/31-timer.webp" alt="タイマーのパネル" loading="lazy" decoding="async"></a><figcaption>画面の左上に出ます。「タイマー」と「ウォッチ」を切り替えます。</figcaption></figure>
+<p>使いかたの手順:</p>
+<ol><li>ツールバーの「タイマー」を押してください。パネルが出ます。</li><li>5 分から始まります。「+1分」「+5分」を押して、はかりたい長さにしてください。</li><li>「スタート」を押すと減っていきます。押すと「ストップ」に変わります。</li><li>丸い矢印のボタンを押すと、5 分に戻ります。</li></ol>
+<h3 id="s-11-2">ストップウォッチで、かかった時間をはかる</h3>
+<p>パネルの左上にある「ウォッチ」を押すと、ストップウォッチに変わります。0 から数え上げます。「スタート」で始まり、「リセット」で 0 に戻ります。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>パネルを出したまま、ページを送ったり書きこんだりできます。</li><li>0 になると、数字が赤くなって点滅します。音は鳴りません。教室で使うときは、画面が見えるところに置いてください。</li><li>パネルの右上の × で閉じます。閉じると数え直しになります。</li><li>「タイマー」と「ウォッチ」は別々に数えています。切り替えても、それぞれの数はそのまま残ります。ただし、表示していないほうは進みません。</li></ul>
+<h2 id="s-12">プリントのQRコードを読み取る</h2>
+<p>紙のプリントに印刷された QR コードを、アプリの中から読み取って、その場で Web ページを開けます。児童生徒に URL を打たせずに済みます。</p>
+<h3 id="s-12-1">QRコードを囲んで読み取る</h3>
+<p>読み取りの手順:</p>
+<ol><li>QR コードが写っているページを開いてください。</li><li>ツールバーの、QR コードのマークを押してください。キーボードの Q キーでも切り替わります。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/32-qr-page.webp"><img src="/assets/manual/digital-textbook/32-qr-page.webp" alt="QRコードのあるページ" loading="lazy" decoding="async"></a><figcaption>赤い枠のように、QR コードのまわりを少し広めに囲みます。</figcaption></figure>
+<ol start="3"><li>QR コードのまわりを、少し広めにドラッグで囲んでください。</li><li>「QRコードを解析中...」と出たあと、読み取れると新しいタブでその Web ページが開きます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/33-qr-done.webp"><img src="/assets/manual/digital-textbook/33-qr-done.webp" alt="読み取れたときの知らせ" loading="lazy" decoding="async"></a><figcaption>「QRコードを読み取りました」と画面の右下に出ます。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>囲まずにページを 1 回押すだけでも読み取れます。そのときはページ全体から QR コードを探します。</li><li>小さくかすれた QR コードでも読めるよう、拡大したり白黒を反転したりしながら探します。表示のために小さくする前の、元のページの絵から探すので、画面上で小さく見えていても読めることがあります。</li><li>見つからないときは「QRコードが見つかりません。QRコードの周囲を少し広めに囲んでみてください。」と出ます。白い余白ごと囲むと読めることが多いです。</li><li>安全のため、新しいタブで開くのは <code>https://</code> か <code>http://</code> で始まるアドレスだけです。それ以外のときは開かずに、読み取った内容を画面に出すだけにとどめます。</li><li>読み取りが終わると、道具は自動で「選択」に戻ります。続けて読み取るときは、もう一度 QR のマークを押してください。</li></ul>
+<h2 id="s-13">いま開いているページを紙に印刷する</h2>
+<p>画面の右下にある、プリンターのマークを押すと、いま開いているページを書きこみごと印刷できます。押すと、ブラウザの印刷の画面が開きます。</p>
+<h3 id="s-13-1">印刷する前に確かめること</h3>
+<p>印刷の手順:</p>
+<ol><li>画面の右下にある、プリンターのマークを押してください。ブラウザの印刷の画面が開きます。</li><li>紙の向き（たて・よこ）が合っているか見てください。横長のページは自動で「よこ向き」に切り替わります。</li><li>「背景のグラフィック」にチェックが入っているか確かめてください。Chrome では「詳細設定」を開くと出てきます。</li><li>よければ「印刷」を押してください。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/34-print-preview.webp"><img src="/assets/manual/digital-textbook/34-print-preview.webp" alt="印刷したときに紙に出る中身" loading="lazy" decoding="async"></a><figcaption>書きこみもふせんもスタンプも、そのまま紙に出ます。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>「背景のグラフィック」のチェックが外れていると、スタンプの色や枠、ふせんの色が真っ白になって印刷されます。ここがいちばん多いつまずきです。</li><li>一度に印刷できるのは、いま開いている 1 ページだけです。複数ページを刷るときは、ページを送りながらくり返してください。</li><li>半ページ表示のまま印刷すると、いま見えている半分だけが紙に出ます。ページ全体を刷りたいときは、先に「表示」から「ページ全体を表示」に戻してください。</li><li>画面のボタンやツールバーは紙には出ません。</li></ul>
+<h2 id="s-14">児童生徒の端末へ教材を配る（共有・あいことば）</h2>
+<p>先生の端末から児童生徒の端末へ、PDF と書きこみをまるごと直接送れます。サーバーを経由しないので、データが外部に残りません。配れるのは、いま開いている 1 つの教材だけです。</p>
+<h3 id="s-14-1">先生の端末で共有を始める</h3>
+<p>共有の手順:</p>
+<ol><li>配りたい教材を開いて、ツールバーの「共有する」を押してください。</li><li>QR コードとアドレス、そして 5 文字の「あいことば」が出ます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/35-share.webp"><img src="/assets/manual/digital-textbook/35-share.webp" alt="共有の画面" loading="lazy" decoding="async"></a><figcaption>あいことばは、QR コードにもアドレスにも入っていません。</figcaption></figure>
+<ol start="3"><li>QR コードを児童生徒に見せてください。アドレスを配る場合は、右のボタンでコピーできます。</li><li>あいことばは、口で言うか黒板に書いて伝えてください。</li><li>配り終わったら、この窓をいちばん下までスクロールして「共有を終了して閉じる」を押してください。</li></ol>
+<p>この画面では、共有をやめるまでの時間（10 分・30 分・60 分。はじめは 30 分）と、配れる人数の上限（5 人・10 人・40 人・80 人。はじめは 40 人）を選べます。どちらも共有の途中で変えられます。「受け取った人数」と「のこり時間」も、この画面に出ています。</p>
+<h3 id="s-14-2">児童生徒の端末で受け取る</h3>
+<p>受け取りの手順:</p>
+<ol><li>児童生徒が QR コードを読み取る（またはアドレスを開く）と、あいことばを入れる画面が出ます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/36-guest-passcode.webp"><img src="/assets/manual/digital-textbook/36-guest-passcode.webp" alt="あいことばを入れる画面" loading="lazy" decoding="async"></a><figcaption>先生の画面に出ている 5 文字を入れてもらいます。</figcaption></figure>
+<ol start="2"><li>先生が伝えたあいことばを入れて「うけとる」を押してもらってください。</li><li>「データを受け取っています」と出て、終わると教材が開きます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/37-guest-done.webp"><img src="/assets/manual/digital-textbook/37-guest-done.webp" alt="受け取った教材がならんだ一覧" loading="lazy" decoding="async"></a><figcaption>名前のうしろに「(共有)」が付いた別の教材として入ります。</figcaption></figure>
+<p>【！！】最重要注意事項:</p>
+<ul><li>受け取った端末ではじめてこのアプリを開いたときは、そのあとに「使うときの注意」が出ます。児童生徒には「わかりました」を押してもらってください。</li><li>あいことばを教室の外に出さないでください。QR コードとアドレスだけでは受け取れませんが、あいことばまで伝わると、校外からでも受け取れてしまいます。</li><li>あいことばは共有のたびに作り直されます。見まちがえやすい 0 と O、1 と I と L は使いません。小文字で入れても、空白やハイフンが混じっても通ります。</li><li>1 つの接続であいことばを 3 回まちがえると、その接続は切られます。QR コードの読み取りからやり直してもらってください。</li><li>配布のあいだ、先生の画面は開いたままにしてください。「共有を終了して閉じる」を押すと、その時点で配布が止まります。</li><li>のこり時間が 0 になると、自動で配布が終わります。押し忘れても止まります。</li><li>1 人に配ったあともそのまま待機しているので、続けて次の子に配れます。</li><li>配ったあとは同期しません。送られるのは「配った時点のコピー」です。先生があとから書き足しても、児童生徒の端末には届きません。</li><li>先生と児童生徒が同じネットワーク（校内 Wi-Fi など）につながっているのがいちばん確実です。一度に大人数へ配ると時間がかかるので、10 人ずつくらいに分けるとスムーズです。</li></ul>
+<h2 id="s-15">書きこみを守る（バックアップの書き出しと取りこみ）</h2>
+<p>書きこみはその端末の中にしかありません。端末を初期化した、ブラウザの閲覧データを削除した、別の端末に乗りかえた、といったときには消えます。学期に一度はバックアップを取っておくことをおすすめします。</p>
+<h3 id="s-15-1">バックアップを書き出す</h3>
+<p>最初の画面の右上に、青い「バックアップを書き出す」と緑の「バックアップを取り込む」が並んでいます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/38-backup-buttons.webp"><img src="/assets/manual/digital-textbook/38-backup-buttons.webp" alt="バックアップの 2 つのボタン" loading="lazy" decoding="async"></a><figcaption>左が書き出し、右が取りこみです。</figcaption></figure>
+<p>書き出しの手順:</p>
+<ol><li>最初の画面「わたしのプリント・教材」を開いてください。</li><li>「バックアップを書き出す」を押してください。</li><li><code>digital-textbook-backup-（日時）.json</code> というファイルがダウンロードされます。</li><li>そのファイルを Google ドライブや USB など、端末の外に置いてください。</li></ol>
+<p>教材・書きこみ・マイスタンプが、すべてこの 1 ファイルに入ります。</p>
+<h3 id="s-15-2">バックアップを取りこむ</h3>
+<p>取りこみの手順:</p>
+<ol><li>「バックアップを取り込む」を押して、さきほどのファイルを選んでください。</li><li>中身を確かめる画面が出ます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/39-import-preview.webp"><img src="/assets/manual/digital-textbook/39-import-preview.webp" alt="取りこみの確認画面" loading="lazy" decoding="async"></a><figcaption>書き出した日時・教材の数・合計ページ数・マイスタンプの数が出ます。</figcaption></figure>
+<ol start="3"><li>「追加で取り込む」か「置き換える」かを選んでください。</li><li>「置き換える」を選ぶと、もう一度確認の窓が出ます。</li></ol>
+<p>【！！】最重要注意事項:</p>
+<ul><li>「追加で取り込む」は、いまある教材を残したまま足します。複数の端末の内容をまとめたいときはこちらです。</li><li>「置き換える」は、いまある教材・書きこみ・マイスタンプをすべて消してから入れかえます。元に戻すことはできません。</li><li>同じ教材が重なったときは、名前に「(取込)」が付いた別の 1 件として入ります。上書きはされません。</li><li>取りこむファイルがこのアプリのバックアップでないときは「このデータはバックアップ形式ではありません」と出て、何も起きません。</li></ul>
+<h2 id="s-16">Googleドライブとつないで、別の端末と同期する</h2>
+<p>先生ご自身の Google ドライブに、ボタン 1 つで保存・復元ができます。別の端末で同じ Google アカウントにつなげば、そのまま続きが使えます。この章は使わなくてもかまいません。前の章のバックアップだけでもデータは守れます。</p>
+<h3 id="s-16-1">ドライブにつなぐ</h3>
+<p>最初の画面の上のほうに、水色の枠の「Googleドライブ同期」のパネルが出ています。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/40-drive-panel.webp"><img src="/assets/manual/digital-textbook/40-drive-panel.webp" alt="Googleドライブ同期のパネル" loading="lazy" decoding="async"></a><figcaption>「Googleドライブに接続」を押すところから始めます。</figcaption></figure>
+<p>つなぐ手順:</p>
+<ol><li>「Googleドライブに接続」を押してください。</li><li>Google のログイン画面が出ます。学校のアカウントでログインしてください。</li><li>このアプリにファイルの作成を許可するかを聞かれます。内容を読んで、許可してください。</li><li>パネルに「接続中」と出れば、つながっています。</li></ol>
+<p>見慣れない許可の画面が出ますが、これはアプリが先生の代わりにドライブへファイルを 1 つ置くための許可を求めるものです。このアプリが触れるのは、このアプリが作ったファイルだけで、ドライブの中のほかのファイルは読めない設定になっています。</p>
+<h3 id="s-16-2">保存する・復元する・自動保存にする</h3>
+<p>つながると、ボタンが「ドライブに保存」「ドライブから復元」「切断」に変わります。</p>
+<ul><li>「ドライブに保存」を押すと、いまのデータがドライブに保存されます。</li><li>「ドライブから復元」を押すと、ドライブに保存したデータを取りこみます。</li><li>パネルの下の「自動保存」にチェックを入れておくと、書きこみや変更のあと、少し待ってから自動でドライブへ保存します。</li><li>「切断」を押すと、接続を解除します。ドライブのファイルは消えません。</li></ul>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>保存先は、先生のドライブの中の <code>digital-textbook-backup.json</code> という 1 ファイルだけです。2 回目からは同じファイルに上書きされるので、ドライブがファイルだらけになることはありません。</li><li>最後に保存した日時が、パネルの中に出ます。</li><li>教材が 1 つも無いときは保存できません。「保存する教材がありません」と出ます。</li><li>このパネルが出てこないときは、お使いのアドレスでは同期が設定されていません。バックアップの書き出しと取りこみは、そのまま使えます。</li></ul>
+<h2 id="s-17">キーボードとタブレットでの操作</h2>
+<p>キーボードのある端末では、よく使う操作をキーで呼べます。タブレットでは指でのなぞりが使えます。</p>
+<h3 id="s-17-1">キーボードのショートカット</h3>
+<p>ツールバーのいちばん右のほうにある、丸に i のマークを押すと、一覧が出ます。キーボードの ? キーでも開きます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/41-shortcuts.webp"><img src="/assets/manual/digital-textbook/41-shortcuts.webp" alt="ショートカットキーの一覧" loading="lazy" decoding="async"></a><figcaption>ページ送り・拡大縮小・道具の切り替えが並びます。</figcaption></figure>
+<p>よく使うものを挙げます。右矢印キーと左矢印キーで次のページと前のページ、上矢印キーと下矢印キーで拡大と縮小、Ctrl + Z で元に戻す、Ctrl + Y でやり直し、V で選択、P でえんぴつ、H でマーカー、E でけしごむ、Q で QR 読み取り、F で全画面です。Mac では Ctrl の代わりに ⌘ でも動きます。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>Esc 以外のキーは、教材を開いているときだけ効きます。</li><li>入力欄や、文字・ふせんを打っている最中は、どのキーも書きこみ側には効きません。</li><li>Esc キーは「1 つ前の階層へ戻る」です。開いているメニューや窓を閉じるのに使えます。</li></ul>
+<h3 id="s-17-2">タブレット・スマートフォンでのなぞり操作</h3>
+<p>指でのなぞりは 2 種類あります。</p>
+<ul><li>選択の状態のときに、教材の上を左へなぞると次のページ、右へなぞると前のページに進みます。</li><li>画面の左右どちらかの端から中央に向かってなぞると、1 つ前の階層へ戻ります。画面下のナビゲーションバーの「戻る」をタップしても同じです。</li></ul>
+<p>戻る順番は、開いている窓 → メニューやパネル → ツールバー → 全画面表示 → 教材の画面 → 一覧です。一覧でさらに戻ろうとしても「ここが最初の画面です」と出るだけで、アプリが終了したり、ブラウザで別のページへ移動したりすることはありません。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>ページ送りのなぞりは、選択の状態のときだけ働きます。えんぴつなどで書きこんでいる最中は、書きこみが優先されます。</li><li>拡大してページが画面からはみ出しているときも、スクロールが優先されます。</li><li>「戻る」として扱うのは、画面の端から始まる指でのなぞりだけです。Apple Pencil などのペン入力とマウス操作は、そのまま書きこみに使えます。</li></ul>
+<h2 id="s-18">うまくいかないとき</h2>
+<p>よくあるつまずきと、その場で試せることを並べます。ここで解決しないときは、この章の最後をお読みください。</p>
+<h3 id="s-18-1">画面が真っ白のまま、または「ライブラリの読み込みに失敗しました」と出る</h3>
+<p>アプリが使う道具を読みこめていません。学校のネットワークが混んでいるときに起きます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/digital-textbook/42-script-error.webp"><img src="/assets/manual/digital-textbook/42-script-error.webp" alt="読みこみに失敗したときの画面" loading="lazy" decoding="async"></a><figcaption>「ページを再読み込み」を押すと、もう一度読みこみます。</figcaption></figure>
+<ul><li>インターネットにつながっているか確かめてください。はじめて開くときはつながっている必要があります。</li><li>しばらく待ってから「ページを再読み込み」を押してください。</li><li>それでも直らないときは、学校のネットワーク担当の先生にご相談ください。</li></ul>
+<h3 id="s-18-2">書きこんだものが消えた</h3>
+<ul><li>別のブラウザで開いていませんか。Chrome で書いたものは Safari では見えません。</li><li>ブラウザの「閲覧データを削除」をしませんでしたか。これをすると消えます。</li><li>iPad で、ホーム画面に追加せずに 7 日以上使っていませんでしたか（「アプリとして端末に入れる」の章）。</li><li>バックアップがあれば、そこから戻せます。</li></ul>
+<h3 id="s-18-3">PDF が読みこめない</h3>
+<ul><li>パスワードのかかった PDF は読みこめません。</li><li>ファイルが壊れていないか、ほかのアプリで開いて確かめてください。</li><li>ページ数が非常に多い PDF は、端末のメモリが足りず途中で止まることがあります。分けてから読みこんでください。</li></ul>
+<h3 id="s-18-4">道具のバーが見あたらない</h3>
+<p>画面の左上にある「ツール」を押してください。ページを広く使うため、ふだんは隠れています。全画面表示のあいだは、右上のボタンで全画面をやめると出てきます。</p>
+<h3 id="s-18-5">動きが重い、カクカクする</h3>
+<ul><li>開いているタブを減らしてください。Chromebook はメモリが少なく、タブをたくさん開くと動きが悪くなります。</li><li>倍率を 100% に戻してみてください。</li><li>使わない教材を一覧から消すと軽くなります。</li></ul>
+<h3 id="s-18-6">印刷したら色や枠が出ない</h3>
+<p>印刷の画面の「詳細設定」で、「背景のグラフィック」にチェックを入れてください（「いま開いているページを紙に印刷する」の章）。</p>
+<h3 id="s-18-7">共有（配布）ができない</h3>
+<ul><li>先生の画面を閉じていませんか。共有の画面は開いたままにしてください。</li><li>先生と児童生徒が同じネットワークにつながっているか確かめてください。</li><li>学校のネットワークによっては、端末どうしの直接通信が禁止されていることがあります。その場合は、バックアップファイルを配る方法をお使いください。</li></ul>
+<h3 id="s-18-8">QRコードが読み取れない</h3>
+<ul><li>囲む範囲を少し広めにしてください。QR コードのまわりの白い余白ごと囲むのがコツです。</li><li>印刷がかすれていたり、大きく傾いていたりすると読めないことがあります。</li></ul>
+<h3 id="s-18-9">Googleドライブにつなぐとエラーが出る</h3>
+<p>画面に「エラー 400: origin_mismatch」と出たときは、いま開いているアドレスが Google 側に登録されていないという意味です。先生の端末やアカウントの問題ではないので、この画面では直せません。</p>
+<ul><li>いま開いているアドレスが <code>https://digital-textbook.giga-school.com/</code> になっているか確かめてください。古いブックマークやホーム画面のアイコンからだと、こちらの画面が出ることがあります。</li><li>正しいアドレスでも出るときは、公開している担当者にお伝えください。</li><li>直るまでのあいだも、バックアップの書き出しと取りこみはふだんどおり使えます。書きこんだものが消えることはありません。</li></ul>
+<h3 id="s-18-10">「あたらしい バージョンが あります」と出た</h3>
+<p>アプリが新しくなったお知らせです。「さいしんに する」を押してください。書きこみは消えません。急いでいるときは「あとで」を押しても構いません。押すまで切り替わらないので、授業の途中で勝手に画面が変わることはありません。</p>
+<h3 id="s-18-11">それでも解決しないとき</h3>
+<p>まず、このアプリを教えてくださった先生や、校内の情報担当の先生にご相談ください。同じ端末・同じネットワークで使っている方なら、すぐに分かることが多いです。</p>
+<p>そのうえで解決しないときは、このページのいちばん下にある問い合わせ先からお知らせください。</p>
+    </div>
+
+    <section class="manual__school" aria-labelledby="school-title">
+      <h2 id="school-title">学校で使うときは</h2>
+      <p class="manual__school-lead">ここは <a href="/">giga-school.com</a> が
+        アプリの設定から組み立てています。マニュアルの書き手が手で書いたものではないので、
+        アプリが変われば、ここも変わります。</p>
+      <dl class="manual__facts">
+        <div><dt>記録の置き場所</dt><dd>記録は端末の中だけ</dd></div>
+      </dl>
+      <h3>校内のフィルタリングで許可するアドレス</h3>
+      <ul class="manual__hosts">
+        <li><code>digital-textbook.giga-school.com</code><span class="manual__why">アプリを配っている場所</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+        <li><code>accounts.google.com</code><span class="manual__why">Google アカウントのログイン</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+        <li><code>www.googleapis.com</code><span class="manual__why">Google のサービスとのやりとり</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+        <li><code>0.peerjs.com</code><span class="manual__why">みんなでやるとき、へやの番号をやりとりする</span><span class="manual__level manual__level--partial">塞ぐと一部が使えません</span></li>
+      </ul>
+      <p class="manual__school-more">ほかのアプリとまとめて申請するときは、
+        <a href="/filtering/">許可するアドレスの一覧</a>が使えます（印刷できます）。</p>
+    </section>
+
+    <!-- 紙に刷って回覧されたとき、ここへ戻ってこられる唯一の手がかり。
+         画面では出さない（すぐ上のアドレスバーに同じものが出ている） -->
+    <p class="manual__url">このマニュアルは https://giga-school.com/apps/digital-textbook/manual/ にあります（2026/08/31 現在）</p>
+
+    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。マニュアルは
+         アプリを触りながら読むものなので、記事より効く -->
+    <p class="article__sticky no-print">
+      <a class="btn btn--primary" href="https://digital-textbook.giga-school.com/">教材プリントメーカー を開く</a>
+    </p>
+
+    <aside class="article__end no-print">
+      <p class="article__end-lead">教材プリントメーカー は、ブラウザだけで動く無償のアプリです。</p>
+      <p class="manual__legal">教材プリントメーカー の
+        <a href="https://digital-textbook.giga-school.com/terms.html" rel="noopener">利用規約</a>と<a href="https://digital-textbook.giga-school.com/privacy.html" rel="noopener">プライバシーポリシー</a>も読めます。</p>
+      <p class="article__actions">
+        <a class="btn btn--primary" href="https://digital-textbook.giga-school.com/">教材プリントメーカー を開く</a>
+        <a class="btn btn--ghost" href="/#contact">うまくいかないときは</a>
+      </p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/profile/">自己紹介</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+        <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
+        <a href="/press/">掲載用の資料</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>

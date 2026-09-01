@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Typa（タイパ） の使い方｜GIGA school</title>
+  <meta name="description" content="Typa は、キーボードで 文字を 打つ れんしゅうを する アプリです。ここでは、なにが できるのかと、はじめる まえに 用意する ものを せつめいします。">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://giga-school.com/apps/typa/manual/">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="Typa（タイパ） の使い方">
+  <meta property="og:description" content="Typa は、キーボードで 文字を 打つ れんしゅうを する アプリです。ここでは、なにが できるのかと、はじめる まえに 用意する ものを せつめいします。">
+  <meta property="og:url" content="https://giga-school.com/apps/typa/manual/">
+  <meta property="og:image" content="https://typa.giga-school.com/docs/manual/images/01-play-first.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/article.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://giga-school.com/apps/typa/manual/#manual",
+      "headline": "Typa（タイパ） の使い方",
+      "description": "Typa は、キーボードで 文字を 打つ れんしゅうを する アプリです。ここでは、なにが できるのかと、はじめる まえに 用意する ものを せつめいします。",
+      "image": "https://typa.giga-school.com/docs/manual/images/01-play-first.png",
+      "inLanguage": "ja",
+      "proficiencyLevel": "Beginner",
+      "datePublished": "2026-07-29",
+      "dateModified": "2026-08-31",
+      "author": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "publisher": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "mainEntityOfPage": "https://giga-school.com/apps/typa/manual/",
+      "about": {
+        "@type": "WebApplication",
+        "name": "Typa（タイパ）",
+        "url": "https://typa.giga-school.com/",
+        "operatingSystem": "Web ブラウザ",
+        "inLanguage": "ja",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "GIGA school",
+          "item": "https://giga-school.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "紹介",
+          "item": "https://giga-school.com/apps/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Typa（タイパ）",
+          "item": "https://giga-school.com/apps/typa/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "使い方",
+          "item": "https://giga-school.com/apps/typa/manual/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap article article--read manual">
+    <nav class="crumbs no-print" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/">紹介</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/typa/">Typa（タイパ）</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">使い方</span>
+    </nav>
+
+    <header class="article__head">
+      <p class="article__series">使い方マニュアル</p>
+      <h1 class="article__title">Typa（タイパ） の使い方</h1>
+      <p class="article__meta">
+        <time datetime="2026-08-31">2026/08/31</time> 現在の画面です
+        <span class="article__len">全 19 章・読むのに約 25 分</span>
+      </p>
+      <p class="article__actions no-print">
+        <a class="btn btn--primary" href="https://typa.giga-school.com/">Typa（タイパ） を開く</a>
+        <a class="btn btn--ghost" href="/apps/typa/">つくった理由を読む</a>
+      </p>
+    </header>
+
+    <aside class="article__rail" aria-label="このページの案内">
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">Typa（タイパ）で できること</a>
+            <ol class="toc__sub"><li><a href="#s-1-1">Typa は どんな アプリ？</a></li><li><a href="#s-1-2">つかう人と、<ruby>用意<rt>ようい</rt></ruby>する もの</a></li></ol>
+          </li>
+          <li><a href="#s-2">はじめて ひらく ときに する こと（さいしょの 1回だけ）</a>
+            <ol class="toc__sub"><li><a href="#s-2-1">ブラウザで アドレスを ひらく</a></li><li><a href="#s-2-2">ローマ字が <ruby>打<rt>う</rt></ruby>てる ように する（かな入力を 切る）</a></li><li><a href="#s-2-3">Chromebook や タブレットに アプリとして 入れて おく</a></li></ol>
+          </li>
+          <li><a href="#s-3">うつ がめんの みかた</a>
+            <ol class="toc__sub"><li><a href="#s-3-1">いちばん 上の バーに ある もの</a></li><li><a href="#s-3-2">まん中の お<ruby>題<rt>だい</rt></ruby>と、その 下の しらせ</a></li><li><a href="#s-3-3">下の バーに ある 5つの ボタン</a></li></ol>
+          </li>
+          <li><a href="#s-4">キーを <ruby>打<rt>う</rt></ruby>つ ときの きまり</a>
+            <ol class="toc__sub"><li><a href="#s-4-1">光って いる キーを、同じ 色の ゆびで <ruby>押<rt>お</rt></ruby>す</a></li><li><a href="#s-4-2">まちがえると すすまない</a></li><li><a href="#s-4-3">同じ お<ruby>題<rt>だい</rt></ruby>で 4回 まちがえたら「とばす」</a></li></ol>
+          </li>
+          <li><a href="#s-5">ひとまわりと ★の つきかた</a>
+            <ol class="toc__sub"><li><a href="#s-5-1">ひとまわりって なに？</a></li><li><a href="#s-5-2">★3つに なると、その ばで つぎの ステージへ</a></li></ol>
+          </li>
+          <li><a href="#s-6">れんしゅうを やめて、けっかを 見る</a>
+            <ol class="toc__sub"><li><a href="#s-6-1">けっかの がめんに 出る 数字</a></li><li><a href="#s-6-2">「くわしく 見る」で どこで 手が とまったかを 見る</a></li></ol>
+          </li>
+          <li><a href="#s-7">「えらぶ」から やる ことを きめる</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">えらぶ がめんに ならぶ もの</a></li><li><a href="#s-7-2">コースから ステージを えらぶ</a></li></ol>
+          </li>
+          <li><a href="#s-8">きょうの ふくしゅうを する</a>
+            <ol class="toc__sub"><li><a href="#s-8-1">ふくしゅうは ひらいた ときに いちばん さきに 出る</a></li><li><a href="#s-8-2">間を のばしながら 出る しくみ</a></li></ol>
+          </li>
+          <li><a href="#s-9">にがて とっくんで、まちがえた キーだけ <ruby>打<rt>う</rt></ruby>つ</a>
+            <ol class="toc__sub"><li><a href="#s-9-1">つかえるように なる とき</a></li><li><a href="#s-9-2">にがて とっくんを はじめる</a></li></ol>
+          </li>
+          <li><a href="#s-10">チャレンジで、じかんの 中で どれだけ <ruby>打<rt>う</rt></ruby>てるか ためす</a>
+            <ol class="toc__sub"><li><a href="#s-10-1">じかんと <ruby>打<rt>う</rt></ruby>つ ものを えらぶ</a></li><li><a href="#s-10-2">チャレンジを はじめる</a></li></ol>
+          </li>
+          <li><a href="#s-11">ショートカットの ステージで、コピーと はりつけを おぼえる</a>
+            <ol class="toc__sub"><li><a href="#s-11-1">ショートカットの ステージの みかた</a></li><li><a href="#s-11-2">じっさいに コピーして はりつける</a></li></ol>
+          </li>
+          <li><a href="#s-12">ぜんぶ ★3つに なった あと（だん）</a>
+            <ol class="toc__sub"><li><a href="#s-12-1">だんは どうすると 上がるか</a></li><li><a href="#s-12-2">そのさきの すすみかた</a></li></ol>
+          </li>
+          <li><a href="#s-13">じぶんの きろくを 見る（下の バーの「きろく」）</a>
+            <ol class="toc__sub"><li><a href="#s-13-1">きょう … きょう どれだけ <ruby>打<rt>う</rt></ruby>ったか</a></li><li><a href="#s-13-2">にがて … キーボードの 色で にがてを 見る</a></li><li><a href="#s-13-3">たからもの … バッジと ステージの ★</a></li><li><a href="#s-13-4">あゆみ … さいこう<ruby>記録<rt>きろく</rt></ruby>と はやさの うつりかわり</a></li></ol>
+          </li>
+          <li><a href="#s-14">ヒントの つよさを かえる（せってい →「ヒント」）</a>
+            <ol class="toc__sub"><li><a href="#s-14-1">ヒントの つよさを 5つから えらぶ</a></li><li><a href="#s-14-2">こまかく きめる</a></li></ol>
+          </li>
+          <li><a href="#s-15">見た目と 音を かえる（せってい →「みため」）</a>
+            <ol class="toc__sub"><li><a href="#s-15-1"><ruby>画面<rt>がめん</rt></ruby>の 色を かえる</a></li><li><a href="#s-15-2">文字の 大きさ・おと・<ruby>打<rt>う</rt></ruby>ち直し</a></li></ol>
+          </li>
+          <li><a href="#s-16">キーボードの ならびを 合わせる（せってい →「キーボード」）</a>
+            <ol class="toc__sub"><li><a href="#s-16-1"><ruby>日本語配列<rt>にほんごはいれつ</rt></ruby>（JIS）と <ruby>英語配列<rt>えいごはいれつ</rt></ruby>（US）</a></li><li><a href="#s-16-2">ゆびの ばしょを たしかめる</a></li><li><a href="#s-16-3">ローマ字ひょうで <ruby>打<rt>う</rt></ruby>ちかたを たしかめる</a></li></ol>
+          </li>
+          <li><a href="#s-17">きろくを べつの <ruby>端末<rt>たんまつ</rt></ruby>へ うつす・ぜんぶ けす（せってい →「データ」）</a>
+            <ol class="toc__sub"><li><a href="#s-17-1">【！】きろくを ファイルに 書き出す</a></li><li><a href="#s-17-2">書き出した ファイルを 読みこむ</a></li><li><a href="#s-17-3">【！！】きろくを ぜんぶ けす</a></li></ol>
+          </li>
+          <li><a href="#s-18">うまく いかない ときは</a>
+            <ol class="toc__sub"><li><a href="#s-18-1">キーを おしても すすまない とき</a></li><li><a href="#s-18-2"><ruby>画面<rt>がめん</rt></ruby>が まっしろの まま、または 出ない とき</a></li><li><a href="#s-18-3">「あたらしい ばんが あります」と 出た とき</a></li><li><a href="#s-18-4">きろくが きえて しまった とき</a></li><li><a href="#s-18-5">べつの 人の きろくが 出て いる とき</a></li><li><a href="#s-18-6">それでも 直らない とき</a></li></ol>
+          </li>
+          <li><a href="#s-19">先生へ（クラスで つかう ときと、<ruby>印刷<rt>いんさつ</rt></ruby>）</a>
+            <ol class="toc__sub"><li><a href="#s-19-1">はじめる まえの じゅんび</a></li><li><a href="#s-19-2">きろくが のこる ばしょ</a></li><li><a href="#s-19-3">ローマ字ひょうを 紙に して <ruby>配<rt>くば</rt></ruby>る</a></li></ol>
+          </li>
+        </ol>
+      </nav>
+    </details>
+      <div class="manual__tools no-print">
+        <button type="button" class="btn btn--ghost" data-print>印刷する</button>
+        <button type="button" class="btn btn--ghost" data-copy="https://giga-school.com/apps/typa/manual/"
+                data-copy-label="このページのリンク">リンクをコピー</button>
+      </div>
+    </aside>
+
+    <div class="prose prose--article">
+<h2 id="s-1">Typa（タイパ）で できること</h2>
+<p>Typa は、キーボードで 文字を <ruby>打<rt>う</rt></ruby>つ れんしゅうを する アプリです。ここでは、なにが できるのかと、はじめる まえに <ruby>用意<rt>ようい</rt></ruby>する ものを せつめいします。</p>
+<h3 id="s-1-1">Typa は どんな アプリ？</h3>
+<p>ブラウザで ひらくだけで つかえる、タイピングの れんしゅう アプリです。アプリを ダウンロードしたり、名前や あいことばを つくったりする ひつようは ありません。</p>
+<p>ひらいた <ruby>画面<rt>がめん</rt></ruby>が、そのまま <ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>です。「はじめる」の ボタンは ありません。キーを たたけば、その ばで れんしゅうが はじまります。なにを <ruby>打<rt>う</rt></ruby>つかは アプリが きめて 出すので、えらばなくて だいじょうぶです。</p>
+<p>中に 入って いるのは、5つの コースと 32の ステージです。ゆびの ばしょを おぼえる ところから はじめて、ローマ字、ことば、文、そして コピーや はりつけの ショートカットまで すすみます。そのほかに、時間の 中で どれだけ <ruby>打<rt>う</rt></ruby>てるかを ためす「チャレンジ」と、まちがえやすい キーだけを あつめた「にがて とっくん」が あります。</p>
+<p><ruby>打<rt>う</rt></ruby>った きろくは、じぶんの <ruby>端末<rt>たんまつ</rt></ruby>の 中にだけ のこります。名前や <ruby>出席<rt>しゅっせき</rt></ruby>ばんごうを 入れる ところは ありません。インターネットに おくる ことも ありません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/01-play-first.png"><img src="https://typa.giga-school.com/docs/manual/images/01-play-first.png" alt="ひらいた ところの 打つ 画面" loading="lazy" decoding="async"></a><figcaption>ひらいた ときの <ruby>画面<rt>がめん</rt></ruby>です。もう <ruby>打<rt>う</rt></ruby>てる じょうたいに なって います。</figcaption></figure>
+<h3 id="s-1-2">つかう人と、<ruby>用意<rt>ようい</rt></ruby>する もの</h3>
+<p>つかうのは、キーボードを れんしゅうする みなさんです。先生だけが つかう ところも すこし ありますが、そこには「先生むけ」「先生へ」と 書いて あります。</p>
+<p>はじめる まえに、つぎの ものが 手もとに あるか たしかめて ください。</p>
+<ol><li>キーボードの ついた Chromebook か パソコン。タブレットでも つかえますが、キーボードを つないで ください。</li><li>インターネットに つながって いる こと。さいしょの 1回だけ ひつようです。</li><li>ひらく ところ（アドレス）… <code>https://typa.giga-school.com/</code></li></ol>
+<p>ID や パスワードは いりません。アカウントを つくる ひつようも ありません。</p>
+<h2 id="s-2">はじめて ひらく ときに する こと（さいしょの 1回だけ）</h2>
+<p>さいしょの 1回だけ、やって おくと いい ことが 3つ あります。2つめは、キーを おしても すすまない ときの いちばん おおい げんいんです。</p>
+<h3 id="s-2-1">ブラウザで アドレスを ひらく</h3>
+<p>Chrome などの ブラウザを ひらいて、上の アドレスの ところに つぎの ように <ruby>打<rt>う</rt></ruby>って、エンターキーを おして ください。</p>
+<pre tabindex="0"><code>https://typa.giga-school.com/</code></pre>
+<p>すぐに <ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>が 出ます。「はじめる」を おす ひつようは ありません。</p>
+<p>さいしょの 1回は、かならず インターネットに つながった ところで ひらいて ください。その ときに アプリ ぜんぶが <ruby>端末<rt>たんまつ</rt></ruby>の 中に 入ります。つぎからは、つながって いなくても つかえます。</p>
+<h3 id="s-2-2">ローマ字が <ruby>打<rt>う</rt></ruby>てる ように する（かな入力を 切る）</h3>
+<p>日本語入力（かな入力）に なって いると、キーを おしても <ruby>画面<rt>がめん</rt></ruby>が すすみません。かなが 出て きたら、つぎの どちらかの キーを 1回 おして ください。</p>
+<ol><li>かな<ruby>英数<rt>えいすう</rt></ruby>キー … キーボードの「1」の すぐ 左に あります。</li><li><ruby>英数<rt>えいすう</rt></ruby>キー … スペースキーの すぐ 左に あります。</li></ol>
+<p>かな入力の ままで <ruby>打<rt>う</rt></ruby>つと、<ruby>画面<rt>がめん</rt></ruby>に つぎの おしらせが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/09-ime-warn.png"><img src="https://typa.giga-school.com/docs/manual/images/09-ime-warn.png" alt="かな入力に なって いる ときの おしらせ" loading="lazy" decoding="async"></a><figcaption>この 赤い おしらせが 出たら、上の キーを おします。</figcaption></figure>
+<h3 id="s-2-3">Chromebook や タブレットに アプリとして 入れて おく</h3>
+<p>ホーム<ruby>画面<rt>がめん</rt></ruby>に 入れて おくと、ブラウザの バーが <ruby>消<rt>き</rt></ruby>えて <ruby>画面<rt>がめん</rt></ruby>が 広く なり、つぎから すぐ ひらけます。入れ かたは <ruby>端末<rt>たんまつ</rt></ruby>に よって ちがいます。</p>
+<ol><li>Chromebook・Windows（Chrome / Edge）… アドレスの ところの 右はしに 出る インストールの しるしを おします。せってい →「データ」の 中に ある「ホーム<ruby>画面<rt>がめん</rt></ruby>に 入れる」から でも できます。</li><li>iPad・iPhone … Safari で ひらいて、<ruby>共有<rt>きょうゆう</rt></ruby>ボタン（□に ↑ の しるし）→「ホーム<ruby>画面<rt>がめん</rt></ruby>に<ruby>追加<rt>ついか</rt></ruby>」→「<ruby>追加<rt>ついか</rt></ruby>」と おします。iPad には Chrome のような インストールの ボタンが ないので、かならず Safari で ひらいて ください。</li><li>Android … メニュー →「アプリをインストール」または「ホーム<ruby>画面<rt>がめん</rt></ruby>に<ruby>追加<rt>ついか</rt></ruby>」を おします。</li></ol>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>入れなくても、ブラウザの ままで ぜんぶ つかえます。</li><li>「ホーム<ruby>画面<rt>がめん</rt></ruby>に 入れる」の ボタンが 出ない ときは、もう 入って いるか、その ブラウザが たいおうして いません。</li><li>入れても、きろくは その <ruby>端末<rt>たんまつ</rt></ruby>の 中に のこった ままです。べつの <ruby>端末<rt>たんまつ</rt></ruby>には うつりません。</li></ul>
+<h2 id="s-3">うつ がめんの みかた</h2>
+<p>ひらいた ときに 出る「うつ」の <ruby>画面<rt>がめん</rt></ruby>には、上・まん中・下の 3つの ばしょが あります。どこに 何が あるかを おぼえて おくと、まよわなく なります。</p>
+<h3 id="s-3-1">いちばん 上の バーに ある もの</h3>
+<p>いちばん 上には、いま やって いる コースと ステージの 名前、それに すすみぐあいの バーが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/02-play-head.png"><img src="https://typa.giga-school.com/docs/manual/images/02-play-head.png" alt="画面の いちばん 上" loading="lazy" decoding="async"></a><figcaption>左に コースと ステージの 名前、右に のこりの お<ruby>題<rt>だい</rt></ruby>の 数が 出ます。</figcaption></figure>
+<p>ステージの 名前の よこに「かえる」と 書いて あります。ここを おすと、ステージを えらぶ <ruby>画面<rt>がめん</rt></ruby>に いけます。「これじゃ ない」と 思った ときに つかいます。</p>
+<p>右はしの「ひとまわりまで あと ◯」は、あと 何もん <ruby>打<rt>う</rt></ruby>つと ひとまわりに なるかを あらわして います。0に なると ★が つきます。</p>
+<h3 id="s-3-2">まん中の お<ruby>題<rt>だい</rt></ruby>と、その 下の しらせ</h3>
+<p>まん中の 大きな 白い ところが お<ruby>題<rt>だい</rt></ruby>です。いま <ruby>打<rt>う</rt></ruby>つ ところに 下線が つきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/03-play-question.png"><img src="https://typa.giga-school.com/docs/manual/images/03-play-question.png" alt="お題と、いま 打つ ところ" loading="lazy" decoding="async"></a><figcaption>右がわの ちびキャラは、1もん <ruby>打<rt>う</rt></ruby>ちきる ごとに しごとを すすめます。</figcaption></figure>
+<p>お<ruby>題<rt>だい</rt></ruby>の 下には「つぎは ◯ を ◯ゆびで」と 出ます。その 右に「はやさ」「正かくさ」「ミス」「れんぞく」の 4つの 数字が ならびます。はやさは 1びょうに 何回 <ruby>打<rt>う</rt></ruby>てて いるか、正かくさは まちがえずに <ruby>打<rt>う</rt></ruby>てた わりあいです。</p>
+<h3 id="s-3-3">下の バーに ある 5つの ボタン</h3>
+<p><ruby>画面<rt>がめん</rt></ruby>の いちばん 下に、いつも 5つの ボタンが ならんで います。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/06-navbar.png"><img src="https://typa.giga-school.com/docs/manual/images/06-navbar.png" alt="下の バーに ある 5つの ボタン" loading="lazy" decoding="async"></a><figcaption>左から もどる・うつ・えらぶ・きろく・せってい の 5つです。</figcaption></figure>
+<ol><li>もどる … 1つ 前の <ruby>画面<rt>がめん</rt></ruby>に もどります。<ruby>画面<rt>がめん</rt></ruby>の はしから 中へ スワイプしても、<code>Alt</code> と <code>←</code> を おしても 同じです。</li><li>うつ … <ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>に いきます。つづきから はじまります。</li><li>えらぶ … コース・チャレンジ・にがて とっくんを えらぶ <ruby>画面<rt>がめん</rt></ruby>です。</li><li>きろく … これまでの あゆみを 見る <ruby>画面<rt>がめん</rt></ruby>です。</li><li>せってい … ヒントの つよさや 見た目を かえる <ruby>画面<rt>がめん</rt></ruby>です。</li></ol>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>どの <ruby>画面<rt>がめん</rt></ruby>でも スペースキーを おすと、<ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>に もどれます。ボタンを さがさなくて だいじょうぶです。</li><li>ただし、文字を 書く ところや スイッチの 上に カーソルが ある ときは、スペースキーは その ばの はたらきに なります。</li></ul>
+<h2 id="s-4">キーを <ruby>打<rt>う</rt></ruby>つ ときの きまり</h2>
+<p><ruby>打<rt>う</rt></ruby>ちかたの きまりは 3つ だけです。ここが 分かれば、あとは ずっと 同じ やりかたで すすめます。</p>
+<h3 id="s-4-1">光って いる キーを、同じ 色の ゆびで <ruby>押<rt>お</rt></ruby>す</h3>
+<p><ruby>画面<rt>がめん</rt></ruby>の 下に、キーボードの 絵と <ruby>両手<rt>りょうて</rt></ruby>の 絵が 出て います。つぎに <ruby>打<rt>う</rt></ruby>つ キーが 光るので、その キーを おします。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/05-keyboard-hands.png"><img src="https://typa.giga-school.com/docs/manual/images/05-keyboard-hands.png" alt="画面の キーボードと 手の 絵" loading="lazy" decoding="async"></a><figcaption>キーの 色は ゆびの 色です。同じ 色の ゆびで おします。</figcaption></figure>
+<p>お<ruby>題<rt>だい</rt></ruby>の 下の ことばも、同じ ことを 教えて くれます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/04-next-finger.png"><img src="https://typa.giga-school.com/docs/manual/images/04-next-finger.png" alt="つぎに 打つ キーと ゆび" loading="lazy" decoding="async"></a><figcaption>「つぎは F を ひだり ひとさしゆびで」と 出ます。</figcaption></figure>
+<p>シフトが いる キーの ときは、<ruby>打<rt>う</rt></ruby>つ 手と <ruby>反対<rt>はんたい</rt></ruby>の 小ゆびも いっしょに 光ります。かた手で おさない ためです。</p>
+<p>ホームポジションは、左手を F、右手を J に おく ばしょです。この 2つの キーには でっぱりが あるので、見なくても さわれば 分かります。</p>
+<h3 id="s-4-2">まちがえると すすまない</h3>
+<p>まちがえた キーを おしても、お<ruby>題<rt>だい</rt></ruby>は 先へ すすみません。あわてずに、正しい キーを さがして ください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/07-miss.png"><img src="https://typa.giga-school.com/docs/manual/images/07-miss.png" alt="まちがえた ところ" loading="lazy" decoding="async"></a><figcaption>まちがえると お<ruby>題<rt>だい</rt></ruby>の わくが 赤く なり、「ミス」の 数が 1 ふえます。</figcaption></figure>
+<p>まちがえても きろくは <ruby>消<rt>き</rt></ruby>えません。うしろに もどる ことも ありません。</p>
+<h3 id="s-4-3">同じ お<ruby>題<rt>だい</rt></ruby>で 4回 まちがえたら「とばす」</h3>
+<p>同じ お<ruby>題<rt>だい</rt></ruby>で 4回 まちがえると、<ruby>画面<rt>がめん</rt></ruby>の 下に「この お<ruby>題<rt>だい</rt></ruby>を とばす」と いう ボタンが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/08-skip.png"><img src="https://typa.giga-school.com/docs/manual/images/08-skip.png" alt="とばす ボタンが 出た ところ" loading="lazy" decoding="async"></a><figcaption>下の ほうに「この お<ruby>題<rt>だい</rt></ruby>を とばす」が 出ます。</figcaption></figure>
+<p>1つの キーの ところで ずっと 手が 止まらない ように する ための ボタンです。おすと、つぎの お<ruby>題<rt>だい</rt></ruby>に すすみます。とばした ことは きろくに のこるので、あとで「にがて とっくん」に 出て きます。</p>
+<h2 id="s-5">ひとまわりと ★の つきかた</h2>
+<p>ステージには「おわり」が ありません。かわりに「ひとまわり」と いう <ruby>区切<rt>くぎ</rt></ruby>りが あって、そこで ★が つきます。</p>
+<h3 id="s-5-1">ひとまわりって なに？</h3>
+<p>ステージに 入って いる お<ruby>題<rt>だい</rt></ruby>の 数だけ <ruby>打<rt>う</rt></ruby>つと、1しゅう したと いう ことで「ひとまわり」に なります。ひとまわりする たびに ★が つきます。</p>
+<p>とちゅうで やめても、<ruby>打<rt>う</rt></ruby>った ぶんは <ruby>消<rt>き</rt></ruby>えません。3もんだけ <ruby>打<rt>う</rt></ruby>って やめても すすみに たまり、つぎに ひらくと その つづきから 出ます。だから 10びょうでも、何十分でも、同じ ように つかえます。</p>
+<p>★は、はやさでは なく 正かくさで つきます。</p>
+<ol><li>★3つ … 正かくさ 98% いじょう。または まちがいが 1回まで。</li><li>★2つ … 正かくさ 92% いじょう。または まちがいが 2回まで。</li><li>★1つ … 正かくさ 80% いじょう。または まちがいが 3回まで。</li></ol>
+<p><ruby>一度<rt>いちど</rt></ruby> ついた ★は、つぎに うまく いかなくても 下がりません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/10-lap-star3.png"><img src="https://typa.giga-school.com/docs/manual/images/10-lap-star3.png" alt="ひとまわりして ★3つに なった ところ" loading="lazy" decoding="async"></a><figcaption>「★3つ！」の しらせが 2びょうほど 出ます。<ruby>打<rt>う</rt></ruby>つのは 止まりません。</figcaption></figure>
+<h3 id="s-5-2">★3つに なると、その ばで つぎの ステージへ</h3>
+<p>ひとまわりして ★3つに なると、その ばで つぎの ステージに 入れかわります。「おわりました」の <ruby>画面<rt>がめん</rt></ruby>は はさみません。お<ruby>題<rt>だい</rt></ruby>と ステージの 名前が かわって、そのまま <ruby>打<rt>う</rt></ruby>ちつづけられます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/11-auto-next.png"><img src="https://typa.giga-school.com/docs/manual/images/11-auto-next.png" alt="つぎの ステージに 入れかわった ところ" loading="lazy" decoding="async"></a><figcaption>「★3つ！ ◯◯が できました」と 出て、つぎの ステージに かわります。</figcaption></figure>
+<p>入れかわるのは 1もん <ruby>打<rt>う</rt></ruby>ち<ruby>終<rt>お</rt></ruby>えた ところなので、<ruby>打<rt>う</rt></ruby>ちかけの ことばが とり上げられる ことは ありません。行き先は、まだ ★3つに なって いない いちばん 近い ステージです。</p>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>ぜんぶの ステージが ★3つに なると、それいじょうは 入れかわりません。</li><li>けっか<ruby>画面<rt>がめん</rt></ruby>の「もう1かい」や、じぶんで えらんで 入った ときは 入れかわりません。じぶんで きめた ことを とり上げない ためです。</li><li>チャレンジと にがて とっくんでは ★は つきません。</li></ul>
+<h2 id="s-6">れんしゅうを やめて、けっかを 見る</h2>
+<p><ruby>打<rt>う</rt></ruby>つのを おわりに する ときは「やめる」を おします。おした ところまでの きろくが のこり、けっかの <ruby>画面<rt>がめん</rt></ruby>が 出ます。</p>
+<h3 id="s-6-1">けっかの がめんに 出る 数字</h3>
+<p><ruby>画面<rt>がめん</rt></ruby>の いちばん 下に ある「やめる」を おすと、けっかの <ruby>画面<rt>がめん</rt></ruby>に かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/12-result.png"><img src="https://typa.giga-school.com/docs/manual/images/12-result.png" alt="けっかの 画面" loading="lazy" decoding="async"></a><figcaption>★・はやさ・正かくさ・ミス・れんぞくが ならびます。</figcaption></figure>
+<ol><li>はやさ … 1びょうに 何回 <ruby>打<rt>う</rt></ruby>てたか（<ruby>打<rt>だ</rt></ruby>／びょう）です。</li><li>正かくさ … まちがえずに <ruby>打<rt>う</rt></ruby>てた わりあい（%）です。</li><li>正しく <ruby>打<rt>う</rt></ruby>てた 数 … その 回に 正しく おした キーの 数です。</li><li>ミス … まちがえた 回数です。</li><li>れんぞく … つづけて 正しく <ruby>打<rt>う</rt></ruby>てた いちばん 長い 数です。</li></ol>
+<p>下の ほうには、ふえた けいけんち、もらった バッジ、そして「つぎは これを やろう」が 出ます。いちばん 下の 3つの ボタンで、もう1かい やるか、つぎの ステージへ いくか、コースに もどるかを えらべます。</p>
+<h3 id="s-6-2">「くわしく 見る」で どこで 手が とまったかを 見る</h3>
+<p>けっかの <ruby>画面<rt>がめん</rt></ruby>の まん中あたりに ある「くわしく 見る」を おすと、たたんで あった ところが ひらきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/13-result-detail.png"><img src="https://typa.giga-school.com/docs/manual/images/13-result-detail.png" alt="くわしく 見るを ひらいた ところ" loading="lazy" decoding="async"></a><figcaption>1<ruby>打<rt>だ</rt></ruby>ずつの グラフと、にがてな キーの まとめが 出ます。</figcaption></figure>
+<p>グラフの よこは <ruby>打<rt>う</rt></ruby>った じゅんばん、たては その 1<ruby>打<rt>だ</rt></ruby>に かかった 時間です。高く なって いる ところが、手が 止まった ところです。まちがえた ところは 色と 形の りょうほうで 分かるように なって います。</p>
+<h2 id="s-7">「えらぶ」から やる ことを きめる</h2>
+<p>下の バーの「えらぶ」を おすと、ほかの ことを やりたい ときの 入口が ならびます。</p>
+<h3 id="s-7-1">えらぶ がめんに ならぶ もの</h3>
+<p>えらぶ の <ruby>画面<rt>がめん</rt></ruby>は、左と 右で <ruby>役<rt>やく</rt></ruby>わりが 分かれて います。左には いま やって いる ところ、右には ほかの れんしゅうへの 入口が ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/14-menu.png"><img src="https://typa.giga-school.com/docs/manual/images/14-menu.png" alt="えらぶ の 画面" loading="lazy" decoding="async"></a><figcaption>上に いま やって いる ところ、下に 4つの 行が ならびます。</figcaption></figure>
+<ol><li>コースから えらぶ … 5つの コースと 32の ステージから えらびます。</li><li>チャレンジ … 時間の 中で どれだけ <ruby>打<rt>う</rt></ruby>てるかを ためします。</li><li>にがて とっくん … まちがえやすい キーだけを あつめて <ruby>打<rt>う</rt></ruby>ちます。</li><li>きょうの ようす・きろく …「きろく」の <ruby>画面<rt>がめん</rt></ruby>に いきます。</li></ol>
+<p>ふくしゅうの 日が 来て いる ときと、とちゅうの ステージが ある ときは、その カードが いちばん 上に 出ます。</p>
+<h3 id="s-7-2">コースから ステージを えらぶ</h3>
+<p>「コースから えらぶ」を おすと、5つの コースが ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/15-courses.png"><img src="https://typa.giga-school.com/docs/manual/images/15-courses.png" alt="コースの 一覧" loading="lazy" decoding="async"></a><figcaption>コースごとに、いくつ クリアしたかが 出ます。</figcaption></figure>
+<ol><li>ゆびの ばしょを おぼえる … ホームポジションから 上の だん・下の だん・すうじ・きごうまで。8ステージ。</li><li>ローマ字を おぼえる … あ行から わ行、てんてん、ん、ちいさい つ、ちいさい や ゆ よまで。11ステージ。</li><li>ことばを <ruby>打<rt>う</rt></ruby>つ … みのまわり・がっこう・まなび・コンピュータ・地名の ことば。5ステージ。</li><li>文を <ruby>打<rt>う</rt></ruby>つ … あいさつ・にっき・ふり<ruby>返<rt>かえ</rt></ruby>り・ながい 文。4ステージ。</li><li>ショートカットを つかう … コピー・はりつけ・もとにもどす・えらぶ・べんりな キー。4ステージ。</li></ol>
+<p>コースを おすと、その 中の ステージが ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/16-stages.png"><img src="https://typa.giga-school.com/docs/manual/images/16-stages.png" alt="ステージの 一覧" loading="lazy" decoding="async"></a><figcaption>ステージごとに ★の 数と、めやすの 学年が 出ます。</figcaption></figure>
+<p><ruby>打<rt>う</rt></ruby>ちたい ステージを おすと、その ばで <ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>に かわります。まだ やって いない ステージも えらべます。</p>
+<h2 id="s-8">きょうの ふくしゅうを する</h2>
+<p><ruby>一度<rt>いちど</rt></ruby> できた ところも、日が たつと わすれます。Typa は、ちょうど わすれかけた ころに もう<ruby>一度<rt>いちど</rt></ruby> 出して くれます。</p>
+<h3 id="s-8-1">ふくしゅうは ひらいた ときに いちばん さきに 出る</h3>
+<p>ふくしゅうの 日が 来て いる ステージが ある ときは、アプリを ひらいた ところに その ステージが 出ます。「えらぶ」の <ruby>画面<rt>がめん</rt></ruby>にも、いちばん 上に 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/42-review.png"><img src="https://typa.giga-school.com/docs/manual/images/42-review.png" alt="ふくしゅうの 日が 来て いる ところ" loading="lazy" decoding="async"></a><figcaption>「きょうの ふくしゅう」として、いちばん 上に 出ます。</figcaption></figure>
+<p>ふくしゅうを さきに 出すのは、日づけで きまるのが ふくしゅうだけ だからです。とちゅうの ステージは、あした つづきを <ruby>打<rt>う</rt></ruby>っても 同じ <ruby>結果<rt>けっか</rt></ruby>に なります。だから、その日に やらないと <ruby>損<rt>そん</rt></ruby>を する ものから 先に 出す ように して あります。</p>
+<p>ふくしゅうの ステージは、ふつうの ステージと まったく 同じ ように <ruby>打<rt>う</rt></ruby>ちます。★も つきますし、けいけんちも たまります。ちがうのは、出て くる じゅんばんだけです。</p>
+<p>ふくしゅうが 2つ いじょう たまって いる ときは、2つ目からは「えらぶ」の <ruby>画面<rt>がめん</rt></ruby>に ならびます。いそいで いる ときは、1つ だけ やって おわりにしても かまいません。のこりは また あした 出ます。</p>
+<h3 id="s-8-2">間を のばしながら 出る しくみ</h3>
+<p>★2つ いじょうで ひとまわり できると、つぎに 出る 日が だんだん 先に なって いきます。</p>
+<ol><li>1回目の あと … 1日 あと</li><li>2回目の あと … 3日 あと</li><li>3回目の あと … 7日 あと</li><li>4回目の あと … 14日 あと</li><li>5回目の あと … 30日 あと</li></ol>
+<p>ひとまわりの ★が 1つ いがいの ときは、はこが 1に もどって、また あした 出ます。おぼえて いる ものほど 間が あくので、少ない 回数で わすれずに いられます。</p>
+<p>しばらく Typa を ひらかなかった ときは、7日 いじょう さわって いない ステージも ふくしゅうに よばれます。ひさしぶりに ひらくと たくさん 出て くるのは その ためです。</p>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>ふくしゅうの ステージを とばしても、きろくは <ruby>消<rt>き</rt></ruby>えません。つぎに ひらいた ときに また 出ます。</li><li>ふくしゅうを して いる あいだも、★3つに なれば つぎの ステージに 入れかわります。</li><li>どの ステージが ふくしゅうに 出るかは アプリが きめます。じぶんで えらぶ ことは できません。</li></ul>
+<h2 id="s-9">にがて とっくんで、まちがえた キーだけ <ruby>打<rt>う</rt></ruby>つ</h2>
+<p>まちがえやすい キーを 見つけて、その キーだけを あつめた お<ruby>題<rt>だい</rt></ruby>を その ばで つくります。お<ruby>題<rt>だい</rt></ruby>は さいだい 16もんで、90びょうくらいで おわります。</p>
+<h3 id="s-9-1">つかえるように なる とき</h3>
+<p>にがて とっくんは、はじめから つかえる わけでは ありません。まちがえた キーが 2つ たまるか、とりちがえが 1くみ たまると えらべるように なります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/20-menu-weak.png"><img src="https://typa.giga-school.com/docs/manual/images/20-menu-weak.png" alt="にがて とっくんが えらべるように なった ところ" loading="lazy" decoding="async"></a><figcaption>まだ つかえない ときは、うすい 色で「すこし れんしゅうすると つかえます」と 出ます。</figcaption></figure>
+<p>すこし <ruby>打<rt>う</rt></ruby>てば すぐに たまるので、まずは ふつうに れんしゅうして ください。</p>
+<h3 id="s-9-2">にがて とっくんを はじめる</h3>
+<p>「にがて とっくん」を おすと、すぐに <ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>に かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/21-weak-play.png"><img src="https://typa.giga-school.com/docs/manual/images/21-weak-play.png" alt="にがて とっくんの 画面" loading="lazy" decoding="async"></a><figcaption>にがてな キーだけを ならべた お<ruby>題<rt>だい</rt></ruby>が 出ます。</figcaption></figure>
+<p><ruby>打<rt>う</rt></ruby>ち<ruby>終<rt>お</rt></ruby>わると、けっかの <ruby>画面<rt>がめん</rt></ruby>に かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/22-weak-result.png"><img src="https://typa.giga-school.com/docs/manual/images/22-weak-result.png" alt="にがて とっくんの けっか" loading="lazy" decoding="async"></a><figcaption>にがて とっくんでは ★は つきませんが、けいけんちは たまります。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>にがて とっくんに ★は つきません。ステージの ★は かわりません。</li><li>出て くる お<ruby>題<rt>だい</rt></ruby>は、その ときの きろくから 毎回 つくられます。同じ ものが 出るとは かぎりません。</li><li>5回 やると「にがて つぶし」の バッジが もらえます。</li></ul>
+<h2 id="s-10">チャレンジで、じかんの 中で どれだけ <ruby>打<rt>う</rt></ruby>てるか ためす</h2>
+<p>きめられた 時間の 中で、どれだけ 正しく <ruby>打<rt>う</rt></ruby>てるかを ためす あそびです。ステージの ★には えいきょうしません。</p>
+<h3 id="s-10-1">じかんと <ruby>打<rt>う</rt></ruby>つ ものを えらぶ</h3>
+<p>「えらぶ」→「チャレンジ」と おすと、えらぶ <ruby>画面<rt>がめん</rt></ruby>が 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/17-challenge.png"><img src="https://typa.giga-school.com/docs/manual/images/17-challenge.png" alt="チャレンジを えらぶ 画面" loading="lazy" decoding="async"></a><figcaption>上で 時間を、まん中で <ruby>打<rt>う</rt></ruby>つ ものを えらびます。</figcaption></figure>
+<ol><li>じかん … 30びょう・60びょう・120びょうの 3つから えらびます。</li><li>なにを <ruby>打<rt>う</rt></ruby>つ？ … ことば・文・アルファベットの 3つから えらびます。</li><li>さいこう<ruby>記録<rt>きろく</rt></ruby> … その くみあわせで いちばん よかった きろくが 出ます。</li></ol>
+<p>えらんだら、いちばん 下の「はじめる」を おします。</p>
+<h3 id="s-10-2">チャレンジを はじめる</h3>
+<p>はじめると、上の バーが 時間の のこりに かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/18-challenge-play.png"><img src="https://typa.giga-school.com/docs/manual/images/18-challenge-play.png" alt="チャレンジを して いる ところ" loading="lazy" decoding="async"></a><figcaption>上の バーが へって いき、のこりの びょう数が 出ます。</figcaption></figure>
+<p>正しく <ruby>打<rt>う</rt></ruby>てた 数が スコアです。まちがえると すすまないので、あわてず ていねいに <ruby>打<rt>う</rt></ruby>つ ほうが たくさん <ruby>打<rt>う</rt></ruby>てます。</p>
+<p>時間が 来ると、その ばで けっかの <ruby>画面<rt>がめん</rt></ruby>に かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/19-challenge-result.png"><img src="https://typa.giga-school.com/docs/manual/images/19-challenge-result.png" alt="チャレンジの けっか" loading="lazy" decoding="async"></a><figcaption>スコア・はやさ・正かくさが 出ます。さいこう<ruby>記録<rt>きろく</rt></ruby>なら「<ruby>新記録<rt>しんきろく</rt></ruby>！」と 出ます。</figcaption></figure>
+<h2 id="s-11">ショートカットの ステージで、コピーと はりつけを おぼえる</h2>
+<p>ショートカットの コースだけは、ほかと <ruby>打<rt>う</rt></ruby>ちかたが ちがいます。キーを <ruby>打<rt>う</rt></ruby>つのでは なく、じっさいに 文を コピーしたり はりつけたり します。</p>
+<h3 id="s-11-1">ショートカットの ステージの みかた</h3>
+<p>「コースから えらぶ」→「ショートカットを つかう」を おすと、4つの ステージが ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/23-shortcut-stages.png"><img src="https://typa.giga-school.com/docs/manual/images/23-shortcut-stages.png" alt="ショートカットの ステージ" loading="lazy" decoding="async"></a><figcaption>コピー・切りとり・えらぶ・べんりな キーの 4つが あります。</figcaption></figure>
+<p>ステージを おすと、上に やる ことが 1つ 出て、下に「もとの文」と「じぶんの文」と いう 2つの 入力らんが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/24-shortcut-play.png"><img src="https://typa.giga-school.com/docs/manual/images/24-shortcut-play.png" alt="ショートカットの 画面" loading="lazy" decoding="async"></a><figcaption>上に <ruby>押<rt>お</rt></ruby>す キー、下に <ruby>本物<rt>ほんもの</rt></ruby>の 入力らんが 2つ 出ます。</figcaption></figure>
+<h3 id="s-11-2">じっさいに コピーして はりつける</h3>
+<p>たとえば「コピーと はりつけ」の ステージでは、つぎの じゅんばんで やります。</p>
+<ol><li>「もとの文」の 中を 1回 クリック（タップ）します。文字を <ruby>打<rt>う</rt></ruby>つ ところを えらんで いないと、キーが とどきません。</li><li><code>Ctrl</code> を おしながら <code>A</code> を おします。もとの文が ぜんぶ えらばれます。</li><li><code>Ctrl</code> を おしながら <code>C</code> を おします。えらんだ 文が コピーされます。</li><li>「じぶんの文」の 中を クリックしてから、<code>Ctrl</code> を おしながら <code>V</code> を おします。コピーした 文が はりつけられます。</li><li>もう1かい <code>Ctrl</code> と <code>V</code> を おします。コピーは なんども つかえるので、2つ ならびます。</li></ol>
+<p>できると、その ばで「できました！」と 出て、つぎの やる ことに かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/25-shortcut-done.png"><img src="https://typa.giga-school.com/docs/manual/images/25-shortcut-done.png" alt="できたと 出た ところ" loading="lazy" decoding="async"></a><figcaption>キーを おしただけでは 合かくに なりません。<ruby>結果<rt>けっか</rt></ruby>が 正しいかを 見て います。</figcaption></figure>
+<p>4つ ぜんぶ できると、けっかの <ruby>画面<rt>がめん</rt></ruby>に かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/26-shortcut-result.png"><img src="https://typa.giga-school.com/docs/manual/images/26-shortcut-result.png" alt="ショートカットの けっか" loading="lazy" decoding="async"></a><figcaption>できた <ruby>課題<rt>かだい</rt></ruby>の 数と、かかった 時間が 出ます。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>どうしても できない ときは、下の「この <ruby>課題<rt>かだい</rt></ruby>は とばす」を おせます。</li><li><code>Ctrl</code> の かわりに Chromebook の けんさくキーを つかう ものも あります。<ruby>画面<rt>がめん</rt></ruby>に 書いて あるので、その とおりに おして ください。</li><li>ここで おぼえた キーは、ほかの アプリでも そのまま つかえます。</li></ul>
+<h2 id="s-12">ぜんぶ ★3つに なった あと（だん）</h2>
+<p>★は 正かくさで つくので、ぜんぶ ★3つに なった 人には それいじょう のびが 見えません。その さきの 目じるしが「だん」です。</p>
+<h3 id="s-12-1">だんは どうすると 上がるか</h3>
+<p>だんは、ヒントを 1つ <ruby>消<rt>け</rt></ruby>した ままで はやさの めやすに とどくと 上がります。1だんから 3だんまで あります。</p>
+<ol><li>1だん … ヒントを「ゆびの 色だけ」いじょうに して、2.0 <ruby>打<rt>だ</rt></ruby>／びょう。</li><li>2だん … ヒントを「ばしょだけ」いじょうに して、3.0 <ruby>打<rt>だ</rt></ruby>／びょう。</li><li>3だん … ヒントを「なにも 出ない」いじょうに して、4.0 <ruby>打<rt>だ</rt></ruby>／びょう。</li></ol>
+<p>どれも、ひとまわりの ★が 3つの ときだけ 上がります。まちがえても はやければ よい、に ならない ように する ためです。★と 同じで、<ruby>一度<rt>いちど</rt></ruby> 上がった だんは 下がりません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/43-rank.png"><img src="https://typa.giga-school.com/docs/manual/images/43-rank.png" alt="だんが 上がった けっか画面" loading="lazy" decoding="async"></a><figcaption>だんが 上がると、けっかの <ruby>画面<rt>がめん</rt></ruby>に その しらせが 出ます。</figcaption></figure>
+<h3 id="s-12-2">そのさきの すすみかた</h3>
+<p>ぜんぶの ステージが ★3つに なると、アプリの 出しかたが かわります。「えらぶ」の <ruby>画面<rt>がめん</rt></ruby>と ひらいた ときの お<ruby>題<rt>だい</rt></ruby>が「そのさき」に かわり、だんの いちばん ひくい ステージから 出るように なります。同じ ステージばかりに ならない ように、長く さわって いない ものから えらばれます。</p>
+<p>この ときから、<ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>に はやさの めやすが 出ます。それまで 出さないのは、まだ ★を あつめて いる とちゅうの 人が、正かくさより はやさを おいかけて しまわない ように する ためです。じゅんばんは いつも、正かくさが 先で、はやさは その 上です。</p>
+<p>だんの カードは、けっかの <ruby>画面<rt>がめん</rt></ruby>で つぎの だんまで 何が 足りないかも 教えて くれます。ヒントを へらすのが 足りないのか、はやさが 足りないのか、それとも ひとまわりの ★が 3つに なって いないのかが、その ばで 分かります。</p>
+<p>3だんまで 上がった ステージは、それいじょう 上がりません。ほかの ステージで だんを 上げて いきましょう。</p>
+<h2 id="s-13">じぶんの きろくを 見る（下の バーの「きろく」）</h2>
+<p>下の バーの「きろく」を おすと、これまでの あゆみが 見られます。上に レベルと れんぞく日数、その 下に 4つの ひきだしが ならびます。</p>
+<h3 id="s-13-1">きょう … きょう どれだけ <ruby>打<rt>う</rt></ruby>ったか</h3>
+<p>はじめに ひらくのが「きょう」です。その日 どれだけ <ruby>打<rt>う</rt></ruby>ったかが、3つの 数字で 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/27-records-today.png"><img src="https://typa.giga-school.com/docs/manual/images/27-records-today.png" alt="きろくの「きょう」" loading="lazy" decoding="async"></a><figcaption>きょうの 回数・<ruby>打<rt>う</rt></ruby>った数・時間と、れんしゅうした 日の カレンダーが 出ます。</figcaption></figure>
+<p>れんしゅうした 日の ところは、4週間ぶんの まるが ならびます。つづけて いる 日数も ここで 分かります。</p>
+<h3 id="s-13-2">にがて … キーボードの 色で にがてを 見る</h3>
+<p>「にがて」を おすと、キーボードの 絵に これまでの まちがいが 色で 出ます。どの あたりが まだ 手に なじんで いないかが、ひと目で 分かります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/28-records-weak.png"><img src="https://typa.giga-school.com/docs/manual/images/28-records-weak.png" alt="きろくの「にがて」" loading="lazy" decoding="async"></a><figcaption>まちがえた 回数の おおい キーほど、こい 色に なります。</figcaption></figure>
+<p>上の 2つの ボタンで、「まちがえた かず」と「おぼえぐあい」を 切りかえられます。下には、手が 止まりやすい キーと、まちがえやすい ローマ字の きまりが ならびます。ここから そのまま「にがて とっくんを する」を おせます。</p>
+<h3 id="s-13-3">たからもの … バッジと ステージの ★</h3>
+<p>「たからもの」は、これまでに あつめた ものを ならべる ところです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/29-records-collect.png"><img src="https://typa.giga-school.com/docs/manual/images/29-records-collect.png" alt="きろくの「たからもの」" loading="lazy" decoding="async"></a><figcaption>コースごとの ★の 数と、もらった バッジが 出ます。</figcaption></figure>
+<p>「ぜんぶ 見る」を おすと、24しゅるいの バッジが ぜんぶ ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/30-badges.png"><img src="https://typa.giga-school.com/docs/manual/images/30-badges.png" alt="バッジの 一覧" loading="lazy" decoding="async"></a><figcaption>まだ もらって いない バッジは、うすい 色で 出ます。</figcaption></figure>
+<p>バッジは、はじめて <ruby>打<rt>う</rt></ruby>った とき、まちがえずに クリアした とき、何日か つづけた とき、はやさが 上がった ときなどに もらえます。</p>
+<h3 id="s-13-4">あゆみ … さいこう<ruby>記録<rt>きろく</rt></ruby>と はやさの うつりかわり</h3>
+<p>「あゆみ」には、さいこう<ruby>記録<rt>きろく</rt></ruby>・はやさの グラフ・チャレンジの きろく・さいきんの れんしゅうが、上から じゅんに ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/31-records-history.png"><img src="https://typa.giga-school.com/docs/manual/images/31-records-history.png" alt="きろくの「あゆみ」" loading="lazy" decoding="async"></a><figcaption>いちばん 上が さいこう<ruby>記録<rt>きろく</rt></ruby>です。</figcaption></figure>
+<p>グラフを 見ると、はやさが すこしずつ 上がって いるかが 分かります。1日で かわる ものでは ないので、1週間ぐらいの ながさで 見て ください。</p>
+<p>いちばん 下の「さいきんの れんしゅう」には、1回ぶんずつの きろくが ならびます。「もっと まえの れんしゅう」を ひらくと、40回ぶんまで さかのぼれます。</p>
+<h2 id="s-14">ヒントの つよさを かえる（せってい →「ヒント」）</h2>
+<p>なれて きたら、ヒントを 少しずつ 弱く します。そうすると、手もとを 見ないで <ruby>打<rt>う</rt></ruby>てるように なって いきます。</p>
+<h3 id="s-14-1">ヒントの つよさを 5つから えらぶ</h3>
+<p>下の バーの「せってい」を おすと、はじめに「ヒント」の ひきだしが ひらきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/32-settings-hint.png"><img src="https://typa.giga-school.com/docs/manual/images/32-settings-hint.png" alt="せっていの「ヒント」" loading="lazy" decoding="async"></a><figcaption>上の 5つの ボタンから、ヒントの つよさを えらびます。</figcaption></figure>
+<ol><li>ぜんぶ 見える … キーボードも 文字も ゆびの 色も ぜんぶ 出ます。</li><li>ゆびの 色だけ … キーの 文字が <ruby>消<rt>き</rt></ruby>えます。</li><li>ばしょだけ … ゆびの 色分けも <ruby>消<rt>き</rt></ruby>えます。</li><li>なにも 出ない … <ruby>画面<rt>がめん</rt></ruby>の キーボードが <ruby>消<rt>き</rt></ruby>えます。</li><li>じどう … おぼえぐあいに あわせて、はじめる ときに アプリが きめます。</li></ol>
+<p>どの つよさでも、「つぎは D を みぎの ひとさしゆびで」の ことばは <ruby>消<rt>き</rt></ruby>えません。絵が <ruby>消<rt>き</rt></ruby>えても、どの ゆびかは かならず ことばで つたわります。</p>
+<h3 id="s-14-2">こまかく きめる</h3>
+<p>「こまかく きめる」を おすと、中の 4つの スイッチを 1つずつ 切りかえられます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/33-settings-hint-more.png"><img src="https://typa.giga-school.com/docs/manual/images/33-settings-hint-more.png" alt="こまかく きめるを ひらいた ところ" loading="lazy" decoding="async"></a><figcaption>スイッチが 4つ ならびます。</figcaption></figure>
+<p>ここを さわると、上の つよさは「じぶんで」に かわります。</p>
+<p>同じ <ruby>画面<rt>がめん</rt></ruby>の 下では、手の イラストと キャラクターを <ruby>消<rt>け</rt></ruby>せます。キャラクターの しごと（かいしゃいん・シェフ・大工）を えらんで、いつも 同じ キャラクターに する ことも できます。</p>
+<h2 id="s-15">見た目と 音を かえる（せってい →「みため」）</h2>
+<p>まぶしい ときや、字が 小さくて 読みにくい ときは、ここで かえられます。</p>
+<h3 id="s-15-1"><ruby>画面<rt>がめん</rt></ruby>の 色を かえる</h3>
+<p>「みため」の ひきだしを ひらくと、いちばん 上に <ruby>画面<rt>がめん</rt></ruby>の 色が あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/34-settings-look.png"><img src="https://typa.giga-school.com/docs/manual/images/34-settings-look.png" alt="せっていの「みため」" loading="lazy" decoding="async"></a><figcaption>あかるい・くらい・じどうの 3つから えらびます。</figcaption></figure>
+<p>「じどう」は、Chromebook そのものの せっていに あわせます。「くらい」を えらぶと、<ruby>打<rt>う</rt></ruby>つ <ruby>画面<rt>がめん</rt></ruby>も <ruby>暗<rt>くら</rt></ruby>い 色に なります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/35-dark.png"><img src="https://typa.giga-school.com/docs/manual/images/35-dark.png" alt="くらい 色に した 打つ 画面" loading="lazy" decoding="async"></a><figcaption><ruby>暗<rt>くら</rt></ruby>い ところでも まぶしく ありません。</figcaption></figure>
+<h3 id="s-15-2">文字の 大きさ・おと・<ruby>打<rt>う</rt></ruby>ち直し</h3>
+<p>同じ ひきだしの 下に、3つの スイッチが あります。</p>
+<ol><li>文字を 大きくする … お<ruby>題<rt>だい</rt></ruby>も <ruby>画面<rt>がめん</rt></ruby>の 文字も 大きく なります。<ruby>電子黒板<rt>でんしこくばん</rt></ruby>に うつす ときにも つかえます。</li><li><ruby>打<rt>う</rt></ruby>ったときの おと … <ruby>打<rt>う</rt></ruby>つ ときの 音を <ruby>消<rt>け</rt></ruby>せます。</li><li>まちがえた お<ruby>題<rt>だい</rt></ruby>を ひとまわりの さいごに もう1かい … ひとまわりの あとの <ruby>打<rt>う</rt></ruby>ち直しを 止められます。</li></ol>
+<p>もっと 大きく したい ときは、ブラウザの <ruby>拡大<rt>かくだい</rt></ruby>（<code>Ctrl</code> と <code>+</code>）も つかえます。Typa は <ruby>拡大<rt>かくだい</rt></ruby>を 止めて いないので、タブレットの ピンチ<ruby>操作<rt>そうさ</rt></ruby>も そのまま つかえます。</p>
+<p>「まちがえた お<ruby>題<rt>だい</rt></ruby>を ひとまわりの さいごに もう1かい」は、はじめから 入って います。ひとまわりする たびに、その 中で つまずいた お<ruby>題<rt>だい</rt></ruby>を もう1回だけ 出す しくみです。切ると、ひとまわりした ところで すぐ つぎの <ruby>周<rt>しゅう</rt></ruby>に すすみます。</p>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>紙ふぶきなどの <ruby>演出<rt>えんしゅつ</rt></ruby>を アプリの せっていで 止める ことは できません。<ruby>端末<rt>たんまつ</rt></ruby>の「<ruby>視差効果<rt>しさこうか</rt></ruby>を<ruby>減<rt>へ</rt></ruby>らす」（アニメーションを<ruby>減<rt>へ</rt></ruby>らす）が 入って いれば、Typa が じどうで したがいます。</li><li>うごきや 音が 気に なる ときは、「ヒント」の キャラクターを 出すを 切り、ここの <ruby>打<rt>う</rt></ruby>ったときの おとを 切ると、かなり へります。</li><li>色が 見分けにくい ときも だいじょうぶです。まちがえた ことは、色だけで なく「ミス」の 数字と、お<ruby>題<rt>だい</rt></ruby>の わくでも 分かります。Windows の ハイコントラストの せっていにも あわせて あります。</li></ul>
+<h2 id="s-16">キーボードの ならびを 合わせる（せってい →「キーボード」）</h2>
+<p><ruby>打<rt>う</rt></ruby>った 文字と ちがう 字が 出る ときは、たいてい ここが 合って いません。</p>
+<h3 id="s-16-1"><ruby>日本語配列<rt>にほんごはいれつ</rt></ruby>（JIS）と <ruby>英語配列<rt>えいごはいれつ</rt></ruby>（US）</h3>
+<p>「キーボード」の ひきだしを ひらくと、いちばん 上に ならびの えらびかたが あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/36-settings-kb.png"><img src="https://typa.giga-school.com/docs/manual/images/36-settings-kb.png" alt="せっていの「キーボード」" loading="lazy" decoding="async"></a><figcaption><ruby>日本語配列<rt>にほんごはいれつ</rt></ruby>（JIS）と <ruby>英語配列<rt>えいごはいれつ</rt></ruby>（US）の どちらかを えらびます。</figcaption></figure>
+<p>キーボードの 右上に「¥」や「かな」が あれば <ruby>日本語配列<rt>にほんごはいれつ</rt></ruby>（JIS）です。「1」の 左に かな<ruby>英数<rt>えいすう</rt></ruby>キーが あり、「1」は Q の ななめ 左上に あります。</p>
+<h3 id="s-16-2">ゆびの ばしょを たしかめる</h3>
+<p>同じ ひきだしの 下に、ホームポジションと ゆびの 色の 図が あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/37-finger-guide.png"><img src="https://typa.giga-school.com/docs/manual/images/37-finger-guide.png" alt="ゆびの ばしょの 図" loading="lazy" decoding="async"></a><figcaption>どの キーを どの ゆびで おすかを、色で 見られます。</figcaption></figure>
+<p>この 図は 見る ためだけの ものです。おしても <ruby>打<rt>う</rt></ruby>つ ことには なりません。</p>
+<h3 id="s-16-3">ローマ字ひょうで <ruby>打<rt>う</rt></ruby>ちかたを たしかめる</h3>
+<p>「ローマ字ひょうを 見る」を おすと、うけつける <ruby>打<rt>う</rt></ruby>ちかたの <ruby>一覧<rt>いちらん</rt></ruby>が ひらきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/38-romaji-table.png"><img src="https://typa.giga-school.com/docs/manual/images/38-romaji-table.png" alt="ローマ字ひょう" loading="lazy" decoding="async"></a><figcaption>1つの かなに いくつも <ruby>打<rt>う</rt></ruby>ちかたが ある ものが ならびます。</figcaption></figure>
+<p>「し」は si でも shi でも 正かいです。「じゃ」は ja でも zya でも <ruby>打<rt>う</rt></ruby>てます。ならった うちかたで だいじょうぶ、と いう ことを ここで たしかめられます。</p>
+<h2 id="s-17">きろくを べつの <ruby>端末<rt>たんまつ</rt></ruby>へ うつす・ぜんぶ けす（せってい →「データ」）</h2>
+<p>学年が かわって Chromebook が 入れかわる ときは、きろくを ファイルに して もって いけます。</p>
+<h3 id="s-17-1" class="prose__h--note">【！】きろくを ファイルに 書き出す</h3>
+<p>「せってい」→「データ」→「書き出し・読みこみ」と おします。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/40-backup.png"><img src="https://typa.giga-school.com/docs/manual/images/40-backup.png" alt="きろくを もちだす 画面" loading="lazy" decoding="async"></a><figcaption>上が 書き出し、下が 読みこみです。</figcaption></figure>
+<p>書き出しの <ruby>手順<rt>てじゅん</rt></ruby>:</p>
+<ol><li>「ファイルに 書き出す」を おします。できた ファイルは「ダウンロード」に 入ります。</li><li>ダウンロードが つかえない ときは「がめんに 出す」を おします。文字に なって 出るので、ぜんぶ えらんで コピーします。</li><li>できた ファイルを、USB メモリや クラウドで 新しい <ruby>端末<rt>たんまつ</rt></ruby>に うつします。</li></ol>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>できる ファイルは その <ruby>端末<rt>たんまつ</rt></ruby>の 中に できます。インターネットには 出ません。</li><li>名前や <ruby>出席<rt>しゅっせき</rt></ruby>ばんごうは 入って いません。</li><li>書き出しも 読みこみも、<code>Tab</code> キーと エンターキーだけで できます。マウスは いりません。</li></ul>
+<h3 id="s-17-2">書き出した ファイルを 読みこむ</h3>
+<p>新しい <ruby>端末<rt>たんまつ</rt></ruby>で Typa を ひらき、同じ <ruby>画面<rt>がめん</rt></ruby>の「ファイルを えらぶ」から 書き出した ファイルを えらびます。読みこむ 前に、<ruby>中身<rt>なかみ</rt></ruby>（れんしゅうの 回数・★の 数・けいけんち・さいごの 日）が 出るので、たしかめてから すすめて ください。</p>
+<p>読みこむと、いまの きろくは <ruby>消<rt>き</rt></ruby>えて、ファイルの きろくに なります。2つの きろくは まざりません。もとには もどせないので、読みこむ 前に いまの きろくを 書き出して おくと あんしんです。</p>
+<h3 id="s-17-3" class="prose__h--danger">【！！】きろくを ぜんぶ けす</h3>
+<p>「せってい」→「データ」の いちばん 下に「きろくを ぜんぶ けす」が あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/41-reset-confirm.png"><img src="https://typa.giga-school.com/docs/manual/images/41-reset-confirm.png" alt="けす ときの たしかめ" loading="lazy" decoding="async"></a><figcaption>「ほんとうに けしますか？」と 出て、2回 たしかめます。</figcaption></figure>
+<p><ruby>消<rt>き</rt></ruby>えるのは、★・れんしゅうの きろく・レベルと バッジ・チャレンジの きろくです。ヒントの つよさや キーボードの ならびなどの せっていは のこります。</p>
+<p><ruby>一度<rt>いちど</rt></ruby> <ruby>消<rt>け</rt></ruby>すと もとには もどせません。とっておきたい ときは、けす 前に かならず ファイルに 書き出して ください。</p>
+<h2 id="s-18">うまく いかない ときは</h2>
+<p>こまった ときは、まず ここを 見て ください。おおい ものから ならべて あります。</p>
+<h3 id="s-18-1">キーを おしても すすまない とき</h3>
+<p>日本語入力（かな入力）に なって いないか たしかめて ください。かな<ruby>英数<rt>えいすう</rt></ruby>キー（「1」の 左）か <ruby>英数<rt>えいすう</rt></ruby>キー（スペースの 左）を 1回 おしてから <ruby>打<rt>う</rt></ruby>ちます。</p>
+<p><ruby>打<rt>う</rt></ruby>った 文字と ちがう 字が 出る ときは、せってい →「キーボード」の ならびが <ruby>端末<rt>たんまつ</rt></ruby>と 合って いません。<ruby>日本語配列<rt>にほんごはいれつ</rt></ruby>と <ruby>英語配列<rt>えいごはいれつ</rt></ruby>を 合わせて ください。</p>
+<h3 id="s-18-2"><ruby>画面<rt>がめん</rt></ruby>が まっしろの まま、または 出ない とき</h3>
+<p>いちど アプリを ぜんぶ とじて、ひらき直して ください。Typa は 外の サイトを 1つも 読まないので、学校の フィルタリングで 止まる ことは ありません。</p>
+<p>「インターネットに つながって いません」と 出た ときは、まだ <ruby>一度<rt>いちど</rt></ruby>も アプリを <ruby>取<rt>と</rt></ruby>れて いない <ruby>端末<rt>たんまつ</rt></ruby>です。つながる ところで いちど ひらいて ください。</p>
+<h3 id="s-18-3">「あたらしい ばんが あります」と 出た とき</h3>
+<p><ruby>画面<rt>がめん</rt></ruby>に <ruby>帯<rt>おび</rt></ruby>が 出たら「さいしんに する」を おして ください。おすまで 切りかわりません。<ruby>打<rt>う</rt></ruby>って いる とちゅうに <ruby>画面<rt>がめん</rt></ruby>が <ruby>消<rt>き</rt></ruby>えない ように して あります。</p>
+<h3 id="s-18-4">きろくが きえて しまった とき</h3>
+<p>ブラウザの データを <ruby>消<rt>け</rt></ruby>すと、きろくも いっしょに <ruby>消<rt>き</rt></ruby>えます。iPad や iPhone の Safari は、7日 ひらかないと <ruby>消<rt>き</rt></ruby>える ことが あります。ホーム<ruby>画面<rt>がめん</rt></ruby>に <ruby>追加<rt>ついか</rt></ruby>して おくと <ruby>消<rt>き</rt></ruby>えにくく なります。</p>
+<p>書き出した ファイルが あれば、読みこんで もどせます。</p>
+<h3 id="s-18-5">べつの 人の きろくが 出て いる とき</h3>
+<p>同じ <ruby>端末<rt>たんまつ</rt></ruby>を みんなで つかって います。Typa は <ruby>端末<rt>たんまつ</rt></ruby>ごとに 1つの きろくを もつので、人ごとに 分ける ときは ブラウザの プロフィールを 分けて ください。</p>
+<h3 id="s-18-6">それでも 直らない とき</h3>
+<p>まず、この アプリを 教えて くれた 先生か、じょうほうの 先生に 聞いて ください。いちばん 早く かいけつします。</p>
+<p>それでも 分からない ときは、この ページの いちばん 下に ある <ruby>問<rt>と</rt></ruby>い合わせ先から しらせて ください。</p>
+<h2 id="s-19">先生へ（クラスで つかう ときと、<ruby>印刷<rt>いんさつ</rt></ruby>）</h2>
+<p>ここは 先生むけの ところです。ふだん つかう ぶんには、読まなくて だいじょうぶです。</p>
+<h3 id="s-19-1">はじめる まえの じゅんび</h3>
+<ol><li>さいしょの 1回だけ、インターネットに つないで ひらいて ください。その ときに アプリ<ruby>一式<rt>いっしき</rt></ruby>が <ruby>端末<rt>たんまつ</rt></ruby>に 入り、つぎからは <ruby>圏外<rt>けんがい</rt></ruby>でも つかえます。</li><li>40人が <ruby>一斉<rt>いっせい</rt></ruby>に ひらいても だいじょうぶです。<ruby>通信<rt>つうしん</rt></ruby>を しない アプリなので、校内 Wi-Fi の こみぐあいに 左右されません。</li><li>ヒントの つよさは <ruby>児童<rt>じどう</rt></ruby>ごとに ちがって かまいません。せっていは <ruby>端末<rt>たんまつ</rt></ruby>に のこるので、毎回 合わせ直す ひつようは ありません。</li></ol>
+<h3 id="s-19-2">きろくが のこる ばしょ</h3>
+<p>れんしゅうの きろみは、その <ruby>端末<rt>たんまつ</rt></ruby>の ブラウザの 中だけに たまります。名前・<ruby>出席番号<rt>しゅっせきばんごう</rt></ruby>・メールアドレスは 一切 あつかいません。<ruby>通信<rt>つうしん</rt></ruby>を する コードが そもそも 入って いません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://typa.giga-school.com/docs/manual/images/39-settings-data.png"><img src="https://typa.giga-school.com/docs/manual/images/39-settings-data.png" alt="せっていの「データ」" loading="lazy" decoding="async"></a><figcaption>アプリの ばんごうと、ホーム<ruby>画面<rt>がめん</rt></ruby>に 入れる ボタンも ここに あります。</figcaption></figure>
+<p><ruby>端末<rt>たんまつ</rt></ruby>を 入れかえる ときは、上の「きろくを べつの <ruby>端末<rt>たんまつ</rt></ruby>へ うつす」の <ruby>手順<rt>てじゅん</rt></ruby>で ファイルに して ください。<ruby>学期<rt>がっき</rt></ruby>の <ruby>区切<rt>くぎ</rt></ruby>りで 書き出して おくと あんしんです。</p>
+<h3 id="s-19-3">ローマ字ひょうを 紙に して <ruby>配<rt>くば</rt></ruby>る</h3>
+<p>Typa は <ruby>印刷<rt>いんさつ</rt></ruby>して つかう アプリでは ありませんが、ローマ字ひょうは 紙に して <ruby>配<rt>くば</rt></ruby>れます。</p>
+<p><ruby>印刷<rt>いんさつ</rt></ruby>の <ruby>手順<rt>てじゅん</rt></ruby>:</p>
+<ol><li>せってい →「キーボード」→「ローマ字ひょうを 見る」を ひらきます。</li><li><code>Ctrl</code> と <code>P</code>（Mac は <code>⌘</code> と <code>P</code>）を おします。</li><li>下の バーと ボタンは <ruby>印刷<rt>いんさつ</rt></ruby>では <ruby>自動<rt>じどう</rt></ruby>で <ruby>消<rt>き</rt></ruby>えます。<ruby>表<rt>ひょう</rt></ruby>が ページを またいで <ruby>割<rt>わ</rt></ruby>れて いないかを たしかめて ください。</li><li>用紙は A4 たて、よゆう 12mm が はじめの せっていです。</li></ol>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li><ruby>紙面<rt>しめん</rt></ruby>として きれいに <ruby>整<rt>ととの</rt></ruby>える <ruby>設計<rt>せっけい</rt></ruby>は まだ して いません。気に なる ときは、いったん PDF に 出して 見て ください。</li><li><ruby>児童<rt>じどう</rt></ruby>に <ruby>配<rt>くば</rt></ruby>る ときは、ならって いない <ruby>打<rt>う</rt></ruby>ちかたも のって いる ことを ひとこと <ruby>伝<rt>つた</rt></ruby>えて おくと まよいません。</li></ul>
+    </div>
+
+    <section class="manual__school" aria-labelledby="school-title">
+      <h2 id="school-title">学校で使うときは</h2>
+      <p class="manual__school-lead">ここは <a href="/">giga-school.com</a> が
+        アプリの設定から組み立てています。マニュアルの書き手が手で書いたものではないので、
+        アプリが変われば、ここも変わります。</p>
+      <dl class="manual__facts">
+        <div><dt>アカウント</dt><dd>アカウント不要</dd></div>
+        <div><dt>記録の置き場所</dt><dd>記録は端末の中だけ</dd></div>
+        <div><dt>対象</dt><dd>2〜4年生</dd></div>
+      </dl>
+      <h3>校内のフィルタリングで許可するアドレス</h3>
+      <ul class="manual__hosts">
+        <li><code>typa.giga-school.com</code><span class="manual__why">アプリを配っている場所</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+      </ul>
+      <p class="manual__school-more">ほかのアプリとまとめて申請するときは、
+        <a href="/filtering/">許可するアドレスの一覧</a>が使えます（印刷できます）。</p>
+    </section>
+
+    <section class="changes" aria-labelledby="changes-title">
+      <h2 class="changes__title" id="changes-title">最近の更新</h2>
+        <div class="changes__at">
+          <p class="changes__date"><time datetime="2026-08-31">2026/08/31</time></p>
+          <ul class="changes__list">
+            <li>使いかたの マニュアルを 作りました</li>
+            <li>画面の いちばん 下から、その マニュアルを ひらけるように しました</li>
+          </ul>
+        </div>
+    </section>
+
+    <!-- 紙に刷って回覧されたとき、ここへ戻ってこられる唯一の手がかり。
+         画面では出さない（すぐ上のアドレスバーに同じものが出ている） -->
+    <p class="manual__url">このマニュアルは https://giga-school.com/apps/typa/manual/ にあります（2026/08/31 現在）</p>
+
+    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。マニュアルは
+         アプリを触りながら読むものなので、記事より効く -->
+    <p class="article__sticky no-print">
+      <a class="btn btn--primary" href="https://typa.giga-school.com/">Typa（タイパ） を開く</a>
+    </p>
+
+    <aside class="article__end no-print">
+      <p class="article__end-lead">Typa（タイパ） は、ブラウザだけで動く無償のアプリです。</p>
+      <p class="manual__legal">Typa（タイパ） の
+        <a href="https://typa.giga-school.com/terms.html" rel="noopener">利用規約</a>と<a href="https://typa.giga-school.com/privacy.html" rel="noopener">プライバシーポリシー</a>も読めます。</p>
+      <p class="article__actions">
+        <a class="btn btn--primary" href="https://typa.giga-school.com/">Typa（タイパ） を開く</a>
+        <a class="btn btn--ghost" href="/#contact">うまくいかないときは</a>
+      </p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/profile/">自己紹介</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+        <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
+        <a href="/press/">掲載用の資料</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ノート見本作成ツール PRO の使い方｜GIGA school</title>
+  <meta name="description" content="黒板に書く板書計画や、子どもに配るノートの見本を、マス目に合わせた形で作って印刷できる Web アプリです。文章を打ちこむと、国語や算数のノートのマス目に 1 文字ずつ割り付けられ、そのまま A4 で刷れます。ここでは、…">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://giga-school.com/apps/notebooksample-generator/manual/">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="ノート見本作成ツール PRO の使い方">
+  <meta property="og:description" content="黒板に書く板書計画や、子どもに配るノートの見本を、マス目に合わせた形で作って印刷できる Web アプリです。文章を打ちこむと、国語や算数のノートのマス目に 1 文字ずつ割り付けられ、そのまま A4 で刷れます。ここでは、…">
+  <meta property="og:url" content="https://giga-school.com/apps/notebooksample-generator/manual/">
+  <meta property="og:image" content="https://giga-school.com/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/article.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://giga-school.com/apps/notebooksample-generator/manual/#manual",
+      "headline": "ノート見本作成ツール PRO の使い方",
+      "description": "黒板に書く板書計画や、子どもに配るノートの見本を、マス目に合わせた形で作って印刷できる Web アプリです。文章を打ちこむと、国語や算数のノートのマス目に 1 文字ずつ割り付けられ、そのまま A4 で刷れます。ここでは、…",
+      "image": "https://giga-school.com/assets/og.png",
+      "inLanguage": "ja",
+      "proficiencyLevel": "Beginner",
+      "datePublished": "2026-03-29",
+      "dateModified": "2026-08-31",
+      "author": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "publisher": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "mainEntityOfPage": "https://giga-school.com/apps/notebooksample-generator/manual/",
+      "about": {
+        "@type": "WebApplication",
+        "name": "ノート見本作成ツール PRO",
+        "url": "https://notebooksample-generator.giga-school.com/",
+        "operatingSystem": "Web ブラウザ",
+        "inLanguage": "ja",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "GIGA school",
+          "item": "https://giga-school.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "紹介",
+          "item": "https://giga-school.com/apps/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "ノート見本作成ツール PRO",
+          "item": "https://giga-school.com/apps/notebooksample-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "使い方",
+          "item": "https://giga-school.com/apps/notebooksample-generator/manual/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap article article--read manual">
+    <nav class="crumbs no-print" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/">紹介</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/notebooksample-generator/">ノート見本作成ツール PRO</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">使い方</span>
+    </nav>
+
+    <header class="article__head">
+      <p class="article__series">使い方マニュアル</p>
+      <h1 class="article__title">ノート見本作成ツール PRO の使い方</h1>
+      <p class="article__meta">
+        <time datetime="2026-08-31">2026/08/31</time> 現在の画面です
+        <span class="article__len">全 16 章・読むのに約 25 分</span>
+      </p>
+      <p class="article__actions no-print">
+        <a class="btn btn--primary" href="https://notebooksample-generator.giga-school.com/">ノート見本作成ツール PRO を開く</a>
+        <a class="btn btn--ghost" href="/apps/notebooksample-generator/">つくった理由を読む</a>
+      </p>
+    </header>
+
+    <aside class="article__rail" aria-label="このページの案内">
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">はじめに（このツールでできることと、使う前の準備）</a>
+            <ol class="toc__sub"><li><a href="#s-1-1">「ノート見本作成ツール PRO」とは</a></li><li><a href="#s-1-2">使う前に用意していただくもの</a></li><li><a href="#s-1-3">最初に開いたときに出るもの</a></li></ol>
+          </li>
+          <li><a href="#s-2">画面の見かた（左の設定欄と右のプレビュー）</a>
+            <ol class="toc__sub"><li><a href="#s-2-1">左側の設定欄でできること</a></li><li><a href="#s-2-2">画面の上に並ぶボタンと、2 つの数</a></li><li><a href="#s-2-3">印刷と画像保存のボタン</a></li></ol>
+          </li>
+          <li><a href="#s-3">見本を 1 枚つくって印刷するまで（最短の流れ）</a>
+            <ol class="toc__sub"><li><a href="#s-3-1">見本にしたい文章を打ちこむ</a></li><li><a href="#s-3-2">できあがりをプレビューで確かめる</a></li><li><a href="#s-3-3">印刷・PDF を押す</a></li></ol>
+          </li>
+          <li><a href="#s-4">用紙のテンプレートを選ぶ（国語・算数・原稿用紙）</a>
+            <ol class="toc__sub"><li><a href="#s-4-1">テンプレートを切り替える</a></li><li><a href="#s-4-2">国語のノート（15 マス・12 マス）を使う</a></li><li><a href="#s-4-3">算数のノート（17 マス・22 マス）を使う</a></li><li><a href="#s-4-4">原稿用紙 400 字を使う</a></li></ol>
+          </li>
+          <li><a href="#s-5">マス目のレイアウトを手元のノートに合わせる（カスタム設定）</a>
+            <ol class="toc__sub"><li><a href="#s-5-1">縦書きと横書きを切り替える</a></li><li><a href="#s-5-2">1 行のマス数と行数を、ノートの数に合わせる</a></li><li><a href="#s-5-3">マス目の種類（十字リーダー・マス目のみ・枠線なし）を選ぶ</a></li><li><a href="#s-5-4">月日・題名・なまえの記入欄（ヘッダー）を出す</a></li><li><a href="#s-5-5">文字の大きさを変える</a></li></ol>
+          </li>
+          <li><a href="#s-6">見本テキストに記号を打って板書の形にする</a>
+            <ol class="toc__sub"><li><a href="#s-6-1">アプリの中にある記号の一覧を開く</a></li><li><a href="#s-6-2">めあてとまとめを、丸と枠で示す</a></li><li><a href="#s-6-3">線・文字色・穴埋め・枠で強調する</a></li><li><a href="#s-6-4">三角・四角・丸の中に数字を入れる、日付のマスを作る</a></li></ol>
+          </li>
+          <li><a href="#s-7">プレビューをなぞって、記号を打たずに装飾する</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">プレビューの文字をなぞって選ぶ</a></li><li><a href="#s-7-2">出てきたバーのボタンを押す</a></li></ol>
+          </li>
+          <li><a href="#s-8">子どもに合わせて表示を変え、書く時間を見積もる（支援・分析）</a>
+            <ol class="toc__sub"><li><a href="#s-8-1">なぞり書き用（薄文字）に切り替える</a></li><li><a href="#s-8-2">穴埋め用（漢字・カナ空欄）に切り替える</a></li><li><a href="#s-8-3">学年を選んで、書き写す時間の目安を見る</a></li></ol>
+          </li>
+          <li><a href="#s-9">行またぎで語が切れていないかを「警告」で確かめる</a>
+            <ol class="toc__sub"><li><a href="#s-9-1">分かれてしまった場所を調べる</a></li><li><a href="#s-9-2">分かれてしまった場所を直す</a></li><li><a href="#s-9-3">カタカナのことばが分かれた場合</a></li></ol>
+          </li>
+          <li><a href="#s-10">印刷する・PDF にする・画像で保存する</a>
+            <ol class="toc__sub"><li><a href="#s-10-1">A4 で印刷する、PDF にする</a></li><li><a href="#s-10-2">画像（PNG）で保存する</a></li><li><a href="#s-10-3">2 ページ以上になったとき</a></li></ol>
+          </li>
+          <li><a href="#s-11">作った見本に名前を付けて保存し、呼び出す（データ管理）</a>
+            <ol class="toc__sub"><li><a href="#s-11-1">今の設定に名前を付けて保存する</a></li><li><a href="#s-11-2">保存したノートを呼び出す、消す</a></li></ol>
+          </li>
+          <li><a href="#s-12">別の端末でも同じ見本を使う（バックアップと Google ドライブ同期）</a>
+            <ol class="toc__sub"><li><a href="#s-12-1">ファイルに書き出して持っていく</a></li><li><a href="#s-12-2">Google ドライブと同期する</a></li><li><a href="#s-12-3">【！！】消したノートが復活することについて</a></li></ol>
+          </li>
+          <li><a href="#s-13">タブレットやスマートフォンで使う（アプリとして入れる）</a>
+            <ol class="toc__sub"><li><a href="#s-13-1">狭い画面で設定欄を開く</a></li><li><a href="#s-13-2">ホーム画面に追加して、つながっていなくても使う</a></li><li><a href="#s-13-3">指で操作するときに気をつけること</a></li></ol>
+          </li>
+          <li><a href="#s-14">キーボードだけで操作する（ショートカット一覧）</a>
+            <ol class="toc__sub"><li><a href="#s-14-1">どこでも使えるキー</a></li><li><a href="#s-14-2">文章を打っているときだけ使えるキー</a></li></ol>
+          </li>
+          <li><a href="#s-15">うまくいかないときの対処（症状別）</a>
+            <ol class="toc__sub"><li><a href="#s-15-1">印刷したら、マスの線や色が出ない場合</a></li><li><a href="#s-15-2">印刷したら、はみ出す・2 枚に分かれる場合</a></li><li><a href="#s-15-3">文字がマスからずれる・ぎゅうぎゅうになる場合</a></li><li><a href="#s-15-4">打った記号が見本に出てこない場合</a></li><li><a href="#s-15-5">マス数や向きを変えられない場合</a></li><li><a href="#s-15-6">画面が白いまま・動かなくなった場合</a></li><li><a href="#s-15-7">保存したノートが見あたらない場合</a></li><li><a href="#s-15-8">それでも解決しない場合</a></li></ol>
+          </li>
+          <li><a href="#s-16">子どもの情報と、共用の端末についてのお願い</a>
+            <ol class="toc__sub"><li><a href="#s-16-1">子どもの名前や個人情報は入れない</a></li><li><a href="#s-16-2">共用の端末では、使い終わったら消す</a></li></ol>
+          </li>
+        </ol>
+      </nav>
+    </details>
+      <div class="manual__tools no-print">
+        <button type="button" class="btn btn--ghost" data-print>印刷する</button>
+        <button type="button" class="btn btn--ghost" data-copy="https://giga-school.com/apps/notebooksample-generator/manual/"
+                data-copy-label="このページのリンク">リンクをコピー</button>
+      </div>
+    </aside>
+
+    <div class="prose prose--article">
+<p>黒板に書く板書計画や、子どもに配るノートの見本を、マス目に合わせた形で作って印刷できる Web アプリです。文章を打ちこむと、国語や算数のノートのマス目に 1 文字ずつ割り付けられ、そのまま A4 で刷れます。ここでは、初めて開いた先生が、この画面だけで印刷までたどり着けるように、全部の機能を順に説明します。</p>
+<h2 id="s-1">はじめに（このツールでできることと、使う前の準備）</h2>
+<p>このアプリが何をするものかと、読みはじめる前に手元にそろえておくものを説明します。ここだけは、飛ばさずに読んでください。</p>
+<h3 id="s-1-1">「ノート見本作成ツール PRO」とは</h3>
+<p>先生が打った文章を、ノートのマス目にそろえて割り付け、印刷できる形にするアプリです。国語の 15 マス、算数の 17 マス、原稿用紙といった用紙のかたちをあらかじめ持っていて、そこに文章を流しこみます。</p>
+<p>決まった記号を文章の中に打つと、めあての丸や、赤い線や、穴埋めの空欄が付きます。刷ったものは、そのまま黒板の横に貼る見本にも、子どもに配るプリントにも使えます。</p>
+<p>使うのは先生だけです。子どもがこのアプリを開いて操作することは想定していません。</p>
+<p>無償で公開しています。アカウントの登録も、申しこみもいりません。どの学校でも自由に使えますし、校内での配布や、刷ったものを保護者に渡すことにも制限はありません。</p>
+<p>作ったものの権利は、作った先生のものです。このアプリの側は、打った文章も作った見本も受け取りません。</p>
+<h3 id="s-1-2">使う前に用意していただくもの</h3>
+<p>次の 3 つがあれば始められます。インストールや、アカウントの登録はいりません。</p>
+<ol><li>インターネットにつながるパソコン、またはタブレット。Chrome、Edge、Safari のいずれかで開いてください。</li><li>開くアドレス。<a href="https://notebooksample-generator.giga-school.com/" rel="noopener">https://notebooksample-generator.giga-school.com/</a> です。</li><li>印刷するなら、A4 の用紙が入ったプリンタ。画面で見るだけ、PDF にするだけなら、プリンタはいりません。</li></ol>
+<p>Google のアカウントは、原則としていりません。複数の端末で保存したノートをそろえたいときにだけ使います（「別の端末でも同じ見本を使う」の章）。</p>
+<h3 id="s-1-3">最初に開いたときに出るもの</h3>
+<p>開くと、見本の文章がすでに入った状態で立ち上がります。これは操作を試すためのもので、消して自分の文章に打ちかえてかまいません。</p>
+<p>いったん閉じても、次に開いたときには前回の続きが出ます。設定と文章は、そのパソコンの中に自動で覚えられているためです。</p>
+<h2 id="s-2">画面の見かた（左の設定欄と右のプレビュー）</h2>
+<p>画面は左右に分かれています。左が設定を変えるところ、右がその結果を映すところです。まずどこに何があるかを見ておくと、あとの章が読みやすくなります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/01-home.webp"><img src="/assets/manual/notebooksample-generator/01-home.webp" alt="アプリを開いた直後の画面全体" loading="lazy" decoding="async"></a><figcaption>左が設定欄、右がプレビューです。</figcaption></figure>
+<h3 id="s-2-1">左側の設定欄でできること</h3>
+<p>上から順に、見本テキストの入力欄、テンプレート、ヘッダーの切り替え、縦書きと横書き、1 行のマス数と行数、マス目の種類、文字の大きさが並びます。いちばん下に、印刷と画像保存のボタンがあります。</p>
+<p>ここを変えると、右のプレビューがその場で変わります。決定ボタンのようなものはありません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/02-panel.webp"><img src="/assets/manual/notebooksample-generator/02-panel.webp" alt="左側の設定欄の全体" loading="lazy" decoding="async"></a><figcaption>上から順に、文章、用紙、レイアウトの設定です。</figcaption></figure>
+<h3 id="s-2-2">画面の上に並ぶボタンと、2 つの数</h3>
+<p>画面の右上には、押すと別の画面が開くボタンが 3 つ並んでいます。左から「支援・分析」「データ管理」、そしてキーボードの絵のボタン（ショートカットの一覧）です。それぞれの中身は、あとの章で説明します。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/03-topbar.webp"><img src="/assets/manual/notebooksample-generator/03-topbar.webp" alt="画面上部のボタンが並んだ帯" loading="lazy" decoding="async"></a><figcaption>右上に「支援・分析」「データ管理」が並びます。</figcaption></figure>
+<p>プレビューの上には、左に「小 3　4 分（72 文字）」のような数、右に「警告: 0 件」と出ています。左は、その学年の子が書き写すのにかかるおよその時間、右は、行のおわりで語が切れていないかを数えたものです。どちらもあとの章で詳しく説明します。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/04-statusbar.webp"><img src="/assets/manual/notebooksample-generator/04-statusbar.webp" alt="プレビューの上に出る時間と警告の帯" loading="lazy" decoding="async"></a><figcaption>左が書き写す時間、右が警告の数です。</figcaption></figure>
+<h3 id="s-2-3">印刷と画像保存のボタン</h3>
+<p>左の設定欄のいちばん下に、緑の「印刷・PDF」と、青緑の「画像保存」があります。作った見本を紙にするか、画像のファイルにするかの違いです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/05-print-buttons.webp"><img src="/assets/manual/notebooksample-generator/05-print-buttons.webp" alt="左下にある印刷と画像保存のボタン" loading="lazy" decoding="async"></a><figcaption>左が印刷、右が画像（PNG）での保存です。</figcaption></figure>
+<h2 id="s-3">見本を 1 枚つくって印刷するまで（最短の流れ）</h2>
+<p>いちばん短い道すじです。細かい設定は、この章のあとで 1 つずつ説明します。まずはここだけで 1 枚できます。</p>
+<p>基本的な流れ:</p>
+<ol><li>見本にしたい文章を、左上の入力欄に打つ。</li><li>右のプレビューで、マス目に収まっているか確かめる。</li><li>左下の「印刷・PDF」を押す。</li></ol>
+<h3 id="s-3-1">見本にしたい文章を打ちこむ</h3>
+<p>左上の「見本テキスト」の枠をクリックして、ノートに書かせたい文章を打ってください。改行すると、見本の中でも行が変わります。</p>
+<p>最初から入っている文章は、消してかまいません。全部を選んでから消すか、後ろから消してください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/06-text-input.webp"><img src="/assets/manual/notebooksample-generator/06-text-input.webp" alt="見本テキストの入力欄" loading="lazy" decoding="async"></a><figcaption>ここに打った文章が、そのまま見本になります。</figcaption></figure>
+<h3 id="s-3-2">できあがりをプレビューで確かめる</h3>
+<p>打っているそばから、右の白い紙に文字が並びます。これが刷り上がりそのものです。紙のたてとよこ、マスの大きさ、文字の位置は、すべてここで確かめられます。</p>
+<p>文字がマスからあふれていないか、最後の行が切れていないかを、ここで見てください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/07-first-sample.webp"><img src="/assets/manual/notebooksample-generator/07-first-sample.webp" alt="打った文章が割り付けられたプレビュー" loading="lazy" decoding="async"></a><figcaption>これが、そのまま刷り上がりになります。</figcaption></figure>
+<h3 id="s-3-3">印刷・PDF を押す</h3>
+<p>左下の「印刷・PDF」を押すと、お使いのブラウザの印刷画面が開きます。プリンタを選んで印刷すれば紙になり、送り先に「PDF に保存」を選べばファイルになります。キーボードの Ctrl と P を同時に押しても同じです。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>印刷すると、プレビューに出ている全部のページが刷られます。1 ページ目だけを刷ることはできません。</li><li>刷ったのにマスの線や色が出ないときは、印刷画面の設定が原因です。「うまくいかないときの対処」の章を見てください。</li><li>紙のたてとよこは、選んだテンプレートから自動で決まります。印刷画面で選び直す必要はありません。</li></ul>
+<h2 id="s-4">用紙のテンプレートを選ぶ（国語・算数・原稿用紙）</h2>
+<p>よく使う用紙のかたちを 5 つ用意しています。左の設定欄の「テンプレート」から選んでください。選ぶと、マス数、行数、書く向き、マス目の種類が一度に切り替わります。</p>
+<h3 id="s-4-1">テンプレートを切り替える</h3>
+<p>「テンプレート」の欄を押すと、選べるものの一覧が出ます。上から「カスタム設定」「国語 15マス（縦）」「国語 12マス（縦）」「算数 17マス（横）」「算数 22マス（横）」「原稿用紙 400字」の 6 つです。</p>
+<p>「カスタム設定」は、自分でマス数などを決めるときのものです。ほかのテンプレートを選んだあとで下の設定をいじると、自動的に「カスタム設定」に切り替わります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/08-template-select.webp"><img src="/assets/manual/notebooksample-generator/08-template-select.webp" alt="テンプレートを選ぶ欄" loading="lazy" decoding="async"></a><figcaption>ここを押すと、6 つの中から選べます。</figcaption></figure>
+<h3 id="s-4-2">国語のノート（15 マス・12 マス）を使う</h3>
+<p>「国語 15マス（縦）」は 1 行 15 マス、10 行の縦書きで、A4 のたてになります。いちばんよく使う形です。低学年でマスの大きいノートを使っているときは、「国語 12マス（縦）」を選ぶと 1 行 12 マス、8 行になり、1 マスが大きくなります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/09-kokugo12.webp"><img src="/assets/manual/notebooksample-generator/09-kokugo12.webp" alt="国語 12 マスを選んだときの見本" loading="lazy" decoding="async"></a><figcaption>15 マスより 1 マスが大きくなります。</figcaption></figure>
+<h3 id="s-4-3">算数のノート（17 マス・22 マス）を使う</h3>
+<p>「算数 17マス（横）」は 1 行 17 マス、12 行の横書きで、A4 のよこになります。マスの細かいノートには「算数 22マス（横）」があり、1 行 22 マス、15 行になります。</p>
+<p>2 けた以上の数字は、どのテンプレートでも 1 マスにまとめて入ります。「10」が 1 マスに収まるので、算数の式はノートと同じ形で並びます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/10-math17.webp"><img src="/assets/manual/notebooksample-generator/10-math17.webp" alt="算数 17 マスを選んだときの見本" loading="lazy" decoding="async"></a><figcaption>紙は自動で A4 のよこになります。</figcaption></figure>
+<h3 id="s-4-4">原稿用紙 400 字を使う</h3>
+<p>「原稿用紙 400字」は、20 マス 20 行の原稿用紙です。題名と名前の欄、まん中の折り目の印まで付いた形で出ます。作文の清書や、書き出しの見本を配るときに使ってください。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>原稿用紙を選んでいるあいだは、マス数、行数、書く向き、マス目の種類、ヘッダーを変えられません。設定欄がうすい灰色になります。</li><li>変えられるのは「文字の大きさ」だけです。ほかを変えたいときは、別のテンプレートに切り替えてください。</li><li>キーボードの Alt と D、Alt と H も、原稿用紙のあいだははたらきません。</li></ul>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/11-genko400.webp"><img src="/assets/manual/notebooksample-generator/11-genko400.webp" alt="原稿用紙 400 字を選んだときの見本" loading="lazy" decoding="async"></a><figcaption>題名と名前の欄が、はじめから付いています。</figcaption></figure>
+<h2 id="s-5">マス目のレイアウトを手元のノートに合わせる（カスタム設定）</h2>
+<p>テンプレートを選んだあと、その下の設定を変えると、手元のノートに合わせられます。1 つでも変えると、テンプレートの表示は「カスタム設定」に変わりますが、見本はそのまま使えます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/12-layout-fields.webp"><img src="/assets/manual/notebooksample-generator/12-layout-fields.webp" alt="向きとマス数を決める設定欄" loading="lazy" decoding="async"></a><figcaption>ここでノートに合わせて数を決めます。</figcaption></figure>
+<h3 id="s-5-1">縦書きと横書きを切り替える</h3>
+<p>「縦書き」「横書き」のどちらかを押してください。国語は縦書き、算数は横書きが既定です。キーボードの Alt と D を同時に押しても切り替わります。</p>
+<p>縦書きでは、文字は右の列から左へ並びます。プレビューで 2 ページ以上になったときも、1 ページ目が右、2 ページ目が左に並びます。</p>
+<h3 id="s-5-2">1 行のマス数と行数を、ノートの数に合わせる</h3>
+<p>「1行のマス数」は 5 から 30 まで、「行数」は 3 から 25 まで指定できます。範囲の外の数を入れると、いちばん近い値に直されます。</p>
+<p>お使いのノートの 1 行のマスを実際に数えて、同じ数を入れてください。ここが合っていないと、刷った見本とノートで折り返す場所がずれて、子どもが書き写せなくなります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/13-horizontal.webp"><img src="/assets/manual/notebooksample-generator/13-horizontal.webp" alt="横書きに変えたときの見本" loading="lazy" decoding="async"></a><figcaption>横書きにすると、紙は A4 のよこになります。</figcaption></figure>
+<h3 id="s-5-3">マス目の種類（十字リーダー・マス目のみ・枠線なし）を選ぶ</h3>
+<p>「マス目の種類」で、マスの見え方を 3 つから選べます。「十字リーダーあり（緑）」はマスの中に薄い十字が入ったもの、「マス目のみ（緑）」は枠だけのもの、「枠線なし（白紙）」は線を引かず文字だけを並べるものです。</p>
+<p>低学年の書き取りには十字リーダー、算数の式にはマス目のみ、掲示物にするなら枠線なしが向きます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/14-grid-none.webp"><img src="/assets/manual/notebooksample-generator/14-grid-none.webp" alt="枠線なしを選んだときの見本" loading="lazy" decoding="async"></a><figcaption>線が消え、文字の位置だけが残ります。</figcaption></figure>
+<h3 id="s-5-4">月日・題名・なまえの記入欄（ヘッダー）を出す</h3>
+<p>「ヘッダー」の右にあるつまみを押すと、紙の上に「月」「日」の記入欄、題名を書く線、「なまえ」の欄が出ます。そのまま配るプリントにするときに使ってください。キーボードの Alt と H でも切り替わります。</p>
+<p>ヘッダーを出すと、そのぶんマス目の入る高さが減り、1 マスが少し小さくなります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/15-header-on.webp"><img src="/assets/manual/notebooksample-generator/15-header-on.webp" alt="ヘッダーを出したときの見本" loading="lazy" decoding="async"></a><figcaption>紙の上に、月日と名前の欄が付きます。</figcaption></figure>
+<h3 id="s-5-5">文字の大きさを変える</h3>
+<p>いちばん下のつまみを左右に動かすと、マスに対する文字の大きさが 30 パーセントから 100 パーセントまで変わります。既定は 80 パーセントです。</p>
+<p>文字がマスからはみ出して見えるときは、ここを小さくしてください。逆に、うすくて見えにくいときは大きくします。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/16-fontsize.webp"><img src="/assets/manual/notebooksample-generator/16-fontsize.webp" alt="文字の大きさを決めるつまみ" loading="lazy" decoding="async"></a><figcaption>右の数字が、いまの大きさです。</figcaption></figure>
+<h2 id="s-6">見本テキストに記号を打って板書の形にする</h2>
+<p>文章の中に決まった記号を打つと、めあての丸や、赤い線や、穴埋めの空欄が付きます。記号そのものは印刷されません。記号を覚えなくても次の章のなぞる操作で入れられますが、慣れると打ったほうが速くなります。</p>
+<h3 id="s-6-1">アプリの中にある記号の一覧を開く</h3>
+<p>「見本テキスト」の右にある「マクロ」を押すと、記号の一覧がその場で開きます。閉じるときは、もう一度「マクロ」を押してください。</p>
+<p>ここにまとまっているのは、よく使うものです。一覧に出ていない【も】【問】【じ】【自】も、次の節のとおりに使えます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/17-macro-help.webp"><img src="/assets/manual/notebooksample-generator/17-macro-help.webp" alt="マクロの一覧を開いたところ" loading="lazy" decoding="async"></a><figcaption>「マクロ」を押すと、その場で開きます。</figcaption></figure>
+<h3 id="s-6-2">めあてとまとめを、丸と枠で示す</h3>
+<p>行の先頭に次の記号を打つと、丸の中に文字が入り、そこから下が色の枠で囲まれます。</p>
+<ol><li>【め】、【も】、【問】…　丸の中にその文字が入り、ここから下が青い枠で囲まれます。めあてや問いに使います。</li><li>【ま】…　丸の中に「ま」が入り、ここから下が赤い枠で囲まれます。まとめに使います。</li><li>【じ】、【自】…　丸の中にその文字が入り、囲みの枠はここで終わります。自力解決の場面に使います。</li><li>【終】…　囲みの枠をここで終わらせます。空の行を 1 つ入れても、同じように終わります。</li></ol>
+<h3 id="s-6-3">線・文字色・穴埋め・枠で強調する</h3>
+<p>はさんで使う記号です。始まりの記号と終わりの記号のあいだが、その見た目になります。</p>
+<ol><li>【赤字】と【字終】…　はさんだところが赤い字になります。</li><li>【赤線】と【線終】…　はさんだところの下（縦書きでは右）に赤い線が引かれます。【青線】と【黒線】も同じ形で使えます。</li><li>【穴】と【穴終】…　はさんだところが空欄になり、点線の枠が付きます。書き取りの練習に使います。</li><li>【枠】と【枠終】…　はさんだところを太い黒枠で囲みます。</li><li>【左】と【左終】…　はさんだところの左側だけに太い黒線を引きます。【右】【上】【下】も同じ形で、その側だけに線を引きます。ノートを区切る補助線に使います。</li></ol>
+<h3 id="s-6-4">三角・四角・丸の中に数字を入れる、日付のマスを作る</h3>
+<p>1 マスの中に図形と数字をまとめて入れる記号です。</p>
+<ol><li>【△1】、【□2】、【○3】…　三角、四角、丸の中にその文字が入ります。中の文字は数字でなくてもかまいません。</li><li>4/1 のように打つ…　ななめ線の入った日付のマスになります。左上に月、右下に日が入ります。</li><li>12 のように 2 けた以上の数字を打つ…　1 マスにまとめて入ります。けたが増えるほど、字は自動で小さくなります。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/18-tags-text.webp"><img src="/assets/manual/notebooksample-generator/18-tags-text.webp" alt="記号を打った見本テキスト" loading="lazy" decoding="async"></a><figcaption>この文章が、次の見本になります。</figcaption></figure>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/19-tags-result.webp"><img src="/assets/manual/notebooksample-generator/19-tags-result.webp" alt="記号が反映された見本" loading="lazy" decoding="async"></a><figcaption>丸、青枠、赤枠、赤線、赤字が付いています。</figcaption></figure>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/20-shapes-blank.webp"><img src="/assets/manual/notebooksample-generator/20-shapes-blank.webp" alt="図形と穴埋めと枠線を使った見本" loading="lazy" decoding="async"></a><figcaption>図形、点線の空欄、太い黒枠の例です。</figcaption></figure>
+<h2 id="s-7">プレビューをなぞって、記号を打たずに装飾する</h2>
+<p>記号を覚えていなくても、右のプレビューの上で文字をなぞれば同じことができます。押した結果は、左の入力欄に記号として自動で書きこまれます。</p>
+<h3 id="s-7-1">プレビューの文字をなぞって選ぶ</h3>
+<p>飾りたい文字の上でマウスの左ボタンを押したまま動かし、終わりのところで指をはなしてください。選んだところが緑色になります。1 マスだけでも選べます。</p>
+<p>選ぶのをやめたいときは、紙の外側の灰色のところをクリックしてください。緑色が消えます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/21-drag-select.webp"><img src="/assets/manual/notebooksample-generator/21-drag-select.webp" alt="「たしざん」の 4 マスを選んだところ" loading="lazy" decoding="async"></a><figcaption>選んだところが緑になり、下にバーが出ます。</figcaption></figure>
+<h3 id="s-7-2">出てきたバーのボタンを押す</h3>
+<p>選ぶと、画面の下に横長のバーが出ます。左から順に、ライン（黒・赤・青）、文字色の赤、図形（三角・四角・丸）、穴埋め、枠線（囲み・左・右・上・下）、そしていちばん右にクリアが並びます。</p>
+<p>押すと、その場で見本が変わり、左の入力欄にも記号が入ります。狭い画面ではバーの右側が隠れることがあります。そのときは、バーの上を横に動かすと残りのボタンが出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/22-toolbar.webp"><img src="/assets/manual/notebooksample-generator/22-toolbar.webp" alt="装飾のバー" loading="lazy" decoding="async"></a><figcaption>左からライン、文字色、図形、穴埋め、枠線、クリアです。</figcaption></figure>
+<p>消したいところをもう一度なぞって選び、バーのいちばん右にある「クリア」を押してください。選んだところの線、色、図形、空欄、枠がまとめて消え、素の文字だけが残ります。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>なぞって押した結果は、左の入力欄の文章に記号として残ります。あとから手で直すこともできます。</li><li>同じところに違う線を引き直すと、前の線は自動で取り除かれます。二重にはなりません。</li><li>「クリア」で消えるのは、選んだところの装飾だけです。文字そのものは消えません。</li></ul>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/23-blank-applied.webp"><img src="/assets/manual/notebooksample-generator/23-blank-applied.webp" alt="穴埋めを押したあとの見本" loading="lazy" decoding="async"></a><figcaption>選んだ 4 マスが点線の空欄になりました。</figcaption></figure>
+<h2 id="s-8">子どもに合わせて表示を変え、書く時間を見積もる（支援・分析）</h2>
+<p>同じ文章から、なぞり書き用の見本や、穴埋めの練習用の見本を作れます。書き写しにかかる時間の目安も、ここで学年を選んで出します。</p>
+<p>画面の右上にある「支援・分析」を押すと開きます。キーボードの Alt と 2 でも開きます。閉じるときは、下の「閉じる」か、キーボードの Esc を押してください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/24-support-modal.webp"><img src="/assets/manual/notebooksample-generator/24-support-modal.webp" alt="支援・分析の画面" loading="lazy" decoding="async"></a><figcaption>上が学年の設定、下が表示の切り替えです。</figcaption></figure>
+<h3 id="s-8-1">なぞり書き用（薄文字）に切り替える</h3>
+<p>「スキャフォールディング」の中の「なぞり書き用 (薄文字)」を選ぶと、文字がうすい灰色になります。刷って、その上からなぞらせる練習に使えます。</p>
+<p>もとに戻すときは「通常表示」を選んでください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/25-trace.webp"><img src="/assets/manual/notebooksample-generator/25-trace.webp" alt="なぞり書き用に切り替えた見本" loading="lazy" decoding="async"></a><figcaption>文字がうすくなり、なぞれる形になります。</figcaption></figure>
+<h3 id="s-8-2">穴埋め用（漢字・カナ空欄）に切り替える</h3>
+<p>「穴埋め用 (漢字・カナ空欄)」を選ぶと、漢字とカタカナだけが空欄になり、ひらがなと句読点はそのまま残ります。書き取りの小テストや、めあての穴埋めに使えます。</p>
+<p>どの字が消えるかは、字の種類だけで決まります。学年による選び分けはしていないので、刷る前にプレビューで確かめてください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/26-fill.webp"><img src="/assets/manual/notebooksample-generator/26-fill.webp" alt="穴埋め用に切り替えた見本" loading="lazy" decoding="async"></a><figcaption>漢字とカタカナだけが空欄になります。</figcaption></figure>
+<h3 id="s-8-3">学年を選んで、書き写す時間の目安を見る</h3>
+<p>同じ画面の「学習時間の予測設定」で学年を選ぶと、プレビューの上に出る時間がその学年のものに変わります。1 分あたりに書ける文字数は、1 年が 10 文字、2 年が 15 文字、3 年が 20 文字、4 年が 25 文字、5 年が 30 文字、6 年が 35 文字として計算しています。</p>
+<p>数えているのは、記号と空白を除いた文字数です。授業の時間配分を決めるときの目安にしてください。</p>
+<h2 id="s-9">行またぎで語が切れていないかを「警告」で確かめる</h2>
+<p>プレビューの右上に「警告: 0 件」と出ています。これは、行のおわりと次の行のはじめで、熟語やカタカナのことばが二つに割れていないかを自動で見つけたものです。0 件なら緑、1 件以上なら赤になります。</p>
+<h3 id="s-9-1">分かれてしまった場所を調べる</h3>
+<p>赤くなっている「警告」を押すと、どのページの何行目で分かれているかの一覧が出ます。「P.1 の 1〜2行目: 漢字の単語が分断されている可能性があります（「発」と「表」）」のように、割れた 2 文字も添えて出ます。</p>
+<p>一覧を閉じるときは、一覧の外側をクリックしてください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/27-alerts.webp"><img src="/assets/manual/notebooksample-generator/27-alerts.webp" alt="警告の一覧を開いたところ" loading="lazy" decoding="async"></a><figcaption>割れている行と、その 2 文字が出ます。</figcaption></figure>
+<h3 id="s-9-2">分かれてしまった場所を直す</h3>
+<p>直しかたは 2 つあります。文章のほうを打ちかえて折り返す場所をずらすか、「1行のマス数」を 1 つ増やしたり減らしたりして、割れないところまで動かしてください。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>見ているのは、漢字どうし、カタカナどうしが行をまたいだ場合だけです。ひらがなの語が割れても数えません。</li><li>直さなくてよい場合もあります。そこで切れても読める語なら、そのままで問題ありません。</li><li>数が 0 件でも、読みやすさまでは見ていません。刷る前に、プレビューを目で確かめてください。</li></ul>
+<h3 id="s-9-3">カタカナのことばが分かれた場合</h3>
+<p>カタカナも、漢字と同じように見ています。「ブロック」が「ブロ」と「ック」に分かれたようなときに数えられ、一覧には「カタカナの単語が分断されている可能性があります」と出ます。</p>
+<p>低学年の見本では、カタカナが行をまたぐと読みにくくなります。数が出たら、いちど確かめてください。</p>
+<p>0 件のときは緑色になり、押しても何も出ません。見るものが無いためです。1 件以上あるときだけ赤くなり、押せるようになります。</p>
+<p>色だけでも判断できるので、刷る前にここが緑かどうかを見る習慣にしておくと早く済みます。</p>
+<h2 id="s-10">印刷する・PDF にする・画像で保存する</h2>
+<p>作った見本を紙にする方法と、画像のファイルにする方法があります。使いどころが違うので、両方を覚えておくと便利です。</p>
+<h3 id="s-10-1">A4 で印刷する、PDF にする</h3>
+<p>左下の「印刷・PDF」を押すか、キーボードの Ctrl と P を同時に押してください。ブラウザの印刷画面が開きます。プリンタを選べば紙になり、送り先に「PDF に保存」を選べばファイルになります。</p>
+<p>紙の向きは、選んだテンプレートから自動で決まります。国語のテンプレートは A4 のたて、算数のテンプレートと原稿用紙は A4 のよこです。</p>
+<h3 id="s-10-2">画像（PNG）で保存する</h3>
+<p>「画像保存」を押すか、キーボードの Ctrl と E を同時に押すと、見本が画像のファイルとして手元に落ちてきます。大型テレビに映したり、学級通信に貼りつけたりするときに使ってください。</p>
+<p>画像になるのは 1 ページ目だけです。2 ページ目から先も画像でほしいときは、いったん PDF にしてから、そちらを画像にしてください。</p>
+<h3 id="s-10-3">2 ページ以上になったとき</h3>
+<p>文章が 1 枚に入りきらないと、続きは自動で 2 枚目、3 枚目になります。プレビューでは横に並び、縦書きのときは 1 ページ目が右、2 ページ目が左に置かれます。</p>
+<p>見えていないページを見るには、プレビューの上でマウスのホイールを回すか、キーボードの Alt と左右の矢印を押してください。印刷すると、並んでいる全部のページが刷られます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/28-multipage.webp"><img src="/assets/manual/notebooksample-generator/28-multipage.webp" alt="2 ページになったときのプレビュー" loading="lazy" decoding="async"></a><figcaption>縦書きでは、右が 1 ページ目です。</figcaption></figure>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>プレビューに出ているものが、そのまま刷り上がりです。刷ってから直すより、ここで直すほうが速く済みます。</li><li>何ページになるかは、プレビューに並んだ紙の枚数で分かります。刷る前に数えてください。</li><li>最後の行が切れていないか、いちばん左（横書きでは いちばん下）の列を見てください。</li><li>マス目の線は色で刷られます。白黒のプリンタでは灰色になりますが、見本としては使えます。</li></ul>
+<h2 id="s-11">作った見本に名前を付けて保存し、呼び出す（データ管理）</h2>
+<p>よく使う見本は、名前を付けて残しておけます。保存されるのは、文章だけでなく、テンプレート、マス数、文字の大きさなど、そのときの設定ひとそろいです。</p>
+<p>画面の右上にある「データ管理」を押すと開きます。キーボードの Alt と 3 でも開きます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/29-data-modal.webp"><img src="/assets/manual/notebooksample-generator/29-data-modal.webp" alt="データ管理の画面" loading="lazy" decoding="async"></a><figcaption>上が保存、下がバックアップの出し入れです。</figcaption></figure>
+<h3 id="s-11-1">今の設定に名前を付けて保存する</h3>
+<p>保存の手順:</p>
+<ol><li>「データ管理」を開いてください。</li><li>いちばん上の「今の設定を保存」を押してください。名前を聞かれます。</li><li>分かりやすい名前を入れて、決定を押してください（例:「3年_たしざんの見本」）。</li><li>「保存されたノート一覧」に増えていれば、保存できています。</li></ol>
+<p>キーボードの Ctrl と S を同時に押しても、同じように名前を聞かれます。この場合は「データ管理」を開かなくてもかまいません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/30-saved-list.webp"><img src="/assets/manual/notebooksample-generator/30-saved-list.webp" alt="保存したノートが一覧に並んだところ" loading="lazy" decoding="async"></a><figcaption>保存したものは、この一覧に並びます。</figcaption></figure>
+<h3 id="s-11-2">保存したノートを呼び出す、消す</h3>
+<p>一覧の名前を押すと、そのノートを呼び出せます。押すと「現在の編集内容は失われます。読み込みますか？」と確かめられるので、いまの文章を残したい場合は、先に保存しておいてください。</p>
+<p>消すときは、名前の右にあるごみ箱の絵を押します。ここでも一度確かめられます。</p>
+<p>【！】覚えておいていただきたいこと:</p>
+<ul><li>保存したものは、そのパソコンの中だけに残ります。別のパソコンには出てきません。</li><li>ブラウザの「閲覧履歴の削除」で「サイトのデータ」も一緒に消すと、保存したノートも消えます。</li><li>大事なものは、次の章のバックアップを取っておいてください。</li></ul>
+<h2 id="s-12">別の端末でも同じ見本を使う（バックアップと Google ドライブ同期）</h2>
+<p>職員室のパソコンと教室のタブレットで同じ見本を使いたいときの方法です。ファイルで持っていく方法と、Google ドライブでそろえる方法の 2 つがあります。</p>
+<p>どちらも「データ管理」の中にあります。先に、残したい見本を名前を付けて保存しておいてください。</p>
+<h3 id="s-12-1">ファイルに書き出して持っていく</h3>
+<p>バックアップの手順:</p>
+<ol><li>「データ管理」を開き、「バックアップ出力」を押してください。ファイルが 1 つ手元に落ちてきます。</li><li>そのファイルを、USB メモリや校内の共有フォルダで別のパソコンへ運んでください。</li><li>別のパソコンで同じアプリを開き、「データ管理」の「バックアップ読込」を押して、そのファイルを選んでください。</li></ol>
+<p>読みこんだノートは、いまあるノートに足されます。同じものが二重に並ぶことはありません。</p>
+<h3 id="s-12-2">Google ドライブと同期する</h3>
+<p>「データ管理」のいちばん下に「Google ドライブ同期」があります。「Google でログインして同期」を押し、お使いの Google アカウントでログインすると、保存したノートが自動でドライブにバックアップされ、別の端末でも同じアカウントでログインするだけで出てきます。</p>
+<p>ログインのときに、アプリがドライブを使ってよいかを確かめる画面が出ます。これは、このアプリが自分の作ったバックアップファイルを読み書きするための許可を求めるもので、先生のほかの書類には仕組みのうえで触れられません。安全ですので、そのまま進めてください。</p>
+<p>つないだあとは、「今すぐ同期」で手で合わせることも、「保存時に自動でバックアップ」を入り切りすることもできます。やめるときは「連携解除」を押してください。</p>
+<p>同期されるのは、名前を付けて保存したノートだけです。編集中の文章は同期されません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/31-gdrive.webp"><img src="/assets/manual/notebooksample-generator/31-gdrive.webp" alt="初期設定が済んでいないときの表示" loading="lazy" decoding="async"></a><figcaption>この表示のときは、同期の機能は使えません。</figcaption></figure>
+<h3 id="s-12-3" class="prose__h--danger">【！！】消したノートが復活することについて</h3>
+<p>このバックアップは、取りこぼしを防ぐために、どちらか一方にしか無いノートを必ず残す作りになっています。そのため、片方の端末で消しただけでは、次に同期したときにもう一方から戻ってきます。</p>
+<p>完全に消したいときは、つないでいる端末すべてで同じノートを消してから、もう一度同期してください。この順番を守らないと、消したつもりのものが残り続けます。</p>
+<h2 id="s-13">タブレットやスマートフォンで使う（アプリとして入れる）</h2>
+<p>同じアドレスを開くだけで、タブレットでもスマートフォンでも使えます。画面が狭いときは、左の設定欄がかくれた形で立ち上がります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/33-mobile.webp"><img src="/assets/manual/notebooksample-generator/33-mobile.webp" alt="スマートフォンで開いたときの画面" loading="lazy" decoding="async"></a><figcaption>設定欄はかくれ、見本だけが出ます。</figcaption></figure>
+<h3 id="s-13-1">狭い画面で設定欄を開く</h3>
+<p>画面の左上にある「設定」を押すと、設定欄が横から出てきます。閉じるときは、右上のばつ印を押すか、設定欄の外側の暗いところを押すか、キーボードをつないでいれば Esc を押してください。</p>
+<p>設定の中身は、パソコンで開いたときと同じです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/34-mobile-drawer.webp"><img src="/assets/manual/notebooksample-generator/34-mobile-drawer.webp" alt="スマートフォンで設定欄を開いたところ" loading="lazy" decoding="async"></a><figcaption>「設定」を押すと、横から出てきます。</figcaption></figure>
+<h3 id="s-13-2">ホーム画面に追加して、つながっていなくても使う</h3>
+<p>このアプリは、端末に入れてアプリのように使えます。ブラウザのメニューから「ホーム画面に追加」を選んでください。一度入れておくと、次からはアイコンを押すだけで開き、インターネットにつながっていない場所でも使えます。</p>
+<p>保存したノートは端末の中にあるので、つながっていなくても呼び出せます。Google ドライブとの同期だけは、つながっているときに行われます。</p>
+<h3 id="s-13-3">指で操作するときに気をつけること</h3>
+<p>プレビューをなぞって装飾する操作は、マウスを前提にしています。指では選びにくいので、タブレットでは記号を打つほうが確実です。記号は「マクロ」の一覧から確かめられます。</p>
+<p>2 ページ以上あるときは、プレビューを指で左右にはらうと送れます。キーボードをつないでいれば、Alt と左右の矢印も使えます。</p>
+<p>タブレットから刷るときも、手順はパソコンと同じです。「印刷・PDF」を押すと、端末の印刷画面が開きます。</p>
+<h2 id="s-14">キーボードだけで操作する（ショートカット一覧）</h2>
+<p>よく使う操作は、キーボードからも呼び出せます。画面の右上にあるキーボードの絵のボタン、またはキーボードの F1 を押すと、一覧がいつでも出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="/assets/manual/notebooksample-generator/32-keyboard-help.webp"><img src="/assets/manual/notebooksample-generator/32-keyboard-help.webp" alt="キーボードショートカットの一覧" loading="lazy" decoding="async"></a><figcaption>F1 を押すと、いつでもこの一覧が出ます。</figcaption></figure>
+<h3 id="s-14-1">どこでも使えるキー</h3>
+<ol><li>Ctrl と S…　今の設定に名前を付けて保存します。</li><li>Ctrl と P…　印刷、または PDF にします。</li><li>Ctrl と E…　画像（PNG）で保存します。</li><li>F1、または Ctrl と /…　ショートカットの一覧を開いたり閉じたりします。</li><li>Alt と 2…　支援・分析を開きます。</li><li>Alt と 3…　データ管理を開きます。</li><li>Alt と D…　縦書きと横書きを切り替えます。</li><li>Alt と H…　ヘッダーを出したり消したりします。</li><li>Alt と左右の矢印…　プレビューを横に送ります。2 ページ以上あるときに使います。</li><li>Esc…　開いている画面や、狭い画面の設定欄を閉じます。</li></ol>
+<p>Mac をお使いの場合は、Ctrl を Command（⌘）に、Alt を Option（⌥）に読みかえてください。</p>
+<h3 id="s-14-2">文章を打っているときだけ使えるキー</h3>
+<p>次のキーは、左の入力欄にカーソルがあるときだけはたらきます。カーソルのあるところに記号が入ります。</p>
+<ol><li>Ctrl と 1…　【め】が入ります。</li><li>Ctrl と 2…　【も】が入ります。</li><li>Ctrl と 3…　【問】が入ります。</li><li>Ctrl と 4…　【じ】が入ります。</li><li>Ctrl と 5…　【自】が入ります。</li><li>Ctrl と 6…　【ま】が入ります。</li><li>Ctrl と 0、または Ctrl と Q…　【終】が入ります。</li></ol>
+<p>何も入らないときは、入力欄を一度クリックしてからお試しください。</p>
+<h2 id="s-15">うまくいかないときの対処（症状別）</h2>
+<p>起きやすいものを、症状ごとに並べています。上から順に読む必要はありません。</p>
+<h3 id="s-15-1">印刷したら、マスの線や色が出ない場合</h3>
+<p>いちばん多いのがこれです。ブラウザの印刷設定で、背景の絵を刷らない指定になっています。</p>
+<p>Chrome と Edge では、印刷画面の「詳細設定」を開き、「背景のグラフィック」にチェックを入れてください。Safari では「背景をプリント」にチェックを入れてください。</p>
+<h3 id="s-15-2">印刷したら、はみ出す・2 枚に分かれる場合</h3>
+<p>上から順に確かめてください。</p>
+<ol><li>印刷画面の「用紙サイズ」が A4 になっているか。</li><li>紙の向きが合っているか。算数のテンプレートと原稿用紙は A4 のよこです。</li><li>「倍率」が「用紙に合わせる」になっているか。</li><li>それでも収まらなければ、左の「文字の大きさ」を少し小さくしてください。</li></ol>
+<h3 id="s-15-3">文字がマスからずれる・ぎゅうぎゅうになる場合</h3>
+<p>「1行のマス数」が、お使いのノートと合っていません。ノートの 1 行のマスを実際に数えて、同じ数を入れてください。</p>
+<p>それでも詰まって見えるときは、「文字の大きさ」を下げると余白ができます。</p>
+<h3 id="s-15-4">打った記号が見本に出てこない場合</h3>
+<p>記号のかっこが全角の【 】になっているか確かめてください。半角の [ ] や、ふつうのかっこでは記号として読まれず、そのまま文字として出ます。</p>
+<p>中の文字も、一覧と同じものかを見てください。「マクロ」を押すと、使える記号がそのまま出ます。</p>
+<h3 id="s-15-5">マス数や向きを変えられない場合</h3>
+<p>テンプレートに「原稿用紙 400字」を選んでいないか確かめてください。原稿用紙のあいだは、マス数、行数、向き、マス目の種類、ヘッダーが決まっているので変えられません。</p>
+<p>ほかのテンプレートに切り替えると、また変えられるようになります。</p>
+<h3 id="s-15-6">画面が白いまま・動かなくなった場合</h3>
+<p>いったんページを閉じて、もう一度開いてください。それでも直らなければ、キーボードの Ctrl を押しながら F5 を押すと、読み込み直します。</p>
+<p>この操作をしても、保存したノートは消えません。</p>
+<h3 id="s-15-7">保存したノートが見あたらない場合</h3>
+<p>別のパソコンで作ったものは、そのままでは出てきません。「別の端末でも同じ見本を使う」の章のやり方で持ってきてください。</p>
+<p>ブラウザの「閲覧履歴の削除」で「サイトのデータ」も一緒に消した場合は、残念ながら戻せません。大事なものは、ふだんからバックアップを取っておいてください。</p>
+<h3 id="s-15-8">それでも解決しない場合</h3>
+<p>まず、このアプリを教えてくれた先生や、校内の情報担当の先生にご相談ください。同じ端末を使っている学校では、すでに同じことを解いていることがあります。</p>
+<p>校内で分からなければ、このページのいちばん下にある問い合わせ先からお知らせください。</p>
+<h2 id="s-16">子どもの情報と、共用の端末についてのお願い</h2>
+<p>このアプリは、子どもの情報をひとつも受け取らない作りにしています。そのうえで、使う先生の側でも気をつけていただきたいことが 2 つあります。</p>
+<h3 id="s-16-1">子どもの名前や個人情報は入れない</h3>
+<p>見本の文章に、子どもの名前、出席番号、学級名を入れないでください。ノートの見本を作るのに、それらは必要ありません。</p>
+<p>ヘッダーの「なまえ」は、子どもが手で書くための空欄です。ここに名前を打ちこむ機能はありません。</p>
+<h3 id="s-16-2">共用の端末では、使い終わったら消す</h3>
+<p>打った文章と保存したノートは、そのパソコンの中に残ります。職員室の共用のパソコンでは、あとから使う先生にも見えます。</p>
+<p>気になる場合は、席を立つ前に「データ管理」から保存したノートを消し、入力欄の文章も消しておいてください。Google ドライブとつないだ端末では、「連携解除」も押しておくと安心です。</p>
+<p>打った文章と、名前を付けて保存したノートは、その端末のブラウザの中だけに残ります。Google ドライブ同期を使わないかぎり、どこへも送られません。</p>
+<p>残っているものを消す方法は 2 つあります。「データ管理」から 1 つずつ消す方法と、ブラウザの「閲覧履歴の削除」で「サイトのデータ」ごと消す方法です。後者はすべて消え、元に戻せません。</p>
+<p>学校の端末を年度末に返すときや、貸し出し用の端末を次の先生へ渡すときは、後者で消しておくと確実です。</p>
+    </div>
+
+    <section class="manual__school" aria-labelledby="school-title">
+      <h2 id="school-title">学校で使うときは</h2>
+      <p class="manual__school-lead">ここは <a href="/">giga-school.com</a> が
+        アプリの設定から組み立てています。マニュアルの書き手が手で書いたものではないので、
+        アプリが変われば、ここも変わります。</p>
+      <dl class="manual__facts">
+        <div><dt>アカウント</dt><dd>アカウント不要</dd></div>
+        <div><dt>記録の置き場所</dt><dd>記録は端末の中だけ</dd></div>
+      </dl>
+      <h3>校内のフィルタリングで許可するアドレス</h3>
+      <ul class="manual__hosts">
+        <li><code>notebooksample-generator.giga-school.com</code><span class="manual__why">アプリを配っている場所</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+        <li><code>accounts.google.com</code><span class="manual__why">Google アカウントのログイン</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+        <li><code>www.googleapis.com</code><span class="manual__why">Google のサービスとのやりとり</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+        <li><code>fonts.googleapis.com</code><span class="manual__why">読みやすい書体を読む（無くても字の形が変わるだけ）</span><span class="manual__level manual__level--look">塞いでも使えます</span></li>
+        <li><code>fonts.gstatic.com</code><span class="manual__why">読みやすい書体を読む（無くても字の形が変わるだけ）</span><span class="manual__level manual__level--look">塞いでも使えます</span></li>
+      </ul>
+      <p class="manual__school-more">ほかのアプリとまとめて申請するときは、
+        <a href="/filtering/">許可するアドレスの一覧</a>が使えます（印刷できます）。</p>
+    </section>
+
+    <section class="changes" aria-labelledby="changes-title">
+      <h2 class="changes__title" id="changes-title">最近の更新</h2>
+        <div class="changes__at">
+          <p class="changes__date"><time datetime="2026-08-31">2026/08/31</time></p>
+          <ul class="changes__list">
+            <li>画面写真つきの使い方マニュアルを公開しました</li>
+            <li>画面のいちばん下に「つかいかた」のリンクを出しました</li>
+          </ul>
+        </div>
+    </section>
+
+    <!-- 紙に刷って回覧されたとき、ここへ戻ってこられる唯一の手がかり。
+         画面では出さない（すぐ上のアドレスバーに同じものが出ている） -->
+    <p class="manual__url">このマニュアルは https://giga-school.com/apps/notebooksample-generator/manual/ にあります（2026/08/31 現在）</p>
+
+    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。マニュアルは
+         アプリを触りながら読むものなので、記事より効く -->
+    <p class="article__sticky no-print">
+      <a class="btn btn--primary" href="https://notebooksample-generator.giga-school.com/">ノート見本作成ツール PRO を開く</a>
+    </p>
+
+    <aside class="article__end no-print">
+      <p class="article__end-lead">ノート見本作成ツール PRO は、ブラウザだけで動く無償のアプリです。</p>
+      <p class="article__actions">
+        <a class="btn btn--primary" href="https://notebooksample-generator.giga-school.com/">ノート見本作成ツール PRO を開く</a>
+        <a class="btn btn--ghost" href="/#contact">うまくいかないときは</a>
+      </p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/profile/">自己紹介</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+        <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
+        <a href="/press/">掲載用の資料</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -2,12 +2,12 @@
  "_comment": "そのページの中身が最後に変わった日。tools/sync-updates.mjs が書く。手で直さない。hash は日付の場所に 0000-00-00 を置いて組んだときの sha256 なので、日付が動いてもハッシュは動かない。⚠️ この台帳が消えると、翌朝すべてのページが「今日」に揃う（直したはずの症状がそのまま戻る）。.github/workflows/sync-updates.yml の PATHS から外さないこと。",
  "pages": {
   "/": {
-   "hash": "8e3139521d58c85c",
-   "lastmod": "2026-08-31"
+   "hash": "a3469e78d700e33f",
+   "lastmod": "2026-09-01"
   },
   "/apps/": {
-   "hash": "38eaf0fd3394d634",
-   "lastmod": "2026-08-31"
+   "hash": "72160406db1d55d8",
+   "lastmod": "2026-09-01"
   },
   "/apps/category/gakkyu/": {
    "hash": "950169437dbd10c5",
@@ -22,8 +22,8 @@
    "lastmod": "2026-08-25"
   },
   "/apps/category/koumu/": {
-   "hash": "050f8b917a64e3b8",
-   "lastmod": "2026-08-31"
+   "hash": "d0994514476ddc41",
+   "lastmod": "2026-09-01"
   },
   "/apps/category/other/": {
    "hash": "308d9ddb50b661e9",

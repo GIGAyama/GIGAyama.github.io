@@ -1,7 +1,22 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-08-30",
+ "generatedAt": "2026-09-01",
  "items": [
+  {
+   "slug": "digital-textbook",
+   "repo": "Digital_textbook",
+   "name": "教材プリントメーカー",
+   "title": "教材プリントメーカー の使い方",
+   "summary": "このページは、手元の PDF を読みこんで、その上に書きこみ、児童生徒の端末へ配ったり紙に印刷したりするための Web アプリ「教材プリントメーカー」の使い方です。画面の写真と見くらべながら、上から順にお読みください。",
+   "source": "docs/manual/manual.md",
+   "chapters": 18,
+   "images": 42,
+   "imageHost": "mirror",
+   "charCount": 14414,
+   "updatedAt": "2026-08-31",
+   "termsUrl": "https://digital-textbook.giga-school.com/terms.html",
+   "privacyUrl": "https://digital-textbook.giga-school.com/privacy.html"
+  },
   {
    "slug": "kanji-town",
    "repo": "KANJI_Town",
@@ -18,6 +33,36 @@
    "privacyUrl": "https://kanji-town.giga-school.com/privacy.html"
   },
   {
+   "slug": "notebooksample-generator",
+   "repo": "NotebookSample_Generator",
+   "name": "ノート見本作成ツール PRO",
+   "title": "ノート見本作成ツール PRO の使い方",
+   "summary": "黒板に書く板書計画や、子どもに配るノートの見本を、マス目に合わせた形で作って印刷できる Web アプリです。文章を打ちこむと、国語や算数のノートのマス目に 1 文字ずつ割り付けられ、そのまま A4 で刷れます。ここでは、…",
+   "source": "docs/manual/manual.md",
+   "chapters": 16,
+   "images": 34,
+   "imageHost": "mirror",
+   "charCount": 11374,
+   "updatedAt": "2026-08-31",
+   "termsUrl": "",
+   "privacyUrl": ""
+  },
+  {
+   "slug": "online-100square-calculation",
+   "repo": "online-100square-calculation",
+   "name": "100マス計算",
+   "title": "100マス計算 の つかいかた",
+   "summary": "このページは、100マス計算を はじめて ひらく人の ための つかいかたです。 画面の 絵と 見くらべながら、上から じゅんに 読んでください。",
+   "source": "docs/manual/manual.md",
+   "chapters": 12,
+   "images": 31,
+   "imageHost": "mirror",
+   "charCount": 8960,
+   "updatedAt": "2026-08-31",
+   "termsUrl": "https://online-100square-calculation.giga-school.com/terms.html",
+   "privacyUrl": "https://online-100square-calculation.giga-school.com/privacy.html"
+  },
+  {
    "slug": "qalc",
    "repo": "Qalc",
    "name": "Qalc（カルク）",
@@ -26,7 +71,7 @@
    "source": "docs/manual/manual.md",
    "chapters": 21,
    "images": 56,
-   "imageHost": "raw",
+   "imageHost": "mirror",
    "charCount": 24682,
    "updatedAt": "2026-08-30",
    "termsUrl": "https://qalc.giga-school.com/terms.html",
@@ -42,10 +87,25 @@
    "chapters": 14,
    "images": 20,
    "imageHost": "subdomain",
-   "charCount": 18539,
-   "updatedAt": "2026-08-29",
+   "charCount": 18641,
+   "updatedAt": "2026-09-01",
    "termsUrl": "https://schoolplan-editor.giga-school.com/terms.html",
    "privacyUrl": "https://schoolplan-editor.giga-school.com/privacy.html"
+  },
+  {
+   "slug": "typa",
+   "repo": "Typa",
+   "name": "Typa（タイパ）",
+   "title": "Typa（タイパ）の つかいかた",
+   "summary": "Typa は、キーボードで 文字を 打つ れんしゅうを する アプリです。ここでは、なにが できるのかと、はじめる まえに 用意する ものを せつめいします。",
+   "source": "docs/manual/manual.md",
+   "chapters": 19,
+   "images": 43,
+   "imageHost": "subdomain",
+   "charCount": 12806,
+   "updatedAt": "2026-08-31",
+   "termsUrl": "https://typa.giga-school.com/terms.html",
+   "privacyUrl": "https://typa.giga-school.com/privacy.html"
   }
  ]
 }

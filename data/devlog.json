@@ -1,6 +1,6 @@
 {
- "_comment": "tools/build-devlog.mjs が書き出す。手で直さない。",
- "generatedAt": "2026-08-30",
+ "_comment": "tools/build-devlog.mjs が書き出す。手で直さない。 generatedAt は載っている記録のいちばん新しい日付（実行日ではない）。",
+ "generatedAt": "2026-08-24",
  "items": [
   {
    "repo": "GIGAyama.github.io",

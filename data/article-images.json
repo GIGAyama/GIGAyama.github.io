@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。 サブドメインから画像が読めない記事と、その元の URL。",
- "generatedAt": "2026-08-30",
+ "generatedAt": "2026-09-01",
  "apps": {
   "digital-textbook": {
    "repo": "Digital_textbook",
