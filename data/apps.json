@@ -384,7 +384,13 @@
    "kind": "app",
    "slug": "online-manuscript-paper-pro",
    "category": "kokugo",
-   "hosts": [],
+   "hosts": [
+    "0.peerjs.com",
+    "eu-0.turn.peerjs.com",
+    "generativelanguage.googleapis.com",
+    "stun.l.google.com",
+    "us-0.turn.peerjs.com"
+   ],
    "grades": [
     1,
     2,
