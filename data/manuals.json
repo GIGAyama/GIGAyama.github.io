@@ -63,6 +63,21 @@
    "privacyUrl": "https://online-100square-calculation.giga-school.com/privacy.html"
   },
   {
+   "slug": "online-manuscript-paper-lite",
+   "repo": "online-manuscript-paper-lite",
+   "name": "オンライン原稿用紙 Lite",
+   "title": "オンライン原稿用紙 Lite つかいかた",
+   "summary": "この ページは、オンライン原稿用紙 Lite を はじめて ひらく人の ための つかいかたです。画面の 絵と 見くらべながら、上から じゅんに 読んでください。",
+   "source": "docs/manual/manual.md",
+   "chapters": 11,
+   "images": 32,
+   "imageHost": "subdomain",
+   "charCount": 8885,
+   "updatedAt": "2026-09-01",
+   "termsUrl": "https://online-manuscript-paper-lite.giga-school.com/terms.html",
+   "privacyUrl": "https://online-manuscript-paper-lite.giga-school.com/privacy.html"
+  },
+  {
    "slug": "qalc",
    "repo": "Qalc",
    "name": "Qalc（カルク）",
