@@ -115,8 +115,8 @@
    drift:
      runs-on: ubuntu-latest
      steps:
-       - uses: actions/checkout@v4
-       - uses: actions/checkout@v4
+       - uses: actions/checkout@v7
+       - uses: actions/checkout@v7
          with: { repository: GIGAyama/GIGAyama.github.io, path: .standards-src }
        - run: node .standards-src/standards/check-drift.mjs --standards .standards-src/standards
    ```
