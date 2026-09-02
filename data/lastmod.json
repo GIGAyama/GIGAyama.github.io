@@ -2,8 +2,8 @@
  "_comment": "そのページの中身が最後に変わった日。tools/sync-updates.mjs が書く。手で直さない。hash は日付の場所に 0000-00-00 を置いて組んだときの sha256 なので、日付が動いてもハッシュは動かない。⚠️ この台帳が消えると、翌朝すべてのページが「今日」に揃う（直したはずの症状がそのまま戻る）。.github/workflows/sync-updates.yml の PATHS から外さないこと。",
  "pages": {
   "/": {
-   "hash": "d4521dc77bb2d69f",
-   "lastmod": "2026-09-02"
+   "hash": "7c0b7d48250f7784",
+   "lastmod": "2026-09-03"
   },
   "/apps/": {
    "hash": "72160406db1d55d8",

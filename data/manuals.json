@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-09-02",
+ "generatedAt": "2026-09-03",
  "items": [
   {
    "slug": "digital-textbook",
@@ -61,6 +61,36 @@
    "updatedAt": "2026-08-30",
    "termsUrl": "https://kanji-town.giga-school.com/terms.html",
    "privacyUrl": "https://kanji-town.giga-school.com/privacy.html"
+  },
+  {
+   "slug": "keisan-block",
+   "repo": "KEISAN-BLOCK",
+   "name": "さんすうブロック",
+   "title": "さんすうブロック つかいかた",
+   "summary": "このページは、さんすうブロックを はじめて ひらく人の ための つかいかたです。画面の 絵と 見くらべながら、上から じゅんに 読んでください。",
+   "source": "docs/manual/manual.md",
+   "chapters": 15,
+   "images": 43,
+   "imageHost": "subdomain",
+   "charCount": 11248,
+   "updatedAt": "2026-09-02",
+   "termsUrl": "https://keisan-block.giga-school.com/terms.html",
+   "privacyUrl": "https://keisan-block.giga-school.com/privacy.html"
+  },
+  {
+   "slug": "keisan-card",
+   "repo": "Keisan-Card",
+   "name": "けいさんカード",
+   "title": "けいさんカード の つかいかた",
+   "summary": "このページは、けいさんカードを はじめて ひらく人の ための つかいかたです。画面の 絵と 見くらべながら、上から じゅんに 読んでください。",
+   "source": "docs/manual/manual.md",
+   "chapters": 13,
+   "images": 33,
+   "imageHost": "subdomain",
+   "charCount": 8491,
+   "updatedAt": "2026-09-02",
+   "termsUrl": "https://keisan-card.giga-school.com/terms.html",
+   "privacyUrl": "https://keisan-card.giga-school.com/privacy.html"
   },
   {
    "slug": "notebooksample-generator",

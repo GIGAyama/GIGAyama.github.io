@@ -1,6 +1,6 @@
 {
  "_comment": "tools/sync-updates.mjs が日付を書き込む。grades（対象学年）・account（アカウント）・storage（記録の置き場所）は手で書く。grades の [] は「児童が使うものではない」、項目そのものが無いものは「まだ決めていない」。",
- "generatedAt": "2026-09-02",
+ "generatedAt": "2026-09-03",
  "items": [
   {
    "repo": "Digital-Newspaper",
@@ -23,8 +23,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-01-23",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "DigitalCloset",
@@ -39,8 +39,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-09",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Digital_textbook",
@@ -79,8 +79,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Gobblet",
@@ -100,8 +100,8 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Haiku-meeting",
@@ -119,8 +119,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Homework_barcordreader",
@@ -134,8 +134,8 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-03-05",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-09-01"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Ice_slide-puzzle",
@@ -155,8 +155,8 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2026-03-01",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "JIDOSHA_ZUKAN",
@@ -184,8 +184,8 @@
    ],
    "storage": "device",
    "publishedAt": "2026-07-23",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-09-02"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "KANA_Master",
@@ -198,8 +198,8 @@
     1
    ],
    "publishedAt": "2026-03-02",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "KANJI_Town",
@@ -224,8 +224,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-16",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "KEISAN-BLOCK",
@@ -240,8 +240,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-07-24",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Keisan-Card",
@@ -256,8 +256,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-06-12",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "MIRAI-Compass",
@@ -275,8 +275,8 @@
    ],
    "account": "google",
    "publishedAt": "2026-01-29",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Moral_note",
@@ -292,8 +292,8 @@
     6
    ],
    "publishedAt": "2026-02-15",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Music-production_studio",
@@ -354,8 +354,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-16",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-31"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "online-manuscript-paper-lite",
@@ -375,8 +375,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-07",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-09-01"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "online-manuscript-paper-pro",
@@ -402,8 +402,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-08",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-09-01"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Online-Publisher-pro",
@@ -423,8 +423,8 @@
    "account": "teacher",
    "storage": "google",
    "publishedAt": "2026-03-07",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "PhysicalEducation_note",
@@ -440,8 +440,8 @@
     6
    ],
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Qalc",
@@ -466,8 +466,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-11",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Quarto",
@@ -486,8 +486,8 @@
    ],
    "account": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Quoridor",
@@ -507,8 +507,8 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Reading-Books",
@@ -532,8 +532,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-01",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Reflection_Journal",
@@ -556,8 +556,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Reversi",
@@ -577,8 +577,8 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "SchoolPlan_Editor",
@@ -596,8 +596,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-09-02"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Shared-Folder-Sync",
@@ -608,8 +608,8 @@
    "hosts": [],
    "grades": [],
    "publishedAt": "2026-02-01",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Shiritori_fighter",
@@ -624,8 +624,8 @@
     3
    ],
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Townmap_Mikke",
@@ -644,8 +644,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "tsubomi-learning",
@@ -676,8 +676,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-07-29",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-09-01"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Werewolf",
@@ -731,8 +731,8 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-08-07",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "app_launcher",
@@ -742,7 +742,8 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-09-02"
+   "updatedAt": "2026-09-03",
+   "changedAt": "2026-09-03"
   },
   {
    "repo": "Blackboard_Timer",
@@ -753,7 +754,7 @@
    "grades": [],
    "publishedAt": "2026-02-24",
    "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-29"
+   "changedAt": ""
   },
   {
    "repo": "Linker-Clipper",
