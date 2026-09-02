@@ -42,6 +42,7 @@
  */
 
 import { mkdir, readFile, readdir, writeFile, rm, rmdir } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { renderArticle } from './lib/article-md.mjs';
 import { pickImageUrl } from './lib/article-images.mjs';
 import { manualPage } from './lib/manual-page.mjs';
@@ -324,6 +325,6 @@ const main = async () => {
 
 /* ⚠️ 取りこんだだけで走らせない。書き出しも削除もする道具なので、
    import した拍子に本番の生成物を書き替えてしまう。 */
-if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
   await main();
 }

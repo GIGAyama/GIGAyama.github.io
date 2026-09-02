@@ -28,6 +28,10 @@ Claude Code はこの取りこみを通して読む。以下はポータル固�
    **その手順は `standards/web/verify-no-external.mjs` にしてある**（2026-08-29）。
    実行時に組み立てた URL は静的検査には原理的に見えないので、こちらでしか出ない。
    週次の巡回は `.github/workflows/verify-runtime.yml`。
+   ⚠️ その 3 件は、エージェント用の `lint-giga` だけ直して **CI 側の
+   `B_NO_CDN_CODE`（`standards/lib/giga-v5-checks.mjs`）は 2026-09-02 まで穴のまま**
+   だった。同じ教訓を 2 か所の検査に落とすときは、両方を `lessons.json` の
+   `guardedBy` に書くこと（片方だけ書くと、もう片方は直っていなくても緑に見える）。
 2. **Zero PII**: 児童の個人情報を一切扱わない（Local First）。
 3. **正本同期の徹底**: 共通コード（SW生成、検査、records等）は `standards/` 配下を正本とし、個別リポジトリを直接修正しない。
 4. **SW版数整合性**: `tools/build-sw.mjs` を通じてファイル内容からキャッシュ版数を刻む。

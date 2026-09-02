@@ -37,7 +37,7 @@ import { SKILL_ROOTS } from '../standards/check-drift.mjs';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { NORMALIZERS, listFiles } from '../standards/check-drift.mjs';
 
 const execFileAsync = promisify(execFile);
@@ -454,6 +454,11 @@ async function main() {
     + `${compared} ファイルが正本と一致しています。`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+/* ⚠️ `file://${process.argv[1]}` を文字列で組み立てて比べないこと。Windows は
+   file:///C:/… とスラッシュの数が違い、空白や日本語を含むパスは Linux でも
+   %20 の有無で一致しない。一致しなければ main() は呼ばれず、何も見ないまま
+   exit 0 になる（2026-08-28 に giga-reviewer で起きた型。2026-09-02 に正本 3 本で再発）。
+   standards/lib/cli-entry.test.mjs が字面で見張っている。 */
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
   main().catch((error) => { console.error('❌ ' + (error.stack ?? error.message)); process.exit(1); });
 }

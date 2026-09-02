@@ -139,8 +139,11 @@ export async function ghFileChangedAt(repo, path, agent) {
  * **41 本ぜんぶが同じ updatedAt** になっていた。
  *
  * 配布のコミットは題で見分けられる（tools/distribute.mjs の BRANCH_NAME と PR_TITLE）。
- * 配布が書き替えるのは `.claude/` `.agents/` `tools/build-sw.mjs` `sw/` だけで、
- * **公開される HTML・CSS・JS には一切触れない**ので、除いても取りこぼしは出ない。
+ * 配布が書き替えるのは、道具（`.claude/` `.agents/` `tools/build-sw.mjs`）と、
+ * 艦隊共通の写し（`web/giga-app-links.js`・`records-export.*`）と、それに合わせて
+ * 刻み直す sw.js の版（2026-09-02 から）。公開されるファイルにも触れるが、どれも
+ * 42 本に同じものが同じ日に入る**艦隊ぜんたいの手入れ**で、そのアプリを直した日では
+ * ない。ここで欲しいのは後者なので、除いても取りこぼしは出ない。
  *
  * ⚠️ 落とすのはこの 2 つだけに絞る。`chore(sw)` や `chore(gate)` まで落とすと、
  *    Service Worker の版を刻み直した日＝**実際に配信物が変わった日**を見落とす。

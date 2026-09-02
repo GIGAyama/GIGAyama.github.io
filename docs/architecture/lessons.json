@@ -151,6 +151,10 @@
     {
      "file": ".github/workflows/verify-runtime.yml",
      "contains": "schedule"
+    },
+    {
+     "file": "standards/lib/giga-v5-checks.mjs",
+     "contains": "(?:https?:)?"
     }
    ]
   },
@@ -1006,6 +1010,64 @@
     {
      "file": "standards/skills/note-article/scripts/capture.test.mjs",
      "contains": "ページの中へ <style> を差しこまない"
+    }
+   ]
+  },
+  {
+   "date": "2026-09-02",
+   "symptom": "2026-08-28 に直したはずの「文字列で file:// を組み立てる入口判定」が、正本 3 本（build-sw-static / check-secrets / check-distribution）と、そこから配った約 30 本に残っていた。空白や日本語を含むパスでは main() が呼ばれず、**何も見ないまま exit 0**（「SW の版は合っている」「秘密の直書きは無い」の緑が嘘になる）。1 か所直しても同じ型は残る——字面で正本ぜんぶを見る検査が無かった",
+   "guardedBy": [
+    {
+     "file": "standards/lib/cli-entry.test.mjs",
+     "contains": "file:"
+    },
+    {
+     "file": "standards/sw/build-sw-static.mjs",
+     "contains": "pathToFileURL"
+    },
+    {
+     "file": "standards/lib/check-secrets.mjs",
+     "contains": "pathToFileURL"
+    },
+    {
+     "file": "tools/check-distribution.mjs",
+     "contains": "pathToFileURL"
+    }
+   ]
+  },
+  {
+   "date": "2026-09-02",
+   "symptom": "CI が走らせる Zero-CDN 検査（B_NO_CDN_CODE）に、2026-08-28 の 3 つの穴（スキームを省いた //cdn…、<img src>、CSS の @import / url()）がそのまま残っていた。直したのはエージェント用の lint-giga だけで、**18 本の CI を守る側は直していなかった**。外の書体・画像・ESM の import・SW の importScripts は緑のまま通っていた",
+   "guardedBy": [
+    {
+     "file": "standards/lib/giga-v5-checks.mjs",
+     "contains": "(?:https?:)?"
+    },
+    {
+     "file": "standards/lib/giga-v5-checks.mjs",
+     "contains": "@import"
+    },
+    {
+     "file": "standards/lib/giga-v5-checks.test.mjs",
+     "contains": "スキームを省いた"
+    }
+   ]
+  },
+  {
+   "date": "2026-09-02",
+   "symptom": "正本配布（distribute.mjs）が、配布先で**別のものの材料**になっている写し（web/giga-app-links.js・records-export.*）を書き替えても、そこから作るもの（sw.js の版、GAS の giga_links.html）を作り直さずに main へ運んでいた。2026-08-30 の配布で 6 本が build-sw --check、7 本が build-app-links --check で赤くなり、静的 PWA では**版が変わらないので子どもの端末に新しい中身が届かない**（2026-08-21 と同じ型）",
+   "guardedBy": [
+    {
+     "file": "tools/lib/distribute-regenerate.mjs",
+     "contains": "build-sw"
+    },
+    {
+     "file": "tools/lib/distribute-regenerate.test.mjs",
+     "contains": "test("
+    },
+    {
+     "file": "tools/distribute.mjs",
+     "contains": "regenerationCommands"
     }
    ]
   }

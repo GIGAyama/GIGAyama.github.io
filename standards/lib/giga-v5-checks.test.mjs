@@ -936,3 +936,82 @@ test('注入型でない sw に sw-build.config.json があっても、原文の
   };
   assert.equal(ids(failures(t)).includes('E_SW_PRECACHE_OFFLINE'), true);
 });
+
+/* ── B_NO_CDN_CODE: 2026-08-28 に実ブラウザで見つけた 3 つの穴 ────────────────
+ *
+ * 静的検査が「0 件」と言うのに、ブラウザは外を読んでいた。
+ *   ① スキームを省いた //cdn.jsdelivr.net/…（`https?://` でしか見ていなかった）
+ *   ② <img src="https://…">（<script> と <link> しか見ていなかった）
+ *   ③ 印刷ウィンドウの中の @import（CSS も、JS が組み立てる CSS も見ていなかった）
+ * エージェント用の lint-giga は直したが、CI が走らせるこちらは 2026-09-02 まで
+ * 同じ穴のままだった。ここで 3 つとも固定する。
+ */
+const withHead = (html) => ({ ...OK_TREE, 'index.html': OK_TREE['index.html'].replace('</head>', html + '</head>') });
+const withBody = (html) => ({ ...OK_TREE, 'index.html': OK_TREE['index.html'].replace('</body>', html + '</body>') });
+const withJs = (js) => ({ ...OK_TREE, 'js/app.js': OK_TREE['js/app.js'] + '\n' + js });
+const withCss = (css) => ({ ...OK_TREE, 'css/style.css': OK_TREE['css/style.css'] + '\n' + css });
+const cdn = (tree, config) => ids(failures(tree, config)).includes('B_NO_CDN_CODE');
+
+test('B_NO_CDN_CODE: スキームを省いた //cdn… も拾う（①）', () => {
+  assert.ok(cdn(withHead('<script src="//cdn.jsdelivr.net/npm/x/x.js"></script>')));
+  assert.ok(cdn(withHead('<link rel="stylesheet" href="//fonts.googleapis.com/css2?family=X">')));
+  assert.ok(cdn(withJs("const s = document.createElement('script'); s.src = '//unpkg.com/x.js';")));
+});
+
+test('B_NO_CDN_CODE: 画像・動画・音・SVG も外から読まない（②）', () => {
+  assert.ok(cdn(withBody('<img src="https://cdn.example/a.png" alt="">')));
+  assert.ok(cdn(withBody('<img src="./a.png" srcset="https://cdn.example/a@2x.png 2x, ./a.png 1x" alt="">')));
+  assert.ok(cdn(withBody('<video poster="https://cdn.example/p.jpg" src="./v.mp4"></video>')));
+  assert.ok(cdn(withBody('<audio src="https://cdn.example/s.mp3"></audio>')));
+  assert.ok(cdn(withBody('<picture><source srcset="https://cdn.example/a.webp" type="image/webp"><img src="./a.png" alt=""></picture>')));
+  assert.ok(cdn(withBody('<object data="https://cdn.example/x.svg"></object>')));
+  assert.ok(cdn(withBody('<svg><use href="https://cdn.example/sprite.svg#i"></use></svg>')));
+});
+
+test('B_NO_CDN_CODE: CSS の @import と url() も見る（③ 書体・画像）', () => {
+  assert.ok(cdn(withCss('@import url(https://fonts.googleapis.com/css2?family=X);')));
+  assert.ok(cdn(withCss("@import 'https://fonts.googleapis.com/css2?family=X';")));
+  assert.ok(cdn(withCss('@font-face { font-family: X; src: url(https://fonts.gstatic.com/s/x.woff2) format("woff2"); }')));
+  assert.ok(cdn(withCss('.hero { background: url("//cdn.example/bg.png"); }')));
+  assert.ok(cdn(withHead('<style>@import url(https://fonts.googleapis.com/css2?family=X);</style>')), '<style> の中');
+});
+
+test('B_NO_CDN_CODE: JS が組み立てる印刷ウィンドウの中の @import / <link> も見る（③）', () => {
+  assert.ok(cdn(withJs("w.document.write('<style>@import url(https://fonts.googleapis.com/css2?family=X);</style>');")));
+  assert.ok(cdn(withJs('w.document.write(\'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=X">\');')));
+  assert.ok(cdn(withJs('const css = `@font-face { src: url(https://fonts.gstatic.com/s/x.woff2); }`;')), 'テンプレート文字列の中');
+});
+
+test('B_NO_CDN_CODE: CDN からの ESM import と Worker、SW の importScripts も拾う', () => {
+  assert.ok(cdn(withJs("import('https://esm.sh/x');")));
+  assert.ok(cdn(withJs("import x from 'https://esm.sh/x';")));
+  assert.ok(cdn(withJs("new Worker('https://cdn.example/w.js');")));
+  assert.ok(cdn(withJs("el.setAttribute('src', 'https://cdn.example/x.js');")));
+  const sw = "importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');\n" + OK_TREE['sw.js'];
+  assert.ok(cdn({ ...OK_TREE, 'sw.js': sw }), 'SW は jsFiles() の外だが、CDN の workbox を読む場所はここ');
+});
+
+test('B_NO_CDN_CODE: 読みこみでないものは拾わない（誤検知しない）', () => {
+  assert.ok(!cdn(withJs("location.href = 'https://giga-school.com/';")), '行き先');
+  assert.ok(!cdn(withJs("const a = document.createElement('a'); a.href = 'https://giga-school.com/apps/';")), '行き先');
+  assert.ok(!cdn(withCss('.x { background: url(data:image/png;base64,AAAA); } .y { background: url(./bg.png); }')), 'data: と相対');
+  assert.ok(!cdn(withCss('/* 以前は url(https://fonts.gstatic.com/x.woff2) を読んでいた */')), 'CSS のコメント');
+  assert.ok(!cdn(withJs("// s.src = 'https://cdn.example/x.js';\n/* <img src=\"https://cdn.example/a.png\"> */")), 'JS のコメント');
+  assert.ok(!cdn(withBody('<!-- <img src="https://cdn.example/a.png"> -->')), 'HTML のコメント');
+  assert.ok(!cdn(withBody('<img src="./a.png" srcset="./a@2x.png 2x, ./a.png 1x" alt="">')), '相対の srcset');
+  assert.ok(!cdn(withJs("const parts = s.split('//');")), 'ただの文字列');
+  assert.ok(!cdn(withJs("import { x } from './lib/x.js';")), '相対の import');
+  assert.ok(!cdn(withJs("const u = new URL('https://api.example/v1'); fetch(u);")), 'fetch の宛先は別の検査の領分');
+});
+
+test('B_NO_CDN_CODE: 許可した宛先（allowedRemoteScripts）は @import や画像でも拾わない', () => {
+  const tree = withCss('@import url(https://fonts.googleapis.com/css2?family=X);');
+  assert.ok(cdn(tree));
+  assert.ok(!cdn(tree, { allowedRemoteScripts: ['^https://fonts\\.googleapis\\.com/'] }));
+});
+
+test('B_NO_CDN_CODE: 同じ 1 行を 2 度言わない（@import url(…) は 2 つの形に当たる）', () => {
+  const dir = makeTree(withCss('@import url(https://fonts.googleapis.com/css2?family=X);'));
+  const r = runGigaChecks(dir, CONFIG).find((x) => x.id === 'B_NO_CDN_CODE');
+  assert.equal(r.detail.filter((d) => d.includes('fonts.googleapis.com')).length, 1, r.detail.join('\n'));
+});
