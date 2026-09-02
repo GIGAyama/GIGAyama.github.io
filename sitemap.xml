@@ -308,6 +308,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://giga-school.com/apps/kake-master/manual/</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://giga-school.com/apps/kanji-town/manual/</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -411,7 +417,7 @@
   </url>
   <url>
     <loc>https://kake-master.giga-school.com/</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

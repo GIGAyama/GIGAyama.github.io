@@ -33,6 +33,21 @@
    "privacyUrl": "https://homework-barcordreader.giga-school.com/privacy.html"
   },
   {
+   "slug": "kake-master",
+   "repo": "KAKE_Master",
+   "name": "九九カード",
+   "title": "九九カード の つかいかた",
+   "summary": "このページは、かけ算の 九九を れんしゅうする Web アプリ「九九カード」の つかいかたです。ほんものの 計算カードと おなじように、めくって、こたえを たしかめて、…",
+   "source": "docs/manual/manual.md",
+   "chapters": 13,
+   "images": 40,
+   "imageHost": "subdomain",
+   "charCount": 14335,
+   "updatedAt": "2026-09-02",
+   "termsUrl": "https://kake-master.giga-school.com/terms.html",
+   "privacyUrl": "https://kake-master.giga-school.com/privacy.html"
+  },
+  {
    "slug": "kanji-town",
    "repo": "KANJI_Town",
    "name": "マイ漢字タウン",
