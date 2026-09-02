@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>九九カード の使い方｜GIGA school</title>
+  <meta name="description" content="このページは、かけ算の 九九を れんしゅうする Web アプリ「九九カード」の つかいかたです。ほんものの 計算カードと おなじように、めくって、こたえを たしかめて、…">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://giga-school.com/apps/kake-master/manual/">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="九九カード の使い方">
+  <meta property="og:description" content="このページは、かけ算の 九九を れんしゅうする Web アプリ「九九カード」の つかいかたです。ほんものの 計算カードと おなじように、めくって、こたえを たしかめて、…">
+  <meta property="og:url" content="https://giga-school.com/apps/kake-master/manual/">
+  <meta property="og:image" content="https://kake-master.giga-school.com/docs/manual/images/01-home.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/article.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://giga-school.com/apps/kake-master/manual/#manual",
+      "headline": "九九カード の使い方",
+      "description": "このページは、かけ算の 九九を れんしゅうする Web アプリ「九九カード」の つかいかたです。ほんものの 計算カードと おなじように、めくって、こたえを たしかめて、…",
+      "image": "https://kake-master.giga-school.com/docs/manual/images/01-home.png",
+      "inLanguage": "ja",
+      "proficiencyLevel": "Beginner",
+      "datePublished": "2026-07-23",
+      "dateModified": "2026-09-02",
+      "author": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "publisher": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "mainEntityOfPage": "https://giga-school.com/apps/kake-master/manual/",
+      "about": {
+        "@type": "WebApplication",
+        "name": "九九カード",
+        "url": "https://kake-master.giga-school.com/",
+        "operatingSystem": "Web ブラウザ",
+        "inLanguage": "ja",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "GIGA school",
+          "item": "https://giga-school.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "紹介",
+          "item": "https://giga-school.com/apps/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "九九カード",
+          "item": "https://giga-school.com/apps/kake-master/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "使い方",
+          "item": "https://giga-school.com/apps/kake-master/manual/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap article article--read manual">
+    <nav class="crumbs no-print" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/">紹介</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/kake-master/">九九カード</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">使い方</span>
+    </nav>
+
+    <header class="article__head">
+      <p class="article__series">使い方マニュアル</p>
+      <h1 class="article__title">九九カード の使い方</h1>
+      <p class="article__meta">
+        <time datetime="2026-09-02">2026/09/02</time> 現在の画面です
+        <span class="article__len">全 13 章・読むのに約 30 分</span>
+      </p>
+      <p class="article__actions no-print">
+        <a class="btn btn--primary" href="https://kake-master.giga-school.com/">九九カード を開く</a>
+        <a class="btn btn--ghost" href="/apps/kake-master/">つくった理由を読む</a>
+      </p>
+    </header>
+
+    <aside class="article__rail" aria-label="このページの案内">
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">九九カードで できること</a>
+            <ol class="toc__sub"><li><a href="#s-1-1">九九カードは どんな アプリ？</a></li><li><a href="#s-1-2">つかう人と、はじめる まえに <ruby>用意<rt>ようい</rt></ruby>する もの</a></li></ol>
+          </li>
+          <li><a href="#s-2">はじめて ひらく ときに する こと（さいしょの 1回だけ）</a>
+            <ol class="toc__sub"><li><a href="#s-2-1">ブラウザで アドレスを ひらく</a></li><li><a href="#s-2-2">ホームがめんに アプリとして 入れて おく（先生むけ）</a></li></ol>
+          </li>
+          <li><a href="#s-3">ホームがめんの みかた</a>
+            <ol class="toc__sub"><li><a href="#s-3-1">いちばん 上の おびに ある もの</a></li><li><a href="#s-3-2">まん中の 4つの ボタンで えらぶ</a></li><li><a href="#s-3-3">きょうの がんばりと「にがてカード」の おしらせ</a></li><li><a href="#s-3-4">1つ前の がめんに もどる</a></li></ol>
+          </li>
+          <li><a href="#s-4">れんしゅうを はじめる まえの せってい がめん</a>
+            <ol class="toc__sub"><li><a href="#s-4-1">れんしゅうする「だん」を えらぶ</a></li><li><a href="#s-4-2">カードの じゅんばんを えらぶ</a></li><li><a href="#s-4-3">「はじめる!」で まいすうを たしかめて はじめる</a></li><li><a href="#s-4-4">えらんだ せっていは、つぎに ひらいた ときも のこる</a></li></ol>
+          </li>
+          <li><a href="#s-5">カードで れんしゅうする（めくって しわける）</a>
+            <ol class="toc__sub"><li><a href="#s-5-1">カードを タップして こたえを 見る</a></li><li><a href="#s-5-2">「できた!」と「もういちど」に しわける</a></li><li><a href="#s-5-3">カードの むきを かえて、こたえから しきを 思い出す</a></li><li><a href="#s-5-4">となえかたの ふりがなと、よみあげの ボタン</a></li><li><a href="#s-5-5">おとを 出す・けす と、キーボードで うごかす</a></li></ol>
+          </li>
+          <li><a href="#s-6">こたえて クイズを する（すうじの キーで こたえる）</a>
+            <ol class="toc__sub"><li><a href="#s-6-1">すうじの キーで こたえを 入れて「OK」を おす</a></li><li><a href="#s-6-2">まちがえた ときに 出る こたえと「つぎへ」</a></li><li><a href="#s-6-3">もんだいの かずを えらぶ</a></li><li><a href="#s-6-4">タイムと ベストタイムの きまりかた</a></li></ol>
+          </li>
+          <li><a href="#s-7">ふたりで もんだいを 出しあう</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">あそびかたを たしかめて はじめる</a></li><li><a href="#s-7-2">こえに 出して こたえ、カードで こたえあわせ</a></li><li><a href="#s-7-3">あいてが「せいかい!」「ざんねん」を おす</a></li><li><a href="#s-7-4">かちまけの きまりかた</a></li></ol>
+          </li>
+          <li><a href="#s-8">れんしゅうが おわった あとの けっかの がめん</a>
+            <ol class="toc__sub"><li><a href="#s-8-1">けっかの がめんに 出る 3つの すうじ</a></li><li><a href="#s-8-2">「まちがえたカード」で ふくしゅうする</a></li><li><a href="#s-8-3">つぎに する ことを 3つの ボタンから えらぶ</a></li></ol>
+          </li>
+          <li><a href="#s-9">きろく・スタンプで がんばりを ふりかえる</a>
+            <ol class="toc__sub"><li><a href="#s-9-1">いちばん 上の 3つの すうじ</a></li><li><a href="#s-9-2">スタンプカレンダー</a></li><li><a href="#s-9-3">九九マスターマップ（81の マス）</a></li><li><a href="#s-9-4">がくしゅうの ふりかえり</a></li><li><a href="#s-9-5">12この メダルと、もらえる じょうけん</a></li></ol>
+          </li>
+          <li><a href="#s-10">にがてカードだけを あつめて れんしゅうする</a>
+            <ol class="toc__sub"><li><a href="#s-10-1">にがてカードは どうやって きまるのか</a></li><li><a href="#s-10-2">3つの 入口から にがてカードを はじめる</a></li></ol>
+          </li>
+          <li><a href="#s-11">きろくの ほぞんと、【！！】ぜんぶ けす とき</a>
+            <ol class="toc__sub"><li><a href="#s-11-1">きろくは どこに のこるのか</a></li><li><a href="#s-11-2">【！！】きろくを ぜんぶ けす</a></li><li><a href="#s-11-3">1台を 何人かで つかう ときの ちゅうい（先生むけ）</a></li></ol>
+          </li>
+          <li><a href="#s-12">きろくの がめんを 紙に <ruby>印刷<rt>いんさつ</rt></ruby>する（先生むけ）</a>
+            <ol class="toc__sub"><li><a href="#s-12-1"><ruby>印刷<rt>いんさつ</rt></ruby>の しかた</a></li><li><a href="#s-12-2">紙に 出る ものと 出ない もの</a></li><li><a href="#s-12-3"><ruby>電子黒板<rt>でんしこくばん</rt></ruby>や 大きな がめんに うつす</a></li></ol>
+          </li>
+          <li><a href="#s-13">うまく いかない とき</a>
+            <ol class="toc__sub"><li><a href="#s-13-1">音や よみあげが 出ない とき</a></li><li><a href="#s-13-2">きろくが きえた とき</a></li><li><a href="#s-13-3">がめんが 古いまま かわらない とき</a></li><li><a href="#s-13-4">字の かたちが いつもと ちがう とき</a></li><li><a href="#s-13-5">それでも なおらない とき</a></li></ol>
+          </li>
+        </ol>
+      </nav>
+    </details>
+      <div class="manual__tools no-print">
+        <button type="button" class="btn btn--ghost" data-print>印刷する</button>
+        <button type="button" class="btn btn--ghost" data-copy="https://giga-school.com/apps/kake-master/manual/"
+                data-copy-label="このページのリンク">リンクをコピー</button>
+      </div>
+    </aside>
+
+    <div class="prose prose--article">
+<p>このページは、かけ算の 九九を れんしゅうする Web アプリ「九九カード」の つかいかたです。ほんものの 計算カードと おなじように、めくって、こたえを たしかめて、「できた」ものと「もういちど」やる ものに しわけます。がめんの しゃしんと 見くらべながら、上から じゅんに よんで ください。</p>
+<h2 id="s-1">九九カードで できること</h2>
+<p>九九カードは、かけ算の 九九を 3つの やりかたで れんしゅうして、その きろくを ふりかえる アプリです。ここでは、なにが できるのかと、はじめる まえに <ruby>用意<rt>ようい</rt></ruby>する ものを せつめいします。</p>
+<h3 id="s-1-1">九九カードは どんな アプリ？</h3>
+<p>ブラウザで ひらくだけで つかえる、九九の れんしゅう アプリです。アプリを ダウンロードしたり、名前や あいことばを つくったりする ことは ありません。ひらいた その ばで はじめられます。</p>
+<p>れんしゅうの しかたは 3つ あります。カードを めくって しわける「カードでれんしゅう」、すうじの キーで こたえを 入れる「こたえてクイズ」、おともだちと かわりばんこに 出しあう「ふたりでもんだい」です。それに、じぶんの がんばりを 見る「きろく・スタンプ」を あわせて、はじめの がめんに 4つの ボタンが ならびます。</p>
+<p>れんしゅうした きろくは、つかっている タブレットや パソコンの 中にだけ のこります。名前や しゅっせきばんごうを 入れる ところは 1つも ありません。インターネットの むこうへ おくる ことも ありません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/01-home.png"><img src="https://kake-master.giga-school.com/docs/manual/images/01-home.png" alt="ひらいた ところの ホームがめん" loading="lazy" decoding="async"></a><figcaption>これが ひらいた ときの がめんです。</figcaption></figure>
+<h3 id="s-1-2">つかう人と、はじめる まえに <ruby>用意<rt>ようい</rt></ruby>する もの</h3>
+<p>つかうのは、九九を おぼえる みなさんです。「先生むけ」と 書いて ある ところだけは、先生に よんで もらって ください。</p>
+<p>はじめる まえに、つぎの ものが 手もとに あるか たしかめて ください。</p>
+<ol><li>タブレット・Chromebook・パソコンの どれか 1つ。スマートフォンでも つかえます。</li><li>インターネットに つながって いる こと。さいしょの 1回だけ ひつようです。</li><li>ひらく ところ（アドレス）… <code>https://kake-master.giga-school.com/</code></li></ol>
+<p>ID や あいことばは いりません。アカウントを つくる ひつようも ありません。おともだちと きょうそうする「ふたりでもんだい」も、1台の タブレットを 2人で のぞきこんで あそぶので、もう1台 いる ことは ありません。</p>
+<h2 id="s-2">はじめて ひらく ときに する こと（さいしょの 1回だけ）</h2>
+<p>さいしょの 1回だけ やって おく ことが 2つ あります。1つめは かならず、2つめは やらなくても つかえます。</p>
+<h3 id="s-2-1">ブラウザで アドレスを ひらく</h3>
+<p>Chrome などの ブラウザを ひらいて、いちばん 上の アドレスの ところに つぎの ように 入れて、エンターキーを おして ください。</p>
+<pre tabindex="0"><code>https://kake-master.giga-school.com/</code></pre>
+<p>すぐに ホームがめんが 出ます。名前を 入れたり、あいことばを 入れたり する ことは ありません。</p>
+<p>さいしょの 1回は、かならず インターネットに つながった ところで ひらいて ください。その ときに アプリ ぜんぶが タブレットの 中に 入ります。つぎからは、つながって いなくても つかえます。</p>
+<h3 id="s-2-2">ホームがめんに アプリとして 入れて おく（先生むけ）</h3>
+<p>タブレットの ホームがめんに 入れて おくと、ブラウザの バーが きえて がめんが 広く なり、つぎから すぐ ひらけます。入れかたは きかいに よって ちがいます。</p>
+<ol><li>Chromebook・Windows（Chrome / Edge）… がめんの 右上に 出る「インストール」を おします。出ない ときは、アドレスの ところの 右はしに ある 小さい しるしを おします。</li><li>iPad・iPhone（Safari）… <ruby>共有<rt>きょうゆう</rt></ruby>ボタン（□から ↑ が 出て いる しるし）を おして、下の ほうの「ホーム<ruby>画面<rt>がめん</rt></ruby>に<ruby>追加<rt>ついか</rt></ruby>」を おし、右上の「<ruby>追加<rt>ついか</rt></ruby>」を おします。</li><li>Android … メニューから「アプリをインストール」または「ホーム<ruby>画面<rt>がめん</rt></ruby>に<ruby>追加<rt>ついか</rt></ruby>」を おします。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/02-home-header.png"><img src="https://kake-master.giga-school.com/docs/manual/images/02-home-header.png" alt="上の おびに 出る インストールの ボタン" loading="lazy" decoding="async"></a><figcaption>右の「インストール」が、入れられる ときだけ 出ます。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>入れなくても、ブラウザの ままで ぜんぶ つかえます。</li><li>「インストール」の ボタンが 出ない ときは、もう 入って いるか、iPad の Safari で ひらいて いるか、まだ 1回も ふつうに ひらいて いないかの どれかです。</li><li>iPad は、7日いじょう 1回も ひらかないと、のこした きろくが きえる ことが あります。ホームがめんに 入れて おくと、これが おきにくく なります。</li><li>入れても、きろくは その きかいの 中に のこった ままです。べつの きかいには うつりません。</li></ul>
+<h2 id="s-3">ホームがめんの みかた</h2>
+<p>ひらいた ときに 出る ホームがめんには、上の おび・まん中の 4つの ボタン・下の おしらせの 3つが あります。どこに 何が あるかを おぼえて おくと、まよわなく なります。</p>
+<h3 id="s-3-1">いちばん 上の おびに ある もの</h3>
+<p>いちばん 上の おびには、左に「九九カード」の 名前、右に れんぞく日すうと「インストール」の ボタンが 出ます。</p>
+<p>左の「九九カード」を おすと、ホームがめんに もどれます。せっていの がめんや きろくの がめんから、まちがえて 入った ときに つかって ください。れんしゅうの あいだは この おびが かくれるので、そのときは 左上の × を つかいます。</p>
+<p>その 右の ほのおの しるしと すうじは、なん日 つづけて れんしゅうしたかです。きのうも きょうも れんしゅうして いない ときは、この しるしは 出ません。いちばん 右の「インストール」は、ホームがめんに 入れられる きかいで だけ 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/02-home-header.png"><img src="https://kake-master.giga-school.com/docs/manual/images/02-home-header.png" alt="上の おびに ある もの" loading="lazy" decoding="async"></a><figcaption>左が ホームへ もどる ところ、右が れんぞく日すうです。</figcaption></figure>
+<h3 id="s-3-2">まん中の 4つの ボタンで えらぶ</h3>
+<p>まん中には、大きな ボタンが 4つ ならんで います。上の 左から「カードでれんしゅう」「こたえてクイズ」、下の 左から「ふたりでもんだい」「きろく・スタンプ」です。</p>
+<p>はじめの 3つは れんしゅうです。どれを おしても、まず おなじ せっていの がめんに いきます。4つめの「きろく・スタンプ」だけは、せっていを とおらずに そのまま きろくの がめんに いきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/03-home-modes.png"><img src="https://kake-master.giga-school.com/docs/manual/images/03-home-modes.png" alt="まん中の 4つの ボタン" loading="lazy" decoding="async"></a><figcaption>ボタンの 下に、なにを する ところかが 書いて あります。</figcaption></figure>
+<h3 id="s-3-3">きょうの がんばりと「にがてカード」の おしらせ</h3>
+<p>いちばん 上の あいさつは、ひらいた 時こくで かわります。朝は「おはよう!」、ひるまは「こんにちは!」、夕がたから あとは「こんばんは!」です。その 下に、きょう なんまい めくったかが 出ます。まだ れんしゅうして いない 日は「きょうは まだ れんしゅうしていないよ。1まいから はじめよう!」と 出ます。</p>
+<p>4つの ボタンの 下に、赤い わくの おしらせが 出る ことが あります。これは「にがてカード」が たまった ときだけ 出る もので、おすと その 場で にがてな 九九だけを れんしゅうできます。くわしくは にがてカードの ところに 書いて あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/04-home-weak.png"><img src="https://kake-master.giga-school.com/docs/manual/images/04-home-weak.png" alt="にがてカードの おしらせ" loading="lazy" decoding="async"></a><figcaption>にがてカードが 0まいの ときは、この 行そのものが 出ません。</figcaption></figure>
+<h3 id="s-3-4">1つ前の がめんに もどる</h3>
+<p>がめんの 左上に「もどる」の ボタンが ある ときは、それを おすと 1つ前に もどります。れんしゅうの とちゅうは、左上の ×（やめる）で ホームに もどります。</p>
+<p>タブレットや スマートフォンの「もどる」の うごき（下の バーの ボタンや、がめんの はしから 中へ すべらせる うごき）でも、1つ前に もどれます。パソコンでは キーボードの <code>Esc</code> が おなじ はたらきを します。</p>
+<p>ホームがめんで この うごきを すると、下に「もう1回「もどる」で アプリを とじるよ」と 出ます。すぐに もう1回 すると アプリが とじます。とじたく ない ときは、そこで 何も しないで ください。</p>
+<h2 id="s-4">れんしゅうを はじめる まえの せってい がめん</h2>
+<p>「カードでれんしゅう」「こたえてクイズ」「ふたりでもんだい」の 3つは、はじめる まえに おなじ せっていの がめんを とおります。いちばん 上に、いま えらんで いる れんしゅうの 名前が 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/05-setup-flash.png"><img src="https://kake-master.giga-school.com/docs/manual/images/05-setup-flash.png" alt="せっていの がめん ぜんたい" loading="lazy" decoding="async"></a><figcaption>上から じゅんに えらんで、いちばん 下の「はじめる!」を おします。</figcaption></figure>
+<h3 id="s-4-1">れんしゅうする「だん」を えらぶ</h3>
+<p>いちばん 上の「れんしゅうする「だん」をえらんでね」で、1のだんから 9のだんまでの 中から、やりたい だんを おします。おした だんは 色が つきます。もう1回 おすと 色が きえて、えらんで いない じょうたいに もどります。</p>
+<p>いくつ えらんでも かまいません。2つ いじょう えらぶと、その ぜんぶが まざって 出ます。ただし、ぜんぶ けす ことは できません。1つも のこらなく なる ときは、下に「さいてい 1つは えらんでね」と 出て、えらんだ ままに なります。</p>
+<p>右下の 2つの 小さい ボタンも つかえます。「ぜんぶえらぶ」は 1のだんから 9のだんまでの ぜんぶを えらびます。「1つにする」は、いま えらんで いる 中の いちばん 小さい だんだけを のこして、ほかを けします。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/06-setup-stages.png"><img src="https://kake-master.giga-school.com/docs/manual/images/06-setup-stages.png" alt="だんを えらぶ ところ" loading="lazy" decoding="async"></a><figcaption>ここでは 2のだんと 3のだんを えらんで います。</figcaption></figure>
+<h3 id="s-4-2">カードの じゅんばんを えらぶ</h3>
+<p>つぎの「カードのじゅんばん」で、カードの 出る じゅんばんを 3つの 中から えらびます。</p>
+<ol><li>上から … えらんだ だんの 小さい ほうから、×1・×2・×3 …の じゅんに 出ます。</li><li>下から … その ぎゃくで、大きい ほうの だんの ×9から さかのぼって 出ます。</li><li>バラバラ … 出る じゅんばんを まぜます。おぼえて きたら これに します。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/07-setup-order.png"><img src="https://kake-master.giga-school.com/docs/manual/images/07-setup-order.png" alt="じゅんばんを えらぶ ところ" loading="lazy" decoding="async"></a><figcaption>いま えらんで いる ものに 色が つきます。</figcaption></figure>
+<h3 id="s-4-3">「はじめる!」で まいすうを たしかめて はじめる</h3>
+<p>いちばん 下の 大きな ボタンで はじめます。ボタンの 中に、これから 出る カードの まいすうが 書いて あります。だんを 1つ えらぶと 9まい、2つ えらぶと 18まいです。</p>
+<p>「こたえてクイズ」と「ふたりでもんだい」では、ここに 出るのは「もんだいのかず」で えらんだ かずです。えらんだ だんの カードより 大きい かずを えらんだ ときは、カードの まいすうの ほうが つかわれます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/08-setup-start.png"><img src="https://kake-master.giga-school.com/docs/manual/images/08-setup-start.png" alt="はじめる! の ボタン" loading="lazy" decoding="async"></a><figcaption>2つの だんを えらんだので「18まいの カード」と 出て います。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>おした その ばで はじまります。あとから だんを かえたい ときは、1回 やめて この がめんに もどって ください。</li><li>れんしゅうの とちゅうで せっていを かえても、いま やって いる ぶんは かわりません。つぎに はじめた ときから かわります。</li></ul>
+<h3 id="s-4-4">えらんだ せっていは、つぎに ひらいた ときも のこる</h3>
+<p>えらんだ だん・じゅんばん・カードのむき・もんだいのかず・となえかたは、その きかいの 中に のこります。つぎの 日に ひらいても、まえと おなじ せっていから はじめられます。</p>
+<p>のこるのは その きかいの 中だけです。べつの タブレットで ひらくと、また はじめの せっていに もどります。</p>
+<h2 id="s-5">カードで れんしゅうする（めくって しわける）</h2>
+<p>ホームがめんの「カードでれんしゅう」から はじめます。ほんものの 計算カードと おなじで、しきを 見て、こたえを 思いうかべて、めくって たしかめて、できた ものと もういちど やる ものに しわけて いきます。</p>
+<h3 id="s-5-1">カードを タップして こたえを 見る</h3>
+<p>まん中に 大きな カードが 1まい 出ます。おもてには 「2 × 1」の ような しきと、左上に「2のだん」、右上に「タップで こたえ」と 書いて あります。</p>
+<p>こたえを 思いうかべてから、カードを タップして ください。カードが くるっと まわって、うらの こたえが 出ます。がめんの 下の まん中に ある「めくる」の ボタンでも おなじ ことが できます。</p>
+<p>うらには、大きな こたえと、その 下に となえかた（「にいちが に」）が 出ます。となえかたは せっていで けす ことも できます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/09-flash-front.png"><img src="https://kake-master.giga-school.com/docs/manual/images/09-flash-front.png" alt="カードの おもて" loading="lazy" decoding="async"></a><figcaption>しきが 出て いる ほうが おもてです。</figcaption></figure>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/11-flash-back.png"><img src="https://kake-master.giga-school.com/docs/manual/images/11-flash-back.png" alt="カードの うら" loading="lazy" decoding="async"></a><figcaption>めくると こたえと となえかたが 出ます。</figcaption></figure>
+<p>がめんの いちばん 上には、いま どこまで すすんだかが 出ます。「できた ○ まい・のこり ○ まい」の すうじと、その 下の ぼうが のびて いきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/10-flash-progress.png"><img src="https://kake-master.giga-school.com/docs/manual/images/10-flash-progress.png" alt="すすみぐあいの ところ" loading="lazy" decoding="async"></a><figcaption>のこりが 0に なると おわりです。</figcaption></figure>
+<h3 id="s-5-2">「できた!」と「もういちど」に しわける</h3>
+<p>こたえを たしかめたら、その カードを「できた!」と「もういちど」の どちらかに しわけます。しわけかたは つぎの とおりです。</p>
+<ol><li>カードを 左へ すべらせる（スワイプ）と「できた!」の やまへ いきます。</li><li>カードを 右へ すべらせると「もういちど」に なります。</li><li>がめんの 下の「できた!」「もういちど」の ボタンを おしても おなじです。</li></ol>
+<p>よこへ すべらせて いくと、どちらに なるかの ふだが 出ます。そのまま 大きく すべらせて はなすと しわけられ、すこし しか うごかさずに はなすと、カードは もとの ところに もどります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/13-flash-swipe.png"><img src="https://kake-master.giga-school.com/docs/manual/images/13-flash-swipe.png" alt="左へ すべらせた ところ" loading="lazy" decoding="async"></a><figcaption>みどりの「できた!」の ふだが 出て います。</figcaption></figure>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/14-flash-controls.png"><img src="https://kake-master.giga-school.com/docs/manual/images/14-flash-controls.png" alt="下の 3つの ボタン" loading="lazy" decoding="async"></a><figcaption>左から できた!・めくる・もういちど です。</figcaption></figure>
+<p>「もういちど」に した カードは、やまの いちばん 下に もどって、あとで もう1回 出て きます。えらんだ カードが ぜんぶ「できた!」に なるまで おわりません。とちゅうで やめたい ときは、がめんの 左上の × を おして ください。</p>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>こたえを 見ないで「できた!」に しても かまいません。じぶんで わかった ものは、めくらずに しわけて いくと はやく すすみます。</li><li>「もういちど」に した カードは、けっかの がめんで もういちど 見られます。</li><li>とちゅうで やめても、そこまでの きろくは のこります。</li></ul>
+<h3 id="s-5-3">カードの むきを かえて、こたえから しきを 思い出す</h3>
+<p>せっていの がめんの「カードのむき」で、カードの おもてに 出る ものを かえられます。</p>
+<ol><li>しき → こたえ … しきを 見て、こたえを 思い出します。ふつうは こちらです。</li><li>こたえ → しき … こたえを 見て、その こたえに なる しきを 思い出します。</li></ol>
+<p>「こたえ → しき」を えらぶと、おもてに 大きな すうじが 出て、その 下に「こたえが 2 に なる しきは?」の ように 出ます。めくると しきと となえかたが 出ます。九九を ぎゃくから 思い出す れんしゅうに なります。</p>
+<p>この せっていは「カードでれんしゅう」だけに あります。「こたえてクイズ」と「ふたりでもんだい」では 出ません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/16-setup-face.png"><img src="https://kake-master.giga-school.com/docs/manual/images/16-setup-face.png" alt="カードのむきを えらぶ ところ" loading="lazy" decoding="async"></a><figcaption>いま えらんで いる ほうに 色が つきます。</figcaption></figure>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/18-flash-reverse.png"><img src="https://kake-master.giga-school.com/docs/manual/images/18-flash-reverse.png" alt="こたえ から はじまる カード" loading="lazy" decoding="async"></a><figcaption>おもてに こたえが 出て、しきを あてます。</figcaption></figure>
+<h3 id="s-5-4">となえかたの ふりがなと、よみあげの ボタン</h3>
+<p>せっていの がめんの、「はじめる!」の すぐ 上に「となえかた(ふりがな)」の スイッチが あります。オンに して おくと、カードの うらに「にいちが に」の ような となえかたが 出ます。オフに すると、こたえの すうじだけに なります。</p>
+<p>この スイッチも「カードでれんしゅう」だけに あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/17-setup-kana.png"><img src="https://kake-master.giga-school.com/docs/manual/images/17-setup-kana.png" alt="となえかたの スイッチ" loading="lazy" decoding="async"></a><figcaption>右の スイッチを おすたびに オンと オフが かわります。</figcaption></figure>
+<p>カードの うらの 右上に ある 小さい スピーカーの ボタンを おすと、となえかたを こえで よんで くれます。ふりがなを けして いても、この ボタンは つかえます。カードを めくる つもりで おしても めくれないので、こえだけ ききたい ときに つかって ください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/12-flash-speak.png"><img src="https://kake-master.giga-school.com/docs/manual/images/12-flash-speak.png" alt="うらの 右上に ある スピーカー" loading="lazy" decoding="async"></a><figcaption>ここを おすと となえかたが きこえます。</figcaption></figure>
+<h3 id="s-5-5">おとを 出す・けす と、キーボードで うごかす</h3>
+<p>れんしゅうの がめんの 右上に ある スピーカーの ボタンで、こうかおん（めくる 音や せいかいの 音）を 出す・けすが きりかえられます。おすと 下に「おとを オフにしたよ」と 出ます。この せっていは のこり、クイズと ふたりでもんだいの 音にも きいて きます。</p>
+<p>上の となえかたの よみあげは、この ボタンでは けせません。となえかたを ききたく ない ときは、カードの スピーカーを おさなければ 鳴りません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/15-flash-sound.png"><img src="https://kake-master.giga-school.com/docs/manual/images/15-flash-sound.png" alt="右上に ある おとの ボタン" loading="lazy" decoding="async"></a><figcaption>赤い わくの ところが おとの ボタンです。</figcaption></figure>
+<p>キーボードの ある きかいでは、つぎの キーでも うごかせます。</p>
+<ol><li>左むきの やじるし … できた!</li><li>右むきの やじるし … もういちど</li><li>スペース・エンター・上むきの やじるし … カードを めくる</li><li><code>Esc</code> … 1つ前の がめんに もどる</li></ol>
+<h2 id="s-6">こたえて クイズを する（すうじの キーで こたえる）</h2>
+<p>ホームがめんの「こたえてクイズ」から はじめます。がめんの すうじの キーで こたえを 入れて、あって いるかを その ばで たしかめる れんしゅうです。かかった 時間も はかります。</p>
+<h3 id="s-6-1">すうじの キーで こたえを 入れて「OK」を おす</h3>
+<p>まん中に「2 × 1 = ?」の ような もんだいが 出ます。その 下の 白い はこが、こたえを 入れる ところです。</p>
+<ol><li>がめんの 下の すうじの キーを おします。こたえは 2けたまで 入れられます。</li><li>まちがえて おした ときは、左下の けしゴムの キーで 1つ けせます。</li><li>入れおわったら、右下の <code>OK</code> を おします。</li></ol>
+<p>あって いれば みどりの「せいかい!」が 出て、すぐ つぎの もんだいに かわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/22-quiz-play.png"><img src="https://kake-master.giga-school.com/docs/manual/images/22-quiz-play.png" alt="クイズの がめん" loading="lazy" decoding="async"></a><figcaption>上に「もんだい 1 / 10」と、右に かかって いる 時間が 出ます。</figcaption></figure>
+<p>キーボードの ある きかいでは、<code>0</code> から <code>9</code> の キー、<code>Backspace</code>、<code>Enter</code> でも おなじ ことが できます。</p>
+<h3 id="s-6-2">まちがえた ときに 出る こたえと「つぎへ」</h3>
+<p>まちがえると、入れた すうじが 赤く なって、その 下に ただしい こたえと となえかたが 出ます。あわせて こえでも よんで くれます。</p>
+<p>この とき、すうじの キーは いったん きえて、かわりに「つぎへ」の ボタンが 出ます。「つぎへ」を おすまで、つぎの もんだいには すすみません。こたえと となえかたを 見て、こえに 出して から すすんで ください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/23-quiz-wrong.png"><img src="https://kake-master.giga-school.com/docs/manual/images/23-quiz-wrong.png" alt="まちがえた ときの がめん" loading="lazy" decoding="async"></a><figcaption>「こたえは 2 「にいちが に」」と 出て います。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>まちがえた もんだいは、けっかの がめんに まとめて 出ます。</li><li>まちがえた 九九は「にがてカード」に あつまります。あとで それだけを れんしゅうできます。</li><li>こえが 出ない きかいでも、文字は かならず 出ます。</li></ul>
+<h3 id="s-6-3">もんだいの かずを えらぶ</h3>
+<p>せっていの がめんに「もんだいのかず」が 出ます。10もん・20もん・ぜんぶの 3つから えらべます。「ぜんぶ」は、えらんだ だんの カード ぜんぶです。</p>
+<p>えらんだ だんの カードより 大きい かずを えらんだ ときは、カードの まいすうの ほうが つかわれます。たとえば 2のだんだけ（9まい）で 20もんを えらぶと、出るのは 9もんです。</p>
+<p>この せっていは「こたえてクイズ」と「ふたりでもんだい」の 2つに あります。「カードでれんしゅう」では 出ません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/21-setup-count.png"><img src="https://kake-master.giga-school.com/docs/manual/images/21-setup-count.png" alt="もんだいのかずを えらぶ ところ" loading="lazy" decoding="async"></a><figcaption>いま えらんで いる ものに 色が つきます。</figcaption></figure>
+<h3 id="s-6-4">タイムと ベストタイムの きまりかた</h3>
+<p>はじめると、がめんの 右上で 時間を はかりはじめます。おわると、けっかの がめんに「かかったじかん」が 出ます。</p>
+<p>ベストタイムは、ぜんぶ せいかいした ときだけ あたらしく なります。1もんでも まちがえると、はやく おわっても ベストタイムは かわりません。まえに ベストタイムが あって、それより はやかった ときは「パーフェクト! しんきろく!」と 出ます。</p>
+<p>ベストタイムは「えらんだ だんの くみあわせ」と「もんだいのかず」ごとに べつべつに のこります。2のだんの 10もんと、2のだんと 3のだんの 10もんは、ちがう きろくに なります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/24-quiz-result.png"><img src="https://kake-master.giga-school.com/docs/manual/images/24-quiz-result.png" alt="クイズの けっかの がめん" loading="lazy" decoding="async"></a><figcaption>ぜんぶ せいかいしたので ベストタイムが かわりました。</figcaption></figure>
+<h2 id="s-7">ふたりで もんだいを 出しあう</h2>
+<p>ホームがめんの「ふたりでもんだい」から はじめます。1台の タブレットを 2人で つかって、かわりばんこに こたえて、あいてに ○×を つけて もらう れんしゅうです。教室で 計算カードを 出しあうのと おなじ ことが できます。</p>
+<h3 id="s-7-1">あそびかたを たしかめて はじめる</h3>
+<p>「ふたりでもんだい」を えらぶと、せっていの がめんの 下に「あそびかた」の 青い はこが 出ます。ここに 4つの ながれが 書いて あります。</p>
+<ol><li>じゅんばんに もんだいに こたえるよ。</li><li>こたえたら、カードをタップして こたえあわせ。</li><li>あいてが「せいかい」「ざんねん」をおしてね。</li><li>おおく せいかいした ほうの かち!</li></ol>
+<p>だん・じゅんばん・もんだいのかずは、ほかの れんしゅうと おなじ ように えらべます。えらんだら「はじめる!」を おします。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/25-setup-pair.png"><img src="https://kake-master.giga-school.com/docs/manual/images/25-setup-pair.png" alt="あそびかたの はこ" loading="lazy" decoding="async"></a><figcaption>「ふたりでもんだい」を えらんだ ときだけ 出ます。</figcaption></figure>
+<h3 id="s-7-2">こえに 出して こたえ、カードで こたえあわせ</h3>
+<p>はじまると、がめんの 上に「プレイヤー1の ばん! (のこり10まい)」の ように、いま だれの ばんかと、のこりの まいすうが 出ます。その 上の 左と 右に、2人の てんすうが ならびます。いま こたえる 人の ほうに わくが つきます。</p>
+<p>じぶんの ばんの 人は、まん中の カードの しきを 見て、こえに 出して こたえて ください。それから カードを タップします。カードが めくれて、ほんとうの こたえが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/26-pair-turn.png"><img src="https://kake-master.giga-school.com/docs/manual/images/26-pair-turn.png" alt="じぶんの ばんの がめん" loading="lazy" decoding="async"></a><figcaption>上の おびで、いま だれの ばんかが わかります。</figcaption></figure>
+<h3 id="s-7-3">あいてが「せいかい!」「ざんねん」を おす</h3>
+<p>カードが めくれると、下に「あっていたかな?」と 出て、みどりの「せいかい!」と 青い「ざんねん」の 2つの ボタンが 出ます。</p>
+<p>この 2つを おすのは、こたえた 人では なく あいての 人です。がめんにも「(あいてが おしてね)」と 書いて あります。あって いたら「せいかい!」、ちがって いたら「ざんねん」を おして ください。</p>
+<p>おすと てんすうが 入り、つぎの カードに かわって、こたえる 人が 入れかわります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/27-pair-judge.png"><img src="https://kake-master.giga-school.com/docs/manual/images/27-pair-judge.png" alt="あいてが おす 2つの ボタン" loading="lazy" decoding="async"></a><figcaption>こたえた 人では なく、あいてが おします。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>カードを タップする 前に「せいかい!」を おす ことは できません。かならず めくって から 出ます。</li><li>「ざんねん」に した 九九は、にがてカードには 入りません。この モードは あいての 見た めで きまるので、きろくには かずだけが のこります。</li><li>とちゅうで やめたい ときは、がめんの 左上の × を おして ください。</li></ul>
+<h3 id="s-7-4">かちまけの きまりかた</h3>
+<p>ぜんぶの カードが おわると、けっかの がめんに かわります。「プレイヤー1の かち!」の ように 出て、その 下に 2人の てんすうが ならびます。</p>
+<p>てんすうが おなじ ときは「ひきわけ! いいしょうぶ!」と 出ます。まけた ほうが わるいわけでは ないので、もう1回 やって みて ください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/28-pair-result.png"><img src="https://kake-master.giga-school.com/docs/manual/images/28-pair-result.png" alt="ふたりでもんだいの けっか" loading="lazy" decoding="async"></a><figcaption>2人の てんすうが ならんで 出ます。</figcaption></figure>
+<h2 id="s-8">れんしゅうが おわった あとの けっかの がめん</h2>
+<p>3つの れんしゅうは、どれも おわると おなじ かたちの けっかの がめんに かわります。上に その 日の できばえ、まん中に すうじ、下に つぎに する ことの ボタンが 3つ ならびます。カードでれんしゅうと ふたりでもんだいでは、おわると かならず 紙ふぶきが とんで ファンファーレが 鳴ります。クイズでは、せいかいが 7わりを こえた ときに 鳴ります。</p>
+<h3 id="s-8-1">けっかの がめんに 出る 3つの すうじ</h3>
+<p>まん中に ならぶ すうじは、れんしゅうの しゅるいで かわります。</p>
+<ol><li>カードでれんしゅう … できたカードの まいすう・かかったじかん・「もういちど」に した まいすう</li><li>こたえてクイズ … せいかいの かず・かかったじかん・ベストタイム</li><li>ふたりでもんだい … 2人の てんすう</li></ol>
+<p>いちばん 上の ことばも かわります。カードでれんしゅうでは、1まいも「もういちど」に しなかった ときだけ「ぜんぶ できた! すごい!」と 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/19-result-flash.png"><img src="https://kake-master.giga-school.com/docs/manual/images/19-result-flash.png" alt="カードでれんしゅうの けっか" loading="lazy" decoding="async"></a><figcaption>18まい できて、1まいを「もういちど」に しました。</figcaption></figure>
+<h3 id="s-8-2">「まちがえたカード」で ふくしゅうする</h3>
+<p>「もういちど」に した カードや、クイズで まちがえた もんだいが あると、すうじの 下に 赤い はこで まとめて 出ます。しきと こたえと となえかたが ならぶので、ここを 見ながら こえに 出して ふくしゅうして ください。</p>
+<p>まちがいが 1つも なかった ときは、この はこは 出ません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/20-result-wrong.png"><img src="https://kake-master.giga-school.com/docs/manual/images/20-result-wrong.png" alt="まちがえた カードの ならび" loading="lazy" decoding="async"></a><figcaption>しき・こたえ・となえかたが ならびます。</figcaption></figure>
+<h3 id="s-8-3">つぎに する ことを 3つの ボタンから えらぶ</h3>
+<p>いちばん 下に ボタンが ならびます。</p>
+<ol><li>もういちど … いま やった ものと おなじ じょうけんで、もう1回 はじめます。クイズと ふたりでもんだいでは、出る じゅんばんが かわります。</li><li>にがてをれんしゅう … いま たまって いる にがてカードだけを あつめて れんしゅうします。にがてカードが 0まいの ときは、この ボタンは 出ません。</li><li>ホームへ … ホームがめんに もどります。</li></ol>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>けっかの がめんから「もどる」の うごきを すると、おわった れんしゅうでは なく、その 1つ前の がめんに もどります。</li><li>「もういちど」で はじめた ときも、きろくは あたらしく 1回ぶんとして のこります。</li></ul>
+<h2 id="s-9">きろく・スタンプで がんばりを ふりかえる</h2>
+<p>ホームがめんの「きろく・スタンプ」から ひらきます。ここだけは せっていの がめんを とおらず、おした その ばで ひらきます。上から じゅんに、3つの すうじ・スタンプカレンダー・九九マスターマップ・がくしゅうの ふりかえり・メダルが ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/29-records-top.png"><img src="https://kake-master.giga-school.com/docs/manual/images/29-records-top.png" alt="きろく・スタンプの がめん" loading="lazy" decoding="async"></a><figcaption>上から じゅんに 5つの まとまりが ならびます。</figcaption></figure>
+<h3 id="s-9-1">いちばん 上の 3つの すうじ</h3>
+<p>いちばん 上の 白い はこに、3つの すうじが ならびます。</p>
+<ol><li>れんぞく日すう … きょうか きのうから さかのぼって、なん日 つづけて れんしゅうしたかです。1日 あくと 0に もどります。</li><li>めくったカード … いままでに めくった カードと こたえた もんだいの ぜんぶの かずです。3つの れんしゅうの ごうけいです。</li><li>マスターした九九 … 81この 九九の うち、なんこを マスターしたかです。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/30-records-hero.png"><img src="https://kake-master.giga-school.com/docs/manual/images/30-records-hero.png" alt="いちばん 上の 3つの すうじ" loading="lazy" decoding="async"></a><figcaption>まん中の すうじは、3つの れんしゅうの ごうけいです。</figcaption></figure>
+<h3 id="s-9-2">スタンプカレンダー</h3>
+<p>れんしゅうした 日に、星の スタンプが つく カレンダーです。日よう日から 土よう日まで よこに ならび、いまの 週を いちばん 下に して、4週間ぶんが 出ます。きょうの ますには こい わくが つきます。</p>
+<p>れんしゅうを 1まいでも すると、その 日に スタンプが つきます。まだ 来て いない 日は、うすい ますの ままです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/31-records-calendar.png"><img src="https://kake-master.giga-school.com/docs/manual/images/31-records-calendar.png" alt="スタンプカレンダー" loading="lazy" decoding="async"></a><figcaption>星が ついて いる 日が、れんしゅうした 日です。</figcaption></figure>
+<h3 id="s-9-3">九九マスターマップ（81の マス）</h3>
+<p>たてが「○のだん」、よこが「×○」の、81この マスが ならんだ <ruby>表<rt>ひょう</rt></ruby>です。1つの マスが 1つの 九九で、おぼえぐあいで 4つの 色に かわります。</p>
+<ol><li>まだ … 1回も れんしゅうして いません。</li><li>れんしゅうちゅう … れんしゅうを はじめた ばかりです。</li><li>もうすこし … つづけて せいかいして いますが、まだ マスターでは ありません。</li><li>マスター! … みどりに なって、星が つきます。</li></ol>
+<p>3回 つづけて せいかいすると マスターに なります。1回でも まちがえると、その 九九は 0から 数えなおしに なります。まちがえた あとに 3回 せいかいすれば、また みどりに もどります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/32-records-heatmap.png"><img src="https://kake-master.giga-school.com/docs/manual/images/32-records-heatmap.png" alt="九九マスターマップ" loading="lazy" decoding="async"></a><figcaption>みどりの ますが マスターした 九九です。</figcaption></figure>
+<p>がめんが せまい ときは、この <ruby>表<rt>ひょう</rt></ruby>の 中だけを よこに すべらせて 見られます。ページ ぜんたいは うごきません。</p>
+<p>マスを おすと、<ruby>表<rt>ひょう</rt></ruby>の 下に しきと こたえと となえかた、それに いままでの せいかいと まちがいの かずが 出ます。おなじ ときに となえかたを こえでも よんで くれます。まだ 1回も れんしゅうして いない マスを おすと「まだ れんしゅうしていないよ」と 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/33-heatmap-detail.png"><img src="https://kake-master.giga-school.com/docs/manual/images/33-heatmap-detail.png" alt="マスを おした ときに 出る せつめい" loading="lazy" decoding="async"></a><figcaption>せいかいと まちがいの かずが 出ます。</figcaption></figure>
+<h3 id="s-9-4">がくしゅうの ふりかえり</h3>
+<p>この1しゅうかんの ようすを まとめた ところです。れんしゅうを 1回も して いない あいだは、この まとまりそのものが 出ません。</p>
+<p>上に 3つの すうじが ならびます。「れんしゅう かいすう」は なん回 れんしゅうしたか、「がくしゅうじかん」は あわせて どれくらい やったか、「1回目で できた」は、1回目で せいかいできた わりあいです。</p>
+<p>その 下に、さいきん れんしゅうした きろくが 10回ぶんまで ならびます。日づけ・れんしゅうの しゅるい・えらんだ だん・かかった 時間・せいかいの かずが 1行ずつ 出ます。にがてカードを れんしゅうした ときは「にがて」、とちゅうで やめた ときは「とちゅうまで」の しるしが つきます。</p>
+<p>「ふたりでもんだい」だけは、せいかいの かずの かわりに めくった まいすうが 出ます。あいての 見た めで きまる ので、わりあいには 入れて いません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/34-records-studylog.png"><img src="https://kake-master.giga-school.com/docs/manual/images/34-records-studylog.png" alt="がくしゅうの ふりかえり" loading="lazy" decoding="async"></a><figcaption>上の 3つが この1しゅうかんの まとめです。</figcaption></figure>
+<h3 id="s-9-5">12この メダルと、もらえる じょうけん</h3>
+<p>がんばりに あわせて もらえる メダルが 12こ あります。もらえて いない メダルは 色が うすく なって います。</p>
+<p>はじめて れんしゅうした ときの「はじめのいっぽ」、3日・7日・14日・30日 つづけた ときの メダル、カードを 100まい・500まい めくった ときの メダル、クイズに 100もん こたえた ときの メダル、クイズで ぜんぶ せいかいした ときの「パーフェクト」、はじめて 1つ マスターした ときの「はじめてマスター」、1つの だんを ぜんぶ マスターした ときの「だんマスター」、81こ ぜんぶを マスターした ときの「九九マスター」です。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/35-records-badges.png"><img src="https://kake-master.giga-school.com/docs/manual/images/35-records-badges.png" alt="12この メダル" loading="lazy" decoding="async"></a><figcaption>色が うすい ものは、まだ もらえて いません。</figcaption></figure>
+<h2 id="s-10">にがてカードだけを あつめて れんしゅうする</h2>
+<p>まちがえた 九九は、じどうで「にがてカード」に あつまります。あつまった ものだけを あつめて れんしゅうできるので、おぼえにくい ところに 時間を つかえます。</p>
+<h3 id="s-10-1">にがてカードは どうやって きまるのか</h3>
+<p>1回でも まちがえて、その あと まだ 3回 つづけて せいかいして いない 九九が、にがてカードに なります。</p>
+<p>つまり、まちがえた あとに 3回 つづけて せいかいすると、にがてカードから きえます。とちゅうで また まちがえると、数えなおしに なります。九九マスターマップで みどりに なる きまりと おなじです。</p>
+<p>「ふたりでもんだい」の「ざんねん」は、にがてカードには 入りません。</p>
+<h3 id="s-10-2">3つの 入口から にがてカードを はじめる</h3>
+<p>にがてカードの れんしゅうは、つぎの 3つの どこからでも はじめられます。どこから 入っても、中みは おなじです。</p>
+<ol><li>ホームがめんの 下に 出る 赤い わくの おしらせを おす。</li><li>けっかの がめんの「にがてをれんしゅう」を おす。</li><li>きろく・スタンプの いちばん 下の「にがてカードをれんしゅうする」を おす。</li></ol>
+<p>にがてカードの れんしゅうは、カードでれんしゅうと おなじ かたちで はじまります。じゅんばんは いつも バラバラ、カードの むきは いつも「しき → こたえ」です。せっていの がめんは とおりません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/36-records-bottom.png"><img src="https://kake-master.giga-school.com/docs/manual/images/36-records-bottom.png" alt="きろくの がめんの いちばん 下" loading="lazy" decoding="async"></a><figcaption>上が にがてカードの ボタンです。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>にがてカードが 0まいの ときは、3つとも ボタンが 出ません。</li><li>にがてカードを れんしゅうしても、えらんで いた だんの せっていは かわりません。</li><li>ここで せいかいすると、九九マスターマップの 色も かわって いきます。</li></ul>
+<h2 id="s-11" class="prose__h--danger">きろくの ほぞんと、【！！】ぜんぶ けす とき</h2>
+<p>れんしゅうの きろくが どこに あるのかと、それを ぜんぶ けす ボタンの ことを 書きます。けす ボタンは もとに もどせないので、おす まえに かならず ここを よんで ください。</p>
+<h3 id="s-11-1">きろくは どこに のこるのか</h3>
+<p>きろくは、いま つかって いる タブレットや パソコンの 中にだけ のこります。インターネットの むこうへ おくる ことは ありません。</p>
+<p>名前・しゅっせきばんごう・クラスの 名前を 入れる ところは 1つも ありません。だから、きろくを 見ても だれの ものかは わかりません。</p>
+<p>きろくが のこるのは、その きかいの その ブラウザの 中だけです。べつの タブレットで ひらくと、また 0から はじまります。ブラウザの「かんらんりれきの さくじょ」や「サイトデータの さくじょ」を すると、いっしょに きえます。</p>
+<h3 id="s-11-2" class="prose__h--danger">【！！】きろくを ぜんぶ けす</h3>
+<p>きろく・スタンプの がめんの いちばん 下に「きろくをぜんぶけす」の ボタンが あります。これを おすと、スタンプカレンダー・九九マスターマップ・メダル・にがてカード・ベストタイムが ぜんぶ 0に もどり、えらんで いた せっていも はじめの じょうたいに もどります。</p>
+<p>けす ときの てじゅん:</p>
+<ol><li>きろく・スタンプの がめんを ひらいて、いちばん 下まで すすみます。</li><li>赤い 字の「きろくをぜんぶけす」を おします。</li><li>「きろくを ぜんぶ けしますか?(もとに もどせません)」と きかれます。</li><li>ほんとうに けす ときだけ「OK」を おします。やめる ときは「キャンセル」を おします。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/37-records-reset.png"><img src="https://kake-master.giga-school.com/docs/manual/images/37-records-reset.png" alt="きろくを ぜんぶ けす ボタン" loading="lazy" decoding="async"></a><figcaption>赤い わくの ところが、けす ボタンです。</figcaption></figure>
+<p>【！！】いちばん たいせつな ちゅうい</p>
+<ul><li>1回 けすと、もとに もどす ほうほうは ありません。</li><li>どうしても のこして おきたい ものが ある ときは、けす まえに がめんを さつえいするか、紙に <ruby>印刷<rt>いんさつ</rt></ruby>して ください。</li><li>この ボタンで きえないのは「がくしゅうの ふりかえり」だけです。そこは ほかの <ruby>学習<rt>がくしゅう</rt></ruby>アプリと おなじ 場しょを つかって いるので、のこして あります。ぜんぶ けす ときは、ブラウザの「サイトデータの さくじょ」を つかって ください。</li><li>ほかの <ruby>学習<rt>がくしゅう</rt></ruby>アプリの きろくは、この ボタンでは きえません。</li></ul>
+<h3 id="s-11-3">1台を 何人かで つかう ときの ちゅうい（先生むけ）</h3>
+<p>このアプリは、だれが つかって いるかを 見わけません。おなじ タブレットを 何人かの <ruby>児童<rt>じどう</rt></ruby>で つかうと、スタンプも マスターマップも メダルも まざります。</p>
+<p>きろくを つかう ときは「1台に つき 1人」に して ください。まざっても かまわない ときや、きろくを つかわずに れんしゅうだけを する ときは、そのままで だいじょうぶです。</p>
+<h2 id="s-12">きろくの がめんを 紙に <ruby>印刷<rt>いんさつ</rt></ruby>する（先生むけ）</h2>
+<p>きろく・スタンプの がめんは、そのまま 紙に 出せます。<ruby>学期<rt>がっき</rt></ruby>の おわりの ふりかえりや、おうちの 人に 見せる ときに つかえます。ここは 先生が よむ ところです。</p>
+<h3 id="s-12-1"><ruby>印刷<rt>いんさつ</rt></ruby>の しかた</h3>
+<p>じゅんばんに すすめて ください。</p>
+<ol><li>きろく・スタンプの がめんを ひらきます。</li><li>キーボードの <code>Ctrl</code> と <code>P</code> を いっしょに おします（Mac は <code>⌘</code> と <code>P</code>）。</li><li><ruby>印刷<rt>いんさつ</rt></ruby>の プレビューが 出るので、A4 の たてに なって いる ことを たしかめます。</li><li>色が 出て いない ときは、<ruby>印刷<rt>いんさつ</rt></ruby>の せっていの「はいけいの グラフィック」を オンに します。</li><li>「<ruby>印刷<rt>いんさつ</rt></ruby>」を おします。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/38-print.png"><img src="https://kake-master.giga-school.com/docs/manual/images/38-print.png" alt="紙に 出した ときの 見た め" loading="lazy" decoding="async"></a><figcaption>上の おびと 下の 2つの ボタンは 出ません。</figcaption></figure>
+<p>【！】おぼえて おいて ほしい こと</p>
+<ul><li>用紙の 大きさと むきは、はじめから A4 の たてに なる ように して あります。</li><li><ruby>児童<rt>じどう</rt></ruby>の 名前は どこにも 出ません。だれの 紙かが わかるように、手で 名前を 書きこんで ください。</li><li>九九マスターマップは、がめんが せまい ときは よこに すべらせて 見る かたちですが、紙には 81ます ぜんぶが 出ます。</li></ul>
+<h3 id="s-12-2">紙に 出る ものと 出ない もの</h3>
+<p>紙に 出るのは、いちばん 上の 3つの すうじ・スタンプカレンダー・九九マスターマップ・がくしゅうの ふりかえり・メダルです。見出しの 左に ある「もどる」の ボタンだけは、紙にも のこります。</p>
+<p>出ないのは、いちばん 上の おび（アプリの 名前と れんぞく日すう）、あたらしい ばんの おしらせ、「にがてカードをれんしゅうする」、「きろくをぜんぶけす」の 4つです。まちがえて 紙に 出ないように して あります。</p>
+<h3 id="s-12-3"><ruby>電子黒板<rt>でんしこくばん</rt></ruby>や 大きな がめんに うつす</h3>
+<p><ruby>一斉<rt>いっせい</rt></ruby>じゅぎょうで つかう ときは、ブラウザを ぜんがめん（<code>F11</code>）に すると 見やすく なります。</p>
+<p>うしろの せきから 見えない ときは、ブラウザの ズームで 大きく して ください。パソコンは <code>Ctrl</code> と <code>+</code>、iPad は 2本の ゆびで 広げます。この アプリは ズームを とめて いないので、どこまででも 大きく できます。</p>
+<h2 id="s-13">うまく いかない とき</h2>
+<p>よく ある ことを 5つ あげます。上から じゅんに たしかめて みて ください。</p>
+<h3 id="s-13-1">音や よみあげが 出ない とき</h3>
+<p>こうかおん（めくる 音や せいかいの 音）が 出ない ときは、「カードでれんしゅう」の がめんの 右上の スピーカーの ボタンを たしかめて ください。ここが オフに なって いると、クイズや ふたりでもんだいの 音も 出ません。きかいが マナーモードに なって いないかも 見て ください。</p>
+<p>となえかたの よみあげが 出ない ときは、その きかいや ブラウザが よみあげに たいおうして いない ことが あります。その ときでも、こたえと となえかたの 文字は かならず 出ます。よみあげは 上の スピーカーの ボタンでは きえません。</p>
+<h3 id="s-13-2">きろくが きえた とき</h3>
+<p>ブラウザの「かんらんりれきの さくじょ」や「サイトデータの さくじょ」を すると、きろくも いっしょに きえます。もとに もどす ほうほうは ありません。</p>
+<p>iPad の Safari は、7日いじょう 1回も ひらかないと きろくを きして しまう ことが あります。ホームがめんに 入れて おくと、これが おきにくく なります。</p>
+<p>ちがう タブレットで ひらいた ときも、きろくは 0から です。きろくは きかいの 中に あるので、ほかの きかいには うつりません。</p>
+<h3 id="s-13-3">がめんが 古いまま かわらない とき</h3>
+<p>あたらしい ばんが 出ると、がめんの いちばん 上に こげ茶色の おびで「あたらしい ばんが あります」と 出ます。</p>
+<p>「さいしんに する」を おすまで、がめんは 入れかわりません。れんしゅうの とちゅうで 中みが きえて しまわない ように して あるので、おわってから おして ください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://kake-master.giga-school.com/docs/manual/images/39-update-bar.png"><img src="https://kake-master.giga-school.com/docs/manual/images/39-update-bar.png" alt="あたらしい ばんの おしらせ" loading="lazy" decoding="async"></a><figcaption>右の ボタンを おすと あたらしく なります。</figcaption></figure>
+<p>おしらせが 出ないのに 古いまま だと 思う ときは、ページを もういちど よみこんで ください。</p>
+<h3 id="s-13-4">字の かたちが いつもと ちがう とき</h3>
+<p>この アプリの 字（書体）は、アプリと おなじ ところから いっしょに とどきます。とどく まえに 出た ときや、その きかいが この 書体を つかえない ときは、きかいに もとから 入って いる 字で 出ます。</p>
+<p>うごきには ぜんぜん もんだいが ないので、そのまま つかって だいじょうぶです。もう1回 ひらくと、たいてい いつもの 字に もどります。</p>
+<h3 id="s-13-5">それでも なおらない とき</h3>
+<p>つぎの 3つを じゅんに ためして ください。</p>
+<ol><li>アプリを とじて、もう1回 ひらきます。</li><li>きかいを さいきどうします。</li><li>ちがう ブラウザ（Chrome など）で ひらいて みます。</li></ol>
+<p>それでも なおらない ときは、まず この アプリを おしえて くれた 先生や、学校の じょうほうの たんとうの 先生に そうだんして ください。それでも わからない ときは、この ページの いちばん 下に ある <ruby>問<rt>と</rt></ruby>いあわせ先を つかって ください。</p>
+    </div>
+
+    <section class="manual__school" aria-labelledby="school-title">
+      <h2 id="school-title">学校で使うときは</h2>
+      <p class="manual__school-lead">ここは <a href="/">giga-school.com</a> が
+        アプリの設定から組み立てています。マニュアルの書き手が手で書いたものではないので、
+        アプリが変われば、ここも変わります。</p>
+      <dl class="manual__facts">
+        <div><dt>記録の置き場所</dt><dd>記録は端末の中だけ</dd></div>
+        <div><dt>対象</dt><dd>2年生</dd></div>
+      </dl>
+      <h3>校内のフィルタリングで許可するアドレス</h3>
+      <ul class="manual__hosts">
+        <li><code>kake-master.giga-school.com</code><span class="manual__why">アプリを配っている場所</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+      </ul>
+      <p class="manual__school-more">ほかのアプリとまとめて申請するときは、
+        <a href="/filtering/">許可するアドレスの一覧</a>が使えます（印刷できます）。</p>
+    </section>
+
+    <section class="changes" aria-labelledby="changes-title">
+      <h2 class="changes__title" id="changes-title">最近の更新</h2>
+        <div class="changes__at">
+          <p class="changes__date"><time datetime="2026-09-02">2026/09/02</time></p>
+          <ul class="changes__list">
+            <li>使い方マニュアルを作りました</li>
+            <li>アプリの下から「つかいかた」を開けるようにしました</li>
+          </ul>
+        </div>
+    </section>
+
+    <!-- 紙に刷って回覧されたとき、ここへ戻ってこられる唯一の手がかり。
+         画面では出さない（すぐ上のアドレスバーに同じものが出ている） -->
+    <p class="manual__url">このマニュアルは https://giga-school.com/apps/kake-master/manual/ にあります（2026/09/02 現在）</p>
+
+    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。マニュアルは
+         アプリを触りながら読むものなので、記事より効く -->
+    <p class="article__sticky no-print">
+      <a class="btn btn--primary" href="https://kake-master.giga-school.com/">九九カード を開く</a>
+    </p>
+
+    <aside class="article__end no-print">
+      <p class="article__end-lead">九九カード は、ブラウザだけで動く無償のアプリです。</p>
+      <p class="manual__legal">九九カード の
+        <a href="https://kake-master.giga-school.com/terms.html" rel="noopener">利用規約</a>と<a href="https://kake-master.giga-school.com/privacy.html" rel="noopener">プライバシーポリシー</a>も読めます。</p>
+      <p class="article__actions">
+        <a class="btn btn--primary" href="https://kake-master.giga-school.com/">九九カード を開く</a>
+        <a class="btn btn--ghost" href="/#contact">うまくいかないときは</a>
+      </p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/profile/">自己紹介</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+        <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
+        <a href="/press/">掲載用の資料</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>
