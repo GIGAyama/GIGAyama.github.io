@@ -617,7 +617,7 @@
    "guardedBy": [
     {
      "file": "standards/skills/note-article/scripts/capture.mjs",
-     "contains": "st.textContent = 'rt,rp{display:none!important}'"
+     "contains": "const ruby = [...document.querySelectorAll('rt, rp')]"
     },
     {
      "file": "standards/skills/note-article/scripts/capture.mjs",
@@ -992,6 +992,20 @@
     {
      "file": ".github/workflows/standards-ci.yml",
      "contains": "standards/agents/hooks/*.test.mjs"
+    }
+   ]
+  },
+  {
+   "date": "2026-09-02",
+   "symptom": "撮影の土台（capture.mjs）の visibleText() が、ふりがなを落とすために <style> を 1 枚ページへ差しこんでいた。艦隊のアプリは Zero-CDN のために style-src 'self' を張っているので、差しこむたびに「Refused to apply inline style」が出る。text() / has() / waitFor() / expect() が内側で visibleText() を呼ぶため、画面を 1 度読むたびに 1 件ずつ増え、capture.mjs は画面のエラーで --strict を落とす。つまり CSP をきちんと張っているアプリほど --strict が使えない、という逆になっていた。しかも差しこんだ CSS は当たっていないので、消したかったふりがなも消えていない。要素の .style へ代入するぶんは CSP に止められないので、rt / rp を 1 つずつ隠して読み終わったら戻す形にした。さんすうブロックのマニュアル撮影で見つけた",
+   "guardedBy": [
+    {
+     "file": "standards/skills/note-article/scripts/capture.mjs",
+     "contains": "ここで <style> を差しこまないこと"
+    },
+    {
+     "file": "standards/skills/note-article/scripts/capture.test.mjs",
+     "contains": "ページの中へ <style> を差しこまない"
     }
    ]
   }
