@@ -47,6 +47,7 @@
  * ===================================================================== */
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
 /** 自分のドメイン。サブドメイン（<アプリ名>.giga-school.com）も自分の側 */
 const OWN = 'giga-school.com';
@@ -144,6 +145,6 @@ function main() {
   return 1;
 }
 
-if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
   process.exit(main());
 }

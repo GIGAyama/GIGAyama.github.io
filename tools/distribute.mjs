@@ -28,6 +28,8 @@ import { NORMALIZERS, SKILL_ROOTS } from '../standards/check-drift.mjs';
 import {
   loadApps, fillPlaceholders, hasUnfilledPlaceholder, hasUnfilledAppId,
 } from './lib/app-placeholders.mjs';
+/* 配ったあとに作り直すもの（sw.js の版、GAS への焼きこみ）。これも純関数を別置き。 */
+import { regenerationCommands } from './lib/distribute-regenerate.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, '..');
@@ -438,6 +440,41 @@ for (const repoName of targetRepos) {
           fs.writeFileSync(vitestConfigPath, content, 'utf-8');
         }
       }
+    }
+
+    /* 5b. 配ったもの**から作るもの**を作り直す。
+     *
+     *    写しの中には、配布先で別のものの材料になっているものがある。
+     *    web/giga-app-links.js は静的 PWA の sw.js が先読みし（13 本）、GAS の
+     *    アプリでは giga_links.html に焼きこまれる（7 本）。records-export.* も
+     *    先読みに載る。写して `git add .` するだけだと、**材料だけ新しく、作った
+     *    ものは古いまま**の main ができる。2026-08-30 の配布がそれで、6 本が
+     *    `build-sw.mjs --check`、7 本が `build-app-links.mjs --check` で赤くなった。
+     *    赤いだけならまだよい。sw.js の版が変わらないので、**子どもの端末には
+     *    新しい中身が一度も届かない**（2026-08-21 と同じ型）。
+     *
+     *    何を走らせるかは tools/lib/distribute-regenerate.mjs が「在る道具」から
+     *    決める。失敗したら、このリポジトリには配らない。材料だけ新しい main を
+     *    作らないため。作業ツリーは配る前の状態へ戻す（0 で片づいていることを
+     *    確かめてあるので、戻して失うものは無い）。 */
+    let regenFailed = null;
+    for (const { cmd, why } of regenerationCommands(repoDir)) {
+      try {
+        const out = run(cmd);
+        const last = out.split('\n').filter(Boolean).pop() || '';
+        console.log(`  [REGEN] ${cmd} … ${why}${last ? `（${last}）` : ''}`);
+      } catch (e) {
+        const said = String(e.stderr || e.stdout || e.message || '').trim().split('\n').filter(Boolean).slice(-2).join(' / ');
+        regenFailed = `${cmd} が失敗しました: ${said}`;
+        break;
+      }
+    }
+    if (regenFailed) {
+      console.log(`  [SKIP] ${regenFailed}`);
+      console.log('         材料だけ新しい main を作らないよう、このリポジトリには配りません');
+      if (!isDryRun) { run('git checkout -- .', true); run('git clean -fd', true); }
+      results.failed.push({ repo: repoName, error: regenFailed });
+      continue;
     }
 
     /* 6. Check for git diff。ここに残っている変更は、上の 0 で片づいていることを

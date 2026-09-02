@@ -40,6 +40,7 @@
  */
 
 import { mkdir, readFile, readdir, writeFile, rm, rmdir, access } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { renderArticle } from './lib/article-md.mjs';
 import { articlePage, headlineOf, relatedOf, summaryOf } from './lib/article-page.mjs';
 import { pickImageUrl } from './lib/article-images.mjs';
@@ -388,6 +389,6 @@ const main = async () => {
 
 /* ⚠️ 取りこんだだけで走らせない。ここは書き出しも削除もする道具なので、
    別のファイルから import した拍子に本番の生成物を書き替えてしまう。 */
-if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
   await main();
 }
