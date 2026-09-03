@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-manuals.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-09-02",
+ "generatedAt": "2026-09-03",
  "items": [
   {
    "slug": "digital-textbook",
@@ -136,6 +136,21 @@
    "updatedAt": "2026-08-30",
    "termsUrl": "https://qalc.giga-school.com/terms.html",
    "privacyUrl": "https://qalc.giga-school.com/privacy.html"
+  },
+  {
+   "slug": "reading-books",
+   "repo": "Reading-Books",
+   "name": "どくしょちょきんばこ",
+   "title": "どくしょ ちょきんばこ の つかいかた",
+   "summary": "このページは、よんだ本を バーコードで きろくして、さつ数・ページ数・きんがくを ためていく アプリ「どくしょ ちょきんばこ」の つかいかたです。はじめて ひらく人が、この ページだけで さいごまで つかえるように、…",
+   "source": "docs/manual/manual.md",
+   "chapters": 15,
+   "images": 44,
+   "imageHost": "subdomain",
+   "charCount": 15207,
+   "updatedAt": "2026-09-03",
+   "termsUrl": "",
+   "privacyUrl": ""
   },
   {
    "slug": "schoolplan-editor",

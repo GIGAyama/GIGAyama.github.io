@@ -1,6 +1,6 @@
 {
  "_comment": "tools/build-articles.mjs が書き出す。手で書き足さない。",
- "generatedAt": "2026-09-02",
+ "generatedAt": "2026-09-03",
  "items": [
   {
    "slug": "digital-newspaper",
@@ -299,7 +299,7 @@
    "images": 20,
    "imageHost": "subdomain",
    "charCount": 5949,
-   "updatedAt": "2026-08-20"
+   "updatedAt": "2026-09-03"
   },
   {
    "slug": "reflection-journal",
