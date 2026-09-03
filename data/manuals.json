@@ -168,6 +168,21 @@
    "privacyUrl": "https://qalc.giga-school.com/privacy.html"
   },
   {
+   "slug": "reading-books",
+   "repo": "Reading-Books",
+   "name": "どくしょちょきんばこ",
+   "title": "どくしょ ちょきんばこ の つかいかた",
+   "summary": "このページは、よんだ本を バーコードで きろくして、さつ数・ページ数・きんがくを ためていく アプリ「どくしょ ちょきんばこ」の つかいかたです。はじめて ひらく人が、この ページだけで さいごまで つかえるように、…",
+   "source": "docs/manual/manual.md",
+   "chapters": 15,
+   "images": 44,
+   "imageHost": "subdomain",
+   "charCount": 15207,
+   "updatedAt": "2026-09-03",
+   "termsUrl": "",
+   "privacyUrl": ""
+  },
+  {
    "slug": "schoolplan-editor",
    "repo": "SchoolPlan_Editor",
    "name": "週案エディタ",
