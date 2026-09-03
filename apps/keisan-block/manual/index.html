@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>さんすうブロック の使い方｜GIGA school</title>
+  <meta name="description" content="このページは、さんすうブロックを はじめて ひらく人の ための つかいかたです。画面の 絵と 見くらべながら、上から じゅんに 読んでください。">
+  <meta name="author" content="GIGAyama">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://giga-school.com/apps/keisan-block/manual/">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIGA school">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="さんすうブロック の使い方">
+  <meta property="og:description" content="このページは、さんすうブロックを はじめて ひらく人の ための つかいかたです。画面の 絵と 見くらべながら、上から じゅんに 読んでください。">
+  <meta property="og:url" content="https://giga-school.com/apps/keisan-block/manual/">
+  <meta property="og:image" content="https://keisan-block.giga-school.com/docs/manual/images/01-home.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/article.js" defer></script>
+  <script src="/assets/copy.js" defer></script>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('giga-school:theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://giga-school.com/apps/keisan-block/manual/#manual",
+      "headline": "さんすうブロック の使い方",
+      "description": "このページは、さんすうブロックを はじめて ひらく人の ための つかいかたです。画面の 絵と 見くらべながら、上から じゅんに 読んでください。",
+      "image": "https://keisan-block.giga-school.com/docs/manual/images/01-home.png",
+      "inLanguage": "ja",
+      "proficiencyLevel": "Beginner",
+      "datePublished": "2026-07-24",
+      "dateModified": "2026-09-02",
+      "author": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "publisher": {
+        "@id": "https://giga-school.com/#person"
+      },
+      "mainEntityOfPage": "https://giga-school.com/apps/keisan-block/manual/",
+      "about": {
+        "@type": "WebApplication",
+        "name": "さんすうブロック",
+        "url": "https://keisan-block.giga-school.com/",
+        "operatingSystem": "Web ブラウザ",
+        "inLanguage": "ja",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "GIGA school",
+          "item": "https://giga-school.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "紹介",
+          "item": "https://giga-school.com/apps/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "さんすうブロック",
+          "item": "https://giga-school.com/apps/keisan-block/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "使い方",
+          "item": "https://giga-school.com/apps/keisan-block/manual/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/" aria-label="GIGA school トップページ">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M24.66 11A10 10 0 1 0 25.9 17.39" fill="none" stroke="var(--brand)"
+                stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M17 17.39h8.9" fill="none" stroke="var(--accent)"
+                stroke-width="3.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name"><b>GIGA</b> school</span>
+          <span class="brand__sub">学校で使える Web アプリ</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap article article--read manual">
+    <nav class="crumbs no-print" aria-label="パンくず">
+      <a href="/">トップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/">紹介</a>
+      <span aria-hidden="true">›</span>
+      <a href="/apps/keisan-block/">さんすうブロック</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">使い方</span>
+    </nav>
+
+    <header class="article__head">
+      <p class="article__series">使い方マニュアル</p>
+      <h1 class="article__title">さんすうブロック の使い方</h1>
+      <p class="article__meta">
+        <time datetime="2026-09-02">2026/09/02</time> 現在の画面です
+        <span class="article__len">全 15 章・読むのに約 25 分</span>
+      </p>
+      <p class="article__actions no-print">
+        <a class="btn btn--primary" href="https://keisan-block.giga-school.com/">さんすうブロック を開く</a>
+        <a class="btn btn--ghost" href="/apps/keisan-block/">つくった理由を読む</a>
+      </p>
+    </header>
+
+    <aside class="article__rail" aria-label="このページの案内">
+    <details class="toc" open>
+      <summary class="toc__head">目次<span class="toc__hint">読みたいところから読めます</span></summary>
+      <nav aria-label="目次">
+        <ol class="toc__list">
+          <li><a href="#s-1">さんすうブロックで できること（つかう人と <ruby>用意<rt>ようい</rt></ruby>する もの）</a>
+            <ol class="toc__sub"><li><a href="#s-1-1">さんすうブロックとは？</a></li><li><a href="#s-1-2">つかう まえに <ruby>用意<rt>ようい</rt></ruby>する もの</a></li><li><a href="#s-1-3">どんな しきが 出るか</a></li></ol>
+          </li>
+          <li><a href="#s-2">はじめて ひらいた ときに すること（インストール・さいしょの 1<ruby>回<rt>かい</rt></ruby>だけ）</a>
+            <ol class="toc__sub"><li><a href="#s-2-1">アプリを ひらく</a></li><li><a href="#s-2-2">タブレットや パソコンに アプリを 入れる</a></li><li><a href="#s-2-3">iPad・iPhone で ホーム<ruby>画面<rt>がめん</rt></ruby>に ついかする</a></li><li><a href="#s-2-4">音を 出す・音を けす</a></li></ol>
+          </li>
+          <li><a href="#s-3">ホームの <ruby>画面<rt>がめん</rt></ruby>の みかた（どこに <ruby>何<rt>なに</rt></ruby>が あるか）</a>
+            <ol class="toc__sub"><li><a href="#s-3-1">レベルと XP の みかた</a></li><li><a href="#s-3-2">きょうの ミッションと、つづけて れんしゅうした 日</a></li><li><a href="#s-3-3">6つの ボタンから えらぶ</a></li><li><a href="#s-3-4"><ruby>画面<rt>がめん</rt></ruby>の いちばん下に ある リンク</a></li></ol>
+          </li>
+          <li><a href="#s-4">れんしゅうの <ruby>画面<rt>がめん</rt></ruby>と、ブロックの うごかしかた</a>
+            <ol class="toc__sub"><li><a href="#s-4-1"><ruby>画面<rt>がめん</rt></ruby>の どこに <ruby>何<rt>なに</rt></ruby>が あるか</a></li><li><a href="#s-4-2">ブロックを タップして かぞえる</a></li><li><a href="#s-4-3">ブロックを タップして うごかす</a></li><li><a href="#s-4-4">まとめて うごかす（じどうで うごかす）</a></li></ol>
+          </li>
+          <li><a href="#s-5">くりあがりの たしざんを れんしゅうする</a>
+            <ol class="toc__sub"><li><a href="#s-5-1">たしざんを はじめる</a></li><li><a href="#s-5-2">4つの 手じゅんで こたえを 出す（8＋7の ばあい）</a></li></ol>
+          </li>
+          <li><a href="#s-6">くりさがりの ひきざんを れんしゅうする（さくせんを えらぶ）</a>
+            <ol class="toc__sub"><li><a href="#s-6-1">ひきざんを はじめて、さくせんを えらぶ</a></li><li><a href="#s-6-2">10から ひいて たす さくせん</a></li><li><a href="#s-6-3">ばらから ひいて 10から ひく さくせん</a></li><li><a href="#s-6-4">ミックスで どちらも れんしゅうする</a></li></ol>
+          </li>
+          <li><a href="#s-7">まちがえた ときと、5もん おわった とき</a>
+            <ol class="toc__sub"><li><a href="#s-7-1">まちがえた ときに 出る もの</a></li><li><a href="#s-7-2">せいかいの あとに 出る「けいさんの しかた」</a></li><li><a href="#s-7-3">5もん おわった とき</a></li><li><a href="#s-7-4">とちゅうで やめる</a></li></ol>
+          </li>
+          <li><a href="#s-8">タイムアタックで はやさに ちょうせんする</a>
+            <ol class="toc__sub"><li><a href="#s-8-1">タイムアタックを はじめる</a></li><li><a href="#s-8-2"><ruby>星<rt>ほし</rt></ruby>の とりかたと さいこうきろく</a></li></ol>
+          </li>
+          <li><a href="#s-9">はってんもんだいで 2けたの けいさんに ちょうせんする</a>
+            <ol class="toc__sub"><li><a href="#s-9-1">はってんを はじめて、しゅるいを えらぶ</a></li><li><a href="#s-9-2">2けた＋1けた（10の ぼうに なる）</a></li><li><a href="#s-9-3">2けた−1けた（10の ぼうを ばらす）</a></li></ol>
+          </li>
+          <li><a href="#s-10">じぶんで しきを いれて いっしょに かんがえる</a>
+            <ol class="toc__sub"><li><a href="#s-10-1">しきを 入れて はじめる</a></li><li><a href="#s-10-2">入れられない しきの ときに 出る ことば</a></li><li><a href="#s-10-3">さくせんを えらぶ・せつめいモードを つかう</a></li><li><a href="#s-10-4">とけた あとに えらぶ</a></li></ol>
+          </li>
+          <li><a href="#s-11">せいせきと あしあとで、といた <ruby>数<rt>かず</rt></ruby>を 見る</a>
+            <ol class="toc__sub"><li><a href="#s-11-1">きろくの <ruby>画面<rt>がめん</rt></ruby>を ひらく</a></li><li><a href="#s-11-2">せいせき（ボタンごとの といた <ruby>数<rt>かず</rt></ruby>）</a></li><li><a href="#s-11-3">あしあと（この 1しゅうかんの ようす）</a></li></ol>
+          </li>
+          <li><a href="#s-12">マップ・カレンダー・バッジで のびを 見る</a>
+            <ol class="toc__sub"><li><a href="#s-12-1">マップ（けいさんカード 1まいずつの ようす）</a></li><li><a href="#s-12-2">カレンダー（れんしゅうした 日）</a></li><li><a href="#s-12-3">バッジ（10しゅるい）</a></li></ol>
+          </li>
+          <li><a href="#s-13">【！！】きろくの のこりかたと、けしかた</a>
+            <ol class="toc__sub"><li><a href="#s-13-1">きろくが どこに のこるか</a></li><li><a href="#s-13-2">きろくに のこらない もの</a></li><li><a href="#s-13-3">【！！】きろくを ぜんぶ けす</a></li></ol>
+          </li>
+          <li><a href="#s-14"><ruby>電子黒板<rt>でんしこくばん</rt></ruby>に うつして みんなで つかう（先生むけ）</a>
+            <ol class="toc__sub"><li><a href="#s-14-1"><ruby>画面<rt>がめん</rt></ruby>を 大きく して うつす</a></li><li><a href="#s-14-2">せつめいモードで、みんなで かんがえる</a></li><li><a href="#s-14-3">キーボードで こたえる</a></li></ol>
+          </li>
+          <li><a href="#s-15">うまく いかない ときは</a>
+            <ol class="toc__sub"><li><a href="#s-15-1"><ruby>画面<rt>がめん</rt></ruby>が 白いまま／ブロックが 出ない</a></li><li><a href="#s-15-2">「あたらしい ばんが あります」と 下に 出た</a></li><li><a href="#s-15-3">インターネットが つながらない ときは</a></li><li><a href="#s-15-4">字が 小さくて <ruby>読<rt>よ</rt></ruby>めない</a></li><li><a href="#s-15-5">うごきが 気に なる 子が いる とき</a></li><li><a href="#s-15-6">きろくが 空に なった とき</a></li><li><a href="#s-15-7">それでも なおらない ときは</a></li></ol>
+          </li>
+        </ol>
+      </nav>
+    </details>
+      <div class="manual__tools no-print">
+        <button type="button" class="btn btn--ghost" data-print>印刷する</button>
+        <button type="button" class="btn btn--ghost" data-copy="https://giga-school.com/apps/keisan-block/manual/"
+                data-copy-label="このページのリンク">リンクをコピー</button>
+      </div>
+    </aside>
+
+    <div class="prose prose--article">
+<p>このページは、さんすうブロックを はじめて ひらく人の ための つかいかたです。<ruby>画面<rt>がめん</rt></ruby>の <ruby>絵<rt>え</rt></ruby>と 見くらべながら、上から じゅんに <ruby>読<rt>よ</rt></ruby>んでください。</p>
+<h2 id="s-1">さんすうブロックで できること（つかう人と <ruby>用意<rt>ようい</rt></ruby>する もの）</h2>
+<p>ここでは、この アプリで <ruby>何<rt>なに</rt></ruby>が できるのかと、はじめる まえに <ruby>用意<rt>ようい</rt></ruby>する ものを <ruby>説明<rt>せつめい</rt></ruby>します。</p>
+<h3 id="s-1-1">さんすうブロックとは？</h3>
+<p>ブラウザで ひらくだけで つかえる、けいさんの れんしゅう アプリです。「くりあがりの ある たしざん」と「くりさがりの ある ひきざん」を、さんすうブロックと さくらんぼの <ruby>絵<rt>え</rt></ruby>で 目に 見える かたちに して かんがえます。</p>
+<p>こたえを 入れるだけの アプリでは ありません。ブロックを じぶんの 手で タップして うごかしてから こたえます。</p>
+<p>つかうのは 小学校の 1年生です。先生や おうちの人と いっしょでも、ひとりでも つかえます。名まえも 出せきばんごうも 入れる ところが ありません。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/01-home.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/01-home.png" alt="さんすうブロックの ホームの がめん" loading="lazy" decoding="async"></a><figcaption>これが ホームの <ruby>画面<rt>がめん</rt></ruby>です。ここから ぜんぶ はじまります。</figcaption></figure>
+<h3 id="s-1-2">つかう まえに <ruby>用意<rt>ようい</rt></ruby>する もの</h3>
+<p><ruby>用意<rt>ようい</rt></ruby>する ものは、つぎの 3つだけです。</p>
+<ul><li>タブレットか パソコン（Chromebook・iPad・Windows の どれでも うごきます）</li><li>インターネットに つながる こと（さいしょの 1<ruby>回<rt>かい</rt></ruby>だけ ひつようです）</li><li>ひらく ところ（アドレス）… <code>https://keisan-block.giga-school.com/</code></li></ul>
+<p>ID・パスワード・メールアドレスは いりません。アプリを ダウンロードする ひつようも ありません。</p>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>音が 出ます。<ruby>教室<rt>きょうしつ</rt></ruby>で みんなが つかう ときは、さきに 音を けして ください。けしかたは この つぎの <ruby>章<rt>しょう</rt></ruby>に あります。</li><li>1年生が ひとりで <ruby>読<rt>よ</rt></ruby>めるように、アプリの 中の 字は ぜんぶ ひらがなです。</li></ul>
+<h3 id="s-1-3">どんな しきが 出るか</h3>
+<p>出て くる しきは、えらんだ ボタンごとに きまって います。</p>
+<ul><li>たしざん … 6＋5 から 9＋9 まで。くりあがりの ある 26とおり</li><li>ひきざん … 11−2 から 18−9 まで。くりさがりの ある 36とおり</li><li>タイムアタック … 上の 26とおりと 36とおりから、たしざんと ひきざんを はんぶんずつ</li><li>はってんの たしざん … 22＋… から 79＋… まで。かならず くりあがります</li><li>はってんの ひきざん … 21−… から 78−… まで。かならず くりさがります</li><li>じぶんで しきを いれる … じぶんで 入れた しき（2けた ± 2けた まで）</li></ul>
+<p>おなじ しきが つづけて 出ないように なって います。そのうえで、1<ruby>回<rt>かい</rt></ruby>でも といた ことが あって まだ「ばっちり」に なって いない けいさんカードが、35パーセントぐらいの わりあいで えらばれます。にがてな ところほど よく 出ます。</p>
+<h2 id="s-2">はじめて ひらいた ときに すること（インストール・さいしょの 1<ruby>回<rt>かい</rt></ruby>だけ）</h2>
+<p>ここに <ruby>書<rt>か</rt></ruby>いて あるのは、さいしょの 1<ruby>回<rt>かい</rt></ruby>だけ やる ことです。2<ruby>回<rt>かい</rt></ruby>めからは、アドレスを ひらくだけで はじめられます。</p>
+<h3 id="s-2-1">アプリを ひらく</h3>
+<p>さいしょの 手じゅんは これだけです。</p>
+<ol><li>ブラウザ（Chrome や Safari）を ひらいて ください。</li><li>アドレスの ところに <code>https://keisan-block.giga-school.com/</code> と 入れて ください。</li><li>さんすうブロックの ホームの <ruby>画面<rt>がめん</rt></ruby>が 出たら、じゅんびは おわりです。</li></ol>
+<p>ログインも、アカウントの とうろくも いりません。「ログインして ください」という <ruby>画面<rt>がめん</rt></ruby>は 出ません。</p>
+<h3 id="s-2-2">タブレットや パソコンに アプリを 入れる</h3>
+<p>1<ruby>回<rt>かい</rt></ruby> 入れて おくと、アイコンから すぐ ひらけます。インターネットが つながって いなくても つかえます。</p>
+<p>Chromebook・Windows（Chrome や Edge）で 入れる 手じゅん:</p>
+<ol><li>ホームの <ruby>画面<rt>がめん</rt></ruby>を いちばん下まで ながして ください。</li><li>「アプリを インストール」の ボタンを おして ください。</li><li>出て きた まどの「インストール」を おして ください。</li></ol>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>「アプリを インストール」の ボタンは、いつも 出て いる わけでは ありません。もう 入れた あとや、ブラウザが「入れられる」と はんだんして いない ときは 出ません。</li><li>ボタンが 出ない ときは、ブラウザの メニュー（右上の <ruby>点<rt>てん</rt></ruby>が 3つ ならんだ ところ）から 入れて ください。</li><li>iPad と iPhone には、この ボタンは 出ません。つぎの やりかたで 入れて ください。</li></ul>
+<h3 id="s-2-3">iPad・iPhone で ホーム<ruby>画面<rt>がめん</rt></ruby>に ついかする</h3>
+<ol><li>かならず Safari で ひらいて ください。Safari いがいの ブラウザからは ついか できません。</li><li><ruby>画面<rt>がめん</rt></ruby>の 下（か 右上）に ある「きょうゆう」の ボタン（四かくに 上むきの やじるしの <ruby>絵<rt>え</rt></ruby>）を おして ください。</li><li>ならんで いる 中から「ホーム<ruby>画面<rt>がめん</rt></ruby>に <ruby>追加<rt>ついか</rt></ruby>」を えらんで ください。</li><li>右上の「<ruby>追加<rt>ついか</rt></ruby>」を おして ください。ホーム<ruby>画面<rt>がめん</rt></ruby>に アイコンが できます。</li></ol>
+<h3 id="s-2-4">音を 出す・音を けす</h3>
+<p>ホームの <ruby>画面<rt>がめん</rt></ruby>の 右上に、ボタンが 2つ ならんで います。右が 音の ボタンです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/02-home-header.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/02-home-header.png" alt="ホームの 右上に ならぶ 2つの ボタン" loading="lazy" decoding="async"></a><figcaption>左が 大きく うつす ボタン、右が 音の ボタンです。</figcaption></figure>
+<ol><li>スピーカーの <ruby>絵<rt>え</rt></ruby>の ボタンを おすと、音が けせます。</li><li>もう 1<ruby>回<rt>かい</rt></ruby> おすと、また 音が 出ます。</li></ol>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>きめた ことは のこります。つぎに ひらいた ときも、けした ままです。</li><li>れんしゅうの <ruby>画面<rt>がめん</rt></ruby>の 右上にも おなじ ボタンが あるので、とちゅうでも けせます。</li></ul>
+<h2 id="s-3">ホームの <ruby>画面<rt>がめん</rt></ruby>の みかた（どこに <ruby>何<rt>なに</rt></ruby>が あるか）</h2>
+<p>ホームの <ruby>画面<rt>がめん</rt></ruby>には、上から じゅんに レベル・きょうの ミッション・6つの ボタン・リンクが ならんで います。</p>
+<h3 id="s-3-1">レベルと XP の みかた</h3>
+<p>いちばん上の 白い カードが レベルです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/03-home-level.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/03-home-level.png" alt="レベルと きょうの ミッションの カード" loading="lazy" decoding="async"></a><figcaption>上が レベル、下が きょうの ミッションです。</figcaption></figure>
+<p>1もん とくたびに XP が たまり、たまると レベルが 1つ 上がります。よび名も 「けいさん みならい」から はじまって、「けいさん れんしゅうちゅう」「けいさん がんばりや」「けいさん じょうずさん」「けいさん はかせ」「けいさん めいじん」「けいさん マスター」と 7だんかいに かわって いきます。</p>
+<p>もらえる XP は、1<ruby>回<rt>かい</rt></ruby>めで せいかいすると おおく なります。ふつうの もんだいは 10 XP（とちゅうで まちがえた ときは 5 XP）、はってんの もんだいは 15 XP（おなじく 8 XP）、タイムアタックは 8 XP です。</p>
+<h3 id="s-3-2">きょうの ミッションと、つづけて れんしゅうした 日</h3>
+<p>2つめの カードが きょうの ミッションです。1にちに 10もん とくと たっせいです。</p>
+<p>まるい わの 中の「0/10」が、きょう といた <ruby>数<rt>かず</rt></ruby>です。10もん とくと「クリア!」に かわり、カレンダーに <ruby>星<rt>ほし</rt></ruby>の スタンプが つきます。</p>
+<p>その下の「れんぞく ◯にち」は、なん日 つづけて れんしゅうしたかです。1日 やすむと 0に もどります。</p>
+<h3 id="s-3-3">6つの ボタンから えらぶ</h3>
+<p>カードの 下に、6つの ボタンが ならんで います。この 6つが、この アプリで できる こと ぜんぶです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/04-home-modes.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/04-home-modes.png" alt="6つの ボタン" loading="lazy" decoding="async"></a><figcaption>上の 4つと、その下の 2つで、ぜんぶで 6つです。</figcaption></figure>
+<ul><li>たしざん … くりあがりの ある たしざんを 5もん</li><li>ひきざん … くりさがりの ある ひきざんを 5もん</li><li>タイムアタック … あんざんで 10もん。<ruby>時間<rt>じかん</rt></ruby>を はかります</li><li>はってん … 2けたの けいさんを 5もん</li><li>じぶんで しきを いれる … きょうかしょや プリントの しきを 入れて かんがえます</li><li>きろく … これまでの がんばりを 見ます</li></ul>
+<h3 id="s-3-4"><ruby>画面<rt>がめん</rt></ruby>の いちばん下に ある リンク</h3>
+<p>いちばん下に、小さな しるしが 3つ ならんで います。<ruby>画面<rt>がめん</rt></ruby>が ひろい ときは、しるしの となりに ことばも 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/05-home-footer.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/05-home-footer.png" alt="ホームの いちばん下に ならぶ 3つの リンク" loading="lazy" decoding="async"></a><figcaption>左から「つかいかた」「<ruby>利用規約<rt>りようきやく</rt></ruby>」「プライバシー」です。</figcaption></figure>
+<p>いちばん左の「つかいかた」を おすと、いま <ruby>読<rt>よ</rt></ruby>んで いる この ページが ひらきます。こまった ときは、アプリの 中から ここへ もどって これます。</p>
+<h2 id="s-4">れんしゅうの <ruby>画面<rt>がめん</rt></ruby>と、ブロックの うごかしかた</h2>
+<p>たしざん・ひきざん・はってん・じぶんで いれた しきは、どれも おなじ <ruby>画面<rt>がめん</rt></ruby>で すすみます。さきに この <ruby>画面<rt>がめん</rt></ruby>の みかたを おぼえて ください。</p>
+<h3 id="s-4-1"><ruby>画面<rt>がめん</rt></ruby>の どこに <ruby>何<rt>なに</rt></ruby>が あるか</h3>
+<p>上から じゅんに、<ruby>星<rt>ほし</rt></ruby>の ならび・しき・ブロック・きかれて いる こと・キーパッドの じゅんに ならんで います。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/06-play-screen.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/06-play-screen.png" alt="れんしゅうの がめん ぜんたい" loading="lazy" decoding="async"></a><figcaption>上の <ruby>星<rt>ほし</rt></ruby>は、5もんの うち なんもん とけたかです。</figcaption></figure>
+<ul><li>いちばん上の 左の「＜」… やめて ホームへ もどる</li><li><ruby>星<rt>ほし</rt></ruby> 5つ … この 5もんの うち なんもん とけたか</li><li>ほのおの しるしの <ruby>数<rt>かず</rt></ruby> … れんぞくで せいかいした <ruby>数<rt>かず</rt></ruby></li><li>おびの 中の ことば … いま つかって いる さくせんの 名まえ</li><li>まん中の <ruby>絵<rt>え</rt></ruby> … 10の まとまり（オレンジ）と ばら（青）の ブロック</li><li>下の キーパッド … こたえの すうじを 入れる ところ</li></ul>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/07-play-blocks.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/07-play-blocks.png" alt="ブロックの ところだけを 大きく した もの" loading="lazy" decoding="async"></a><figcaption>上が「10の まとまり」、下が「ばら」です。</figcaption></figure>
+<h3 id="s-4-2">ブロックを タップして かぞえる</h3>
+<p>かぞえたい ときは、ブロックを 1つずつ タップして ください。タップした じゅんに 1・2・3… と ばんごうが つきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/08-count-tap.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/08-count-tap.png" alt="タップすると ばんごうが つく" loading="lazy" decoding="async"></a><figcaption>あいて いる ところを 2つ タップしたので、1と 2が つきました。</figcaption></figure>
+<p>かぞえまちがえた ときは、ばんごうの ついた ところを もう 1<ruby>回<rt>かい</rt></ruby> タップして ください。ぜんぶ きえて、さいしょから かぞえなおせます。</p>
+<h3 id="s-4-3">ブロックを タップして うごかす</h3>
+<p>「タップして 10の まとまりに いれよう！」と 出たら、じぶんの 手で ブロックを うごかす ばんです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/09-task-move.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/09-task-move.png" alt="ブロックを うごかす ばん" loading="lazy" decoding="async"></a><figcaption>うごかす あいだ、下の キーパッドは うすく なって おやすみします。</figcaption></figure>
+<ul><li>のこりの <ruby>数<rt>かず</rt></ruby>は「あと ◯こ」と 出ます</li><li>4びょう さわらないで いると、つぎに タップする 1こが 大きく ゆれて おしえて くれます</li><li>ぜんぶ うごかしおわると、キーパッドが また つかえるように なります</li></ul>
+<h3 id="s-4-4">まとめて うごかす（じどうで うごかす）</h3>
+<p>1つずつ タップしないで まとめて すすめたい ときは、「じどうで うごかす」を おして ください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/10-task-auto.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/10-task-auto.png" alt="あと ◯こ と じどうで うごかす" loading="lazy" decoding="async"></a><figcaption>おすと、のこりが ぜんぶ じどうで うごきます。</figcaption></figure>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>この ボタンを つかった ことは、がくしゅうの きろくに「てだすけを つかった」と して のこります。ただし「いっぱつせいかい」の <ruby>数<rt>かず</rt></ruby>は へりません。</li><li>こまった ときの ための ボタンです。まずは じぶんの 手で うごかして みて ください。</li></ul>
+<h2 id="s-5">くりあがりの たしざんを れんしゅうする</h2>
+<p>ホームの「たしざん」から はじめます。きょうかしょの「けいさんの しかた」と おなじ 4つの 手じゅんで すすみます。</p>
+<h3 id="s-5-1">たしざんを はじめる</h3>
+<ol><li>ホームの「たしざん」を おして ください。</li><li>すぐに 1もんめが 出ます。えらぶ ものは ありません。</li><li>5もん とくと、おいわいの <ruby>画面<rt>がめん</rt></ruby>が 出ます。</li></ol>
+<h3 id="s-5-2">4つの 手じゅんで こたえを 出す（8＋7の ばあい）</h3>
+<p>しきが 8＋7 の ときは、つぎの 4つの 手じゅんで すすみます。</p>
+<ol><li>8は あと いくつで 10かな？ … 10の まとまりの あいて いる ところを タップして かぞえて、2 と こたえます。</li><li>7を 2と いくつに わけるかな？ … さくらんぼの 右がわを かんがえて、5 と こたえます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/11-add-step2.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/11-add-step2.png" alt="さくらんぼが 2と 5に わかれた ところ" loading="lazy" decoding="async"></a><figcaption>7の 下の さくらんぼに 2と 5が 入りました。</figcaption></figure>
+<ol start="3"><li>わけた 2こを タップして 10の まとまりに いれよう！ … ブロックを 2こ うごかします。うごかしおわると「8に 2を たすと いくつかな？」と きかれるので、10 と こたえます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/12-add-step3.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/12-add-step3.png" alt="10の まとまりが いっぱいに なった ところ" loading="lazy" decoding="async"></a><figcaption>青い ブロックが 2こ 入って、まとまりが 10こに なりました。</figcaption></figure>
+<ol start="4"><li>10と 5で いくつかな？ … 15 と こたえます。これで 1もん おわりです。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/13-add-step4.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/13-add-step4.png" alt="さいごの 手じゅん" loading="lazy" decoding="async"></a><figcaption>のこった ばらの 5と、10の まとまりを あわせます。</figcaption></figure>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>こたえの すうじは、キーパッドを おすと すぐに はんていされます。まちがえて おした ときは「けす」で 入れなおせます。</li><li>2けたの こたえの ときは、2つめの すうじを 入れた ところで はんていされます。</li><li>タイムアタックだけは、この 4つの 手じゅんが 出ません。こたえだけを きかれます。</li></ul>
+<h2 id="s-6">くりさがりの ひきざんを れんしゅうする（さくせんを えらぶ）</h2>
+<p>ひきざんには かんがえかたが 2つ あります。きょうかしょに よって ならう じゅんが ちがうので、どちらも れんしゅう できます。</p>
+<h3 id="s-6-1">ひきざんを はじめて、さくせんを えらぶ</h3>
+<ol><li>ホームの「ひきざん」を おして ください。</li><li>「ひきざんの さくせんを えらぼう」の <ruby>画面<rt>がめん</rt></ruby>が 出ます。</li><li>3つの 中から 1つ おすと、すぐに 1もんめが 出ます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/14-sub-select.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/14-sub-select.png" alt="ひきざんの さくせんを えらぶ がめん" loading="lazy" decoding="async"></a><figcaption>3つの ボタンに 13−9 の ときの れいが 出て います。</figcaption></figure>
+<h3 id="s-6-2">10から ひいて たす さくせん</h3>
+<p>13−9 を、10の まとまりから さきに ひいて かんがえる やりかたです。</p>
+<ol><li>ばらの 3から 9は ひけないね。13を 10と いくつに わけるかな？ … 3 と こたえます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/15-genka-step1.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/15-genka-step1.png" alt="13を 10と 3に わける" loading="lazy" decoding="async"></a><figcaption>さくらんぼに 10と 3が 入ります。</figcaption></figure>
+<ol start="2"><li>10の まとまりから ブロックを 9こ タップして とろう！ … 9こ タップします。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/16-genka-take.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/16-genka-take.png" alt="まとまりから 9こ とる ばん" loading="lazy" decoding="async"></a><figcaption>「あと ◯こ」が へって いきます。</figcaption></figure>
+<ol start="3"><li>10から 9を ひくと いくつかな？ … のこった ブロックを かぞえて、1 と こたえます。</li><li>のこった 1と 3で いくつかな？ … 4 と こたえます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/17-genka-step2.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/17-genka-step2.png" alt="のこった 1と 3を あわせる" loading="lazy" decoding="async"></a><figcaption>つかった 10には ななめの <ruby>線<rt>せん</rt></ruby>が つきます。</figcaption></figure>
+<h3 id="s-6-3">ばらから ひいて 10から ひく さくせん</h3>
+<p>おなじ 13−9 を、ばらから さきに ひいて かんがえる やりかたです。</p>
+<ol><li>ばらの 3から 9は ひけないね。さきに ばらの 3を ひくよ。9を 3と いくつに わけるかな？ … 6 と こたえます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/18-gengen-step1.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/18-gengen-step1.png" alt="9を 3と 6に わける" loading="lazy" decoding="async"></a><figcaption>こんどは 9の 下に さくらんぼが つきます。</figcaption></figure>
+<ol start="2"><li>ばらの ブロックを 3こ ぜんぶ タップして とろう！ … 3こ タップします。おわると「13から 3を ひくと いくつかな？」と きかれるので、10 と こたえます。</li><li>つぎは 10の まとまりから 6こ タップして とろう！ … 6こ タップします。</li><li>10から 6を ひくと いくつかな？ … 4 と こたえます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/19-gengen-step2.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/19-gengen-step2.png" alt="まとまりから 6こ とった ところ" loading="lazy" decoding="async"></a><figcaption>きれいな 10の まとまりから ひいて いきます。</figcaption></figure>
+<h3 id="s-6-4">ミックスで どちらも れんしゅうする</h3>
+<p>3つめの「ミックス」を えらぶと、1もんごとに どちらかの さくせんが 出ます。</p>
+<p>どちらの さくせんで といて いるかは、しきの 上の おびを 見れば わかります。「10から ひいて たす さくせん」か「ばらから ひいて 10から ひく さくせん」と <ruby>書<rt>か</rt></ruby>いて あります。</p>
+<h2 id="s-7">まちがえた ときと、5もん おわった とき</h2>
+<p>まちがえても だいじょうぶです。とちゅうで とまって しまわないように なって います。</p>
+<h3 id="s-7-1">まちがえた ときに 出る もの</h3>
+<p>まちがえた <ruby>回数<rt>かいすう</rt></ruby>に よって、出る ものが かわります。</p>
+<p>1<ruby>回<rt>かい</rt></ruby>めは「おしい！もういちど！」と 出ます。もう 1<ruby>回<rt>かい</rt></ruby> かんがえて こたえて ください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/20-wrong.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/20-wrong.png" alt="1回めの まちがい" loading="lazy" decoding="async"></a><figcaption>こたえの ところが ふるえて、赤い ことばが 出ます。</figcaption></figure>
+<p>2<ruby>回<rt>かい</rt></ruby>めは ヒントが 出ます。<ruby>何<rt>なに</rt></ruby>を すれば よいかが <ruby>書<rt>か</rt></ruby>いて あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/21-hint.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/21-hint.png" alt="2回めで 出る ヒント" loading="lazy" decoding="async"></a><figcaption><ruby>何<rt>なに</rt></ruby>を すれば よいかが ピンクの 字で 出ます。</figcaption></figure>
+<p>3<ruby>回<rt>かい</rt></ruby>めは こたえを 見せて、そのまま つぎへ すすみます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/22-answer.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/22-answer.png" alt="3回めで こたえが 出る" loading="lazy" decoding="async"></a><figcaption>「こたえは 2 だよ。いっしょに すすもう！」と 出ます。</figcaption></figure>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>こたえを 見て すすんだ もんだいは、「じぶんで とけた」には かぞえません。マップの <ruby>色<rt>いろ</rt></ruby>も「にがて」に もどります。</li><li>タイムアタックでは、ヒントも こたえも 出ません。まちがえた <ruby>数<rt>かず</rt></ruby>だけが かぞえられます。</li></ul>
+<h3 id="s-7-2">せいかいの あとに 出る「けいさんの しかた」</h3>
+<p>せいかいすると、その しきの「けいさんの しかた」が 4<ruby>行<rt>ぎょう</rt></ruby> 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/23-howto.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/23-howto.png" alt="せいかいの あとに 出る けいさんの しかた" loading="lazy" decoding="async"></a><figcaption>5びょう たつまで、この まどは 出た ままです。</figcaption></figure>
+<ul><li>「あと ◯びょう」の あいだは つぎへ すすめません。<ruby>声<rt>こえ</rt></ruby>に 出して <ruby>読<rt>よ</rt></ruby>んで みて ください。</li><li>5びょう たつと ボタンが「つぎへ」に かわります。おすと つぎの もんだいです。</li></ul>
+<h3 id="s-7-3">5もん おわった とき</h3>
+<p>5もん とくと、おいわいの <ruby>画面<rt>がめん</rt></ruby>が 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/24-set-clear.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/24-set-clear.png" alt="5もん クリアの がめん" loading="lazy" decoding="async"></a><figcaption>いままでに ぜんぶで なんもん といたかも 出ます。</figcaption></figure>
+<ul><li>「つづける」… つぎの 5もんを はじめます</li><li>「ホームへ」… ホームの <ruby>画面<rt>がめん</rt></ruby>に もどります</li></ul>
+<h3 id="s-7-4">とちゅうで やめる</h3>
+<p><ruby>画面<rt>がめん</rt></ruby>の 左上の「＜」を おすと、とちゅうで やめられます。</p>
+<p>やめた ところまでは「あしあと」に「とちゅうまで」と して のこります。5もん とけて いなくても、といた ぶんの きろくは きえません。</p>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>「じぶんで しきを いれる」で やめた ときだけ、しきを 入れる <ruby>画面<rt>がめん</rt></ruby>に もどります。ほかは ホームに もどります。</li><li>タブを とじたり ほかの <ruby>画面<rt>がめん</rt></ruby>に うつったり しても、5ふん いじょう もどって こなければ おなじように「とちゅうまで」に なります。</li><li>もどって くると、のこりの <ruby>数<rt>かず</rt></ruby>で あたらしく はじまります。</li></ul>
+<h2 id="s-8">タイムアタックで はやさに ちょうせんする</h2>
+<p>10もんを あんざんで とく モードです。ブロックも 手じゅんも 出ません。こたえだけを 入れます。</p>
+<h3 id="s-8-1">タイムアタックを はじめる</h3>
+<ol><li>ホームの「タイムアタック」を おして ください。</li><li>おした しゅんかんから <ruby>時間<rt>じかん</rt></ruby>が はじまります。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/25-timed.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/25-timed.png" alt="タイムアタックの がめん" loading="lazy" decoding="async"></a><figcaption>左上に「1/10」と いまの タイムが 出ます。</figcaption></figure>
+<ol start="3"><li>「こたえは いくつかな？」に、キーパッドで こたえて ください。</li><li>10もん おわると けっかが 出ます。</li></ol>
+<h3 id="s-8-2"><ruby>星<rt>ほし</rt></ruby>の とりかたと さいこうきろく</h3>
+<p>おわると <ruby>星<rt>ほし</rt></ruby>の <ruby>数<rt>かず</rt></ruby>と タイムが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/26-timed-result.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/26-timed-result.png" alt="タイムアタックの けっか" loading="lazy" decoding="async"></a><figcaption>タイム・まちがい・さいこうきろくの 3つが ならびます。</figcaption></figure>
+<p><ruby>星<rt>ほし</rt></ruby>の <ruby>数<rt>かず</rt></ruby>は、つぎの ように きまります。</p>
+<ul><li><ruby>星<rt>ほし</rt></ruby> 3つ … まちがい 0<ruby>回<rt>かい</rt></ruby>で、60びょう いない</li><li><ruby>星<rt>ほし</rt></ruby> 2つ … まちがい 2<ruby>回<rt>かい</rt></ruby>まで、90びょう いない</li><li><ruby>星<rt>ほし</rt></ruby> 1つ … それ いがい</li></ul>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>「さいこうきろく」は、いちばん はやかった タイムです。ずっと のこります。</li><li>「もういちど」で すぐに もう 1<ruby>回<rt>かい</rt></ruby> できます。</li><li>はじめて クリアすると「スピードスター」、まちがい 0<ruby>回<rt>かい</rt></ruby>で クリアすると「パーフェクト」の バッジが もらえます。</li></ul>
+<h2 id="s-9">はってんもんだいで 2けたの けいさんに ちょうせんする</h2>
+<p>2けた ± 1けたの けいさんです。おおきな <ruby>数<rt>かず</rt></ruby>でも「10の まとまり」の かんがえかたが そのまま つかえる ことが わかります。</p>
+<h3 id="s-9-1">はってんを はじめて、しゅるいを えらぶ</h3>
+<ol><li>ホームの「はってん」を おして ください。</li><li>「はってんもんだい」の <ruby>画面<rt>がめん</rt></ruby>が 出ます。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/27-dev-select.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/27-dev-select.png" alt="はってんの しゅるいを えらぶ がめん" loading="lazy" decoding="async"></a><figcaption>たしざん・ひきざん・ミックスの 3つから えらべます。</figcaption></figure>
+<ol start="3"><li>1つ おすと すぐに 1もんめが 出ます。ここも 5もんで 1セットです。</li></ol>
+<h3 id="s-9-2">2けた＋1けた（10の ぼうに なる）</h3>
+<p>10が 10こ そろうと、ブロックが「10の ぼう」に がったいします。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/28-dev-add.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/28-dev-add.png" alt="はってんの たしざん" loading="lazy" decoding="async"></a><figcaption>左の ほそながい ものが「10の ぼう」です。</figcaption></figure>
+<p>たとえば 22＋9 なら、つぎの ように すすみます。</p>
+<ol><li>22は あと いくつで 30かな？ … 8 と こたえます。</li><li>9を 8と いくつに わけるかな？ … 1 と こたえます。</li><li>わけた 8こを タップして 10の まとまりに いれよう！ … 8こ うごかすと まとまりが ぼうに なります。「22に 8を たすと いくつかな？」に 30 と こたえます。</li><li>30と 1で いくつかな？ … 31 と こたえます。</li></ol>
+<h3 id="s-9-3">2けた−1けた（10の ぼうを ばらす）</h3>
+<p>ひきざんでは、ばらが たりなく なると 10の ぼうが 1ぽん ばらけて、10の まとまりに もどります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/29-dev-sub.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/29-dev-sub.png" alt="10の ぼうを ばらした ところ" loading="lazy" decoding="async"></a><figcaption>「10のぼうを 1ぽん ばらして まとまりに もどすよ！」の あとです。</figcaption></figure>
+<p>たとえば 33−5 なら、つぎの ように すすみます。</p>
+<ol><li>ばらの 3から 5は ひけないね。さきに ばらの 3を ひくよ。5を 3と いくつに わけるかな？ … 2 と こたえます。</li><li>ばらの ブロックを 3こ ぜんぶ タップして とろう！ … 3こ とると「33から 3を ひくと いくつかな？」と きかれるので、30 と こたえます。</li><li>まとまりから ブロックを 2こ タップして とろう！ … 2こ とります。</li><li>30から 2を ひくと いくつかな？ … 28 と こたえます。</li></ol>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>一のくらいの けいさんは ふつうの けいさんカードと おなじです。はってんで といた ぶんも「マップ」の <ruby>色<rt>いろ</rt></ruby>に なります。</li><li>はってんの もんだいは XP が おおめです。1<ruby>回<rt>かい</rt></ruby>めで せいかいすると 15 XP もらえます。</li></ul>
+<h2 id="s-10">じぶんで しきを いれて いっしょに かんがえる</h2>
+<p>きょうかしょや プリントに 出て きた しきを 入れると、ブロックで いっしょに かんがえて くれます。</p>
+<h3 id="s-10-1">しきを 入れて はじめる</h3>
+<ol><li>ホームの「じぶんで しきを いれる」を おして ください。</li></ol>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/30-free-empty.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/30-free-empty.png" alt="しきを 入れる がめん" loading="lazy" decoding="async"></a><figcaption>上が しきの ところ、下が キーパッドです。</figcaption></figure>
+<ol start="2"><li>キーパッドで まえの <ruby>数<rt>かず</rt></ruby>を 入れて ください。</li><li>「＋」か「−」を おして ください。</li><li>うしろの <ruby>数<rt>かず</rt></ruby>を 入れて ください。</li><li>「はじめる」を おすと、れんしゅうの <ruby>画面<rt>がめん</rt></ruby>に かわります。</li></ol>
+<p>「けす」で 1文字ずつ、「ぜんぶ けす」で しき ぜんぶを けせます。しきの すうじを おすと、なおしたい ほうへ うつれます。</p>
+<h3 id="s-10-2">入れられない しきの ときに 出る ことば</h3>
+<p>入れられる しきには きまりが あります。</p>
+<ul><li>まえの <ruby>数<rt>かず</rt></ruby>も うしろの <ruby>数<rt>かず</rt></ruby>も 99まで</li><li>たしざんは こたえも 99まで</li><li>ひきざんは、まえの <ruby>数<rt>かず</rt></ruby>が うしろの <ruby>数<rt>かず</rt></ruby>いじょう（こたえが 0 いじょうに なる こと）</li></ul>
+<p>きまりから <ruby>外<rt>はず</rt></ruby>れると「はじめる」が おせなく なり、そのわけが すぐ 下に 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/31-free-warn.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/31-free-warn.png" alt="ひけない しきを 入れた とき" loading="lazy" decoding="async"></a><figcaption>「3から 52は ひけないよ。」と 出ました。</figcaption></figure>
+<h3 id="s-10-3">さくせんを えらぶ・せつめいモードを つかう</h3>
+<p>11−2 から 18−9 までの ひきざんを 入れた ときは、2つの さくせんから えらべます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/32-free-method.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/32-free-method.png" alt="さくせんを えらぶ ところ" loading="lazy" decoding="async"></a><figcaption>青い わくが ついて いる ほうが、いま えらばれて います。</figcaption></figure>
+<p>その下の「せつめいモード」を 入に すると、こたえを 見せながら 手じゅんを たどれます。みんなで かんがえる ときに つかいます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/33-free-explain-switch.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/33-free-explain-switch.png" alt="せつめいモードを 入に した ところ" loading="lazy" decoding="async"></a><figcaption>スイッチが 右に うごくと 入です。</figcaption></figure>
+<p>せつめいモードを 入に して「はじめる」を おすと、キーパッドの かわりに「こたえを 見る」の ボタンが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/34-free-explain-play.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/34-free-explain-play.png" alt="せつめいモードの れんしゅう がめん" loading="lazy" decoding="async"></a><figcaption>下に「こたえを 見る」の ボタンが 出ます。</figcaption></figure>
+<ol><li>「こたえを 見る」を おすと、こたえと よみあげる 文が 出ます。</li><li>ボタンが「つぎへ」に かわるので、おすと つぎの 手じゅんへ すすみます。</li><li>ブロックを うごかす ところだけは、せつめいモードでも 手で タップします。</li></ol>
+<h3 id="s-10-4">とけた あとに えらぶ</h3>
+<p>とけると、3つの ボタンが 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/35-free-done.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/35-free-done.png" alt="とけた あとの がめん" loading="lazy" decoding="async"></a><figcaption>しきと こたえが 大きく 出ます。</figcaption></figure>
+<ul><li>「おなじ しきを もういちど」… おなじ しきを もう 1<ruby>回<rt>かい</rt></ruby></li><li>「べつの しきを いれる」… しきを 入れる <ruby>画面<rt>がめん</rt></ruby>に もどる</li><li>「ホームへ」… ホームの <ruby>画面<rt>がめん</rt></ruby>に もどる</li></ul>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>この モードで といた ぶんは、きろくに のこりません。レベルも XP も マップも カレンダーも バッジも あしあとも うごきません。</li><li>せつめいモードを 入に した ことは のこります。つぎに ひらいた ときも 入の ままです。</li></ul>
+<h2 id="s-11">せいせきと あしあとで、といた <ruby>数<rt>かず</rt></ruby>を 見る</h2>
+<p>ホームの「きろく」を おすと、これまでの がんばりが 見られます。上の タブで 5つに <ruby>分<rt>わ</rt></ruby>かれて います。</p>
+<h3 id="s-11-1">きろくの <ruby>画面<rt>がめん</rt></ruby>を ひらく</h3>
+<ol><li>ホームの「きろく」を おして ください。</li><li>「がんばりの きろく」の <ruby>画面<rt>がめん</rt></ruby>が 出ます。</li><li>上の タブ（せいせき・あしあと・マップ・カレンダー・バッジ）を おすと きりかわります。</li><li>左上の「＜」で ホームへ もどれます。</li></ol>
+<h3 id="s-11-2">せいせき（ボタンごとの といた <ruby>数<rt>かず</rt></ruby>）</h3>
+<p>さいしょに 出る タブです。えらんだ ボタンごとに、といた <ruby>数<rt>かず</rt></ruby>と れんぞく せいかいの さいこうきろくが ならびます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/36-records-stats.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/36-records-stats.png" alt="せいせきの タブ" loading="lazy" decoding="async"></a><figcaption>いちばん下は タイムアタックの きろくです。</figcaption></figure>
+<p>ならぶのは たしざん・ひきざん（2つの さくせんは べつべつ）・はってんの たしざん・はってんの ひきざん・タイムアタックの 6つです。</p>
+<h3 id="s-11-3">あしあと（この 1しゅうかんの ようす）</h3>
+<p>2つめの タブです。この 1しゅうかんに とりくんだ <ruby>回数<rt>かいすう</rt></ruby>・といた もんだいの <ruby>数<rt>かず</rt></ruby>・いっぱつせいかいの わりあい・がくしゅうした <ruby>時間<rt>じかん</rt></ruby>が 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/37-records-log.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/37-records-log.png" alt="あしあとの タブ" loading="lazy" decoding="async"></a><figcaption>上の 4つの ますが、この 1しゅうかんの まとめです。</figcaption></figure>
+<p>「いっぱつせいかい」は、1<ruby>回<rt>かい</rt></ruby>めで せいかいした もんだいの ことです。その下に、さいきんの とりくみが 12<ruby>回<rt>かい</rt></ruby>ぶんまで ならびます。</p>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて ほしいこと:</p>
+<ul><li>とりくんだ 日づけは 出ますが、<ruby>時間<rt>じかん</rt></ruby>は「ごぜん」「ごご」「ゆうがた」までしか 出ません。</li><li>「とちゅうまで」と ついて いる ものは、5もん とききらずに やめた ぶんです。</li><li>1しゅうかん いじょう あいて いる ときは、「この 1しゅうかん」の かわりに「これまで」と 出ます。</li><li>あしあとは、ほかの GIGA スクールの アプリと <ruby>共通<rt>きょうつう</rt></ruby>の きろくです。「きろくを ぜんぶ けす」を おしても きえません。</li></ul>
+<h2 id="s-12">マップ・カレンダー・バッジで のびを 見る</h2>
+<p>のこりの 3つの タブでは、けいさんカード 1まいずつの ようすと、れんしゅうした 日と、あつめた バッジが 見られます。</p>
+<h3 id="s-12-1">マップ（けいさんカード 1まいずつの ようす）</h3>
+<p>たしざん 26ます、ひきざん 36ますの ひょうです。1ますが けいさんカード 1まいです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/38-records-map.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/38-records-map.png" alt="マップの タブ" loading="lazy" decoding="async"></a><figcaption>上が たしざん、下が ひきざんの マップです。</figcaption></figure>
+<p><ruby>色<rt>いろ</rt></ruby>の いみは つぎの とおりです。</p>
+<ul><li>みどり（ばっちり）… 3<ruby>回<rt>かい</rt></ruby> れんぞくで せいかいした</li><li>きいろ（もうすこし）… 1<ruby>回<rt>かい</rt></ruby>か 2<ruby>回<rt>かい</rt></ruby> れんぞくで せいかいして いる</li><li>あか（にがて）… さいごに まちがえた</li><li>はいいろ（まだ）… まだ 1<ruby>回<rt>かい</rt></ruby>も といて いない</li></ul>
+<h3 id="s-12-2">カレンダー（れんしゅうした 日）</h3>
+<p>れんしゅうした 日に しるしが つきます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/39-records-calendar.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/39-records-calendar.png" alt="カレンダーの タブ" loading="lazy" decoding="async"></a><figcaption>左右の やじるしで、まえの 月・つぎの 月に うつれます。</figcaption></figure>
+<ul><li><ruby>星<rt>ほし</rt></ruby>の しるし … きょうの ミッション（1にち 10もん）を たっせいした 日</li><li>まるの しるし … れんしゅうした 日</li></ul>
+<h3 id="s-12-3">バッジ（10しゅるい）</h3>
+<p>あつめられる バッジは 10しゅるいです。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/40-records-badges.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/40-records-badges.png" alt="バッジの タブ" loading="lazy" decoding="async"></a><figcaption>まだ もらって いない バッジは「？」の <ruby>絵<rt>え</rt></ruby>です。</figcaption></figure>
+<ul><li>はじめの いっぽ … はじめて 5もん クリアした</li><li>50もん とっぱ … ぜんぶで 50もん といた</li><li>200もん とっぱ … ぜんぶで 200もん といた</li><li>れんぞく 10もん … 10もん れんぞくで せいかいした</li><li>3にち つづけた … 3にち れんぞくで がくしゅうした</li><li>1しゅうかん つづけた … 7にち れんぞくで がくしゅうした</li><li>スピードスター … タイムアタックを クリアした</li><li>パーフェクト … タイムアタックを まちがい なしで クリアした</li><li>はってん チャレンジャー … はってんもんだいを 10もん といた</li><li>マップたんけんか … マップで 20ますを ばっちりに した</li></ul>
+<h2 id="s-13" class="prose__h--danger">【！！】きろくの のこりかたと、けしかた</h2>
+<p>きろくが どこに あるのかと、けすと どう なるのかを <ruby>書<rt>か</rt></ruby>いて あります。けす ボタンは もとに もどせないので、おす まえに <ruby>読<rt>よ</rt></ruby>んで ください。</p>
+<h3 id="s-13-1">きろくが どこに のこるか</h3>
+<p>きろくは、その タブレットの ブラウザの 中だけに のこります。インターネットの むこうがわには <ruby>送<rt>おく</rt></ruby>りません。</p>
+<p>そのため、つぎの ことが おきます。</p>
+<ul><li>タブレットを かえると、きろくは ひきつがれません</li><li>おなじ タブレットを べつの 人が つかうと、きろくが まざります</li><li>ブラウザの「りれきを けす」で いっしょに きえる ことが あります</li><li>iPad の Safari では、7日 まったく ひらかないと きえる ことが あります（ホーム<ruby>画面<rt>がめん</rt></ruby>に ついかして おくと きえにくく なります）</li></ul>
+<h3 id="s-13-2">きろくに のこらない もの</h3>
+<p>「じぶんで しきを いれる」で といた ぶんは、いっさい のこりません。レベル・XP・にがてカード・カレンダー・バッジ・あしあとの どれも うごきません。</p>
+<h3 id="s-13-3" class="prose__h--danger">【！！】きろくを ぜんぶ けす</h3>
+<p>「せいせき」の タブの いちばん下に、赤い ボタンが あります。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/41-records-reset.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/41-records-reset.png" alt="きろくを ぜんぶ けす ボタン" loading="lazy" decoding="async"></a><figcaption>「きろくを ぜんぶ けす」の ボタンです。</figcaption></figure>
+<ol><li>「きろく」を ひらいて「せいせき」の タブを えらび、いちばん下まで ながして ください。</li><li>「きろくを ぜんぶ けす」を おして ください。</li><li>「けしますか？」と きかれるので、「OK」を おすと きえます。</li></ol>
+<p>【！！】いちばん だいじな ちゅうい:</p>
+<ul><li>けした きろくは もとに もどせません。インターネットの むこうがわに ひかえが ないので、だれにも もどせません。</li><li>きえるのは レベル・にがてカード・カレンダー・バッジです。</li><li>「あしあと」は のこります。ほかの アプリと <ruby>共通<rt>きょうつう</rt></ruby>の きろくだからです。</li></ul>
+<h2 id="s-14"><ruby>電子黒板<rt>でんしこくばん</rt></ruby>に うつして みんなで つかう（先生むけ）</h2>
+<p>この <ruby>章<rt>しょう</rt></ruby>は、<ruby>教室<rt>きょうしつ</rt></ruby>で 一せいに つかう 先生むけです。ひとりで れんしゅうする ぶんには、<ruby>読<rt>よ</rt></ruby>まなくても だいじょうぶです。</p>
+<h3 id="s-14-1"><ruby>画面<rt>がめん</rt></ruby>を 大きく して うつす</h3>
+<p><ruby>画面<rt>がめん</rt></ruby>の 右上に ある モニターの <ruby>絵<rt>え</rt></ruby>の ボタン（「大きく<ruby>表示<rt>ひょうじ</rt></ruby>」）を <ruby>押<rt>お</rt></ruby>してください。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/42-present.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/42-present.png" alt="大きく うつした ホームの がめん" loading="lazy" decoding="async"></a><figcaption>字も ボタンも まとめて 大きく なります。</figcaption></figure>
+<ul><li>字と ボタンが 大きくなり、<ruby>教室<rt>きょうしつ</rt></ruby>の うしろの せきからも <ruby>読<rt>よ</rt></ruby>めます</li><li><ruby>同時<rt>どうじ</rt></ruby>に <ruby>画面<rt>がめん</rt></ruby>いっぱい（フルスクリーン）に なります</li><li>もう <ruby>一度<rt>いちど</rt></ruby> <ruby>押<rt>お</rt></ruby>すと、もとの 大きさに もどります</li><li>ホームでも れんしゅうの <ruby>画面<rt>がめん</rt></ruby>でも、おなじ ボタンが 右上に あります</li></ul>
+<p>【！】<ruby>覚<rt>おぼ</rt></ruby>えておいて いただきたい こと:</p>
+<ul><li><ruby>押<rt>お</rt></ruby>した じょうたいは のこります。つぎに ひらいた ときも 大きい ままです。</li><li>ブラウザが フルスクリーンを ことわった ときでも、大きさだけは 大きい ままに なります。</li><li>Esc キーで フルスクリーンを ぬけても、大きさは そのままです。もどすには もう <ruby>一度<rt>いちど</rt></ruby> ボタンを <ruby>押<rt>お</rt></ruby>してください。</li></ul>
+<h3 id="s-14-2">せつめいモードで、みんなで かんがえる</h3>
+<p><ruby>発問<rt>はつもん</rt></ruby>しながら すすめたい ときは、「じぶんで しきを いれる」の「せつめいモード」を つかってください。手じゅんは、この 上の「じぶんで しきを いれて いっしょに かんがえる」の <ruby>章<rt>しょう</rt></ruby>に あります。</p>
+<p>この モードで といた ぶんは、レベルにも にがてカードにも のこりません。<ruby>授業<rt>じゅぎょう</rt></ruby>の おてほんに つかっても、きろくが あれる <ruby>心配<rt>しんぱい</rt></ruby>は ありません。</p>
+<h3 id="s-14-3">キーボードで こたえる</h3>
+<p><ruby>外<rt>そと</rt></ruby>づけキーボードや <ruby>電子黒板<rt>でんしこくばん</rt></ruby>から、タップしなくても すすめられます。</p>
+<ul><li>しきを 入れる <ruby>画面<rt>がめん</rt></ruby> … すうじ・「+」・「-」・Backspace・Enter（Enter で はじまります）</li><li>れんしゅうの <ruby>画面<rt>がめん</rt></ruby> … すうじ・Backspace・Enter（Enter で けってい）</li><li>せつめいモード … Enter か スペース（「こたえを 見る」と「つぎへ」を かねます）</li></ul>
+<h2 id="s-15">うまく いかない ときは</h2>
+<p>よく ある ことと、その なおしかたを ならべます。上から じゅんに ためして みて ください。</p>
+<h3 id="s-15-1"><ruby>画面<rt>がめん</rt></ruby>が 白いまま／ブロックが 出ない</h3>
+<p>いちど とじて、もう 1<ruby>回<rt>かい</rt></ruby> ひらいて ください。</p>
+<p>それでも なおらない ときは、ブラウザを ぜんぶ とじてから ひらきなおして ください。</p>
+<h3 id="s-15-2">「あたらしい ばんが あります」と 下に 出た</h3>
+<p>あたらしい ばんが とどいた しらせです。<ruby>画面<rt>がめん</rt></ruby>の いちばん下に 出ます。</p>
+<ul><li>「さいしんに する」を おすと きりかわります</li><li>おすまで きりかわりません。もんだいを といて いる とちゅうなら、その もんだいを おえてから おして ください</li><li>おさずに とじても、つぎに ひらくと また 出ます</li></ul>
+<h3 id="s-15-3">インターネットが つながらない ときは</h3>
+<p>いちど ひらいた ことが あれば、つながって いなくても そのまま つかえます。</p>
+<p>まだ 1<ruby>回<rt>かい</rt></ruby>も ひらいて いない タブレットでは、つぎの <ruby>画面<rt>がめん</rt></ruby>が 出ます。</p>
+<figure class="prose__fig"><a class="prose__zoom" href="https://keisan-block.giga-school.com/docs/manual/images/43-offline.png"><img src="https://keisan-block.giga-school.com/docs/manual/images/43-offline.png" alt="インターネットに つながって いない ときの がめん" loading="lazy" decoding="async"></a><figcaption>「もういちど ひらく」で やりなおせます。</figcaption></figure>
+<h3 id="s-15-4">字が 小さくて <ruby>読<rt>よ</rt></ruby>めない</h3>
+<p>2本の ゆびで <ruby>広<rt>ひろ</rt></ruby>げると（ピンチ）、大きく できます。</p>
+<p><ruby>教室<rt>きょうしつ</rt></ruby>で うつす ときは、右上の「大きく<ruby>表示<rt>ひょうじ</rt></ruby>」の ボタンの ほうが かくじつです。</p>
+<h3 id="s-15-5">うごきが 気に なる 子が いる とき</h3>
+<p>タブレットの せっていで「<ruby>視差効果<rt>しさこうか</rt></ruby>を <ruby>減<rt>へ</rt></ruby>らす」か「アニメーションを <ruby>減<rt>へ</rt></ruby>らす」を 入に して ください。アプリが それを 見て、<ruby>紙<rt>かみ</rt></ruby>ふぶきなどの うごきを とめます。</p>
+<h3 id="s-15-6">きろくが 空に なった とき</h3>
+<p>「きろくの のこりかたと、けしかた」の <ruby>章<rt>しょう</rt></ruby>を <ruby>読<rt>よ</rt></ruby>んで ください。</p>
+<p>タブレットを かえた・りれきを けした・iPad で 7日 いじょう ひらかなかった、の どれかです。きろくは インターネットの むこうがわに ないので、もとに もどす ほうほうは ありません。</p>
+<h3 id="s-15-7">それでも なおらない ときは</h3>
+<p>まず、この アプリを おしえて くれた 先生か、学校の じょうほうたんとうの 先生に そうだんして ください。いちばん 早く かいけつします。</p>
+<p>それでも わからない ときは、この ページの いちばん下に ある <ruby>問<rt>と</rt></ruby>い<ruby>合<rt>あ</rt></ruby>わせ先から <ruby>知<rt>し</rt></ruby>らせて ください。</p>
+    </div>
+
+    <section class="manual__school" aria-labelledby="school-title">
+      <h2 id="school-title">学校で使うときは</h2>
+      <p class="manual__school-lead">ここは <a href="/">giga-school.com</a> が
+        アプリの設定から組み立てています。マニュアルの書き手が手で書いたものではないので、
+        アプリが変われば、ここも変わります。</p>
+      <dl class="manual__facts">
+        <div><dt>アカウント</dt><dd>アカウント不要</dd></div>
+        <div><dt>記録の置き場所</dt><dd>記録は端末の中だけ</dd></div>
+        <div><dt>対象</dt><dd>1年生</dd></div>
+      </dl>
+      <h3>校内のフィルタリングで許可するアドレス</h3>
+      <ul class="manual__hosts">
+        <li><code>keisan-block.giga-school.com</code><span class="manual__why">アプリを配っている場所</span><span class="manual__level manual__level--must">塞ぐと使えません</span></li>
+      </ul>
+      <p class="manual__school-more">ほかのアプリとまとめて申請するときは、
+        <a href="/filtering/">許可するアドレスの一覧</a>が使えます（印刷できます）。</p>
+    </section>
+
+    <section class="changes" aria-labelledby="changes-title">
+      <h2 class="changes__title" id="changes-title">最近の更新</h2>
+        <div class="changes__at">
+          <p class="changes__date"><time datetime="2026-09-02">2026/09/02</time></p>
+          <ul class="changes__list">
+            <li>使い方マニュアルを 公開しました</li>
+            <li>画面の いちばん下から「つかいかた」を ひらけるようにしました</li>
+          </ul>
+        </div>
+    </section>
+
+    <!-- 紙に刷って回覧されたとき、ここへ戻ってこられる唯一の手がかり。
+         画面では出さない（すぐ上のアドレスバーに同じものが出ている） -->
+    <p class="manual__url">このマニュアルは https://giga-school.com/apps/keisan-block/manual/ にあります（2026/09/02 現在）</p>
+
+    <!-- 狭い画面でだけ、読んでいるあいだ下に貼り付く。マニュアルは
+         アプリを触りながら読むものなので、記事より効く -->
+    <p class="article__sticky no-print">
+      <a class="btn btn--primary" href="https://keisan-block.giga-school.com/">さんすうブロック を開く</a>
+    </p>
+
+    <aside class="article__end no-print">
+      <p class="article__end-lead">さんすうブロック は、ブラウザだけで動く無償のアプリです。</p>
+      <p class="manual__legal">さんすうブロック の
+        <a href="https://keisan-block.giga-school.com/terms.html" rel="noopener">利用規約</a>と<a href="https://keisan-block.giga-school.com/privacy.html" rel="noopener">プライバシーポリシー</a>も読めます。</p>
+      <p class="article__actions">
+        <a class="btn btn--primary" href="https://keisan-block.giga-school.com/">さんすうブロック を開く</a>
+        <a class="btn btn--ghost" href="/#contact">うまくいかないときは</a>
+      </p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__meta"><strong>GIGA school</strong><span>学校で使える Web アプリ</span></div>
+      <nav class="site-footer__links" aria-label="フッター">
+        <a href="/#apps">アプリ</a>
+        <a href="/profile/">自己紹介</a>
+        <a href="/#about">このサイトについて</a>
+        <a href="/#contact">お問い合わせ</a>
+        <a href="/filtering/">フィルタリングの申請</a>
+        <a href="/devlog/">開発記録</a>
+        <a href="/press/">掲載用の資料</a>
+        <a href="/feed.xml">更新を受け取る（RSS）</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
+</html>
