@@ -100,7 +100,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-01",
    "changedAt": "2026-09-03"
   },
   {
@@ -155,7 +155,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2026-03-01",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-01",
    "changedAt": "2026-09-03"
   },
   {
@@ -184,7 +184,7 @@
    ],
    "storage": "device",
    "publishedAt": "2026-07-23",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-01",
    "changedAt": "2026-09-03"
   },
   {
@@ -224,7 +224,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-16",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-01",
    "changedAt": "2026-09-03"
   },
   {
@@ -256,7 +256,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-06-12",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-01",
    "changedAt": "2026-09-03"
   },
   {
@@ -354,7 +354,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-16",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-02",
    "changedAt": "2026-09-03"
   },
   {
@@ -577,7 +577,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-02",
    "changedAt": "2026-09-03"
   },
   {
@@ -596,8 +596,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-09-03",
-   "changedAt": "2026-09-03"
+   "updatedAt": "2026-10-02",
+   "changedAt": "2026-10-02"
   },
   {
    "repo": "Shared-Folder-Sync",
@@ -695,7 +695,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-09-02",
+   "updatedAt": "2026-10-02",
    "changedAt": "2026-08-30"
   },
   {
@@ -731,7 +731,7 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-08-07",
-   "updatedAt": "2026-09-28",
+   "updatedAt": "2026-10-01",
    "changedAt": "2026-09-28"
   },
   {
@@ -742,7 +742,7 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-10-02",
    "changedAt": "2026-09-03"
   },
   {
