@@ -1,6 +1,6 @@
 {
  "_comment": "tools/sync-updates.mjs が日付を書き込む。grades（対象学年）・account（アカウント）・storage（記録の置き場所）は手で書く。grades の [] は「児童が使うものではない」、項目そのものが無いものは「まだ決めていない」。",
- "generatedAt": "2026-09-03",
+ "generatedAt": "2026-10-25",
  "items": [
   {
    "repo": "Digital-Newspaper",
@@ -596,8 +596,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-10-02",
-   "changedAt": "2026-10-02"
+   "updatedAt": "2026-10-25",
+   "changedAt": "2026-10-25"
   },
   {
    "repo": "Shared-Folder-Sync",
