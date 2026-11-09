@@ -158,8 +158,11 @@ test('実際の台帳を、正本にあるスキル名と突き合わせても�
   const skills = fs.readdirSync(path.join(REPO_ROOT, 'standards/skills'), { withFileTypes: true })
     .filter((d) => d.isDirectory()).map((d) => d.name);
   assert.deepEqual(ledgerProblems(ledger, skills), []);
-  // スキルは 42 本に配る（targets 32 ＋ skills.extra 10）
-  assert.equal(ledger.targets.length + skillsOf(ledger).extra.length, 42);
+  /* スキルは 43 本に配る（targets 33 ＋ skills.extra 10）。
+     ⚠️ 本数を直す理由は「艦隊に 1 本増えた」ときだけ。検査が落ちたから
+        数字を合わせにくると、台帳の書き忘れが黙って通る。
+     2026-11-08: Hiding-animal（しぜんの かくれんぼ ずかん）を足して 43 本。 */
+  assert.equal(ledger.targets.length + skillsOf(ledger).extra.length, 43);
 });
 
 /* ── エージェントの常時ルールが照合の対象になっているか ──────────────

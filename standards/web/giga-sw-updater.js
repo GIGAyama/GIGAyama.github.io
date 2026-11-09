@@ -38,6 +38,14 @@
 
   const TOAST_TAG = 'giga-sw-updater';
 
+  /* 「こうしん する」が押されたか。
+     ⚠️ これを controllerchange の見はりに使う。初回訪問かどうかだけで
+        見分けると、**最初に開いたタブを閉じずに置いたまま**新しい版が
+        出たとき、ボタンを押しても何も起きない（そのページは最後まで
+        「初回」のままなので）。押したことを覚えておけば、そのときも
+        ちゃんと切りかわる。 */
+  let updateAsked = false;
+
   class GigaSwUpdater extends HTMLElement {
     constructor() {
       super();
@@ -69,6 +77,7 @@
     }
 
     applyUpdate() {
+      updateAsked = true;      // 人が押した。このあとの controllerchange は切りかえてよい
       if (this._waitingWorker) {
         // Service Worker に待機解除を指示
         this._waitingWorker.postMessage({ type: 'SKIP_WAITING' });
@@ -268,8 +277,29 @@
 
   // Service Worker 監視の初期化
   function initSwWatcher() {
+    /* ⚠️ はじめて ひらいた 1 回では 読みなおさない。
+       SW が activate で clients.claim() を 呼ぶと、まだ SW に つながって
+       いなかった その ページが つながり、controllerchange が 飛ぶ。
+       そこで reload すると、使う人から見ると「ひらいた とたんに
+       ページが ひとりで 読みなおす」ことになる（2026-11-09、Hiding-animal で
+       実測）。install から skipWaiting() を外しても、claim() が 残って
+       いるかぎり この 1 回は 止まらない。
+       controllerchange は「版が 入れかわった」ときにも 飛ぶので、
+       イベントそのものを 止めては いけない。初回かどうかだけを 見分ける。
+       ⚠️ この 1 行は initSwWatcher の いちばん 先に 置くこと。
+          initSwWatcher は DOMContentLoaded、SW の register は window の
+          'load' なので、この順なら 初回は 必ず false、2 回目以降は
+          必ず true になる。register の あとへ ずらすと 初回でも true に
+          なりうる。 */
+    const hadController = !!navigator.serviceWorker.controller;
     let refreshing = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
+      /* 切りかえてよいのは、2 つのどちらか。
+           ・もともと SW につながっていた（＝版の入れかわり）
+           ・人が「こうしん する」を押した
+         どちらでもないのは、はじめて開いたページに claim がつながった
+         ときだけ。そこで読みなおすと、開いたとたんに読みなおる。 */
+      if (!hadController && !updateAsked) return;
       if (!refreshing) {
         refreshing = true;
         window.location.reload();

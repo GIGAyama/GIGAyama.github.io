@@ -1070,6 +1070,24 @@
      "contains": "regenerationCommands"
     }
    ]
+  },
+  {
+   "date": "2026-11-09",
+   "symptom": "SW の install から skipWaiting() を外しても、activate の clients.claim() で controllerchange が飛ぶので、**はじめて開いた 1 回だけページがひとりで読みなおる**。使う人からは「開いたとたんに画面が消えて出なおす」と見える。giga-sw-updater.js は controllerchange を無条件に reload していた。しかも『初回かどうか』だけで見分けると、こんどは**最初のタブを閉じずに置いたまま新しい版が出たとき、「こうしん する」を押しても何も起きない**（そのページは最後まで「初回」のまま）。初回かどうかと、人が押したかどうかの両方を見る",
+   "guardedBy": [
+    {
+     "file": "standards/web/giga-sw-updater.js",
+     "contains": "updateAsked"
+    },
+    {
+     "file": "standards/web/giga-sw-updater.test.mjs",
+     "contains": "はじめて ひらいた 1 回"
+    },
+    {
+     "file": "standards/lib/giga-v5-checks.mjs",
+     "contains": "E_SW_UPDATE_PROMPT"
+    }
+   ]
   }
  ]
 }
