@@ -95,9 +95,14 @@ test('台帳の targets と skills.extra を合わせて艦隊とする', () => 
   assert.deepEqual(fleetRepos(ledger), ['A', 'B', 'C']);
 });
 
-test('実際の台帳では 42 本になる', () => {
+test('実際の台帳では 43 本になる', () => {
+  /* ⚠️ 本数を直す理由は「艦隊に 1 本増えた」ときだけ。検査が落ちたから
+     数字を合わせにくると、台帳の書き忘れが黙って通る。
+     ⚠️ 本数は 2 か所に書いてある（ここと check-distribution.test.mjs）。
+        片方だけ直すと、もう片方で CI が落ちる。2026-11-08 に実際に落ちた。
+     2026-11-08: Hiding-animal（しぜんの かくれんぼ ずかん）を足して 43 本。 */
   const ledger = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'tools/distribution.json'), 'utf8'));
-  assert.equal(fleetRepos(ledger).length, 42);
+  assert.equal(fleetRepos(ledger).length, 43);
 });
 
 test('測れなかったものは measured に入れない（合格として数えない）', () => {
