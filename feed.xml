@@ -6,12 +6,21 @@
   <link rel="self" type="application/atom+xml" href="https://giga-school.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://giga-school.com/"/>
   <id>https://giga-school.com/</id>
-  <updated>2026-08-30T00:00:00+09:00</updated>
+  <updated>2026-11-08T00:00:00+09:00</updated>
   <author>
     <name>GIGAyama</name>
     <uri>https://giga-school.com/</uri>
   </author>
   <rights>© GIGAyama</rights>
+  <entry>
+    <title>しぜんの かくれんぼ ずかん</title>
+    <link rel="alternate" type="text/html" href="https://hiding-animal.giga-school.com/"/>
+    <id>https://hiding-animal.giga-school.com/</id>
+    <published>2026-11-08T00:00:00+09:00</published>
+    <updated>2026-11-08T00:00:00+09:00</updated>
+    <category term="国語・言葉"/>
+    <summary type="text">しぜんの かくれんぼ ずかん を公開しました。</summary>
+  </entry>
   <entry>
     <title>じどう車ずかん</title>
     <link rel="alternate" type="text/html" href="https://jidosha-zukan.giga-school.com/"/>
@@ -182,14 +191,5 @@
     <updated>2026-02-15T00:00:00+09:00</updated>
     <category term="学習・探究"/>
     <summary type="text">こころスコープ を公開しました。</summary>
-  </entry>
-  <entry>
-    <title>「このプリント、そのまま大きく映したい」PDFに直接書きこめるアプリ「教材プリントメーカー」</title>
-    <link rel="alternate" type="text/html" href="https://giga-school.com/apps/digital-textbook/"/>
-    <id>https://giga-school.com/apps/digital-textbook/</id>
-    <published>2026-02-11T00:00:00+09:00</published>
-    <updated>2026-08-27T00:00:00+09:00</updated>
-    <category term="授業づくり・校務"/>
-    <summary type="text">印刷室でプリントを刷りながら、こんなふうに思ったことはありませんか。</summary>
   </entry>
 </feed>

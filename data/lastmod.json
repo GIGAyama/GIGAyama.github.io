@@ -2,56 +2,56 @@
  "_comment": "そのページの中身が最後に変わった日。tools/sync-updates.mjs が書く。手で直さない。hash は日付の場所に 0000-00-00 を置いて組んだときの sha256 なので、日付が動いてもハッシュは動かない。⚠️ この台帳が消えると、翌朝すべてのページが「今日」に揃う（直したはずの症状がそのまま戻る）。.github/workflows/sync-updates.yml の PATHS から外さないこと。",
  "pages": {
   "/": {
-   "hash": "9af3671c667e2284",
+   "hash": "3fda36a65f690ace",
    "lastmod": "2026-11-09"
   },
   "/apps/": {
-   "hash": "72160406db1d55d8",
-   "lastmod": "2026-09-01"
+   "hash": "73b656deb3e16b8e",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/gakkyu/": {
-   "hash": "950169437dbd10c5",
-   "lastmod": "2026-08-25"
+   "hash": "a5df3b14c91123ba",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/game/": {
-   "hash": "06bb185b8ce49bfd",
-   "lastmod": "2026-08-25"
+   "hash": "21628465e5e8bc15",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/kokugo/": {
-   "hash": "8dfa5f48ee437751",
-   "lastmod": "2026-08-25"
+   "hash": "d28bd41ed5a51357",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/koumu/": {
-   "hash": "d0994514476ddc41",
-   "lastmod": "2026-09-01"
+   "hash": "9a4c3762035823c2",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/other/": {
-   "hash": "308d9ddb50b661e9",
-   "lastmod": "2026-08-25"
+   "hash": "034f3df4401ff567",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/sansu/": {
-   "hash": "3929907ccd0233c2",
-   "lastmod": "2026-08-31"
+   "hash": "01a7732789de4afe",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/seisaku/": {
-   "hash": "75d94a1b70e67f29",
-   "lastmod": "2026-08-25"
+   "hash": "62a441bce28107df",
+   "lastmod": "2026-11-09"
   },
   "/apps/category/tankyu/": {
-   "hash": "cb054b3cd6537a99",
-   "lastmod": "2026-08-25"
+   "hash": "6bd77d8a70567bda",
+   "lastmod": "2026-11-09"
   },
   "/filtering/": {
-   "hash": "78361305551ecbe2",
-   "lastmod": "2026-09-01"
+   "hash": "d390a8cb1342fa2f",
+   "lastmod": "2026-11-09"
   },
   "/press/": {
-   "hash": "4007ba2ec1d01eb6",
-   "lastmod": "2026-08-31"
+   "hash": "c90bc31719be48e7",
+   "lastmod": "2026-11-09"
   },
   "/profile/": {
-   "hash": "6c9d0d6bbaf291e7",
-   "lastmod": "2026-08-31"
+   "hash": "02f2c2aebe196ffb",
+   "lastmod": "2026-11-09"
   }
  }
 }

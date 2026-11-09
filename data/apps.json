@@ -123,6 +123,22 @@
    "changedAt": "2026-09-03"
   },
   {
+   "repo": "Hiding-animal",
+   "name": "しぜんの かくれんぼ ずかん",
+   "kind": "app",
+   "slug": "hiding-animal",
+   "category": "kokugo",
+   "hosts": [],
+   "grades": [
+    1
+   ],
+   "account": "none",
+   "storage": "device",
+   "publishedAt": "2026-11-08",
+   "updatedAt": "2026-11-09",
+   "changedAt": "2026-11-09"
+  },
+  {
    "repo": "Homework_barcordreader",
    "name": "宿題ポスト",
    "kind": "app",
