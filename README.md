@@ -418,7 +418,7 @@ node tools/sync-updates.mjs --fetch   # GitHub を見に行って日付を取り
   書き方は `giga-changelog` スキルにあります。
 - **1 本も書かれていない日は、列ごと出しません。** 残った 1 列は幅を止めます
   （`.updates--single`）。
-- 毎朝 6 時すぎ（日本時間）に GitHub Actions が走り、変わっていたときだけコミットします。
+- 毎朝（日本時間 1:17 の予約。GitHub の遅れこみで 3 時〜7 時半ごろ）に GitHub Actions が走り、変わっていたときだけコミットします。
   Actions のページから手で実行することもできます。
 - アプリを増やしたときは、`index.html` にカードを足したあと `data/apps.json` にも 1 行足して
   ください（`--fetch` で日付は埋まります）。

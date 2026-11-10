@@ -58,8 +58,9 @@ node --test standards/fonts/*.test.mjs
 node --test standards/vendor/*.test.mjs
 node --test standards/records/records-export.test.mjs
 node --test standards/agents/hooks/*.test.mjs
-node --test tools/check-distribution.test.mjs tools/lib/*.test.mjs tools/verify-runtime.test.mjs tools/fleet-status.test.mjs tools/check-lessons.test.mjs tools/check-no-external.test.mjs tools/mcp/*.test.mjs
+node --test tools/*.test.mjs tools/lib/*.test.mjs tools/mcp/*.test.mjs
 node --test standards/skills/*/scripts/*.test.mjs
+node tools/check-ci-coverage.mjs       # 書いたテストが、どこかのワークフローから呼ばれているか
 
 # 正本ドリフト検査（--standards は必須。省くと exit 2）
 node standards/check-drift.mjs --standards standards
@@ -74,8 +75,34 @@ node tools/distribute.mjs --dry-run
 
 # 艦隊の状態（42本を1回で読む。1本ずつ歩くと文脈が埋まる）
 node tools/fleet-status.mjs --todo     # 違反 → 直し方 → 使う正本の道具
+node tools/fleet-ci.mjs                # 配布先の main で、いま赤いワークフロー（GitHub を読む）
 node tools/verify-runtime.mjs          # 公開中の画面を実ブラウザで巡回して実測
+node tools/register-repos.mjs          # 台帳に無いリポジトリを、足すか人に聞くか（--apply で書く）
 ```
+
+## ひとりでに回るもの・人に届くもの（2026-11-10 から）
+
+| いつ | 何が | どのワークフロー |
+| --- | --- | --- |
+| 毎朝 | 更新情報・紹介ページ・マニュアルを組み直してコミット | `sync-updates.yml` |
+| 毎朝 | 増えたリポジトリを台帳に足して、配布を起こす | `check-distribution.yml`（`register-repos.mjs`） |
+| 毎朝・配布のあと | 配っていない正本が無いか | `check-distribution.yml` |
+| 毎朝 | 配布先 43 本の main の CI・配布のトークンの期限 | `fleet-health.yml` |
+| 週 1 回 | 公開中の画面を実ブラウザで巡回（`--strict`） | `verify-runtime.yml` |
+| `standards/` を main に入れたとき | 正本を全リポジトリへ配る | `auto-distribute.yml` |
+
+**どれも、赤くなったら Issue が 1 本立ち、緑に戻ったら自分で閉じる**（`tools/report-issue.mjs`）。
+2026-09-19 から 52 日、配布のとりのこしは毎朝おなじ 1 行で赤かったが、誰にも届いていなかった。
+セッションを始めたら、開いている Issue を先に見ること（題が 🔴 で始まるもの）。
+
+⚠️ **予約で走るワークフローを足したら、最後に `report-issue.mjs` を呼ぶこと。**
+呼んでいなければ `tools/report-issue.test.mjs` が落とす。`--key` は検査ごとに別にする
+（同じだと、片方の緑がもう片方の赤を閉じる）。
+⚠️ **テストを足したら `standards-ci.yml` に並べること。** 並べ忘れは
+`tools/check-ci-coverage.mjs` が名指しで落とす（2026-11-10 まで 2 本が呼ばれていなかった）。
+⚠️ **台帳の本数をテストに直書きしない。** 朝の流れが自分で足すので、足した朝に必ず落ちる。
+⚠️ 朝の流れが機械で足すのは「`standards-map.json` を持つリポジトリ」だけ。`excluded` の理由と、
+トップのカード（`data/apps.json`・`index.html`・画面写真）は人が決める。
 
 ## エージェントの置き場（Claude Code と Antigravity）
 

@@ -139,8 +139,28 @@ Fine-grained PAT には期限があります。切れると **また 42 本の 4
 期限切れのトークンは「値が入っている」ので検査を通ってしまい、
 その先で 403 になります。つまり症状は、対策を入れる前と同じ形に戻ります。
 
-- 期限日をカレンダーに入れておく
 - 403 が並んだら、まずこの文書を思い出して**トークンの期限を疑う**
+
+### 切れる 14 日前から、Issue で知らせます（2026-11-10 から）
+
+`.github/workflows/fleet-health.yml`（艦隊の見まわり）が毎朝、このトークンで
+GitHub を 1 回だけ叩き、応答の見出し `github-authentication-token-expiration` から
+期限を読みます（`tools/check-pat-expiry.mjs`）。
+
+| 状態 | 起きること |
+| --- | --- |
+| 期限まで 15 日以上 | 何も起きません |
+| あと 14 日以内 | **Issue「配布のトークン（PAT_TOKEN）がもうすぐ切れます」が立ちます** |
+| 切れている・無効（401） | 同じ Issue が立ちます |
+| Secret が未設定 | 同じ Issue が立ちます |
+
+トークンを入れ替えると、次の朝に Issue は自分で閉じます。
+
+⚠️ 見出しが返らないトークン（期限なしで作ったもの）は「有効」としか分かりません。
+期限を付けて作ることを勧めるのは、切れる日が機械で読めるからでもあります。
+
+⚠️ 手元で確かめるとき: `PAT_TOKEN=… node tools/check-pat-expiry.mjs`。
+出るのは期限の日付だけで、トークンそのものは 1 字も出しません。
 
 ---
 
@@ -168,4 +188,5 @@ node tools/distribute.mjs --dry-run --repo Typa
 
 - `.github/workflows/auto-distribute.yml` — このトークンを使うワークフロー
 - `tools/distribute.mjs` — 実際に配る本体
+- `.github/workflows/fleet-health.yml` / `tools/check-pat-expiry.mjs` — 期限が近づいたら Issue で知らせる
 - `docs/architecture/SYSTEM_MASTER.md` §3.2 — 正本同期の全体像
