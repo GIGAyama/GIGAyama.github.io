@@ -5,7 +5,8 @@
  *   node tools/verify-runtime.mjs                 全アプリを巡回して表で出す
  *   node tools/verify-runtime.mjs --slug typa     1 本だけ
  *   node tools/verify-runtime.mjs --json          機械が読む形
- *   node tools/verify-runtime.mjs --strict        宣言と食い違ったら exit 1
+ *   node tools/verify-runtime.mjs --strict        申請書に無いものを読んでいたら exit 1
+ *                                                 （測れなかったアプリがあっても exit 1）
  *
  * ── なぜ「本番を巡回する」形にしたのか ────────────────────
  *
@@ -92,7 +93,8 @@ async function main() {
   const unreachable = [];
 
   for (const item of items) {
-    const measured = measure(item.slug);
+    /* 1 回こけただけの 1 本で、--strict が 1 週間ぶんの赤を作らないよう、1 回だけやり直す */
+    const measured = measure(item.slug) ?? measure(item.slug);
     if (measured === null) { unreachable.push(item.slug); continue; }
     rows.push(compareHosts(item.slug, measured, item.hosts ?? []));
   }
@@ -109,9 +111,23 @@ async function main() {
       for (const r of changed) {
         console.log(`  ${r.slug}`);
         for (const h of r.onlyMeasured) console.log(`    ＋ ${h}（実際に読んでいるが、申請書に載っていない）`);
-        for (const h of r.onlyDeclared) console.log(`    － ${h}（申請書に載っているが、もう読んでいない）`);
+        for (const h of r.onlyDeclared) console.log(`    － ${h}（申請書に載っているが、開いた直後には読んでいない）`);
       }
-      console.log('\n/filtering/ は先生が情報担当に出す申請書です。実測に合わせてください。');
+      /* ⚠️ 「－」を「もう読んでいない」と言わない（2026-11-10 まで、そう出していた）。
+            この巡回は入口のページを開くだけで、何も押さない。端末どうしをつなぐ
+            （PeerJS・STUN）、Google でログインする、本の情報を取りにいく、は
+            どれも**押したあと**に出ていくので、ここからは原理的に見えない。
+            2026-11-08 の巡回は 14 本・39 件を「もう読んでいない」と言ったが、
+            ほとんどはこの形だった。信じて申請書から外すと、授業の途中で塞がれる。 */
+      if (changed.some((r) => r.onlyMeasured.length)) {
+        console.log('\n＋ は**危ない側**です。先生が出した申請書に無いものを、子どもの端末が読んでいます。');
+        console.log('  data/apps.json の hosts に足す（か、読まないようにアプリを直す）こと。');
+      }
+      if (changed.some((r) => r.onlyDeclared.length)) {
+        console.log('\n－ は「要らない」とは限りません。この巡回は入口を開くだけで、何も押しません。');
+        console.log('  押したあとに読むもの（端末どうしの接続・ログイン・検索）は、ここからは見えません。');
+        console.log('  申請書から外すのは、そのアプリを実際に操作して確かめてからにしてください。');
+      }
     }
     if (unreachable.length) {
       console.log(`\n測れなかった: ${unreachable.join(', ')}`);
@@ -120,7 +136,10 @@ async function main() {
   }
 
   /* ⚠️ 測れなかったものを「問題なし」に数えない。
-        巡回できなかったのは、この検査が何も見ていないということ。 */
+        巡回できなかったのは、この検査が何も見ていないということ。
+     ⚠️ --strict で落とすのは「＋」（危ない側）と「測れなかった」だけ。「－」では
+        落とさない。上に書いたとおり、入口を開くだけの巡回では「－」は判断の
+        材料にならず、落とすと毎週かならず赤い検査になる。 */
   if (strict && (rows.some((r) => r.onlyMeasured.length) || unreachable.length)) return 1;
   return 0;
 }

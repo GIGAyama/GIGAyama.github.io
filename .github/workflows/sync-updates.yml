@@ -6,11 +6,18 @@ name: 更新情報を書き直す
 
 on:
   schedule:
-    - cron: '17 21 * * *'      # UTC 21:17 ＝ 日本時間 朝 6:17
+    # ⚠️ GitHub の schedule は遅れる。2026-10〜11 の 35 回を測ると、書いた時刻から
+    #    **1.8〜6.3 時間（中央 3.3 時間）**遅れて始まっていた。「朝 6:17」と書いて
+    #    実際に走っていたのは 8 時すぎ〜12 時半。先生が朝に開く時刻に間に合わない。
+    #    遅れを自分では縮められないので、遅れたあとでも朝に間に合う時刻に置く。
+    # ⚠️ 日本時間の 0 時より前に置かないこと。日付は日本時間で切るので
+    #    （tools/lib/dates.mjs）、前の日のうちに走ると「きのう」の日付で刻まれる。
+    - cron: '17 16 * * *'      # UTC 16:17 ＝ 日本時間 1:17（遅れこみで 3 時〜7 時半ごろ）
   workflow_dispatch:            # 手で実行することもできる
 
 permissions:
   contents: write
+  issues: write              # 落ちたとき、Issue にして人へ届ける
 
 concurrency:
   group: sync-updates
@@ -23,9 +30,9 @@ jobs:
     # 既定は 360 分。固まったときに 6 時間ぶん食ってから落ちる
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
 
@@ -194,3 +201,19 @@ jobs:
       - name: 使い方マニュアルの画面写真がそろっているか
         if: ${{ !cancelled() }}
         run: python3 tools/build-article-images.py --check --kind manual
+
+      # 落ちた朝を、人に届く形にする。次に緑で終わった朝が自分で閉じる。
+      # ⚠️ 上の 3 つの点検は「やり残しの一覧」として赤くなる。一覧は、読まれなければ
+      #    無いのと同じ。この流れは 35 日つづけて緑だったが、赤くなった朝に
+      #    気づく道はここにも無かった（2026-11-10）。
+      - name: 結果を Issue に知らせる
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ job.status }}
+        run: |
+          node tools/report-issue.mjs --key sync-updates \
+            --title '🔴 朝の組み直し（更新情報を書き直す）が失敗しました' \
+            --status "$STATUS" \
+            --hint '実行の記録で、赤い手順の出力を見る。画面写真の控えなら python3 tools/build-article-images.py（--kind manual）で作り直す' \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

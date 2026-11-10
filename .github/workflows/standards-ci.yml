@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  issues: write              # main が赤くなったとき、Issue にして人へ届ける（PR では使わない）
 
 jobs:
   test:
@@ -19,10 +20,18 @@ jobs:
     # 既定は 360 分。固まったときに 6 時間ぶん食ってから落ちる
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
+      # ⚠️ いちばん先に見る。この下はテストを 1 本ずつ並べている（1 本ごとに「なぜ要るか」を
+      #    書くため）。並べる形は、**足したテストだけが呼ばれない**という壊れ方をする。
+      #    2026-11-10 に数えたら 2 本が呼ばれておらず、うち 1 本は教訓の台帳
+      #    （lessons.json）が見張り役として名指ししていたものだった。
+      - name: 書いたテストが、どこかのワークフローから呼ばれているか
+        run: |
+          node --test tools/check-ci-coverage.test.mjs
+          node tools/check-ci-coverage.mjs
       - name: 正本の品質ゲート自身のテスト
         run: node --test standards/lib/*.test.mjs
       - name: 正本の GAS モジュールのテスト
@@ -71,6 +80,34 @@ jobs:
       # 台帳が壊れると「配る先が0本」でも緑になりうるので、ここで見ておく。
       - name: 配布の台帳と突き合わせの仕組みのテスト
         run: node --test tools/check-distribution.test.mjs
+      # 増えたリポジトリを台帳へ足すところ。朝の流れが人の確認なしに main へ書くので、
+      # 足しすぎない（対応表の無いもの・fork・アーカイブ済みを足さない）ことを固定する
+      - name: 増えたリポジトリを台帳に足す仕組みのテスト
+        run: node --test tools/register-repos.test.mjs
+      # 配ったあとに作り直すもの（sw.js の版・GAS への焼きこみ）を決めるところ。
+      # ⚠️ 2026-09-02 の教訓の見張り役なのに、2026-11-10 までここから呼ばれていなかった。
+      #    壊すと「材料だけ新しく、作ったものは古いまま」の main が 13 本できる
+      - name: 配ったあとの作り直しを決めるところのテスト
+        run: node --test tools/lib/distribute-regenerate.test.mjs
+      # 配布 PR の題と本文。本文をシェルの文字列につなぐと、バッククォートの中が
+      # コマンドとして実行されて消える（43 本の PR から 2 語が抜けていた）
+      - name: 配布の PR の渡しかたのテスト
+        run: node --test tools/lib/distribute-pr.test.mjs
+      # 赤を Issue にして人へ届けるところ。立たなければ 52 日つづいた赤に戻り、
+      # 立ちすぎれば 3 日で読まれなくなる。両方を固定してある
+      - name: 赤を Issue にして届ける仕組みのテスト
+        run: node --test tools/lib/issue-report.test.mjs
+      # 計算が正しくても、ワークフローが呼んでいなければ何も届かない。
+      # 予約で走るものがぜんぶ知らせているか、権限と条件がそろっているかを字面で見る
+      - name: 届ける道がワークフローにつながっているかのテスト
+        run: node --test tools/report-issue.test.mjs
+      # 配布先 43 本の main の CI を集めるところ。「測れなかった」「走っている途中」を
+      # 緑に数えないことを固定してある。集めるのは fleet-health.yml が毎朝行う
+      - name: 艦隊の CI を集める仕組みのテスト
+        run: node --test tools/fleet-ci.test.mjs
+      # 配布のトークンの期限。「読めなかった」を「大丈夫」と言わないこと
+      - name: 配布のトークンの期限を読む仕組みのテスト
+        run: node --test tools/check-pat-expiry.test.mjs
       # 実ブラウザ巡回の「突き合わせの計算」。巡回そのものは playwright が要るので
       # verify-runtime.yml が週次で行う。ここが緑でも「本番を見た」ことにはならない。
       - name: 実測ホストの突き合わせのテスト
@@ -152,6 +189,10 @@ jobs:
       # note 版と開発記録版で助数詞と除外がそろっていることも、ここで見る
       - name: 数量の表記の検査のテスト
         run: node --test standards/skills/note-article/scripts/lint-article.test.mjs
+      # 画面写真を撮る土台。playwright が無くても走る（ページの中で動かす関数を字で見る）。
+      # ⚠️ 2026-11-10 まで、ここから呼ばれていなかった
+      - name: 画面写真を撮る土台のテスト
+        run: node --test standards/skills/note-article/scripts/capture.test.mjs
       # 共有されたときの絵。足りないと、そのアプリだけ中身と関係ない絵で貼られる。
       # 見るだけなので Pillow は要らない
       - name: 共有の絵がそろっているか
@@ -225,3 +266,17 @@ jobs:
           for f in standards/gas/*.gs; do
             cp "$f" "/tmp/$(basename "$f").js" && node --check "/tmp/$(basename "$f").js"
           done
+
+      # main が赤くなったら、人に届く形にする。次に緑で終わった main が自分で閉じる。
+      # ⚠️ push（main）のときだけ。PR の赤は PR のページに出るので、そこで足りる。
+      #    Dependabot や fork の PR はトークンが読みとり専用なので、そもそも立てられない。
+      - name: 結果を Issue に知らせる
+        if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ job.status }}
+        run: |
+          node tools/report-issue.mjs --key standards-ci \
+            --title '🔴 main で standards-ci が落ちています' \
+            --status "$STATUS" \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

@@ -1088,6 +1088,140 @@
      "contains": "E_SW_UPDATE_PROMPT"
     }
    ]
+  },
+  {
+   "date": "2026-11-10",
+   "symptom": "「配布のとりのこし」が 52 日つづけて赤かった（2026-09-19 〜 11-09、run 107〜158）のに、誰も気づけなかった。検査は正しく働いていて、足りなかったのは**届ける道**。Actions の一覧を開かないかぎり、赤いことはどこにも出ない。予約で走る検査は、誰も見ていない時刻に落ちる",
+   "guardedBy": [
+    {
+     "file": "tools/report-issue.test.mjs",
+     "contains": "予約で走るワークフローは、ぜんぶ Issue に知らせる"
+    },
+    {
+     "file": "tools/lib/issue-report.test.mjs",
+     "contains": "同じ赤がつづく朝は、本文を書き替えるだけ"
+    },
+    {
+     "file": ".github/workflows/check-distribution.yml",
+     "contains": "tools/report-issue.mjs --key check-distribution"
+    },
+    {
+     "file": ".github/workflows/standards-ci.yml",
+     "contains": "node --test tools/report-issue.test.mjs"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "symptom": "新しいリポジトリを台帳に足すのが人の手だった。足されないあいだ検査は赤く、足すときは本数の assert が 2 か所にあって片方を直し忘れた（2026-11-08 に CI が落ちた）。standards-map.json を持つリポジトリは自分で「正本の写しを持つ」と言っているので、足すのに人の判断は要らない。ただし持たないもの・fork・アーカイブ済みを機械で足すと、配布が関係のないリポジトリへ push しにいく",
+   "guardedBy": [
+    {
+     "file": "tools/register-repos.test.mjs",
+     "contains": "対応表が無いものは足さない"
+    },
+    {
+     "file": "tools/register-repos.test.mjs",
+     "contains": "fork とアーカイブ済みは、対応表を持っていても足さない"
+    },
+    {
+     "file": ".github/workflows/check-distribution.yml",
+     "contains": "node tools/register-repos.mjs --apply"
+    },
+    {
+     "file": "tools/report-issue.test.mjs",
+     "contains": "gh workflow run が指すワークフローが実在する"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "symptom": "赤くなった理由を混ぜて、1 つの直し方を出していた。台帳に無いリポジトリが原因の赤に「正本を配布先へコピーし直して…」と出ていたので、読んだ人は配りなおして、赤いままなのを見ることになる",
+   "guardedBy": [
+    {
+     "file": "tools/check-distribution.test.mjs",
+     "contains": "台帳に無いリポジトリのときは、台帳の直し方を出す"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "symptom": "CI から 1 度も呼ばれていないテストが 2 本あった。うち 1 本（distribute-regenerate.test.mjs）は、この台帳が 2026-09-02 の教訓の見張り役として名指ししていたもの。check-lessons は『ファイルが在るか』までしか見ないので緑だった。テストを 1 本ずつ並べる形は、足したものだけが呼ばれないという壊れ方をする",
+   "guardedBy": [
+    {
+     "file": "tools/check-ci-coverage.mjs",
+     "contains": "どのワークフローからも呼ばれていないテスト"
+    },
+    {
+     "file": "tools/check-ci-coverage.test.mjs",
+     "contains": "呼ばれていないテストを名指しする"
+    },
+    {
+     "file": ".github/workflows/standards-ci.yml",
+     "contains": "node tools/check-ci-coverage.mjs"
+    },
+    {
+     "file": ".github/workflows/standards-ci.yml",
+     "contains": "node --test tools/lib/distribute-regenerate.test.mjs"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "symptom": "週次の実ブラウザ巡回が、14 本の食い違いを出しながら毎回緑だった（--strict を渡していない）。結果は成果物の中にしか無く、誰も開かない。文言も言いすぎで、入口を開くだけの巡回なのに『もう読んでいない』と出していた（押したあとに出ていく通信は原理的に見えない）",
+   "guardedBy": [
+    {
+     "file": ".github/workflows/verify-runtime.yml",
+     "contains": "node tools/verify-runtime.mjs --strict"
+    },
+    {
+     "file": ".github/workflows/verify-runtime.yml",
+     "contains": "tools/report-issue.mjs --key verify-runtime"
+    },
+    {
+     "file": "tools/verify-runtime.mjs",
+     "contains": "開いた直後には読んでいない"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "symptom": "配布 PR の本文をシェルの二重引用符の中に入れて渡していたので、バッククォートの中身がコマンドとして実行され、43 本の PR から『どこの正本と同期したか』の 2 語が消えていた。エラーにはならない。同じ道具は、マージがぜんぶ失敗したリポジトリも『配った』に数えていた（catch {} が握りつぶす）",
+   "guardedBy": [
+    {
+     "file": "tools/lib/distribute-pr.test.mjs",
+     "contains": "引数のまま渡せば、バッククォートは字のまま届く"
+    },
+    {
+     "file": "tools/lib/distribute-pr.test.mjs",
+     "contains": "配る側が、本文をシェルの文字列につないでいない"
+    },
+    {
+     "file": "tools/distribute.mjs",
+     "contains": "マージできなかったものを「配った」に数えない"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "symptom": "配布は配布先の CI を待たずに main へ入れるのに、入れたあとの赤を集めて見る道具が無かった。check-distribution は写しが同じかだけ、fleet-status は手元の持ちものだけを見る。配布のトークンも、切れる前には何も起きず、切れた日に 43 本ぜんぶが 403 になる",
+   "guardedBy": [
+    {
+     "file": "tools/fleet-ci.test.mjs",
+     "contains": "測れなかった 1 本を、緑に数えない"
+    },
+    {
+     "file": "tools/check-pat-expiry.test.mjs",
+     "contains": "GitHub が見えなかった朝を「大丈夫」と言わない"
+    },
+    {
+     "file": ".github/workflows/fleet-health.yml",
+     "contains": "node tools/fleet-ci.mjs"
+    },
+    {
+     "file": ".github/workflows/fleet-health.yml",
+     "contains": "node tools/check-pat-expiry.mjs"
+    }
+   ]
   }
  ]
 }

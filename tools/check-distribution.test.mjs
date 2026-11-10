@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  ledgerProblems, missingFromLedger, goneFromGitHub,
+  ledgerProblems, missingFromLedger, goneFromGitHub, adviceFor,
   normalized, parseSymref, namesFromRepoPage, skillsOf,
   agentContextProblems, agentContextNeedsBody, RULES_IMPORT_LINE,
 } from './check-distribution.mjs';
@@ -158,11 +158,16 @@ test('実際の台帳を、正本にあるスキル名と突き合わせても�
   const skills = fs.readdirSync(path.join(REPO_ROOT, 'standards/skills'), { withFileTypes: true })
     .filter((d) => d.isDirectory()).map((d) => d.name);
   assert.deepEqual(ledgerProblems(ledger, skills), []);
-  /* スキルは 43 本に配る（targets 33 ＋ skills.extra 10）。
-     ⚠️ 本数を直す理由は「艦隊に 1 本増えた」ときだけ。検査が落ちたから
-        数字を合わせにくると、台帳の書き忘れが黙って通る。
-     2026-11-08: Hiding-animal（しぜんの かくれんぼ ずかん）を足して 43 本。 */
-  assert.equal(ledger.targets.length + skillsOf(ledger).extra.length, 43);
+  /* ⚠️ ここに本数を直書きしない（2026-11-10 にやめた）。
+        以前は `=== 43` と書いてあり、艦隊に 1 本増えるたびに人が数字を直していた。
+        同じ数字が fleet-status.test.mjs にもあり、2026-11-08 に片方を直し忘れて
+        CI が落ちた。そして毎朝の流れ（tools/register-repos.mjs）が台帳へ自分で
+        足すようになると、**足した朝に必ずここが落ちる**。
+        数字が守っていたもの（台帳からうっかり消す）は、GitHub の一覧と突き合わせる
+        missingFromLedger が毎朝見ている。そちらは数ではなく名前で言う。 */
+  const fleet = [...ledger.targets, ...skillsOf(ledger).extra];
+  assert.equal(new Set(fleet.map((n) => n.toLowerCase())).size, fleet.length, '配る先に同じ名前が 2 回あります');
+  assert.ok(ledger.targets.length > 0);
 });
 
 /* ── エージェントの常時ルールが照合の対象になっているか ──────────────
@@ -277,4 +282,35 @@ test('workflow_run が指す名前が、配布ワークフローの name と一�
 
 test('毎朝の巡回は残す（配布以外の理由で生まれたずれを拾う唯一の口）', () => {
   assert.ok(triggerBlock(wf('check-distribution.yml')).includes('schedule'));
+});
+
+/* ── 赤くなった理由ごとに、直し方を分けて出す ─────────────────────────
+ *
+ * 2026-09-19 から 52 日つづいた赤は「台帳に無いリポジトリがある」だった。
+ * 出ていた直し方は「正本を配布先へコピーし直して…」で、原因と関係が無かった。
+ */
+test('台帳に無いリポジトリのときは、台帳の直し方を出す（配りなおせとは言わない）', () => {
+  const lines = adviceFor({ missing: ['Hiding-animal'] }).join('\n');
+  assert.match(lines, /register-repos\.mjs/);
+  assert.match(lines, /excluded/);
+  assert.doesNotMatch(lines, /自動配布/);
+});
+
+test('配っていない正本のときは、配りなおしの道を出す', () => {
+  const lines = adviceFor({ stale: 2 }).join('\n');
+  assert.match(lines, /正本を全リポジトリへ自動配布/);
+  assert.doesNotMatch(lines, /register-repos/);
+});
+
+test('GitHub に無いリポジトリは、機械で消さないと言う', () => {
+  assert.match(adviceFor({ gone: ['Shared-Folder-Sync'] }).join('\n'), /機械で消しません/);
+});
+
+test('理由が重なれば、ぜんぶ出す。理由が無ければ、何も出さない', () => {
+  const lines = adviceFor({ missing: ['A'], gone: ['B'], stale: 1, nothingCompared: true }).join('\n');
+  for (const word of ['台帳に無いリポジトリ', 'GitHub に無いリポジトリ', '配っていない正本', '1 件も突き合わせていない']) {
+    assert.ok(lines.includes(word), word);
+  }
+  assert.deepEqual(adviceFor({}), []);
+  assert.deepEqual(adviceFor(), []);
 });

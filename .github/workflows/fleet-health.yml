@@ -1,0 +1,102 @@
+# 艦隊の見まわり。毎朝、ポータルの側から 2 つ見る。
+#
+#   1. 配布先 43 本の main で、いま赤いワークフローは無いか（tools/fleet-ci.mjs）
+#   2. 配布に使うトークン（PAT_TOKEN）は、もうすぐ切れないか（tools/check-pat-expiry.mjs）
+#
+# ── なぜ要るのか ──────────────────────────────────────────
+#
+# 1. 正本の配布は、配布先の CI を待たずに main へ入れる（`gh pr merge --admin`）。
+#    入れたあとに 1 本の検査が落ちても、**集めて見る道具が無かった**。
+#    配布のとりのこし検査は写しが同じかだけを見るので、CI が赤くても緑のまま。
+#    「配ったせいで落ちた」は、そのリポジトリを開いた人しか知らない状態だった。
+#
+# 2. 配布はリポジトリをまたげるトークン 1 つに乗っている。切れると 43 本ぜんぶが
+#    403 で落ちるが、切れる前には何も起きない。気づくのは、正本を直して配ろうと
+#    した日（＝直したい不具合が手元にある日）になる。
+#
+# ⚠️ 2 つを別のジョブにしてある。片方が落ちても、もう片方は最後まで見る。
+#    1 つのジョブにまとめると、先に落ちたほうしか分からない
+#    （sync-updates.yml の「3 本を 1 つの run にまとめないこと」と同じ理由）。
+#
+# ⚠️ ここも「呼ぶ側」である。道具を書いただけでは、誰も走らせない検査が増えるだけ。
+name: 艦隊の見まわり
+
+on:
+  schedule:
+    # GitHub の schedule は 1.6〜6.3 時間遅れる（2026-10〜11 の実測）。朝の組み直し
+    # （UTC 16:17）と配布のとりのこし（UTC 17:47）のあとに置く。
+    - cron: '37 18 * * *'      # UTC 18:37 ＝ 日本時間 3:37（遅れこみで 5 時半〜10 時ごろ）
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write              # 赤いとき、Issue にして人へ届ける
+
+concurrency:
+  group: fleet-health
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: 配布先の main が赤くないか
+    runs-on: ubuntu-latest
+    # 43 本 × 2 回の GitHub API。ふつうは 1 分かからない
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      # 計算が壊れていたら、集めた結果は読む価値がない
+      - name: 集める仕組みそのもののテスト
+        run: node --test tools/fleet-ci.test.mjs
+      - name: 艦隊の main の CI を集める
+        env:
+          # 艦隊はどれも公開リポジトリなので、このリポジトリのトークンで読める
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -o pipefail
+          node tools/fleet-ci.mjs 2>&1 | tee "$RUNNER_TEMP/fleet-ci.txt"
+      - name: 結果を Issue に知らせる
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ job.status }}
+        run: |
+          node tools/report-issue.mjs --key fleet-ci \
+            --title '🔴 配布先の main で、赤いワークフローがあります' \
+            --status "$STATUS" \
+            --detail-file "$RUNNER_TEMP/fleet-ci.txt" \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+  pat:
+    name: 配布のトークンが切れないか
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: 期限を読む仕組みそのもののテスト
+        run: node --test tools/check-pat-expiry.test.mjs
+      # ⚠️ 出力にトークンは 1 字も出ない（出すのは期限の日付だけ）。だから tee して
+      #    Issue に貼ってよい。Secret を出力する検査を、同じ形で足さないこと。
+      - name: PAT_TOKEN の期限
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          set -o pipefail
+          node tools/check-pat-expiry.mjs --warn-days 14 2>&1 | tee "$RUNNER_TEMP/pat.txt"
+      - name: 結果を Issue に知らせる
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ job.status }}
+        run: |
+          node tools/report-issue.mjs --key pat-token \
+            --title '🔴 配布のトークン（PAT_TOKEN）がもうすぐ切れます' \
+            --status "$STATUS" \
+            --detail-file "$RUNNER_TEMP/pat.txt" \
+            --hint 'docs/operations/pat-token.md の手順で作りなおし、Secret の PAT_TOKEN を入れ替える' \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

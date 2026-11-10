@@ -13,6 +13,15 @@
 # ⚠️ 落ちても直しにいくのは人。自動で data/apps.json を書き替えない。
 #    巡回が 1 回こけただけで全アプリの hosts が空になる、という壊し方を
 #    できないようにしてある。
+#
+# ⚠️ --strict を付ける（2026-11-10 から）。それまでは**何が出ても緑**で、結果は
+#    成果物の中にしか無かった。2026-11-08 の回は 14 本の食い違いを出して
+#    success で終わっている。測っているのに誰も読まない検査になっていた。
+#    落とすのは危ない側だけ:
+#      ＋ 申請書に無いものを、子どもの端末が読んでいる
+#      ・ 開けなかったアプリがある（トップに載せたのに開かない、を含む）
+#    「－」（申請書にあるが開いた直後には読んでいない）では落とさない。入口を
+#    開くだけの巡回では判断の材料にならず、落とすと毎週かならず赤くなる。
 name: 実ブラウザで通信を記録する
 
 on:
@@ -26,6 +35,7 @@ on:
 
 permissions:
   contents: read
+  issues: write              # 危ない側が出たとき、Issue にして人へ届ける
 
 concurrency:
   group: verify-runtime
@@ -36,8 +46,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
 
@@ -69,21 +79,43 @@ jobs:
       #      --slug "a; rm -rf /" → "a; rm -rf /" の 1 引数。シェルは通らない）
       #
       # ⚠️ set -o pipefail を置くのは、tee が終了コードを飲むため。
-      #    この手順のあとは成果物を上げるだけで、失敗を拾うところが無い。
-      #    --strict は渡していないので平常時は 0 のまま。**落ちたときだけ**見える。
+      #    無いと、--strict が 1 を返しても手順は緑のままになる。
       - name: 公開中の画面を巡回する
         env:
           NODE_PATH: ${{ env.NODE_PATH }}
           SLUG: ${{ inputs.slug }}
         run: |
           set -o pipefail
-          node tools/verify-runtime.mjs --slug "$SLUG" \
+          node tools/verify-runtime.mjs --strict --slug "$SLUG" \
             | tee "$RUNNER_TEMP/runtime.txt"
+
+      # 成果物を落として開かなくても、実行のページでそのまま読めるようにする
+      - name: 結果を実行のページに出す
+        if: ${{ !cancelled() }}
+        run: |
+          if [ -f "$RUNNER_TEMP/runtime.txt" ]; then
+            { echo '```'; cat "$RUNNER_TEMP/runtime.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: 結果を残す
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: runtime-hosts
           path: ${{ runner.temp }}/runtime.txt
           if-no-files-found: ignore
+
+      # ⚠️ 1 本だけ測った回（slug を渡した手動の回）は知らせない。その 1 本が緑でも
+      #    ほかの赤は消えていないので、閉じてしまうと赤が見えなくなる。
+      - name: 結果を Issue に知らせる
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && !inputs.slug }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ job.status }}
+        run: |
+          node tools/report-issue.mjs --key verify-runtime \
+            --title '🔴 公開中のアプリが、申請書に無いものを読んでいます（または開けません）' \
+            --status "$STATUS" \
+            --detail-file "$RUNNER_TEMP/runtime.txt" \
+            --hint '＋ の行は data/apps.json の hosts に足すか、読まないようにアプリを直す。「測れなかった」は、そのアプリが開けるかを見る' \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

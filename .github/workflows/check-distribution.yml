@@ -37,11 +37,19 @@ on:
     workflows: ['正本を全リポジトリへ自動配布']
     types: [completed]
   schedule:
-    - cron: '47 22 * * *'      # UTC 22:47 ＝ 日本時間 朝 7:47
+    # ⚠️ GitHub の schedule は遅れる。2026-10〜11 の 36 回を測ると、書いた時刻から
+    #    **1.6〜5.6 時間（中央 3.0 時間）**遅れて始まっていた。「朝 7:47」と書いて
+    #    実際は 9 時半〜13 時半。だから、遅れたあとでも朝に間に合う時刻に置く。
+    - cron: '47 17 * * *'      # UTC 17:47 ＝ 日本時間 2:47（遅れこみで 4 時半〜8 時半ごろ）
   workflow_dispatch:
 
+# contents: write … 増えたリポジトリを台帳に足して main へ入れる（下の「台帳に足す」）
+# actions: write  … 足したあと、配布のワークフローを起こす
+# issues: write   … 赤いままのとき、Issue にして人へ届ける
 permissions:
-  contents: read
+  contents: write
+  actions: write
+  issues: write
 
 concurrency:
   group: check-distribution
@@ -54,14 +62,89 @@ jobs:
     # 既定は 360 分。固まったときに 6 時間ぶん食ってから落ちる
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - name: 台帳と突き合わせの仕組み自体のテスト
         run: node --test tools/check-distribution.test.mjs
+
+      # 新しく作ったリポジトリを、台帳（tools/distribution.json）へ足す。
+      #
+      # 2026-09-19 に Hiding-animal が増えたとき、足すのは人の手だった。
+      # 足されないまま **52 日**（run 107〜158）、この検査は毎朝おなじ 1 行で赤かった。
+      # standards-map.json を持つリポジトリは「正本の写しを持つ」と自分で言っているので、
+      # targets に入れるのに人の判断は要らない。持たないものは機械では決めず、
+      # 赤いまま残して Issue で人に届ける（tools/register-repos.mjs の冒頭）。
+      #
+      # ⚠️ GITHUB_TOKEN で push したコミットは、ワークフローを起こさない（GitHub の仕様）。
+      #    auto-distribute は tools/distribution.json の push で起きるはずだが、
+      #    ここからの push では起きない。だから下で **手で起こす**（workflow_dispatch は
+      #    GITHUB_TOKEN からでも起こせる）。配布が終わると workflow_run で
+      #    この検査がもう一度走り、そこで緑になる。
+      # ⚠️ 同じ理由で standards-ci も走らない。台帳のテストは、コミットの前にここで走らせる。
+      # ⚠️ main のときだけ。ほかの枝から手で走らせた回が main に書いてはいけない。
+      - name: 増えたリポジトリを台帳に足す
+        id: register
+        if: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 足せなかった朝に、検査まで止めない。下の検査が同じ理由で赤くなり、Issue が届ける。
+          if ! node tools/register-repos.mjs --apply; then
+            echo "::warning::増えたリポジトリの登録に失敗しました。台帳は書き替えていません。"
+            git checkout -- tools/distribution.json
+            exit 0
+          fi
+          if git diff --quiet -- tools/distribution.json; then
+            exit 0
+          fi
+          node --test tools/check-distribution.test.mjs tools/register-repos.test.mjs tools/fleet-status.test.mjs
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- tools/distribution.json
+          git commit -m "chore(fleet): 増えたリポジトリを配布台帳に足す（自動）"
+          # 朝の組み直し（sync-updates）と同じ時間帯に main へ書く。ぶつかったら
+          # 載せ直して 1 回だけやり直す（あちらと同じ決まり。輪にしない）。
+          if ! git push; then
+            git pull --rebase origin main || {
+              git rebase --abort || true
+              echo "::error::台帳の書き足しが、ほかの直しとぶつかりました。手で見てください。"
+              exit 1
+            }
+            git push
+          fi
+          gh workflow run auto-distribute.yml --ref main
+          echo "registered=true" >> "$GITHUB_OUTPUT"
+          echo "台帳に足して、配布を起こしました。配り終わると、この検査がもう一度走ります。"
+
+      # ⚠️ 上で台帳に足した回は、ここを飛ばす。足した 1 本にはまだ何も配っていないので、
+      #    見れば必ず赤い。その赤は「これから配る」であって、やり残しではない。
+      #    配布が終わったあとの回（workflow_run）が見る。
       - name: 配布先が正本と一致しているか
+        if: ${{ steps.register.outputs.registered != 'true' }}
         env:
           # リポジトリ一覧を取るのに使う。無いと GitHub の側で強く絞られる。
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/check-distribution.mjs
+        run: |
+          # tee が終了コードを飲むので pipefail を置く。出力は下で Issue に貼る
+          set -o pipefail
+          node tools/check-distribution.mjs 2>&1 | tee "$RUNNER_TEMP/check-distribution.txt"
+
+      # 赤いままを、人に届く形にする。緑に戻ったら自分で閉じる。
+      # ⚠️ これが無かったので、52 日つづいた赤に誰も気づけなかった。
+      #    Actions の一覧を開かないかぎり、赤いことはどこにも出てこない。
+      # ⚠️ `!cancelled()` を付けるのは、上が赤い回にこそ走らせるため。
+      #    条件を書かないと、直前のステップが落ちた回は飛ばされる。
+      - name: 結果を Issue に知らせる
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && steps.register.outputs.registered != 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ job.status }}
+        run: |
+          node tools/report-issue.mjs --key check-distribution \
+            --title '🔴 配布のとりのこしが赤いままです' \
+            --status "$STATUS" \
+            --detail-file "$RUNNER_TEMP/check-distribution.txt" \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
