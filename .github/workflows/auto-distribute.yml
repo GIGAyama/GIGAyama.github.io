@@ -12,12 +12,17 @@ on:
       - 'standards/**'
       - 'tools/distribute.mjs'
       - 'tools/distribution.json'
+      # 配るものの中身を決めているところ。ここだけ直した日にも配りなおす
+      # （2026-11-10 まで並んでいなかった。直しても次に standards/ を触るまで届かない）
+      - 'tools/lib/distribute-*.mjs'
+      - 'tools/lib/app-placeholders.mjs'
       - '.agents/rules/**'
   workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
+  issues: write            # 落ちたとき、Issue にして人へ届ける
 
 # ⚠️ 走らせるのは一度に 1 本だけ。distribute.mjs は 42 本すべてに対し
 #    固定名の枝 chore/sync-standards を `git push --force` し（:475）、
@@ -48,11 +53,11 @@ jobs:
     # 既定は 360 分。固まったときに 6 時間ぶん食ってから落ちる
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
 
@@ -102,4 +107,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
-          node tools/distribute.mjs
+          # tee が終了コードを飲むので pipefail を置く。出力の末尾（落ちた理由の一覧）を
+          # 下で Issue に貼る
+          set -o pipefail
+          node tools/distribute.mjs 2>&1 | tee "$RUNNER_TEMP/distribute.txt"
+
+      # 落ちた配布を、人に届く形にする。次に成功した回が自分で閉じる。
+      # ⚠️ ここは PAT_TOKEN ではなく GITHUB_TOKEN。Issue はポータル自身に立てるので、
+      #    リポジトリをまたげるトークンを使う理由が無い。
+      # ⚠️ PAT_TOKEN が無くて先頭で止まった回も、ここは走る（!cancelled()）。
+      #    そのとき出力のファイルは無いが、実行の記録への道だけで立てる。
+      - name: 結果を Issue に知らせる
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ job.status }}
+        run: |
+          node tools/report-issue.mjs --key auto-distribute \
+            --title '🔴 正本の自動配布が失敗しました' \
+            --status "$STATUS" \
+            --detail-file "$RUNNER_TEMP/distribute.txt" \
+            --hint 'ぜんぶ 403 なら PAT_TOKEN（docs/operations/pat-token.md）。数本だけなら、下の ❌ の行に理由があります' \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

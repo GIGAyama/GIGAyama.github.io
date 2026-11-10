@@ -1,6 +1,6 @@
 # 開発記録の置き場
 
-ここに置いた `<日付>-<短い名前>.md` が、毎朝 6:17 に
+ここに置いた `<日付>-<短い名前>.md` が、毎朝（日本時間の 7 時半ごろまでに）
 `giga-school.com/devlog/<アプリ>/<記事>/` に組み直される（`tools/build-devlog.mjs`）。
 
 書き方は `standards/skills/devlog-article/`。セッションの中でスキルを呼ぶ。

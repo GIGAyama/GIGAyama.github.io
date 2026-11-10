@@ -17,7 +17,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
+import { execSync, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 /* 置き場の一覧は check-drift.mjs から借りる。配る側と照合する側で別々に
@@ -30,6 +30,9 @@ import {
 } from './lib/app-placeholders.mjs';
 /* 配ったあとに作り直すもの（sw.js の版、GAS への焼きこみ）。これも純関数を別置き。 */
 import { regenerationCommands } from './lib/distribute-regenerate.mjs';
+/* PR の題・本文・枝の名前。本文をシェルの文字列につなぐと、バッククォートの中が
+   コマンドとして実行されて消える（2026-11-10。わけは lib/distribute-pr.mjs に）。 */
+import { BRANCH_NAME, PR_TITLE, prCreateArgs } from './lib/distribute-pr.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(HERE, '..');
@@ -113,12 +116,6 @@ const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
 const repoFilterIdx = args.indexOf('--repo');
 const targetFilter = repoFilterIdx !== -1 ? args[repoFilterIdx + 1] : null;
-
-const BRANCH_NAME = 'chore/sync-standards';
-const PR_TITLE = 'chore(standards): Sync with latest standards';
-const PR_BODY = `### Summary
-- \`GIGAyama.github.io/standards/\` の最新正本（SW・品質ゲート・スキル・ルール）と完全同期
-- \`auto-distribute\` による自動配備`;
 
 // 台帳の読み込み
 if (!fs.existsSync(DISTRIBUTION_JSON)) {
@@ -509,14 +506,18 @@ for (const repoName of targetRepos) {
     // Checkout branch, commit, push
     run(`git checkout -B ${BRANCH_NAME}`);
     run('git add .');
-    run(`git commit -m "chore(standards): Sync with latest standards"`, true);
+    run(`git commit -m "${PR_TITLE}"`, true);
     run(`git push -u origin ${BRANCH_NAME} --force`);
 
     // Create PR
+    /* ⚠️ シェルを通さない（execFile に配列で渡す）。本文のバッククォートが
+          コマンドとして実行され、43 本の PR から 2 語が消えていた（2026-11-10）。 */
     try {
-      run(`gh pr create --repo GIGAyama/${repoName} --title "${PR_TITLE}" --body "${PR_BODY}" --base "${defaultBranch}"`);
+      execFileSync('gh', prCreateArgs(ledger.owner || 'GIGAyama', repoName, defaultBranch),
+        { cwd: repoDir, encoding: 'utf-8', stdio: ['ignore', 'pipe', 'pipe'] });
     } catch (e) {
-      console.log(`  PR creation note: ${e.message}`);
+      /* もう同じ枝の PR が開いているときもここに来る（それは正しい状態） */
+      console.log(`  PR creation note: ${String(e.stderr || e.message).trim().split('\n').pop()}`);
     }
 
     // Merge PR
@@ -538,18 +539,37 @@ for (const repoName of targetRepos) {
     }
 
     run(`git checkout ${defaultBranch}`, true);
+    /* ⚠️ マージできなかったものを「配った」に数えない。
+     *    2026-11-10 まで、上の 4 通りも下の直接マージもぜんぶ失敗したときに、
+     *    何も言わずに results.updated へ入れていた（catch {} が握りつぶしていた）。
+     *    配布は「Updated/Merged: 43 / Failed: 0」で緑に終わり、main は古いまま残る。
+     *    あとから check-distribution が拾うが、**配布の記録には理由が残らない**。 */
+    let landed = merged;
+    let mergeError = '';
     if (!merged) {
       // Direct merge fallback for forked repos
       try {
         run(`git merge ${BRANCH_NAME} --no-edit`);
         run(`git push origin ${defaultBranch}`);
         console.log(`  [DIRECT MERGE] Merged directly to origin/${defaultBranch} for ${repoName}`);
-      } catch {}
+        landed = true;
+      } catch (e) {
+        mergeError = String(e.stderr || e.message || '').trim().split('\n').filter(Boolean).pop() || '';
+        /* 途中まで進んだ merge を残さない。次の配布が「片づいていない」で飛ばしてしまう */
+        run('git merge --abort', true);
+        run(`git reset --hard origin/${defaultBranch}`, true);
+      }
     } else {
       run('git pull', true);
     }
 
-    results.updated.push(repoName);
+    if (landed) {
+      results.updated.push(repoName);
+    } else {
+      const error = `PR は作りましたが、マージできませんでした${mergeError ? `（${mergeError}）` : ''}`;
+      console.log(`  [FAILED] ${error}`);
+      results.failed.push({ repo: repoName, error });
+    }
   } catch (err) {
     console.error(`  [ERROR] Failed for ${repoName}: ${err.message}`);
     results.failed.push({ repo: repoName, error: err.message });
@@ -563,6 +583,12 @@ console.log(`Updated/Merged: ${results.updated.length}`);
 console.log(`Already Synced: ${results.noChange.length}`);
 console.log(`Failed        : ${results.failed.length}`);
 console.log('========================================');
+
+/* 落ちた理由を最後にまとめて出す。43 本ぶんの記録の途中に散らばっていると、
+   読む人は数字（Failed: 2）しか見ない。Issue に貼られるのも、この末尾。 */
+for (const { repo, error } of results.failed) {
+  console.log(`❌ ${repo}: ${String(error).split('\n')[0]}`);
+}
 
 if (results.failed.length > 0) {
   process.exit(1);

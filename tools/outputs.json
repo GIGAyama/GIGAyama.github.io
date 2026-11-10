@@ -33,13 +33,14 @@
    "sw.js"
   ]
  },
- "_note_checks": "何も書き出さない道具（検査）。名前で見分けない。名前で決めると、check- で始まる組み立ての道具を足したときに素通りする。どちらの表にも無い道具があれば落ちるので、足すときに必ずどちらかを選ぶことになる。",
+ "_note_checks": "何も書き出さない道具（検査）。名前で見分けない。名前で決めると、check- で始まる組み立ての道具を足したときに素通りする。どちらの表にも無い道具があれば落ちるので、足すときに必ずどちらかを選ぶことになる。 tools/report-issue.mjs は Issue に知らせるだけで、リポジトリには何も書かない。",
  "checks": [
   "tools/check-cards.mjs",
   "tools/check-404-redirect.mjs",
   "tools/check-no-external.mjs",
   "tools/check-outputs.mjs",
   "tools/check-lessons.mjs",
-  "tools/check-distribution.mjs"
+  "tools/check-distribution.mjs",
+  "tools/report-issue.mjs"
  ]
 }

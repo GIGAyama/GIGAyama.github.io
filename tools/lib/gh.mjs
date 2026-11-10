@@ -138,7 +138,7 @@ export async function ghFileChangedAt(repo, path, agent) {
  * （pushed_at）を使っていた。ところが正本配布は 42 本すべてへ同じ日に push するので、
  * **41 本ぜんぶが同じ updatedAt** になっていた。
  *
- * 配布のコミットは題で見分けられる（tools/distribute.mjs の BRANCH_NAME と PR_TITLE）。
+ * 配布のコミットは題で見分けられる（tools/lib/distribute-pr.mjs の BRANCH_NAME と PR_TITLE）。
  * 配布が書き替えるのは、道具（`.claude/` `.agents/` `tools/build-sw.mjs`）と、
  * 艦隊共通の写し（`web/giga-app-links.js`・`records-export.*`）と、それに合わせて
  * 刻み直す sw.js の版（2026-09-02 から）。公開されるファイルにも触れるが、どれも
@@ -172,7 +172,7 @@ export async function ghContentChangedAt(repo, agent) {
 /**
  * 正本配布が作ったコミットか。
  *
- * 題は tools/distribute.mjs が定数で持っている（PR_TITLE / BRANCH_NAME）。
+ * 題は tools/lib/distribute-pr.mjs が定数で持っている（PR_TITLE / BRANCH_NAME）。
  * squash でマージしても題は残り、merge commit のほうは枝の名前が入る。
  */
 export function isDistributionCommit(message) {

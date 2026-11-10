@@ -95,14 +95,16 @@ test('台帳の targets と skills.extra を合わせて艦隊とする', () => 
   assert.deepEqual(fleetRepos(ledger), ['A', 'B', 'C']);
 });
 
-test('実際の台帳では 43 本になる', () => {
-  /* ⚠️ 本数を直す理由は「艦隊に 1 本増えた」ときだけ。検査が落ちたから
-     数字を合わせにくると、台帳の書き忘れが黙って通る。
-     ⚠️ 本数は 2 か所に書いてある（ここと check-distribution.test.mjs）。
-        片方だけ直すと、もう片方で CI が落ちる。2026-11-08 に実際に落ちた。
-     2026-11-08: Hiding-animal（しぜんの かくれんぼ ずかん）を足して 43 本。 */
+test('実際の台帳では、targets と skills.extra を重ねずに数える', () => {
+  /* ⚠️ ここに本数を直書きしない（2026-11-10 にやめた）。以前は `=== 43` で、
+     同じ数字が check-distribution.test.mjs にもあった。2026-11-08 に片方だけ
+     直して CI が落ちている。毎朝の流れ（tools/register-repos.mjs）が台帳へ
+     自分で足すようになったので、数字を置くと足した朝に必ず落ちる。
+     ここで見たいのは数ではなく、数えかた（重ねない・落とさない）のほう。 */
   const ledger = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'tools/distribution.json'), 'utf8'));
-  assert.equal(fleetRepos(ledger).length, 43);
+  const repos = fleetRepos(ledger);
+  assert.equal(repos.length, ledger.targets.length + ledger.skills.extra.length);
+  for (const name of [...ledger.targets, ...ledger.skills.extra]) assert.ok(repos.includes(name), name);
 });
 
 test('測れなかったものは measured に入れない（合格として数えない）', () => {

@@ -1,8 +1,8 @@
 {
  "owner": "GIGAyama",
  "self": "GIGAyama.github.io",
- "_note": "正本（standards/）を配る先の台帳。tools/check-distribution.mjs が読む。ここに無いリポジトリが GIGAyama に現れたら赤くなる。",
- "_note_skills": "スキル（.claude/skills/）は targets ＋ skills.extra の 42 本に配る。excluded の理由は「正本のコード（ゲート・SW・受け渡し口）のコピーを持たない」で、スキルには当てはまらない。開発はどのリポジトリでも起きるので、そちらにも配る。",
+ "_note": "正本（standards/）を配る先の台帳。tools/check-distribution.mjs が読む。ここに無いリポジトリが GIGAyama に現れたら赤くなる。standards-map.json を持つ新しいリポジトリは、毎朝の流れ（tools/register-repos.mjs）が targets に自分で足す。",
+ "_note_skills": "スキル（.claude/skills/）は targets ＋ skills.extra のぜんぶに配る。excluded の理由は「正本のコード（ゲート・SW・受け渡し口）のコピーを持たない」で、スキルには当てはまらない。開発はどのリポジトリでも起きるので、そちらにも配る。",
  "targets": [
   "app_launcher",
   "Digital-Newspaper",

@@ -1,0 +1,20 @@
+# ワークフローが使う Actions の版を、週に 1 回見てもらう。
+#
+# 2026-11-10 に数えたら、ポータルの 5 本は actions/checkout@v4 のままで、毎回
+# 「Node.js 20 is deprecated」の警告を出していた。同じ日、配っている正本
+# （standards/gas/deploy.yml）は @v7 だった。配る側だけが古い。
+# 警告は実行の記録の末尾にしか出ないので、切られる日まで誰も読まない。
+#
+# ⚠️ 見るのは .github/workflows/ だけ。standards/gas/deploy.yml は正本なので
+#    Dependabot の目に入らない。あちらを上げるときは、手で正本を直して配る。
+# ⚠️ ポータルに package.json は無い（意図的）。npm の見はりは足さない。
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: chore(ci)

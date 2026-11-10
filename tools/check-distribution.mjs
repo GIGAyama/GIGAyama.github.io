@@ -168,9 +168,58 @@ export function namesFromRepoPage(page) {
   return page.map((repo) => repo.name);
 }
 
+/**
+ * 赤くなった理由ごとの直し方。
+ *
+ * ⚠️ 理由を混ぜて 1 つの直し方を出さない。2026-09-19 から 52 日つづいた赤は
+ *    「台帳に載っていないリポジトリがある」だったのに、出ていた直し方は
+ *    「正本を配布先へコピーし直して…」だった。読んだ人は配りなおして、
+ *    赤いままなのを見ることになる。
+ *
+ * @param {{missing?: string[], gone?: string[], stale?: number, nothingCompared?: boolean}} why
+ * @returns {string[]} 出す行。理由が 1 つも無ければ空
+ */
+export function adviceFor({ missing = [], gone = [], stale = 0, nothingCompared = false } = {}) {
+  const lines = [];
+  if (missing.length) {
+    lines.push(
+      '直し方（台帳に無いリポジトリ）:',
+      '  ・standards-map.json を持つものは、毎朝の流れが自分で targets に足します',
+      '    （手で今すぐ足すなら: node tools/register-repos.mjs --apply）',
+      '  ・持たないものは機械では決められません。tools/distribution.json の excluded に',
+      '    「なぜ配らないか」を書いて足してください（スキルだけ配るなら skills.extra にも）',
+    );
+  }
+  if (gone.length) {
+    lines.push(
+      '直し方（GitHub に無いリポジトリ）:',
+      '  ・消したのなら、tools/distribution.json の targets / excluded / skills.extra から外してください',
+      '  ・名前を変えたのなら、新しい名前に書き替えてください',
+      '  ⚠️ ここは機械で消しません。一覧を取りそこねた朝に、台帳がまるごと消えるため',
+    );
+  }
+  if (stale > 0) {
+    lines.push(
+      '直し方（配っていない正本）:',
+      '  ・Actions の「正本を全リポジトリへ自動配布」を手で実行する（または node tools/distribute.mjs）',
+      '  ・それでも赤いままの 1 本は、配布の記録に [SKIP] の理由が出ています',
+      '    （作業ツリーが片づいていない／作り直しに失敗した／マージできなかった）',
+      'この検査は正本を直した時点から、最後の 1 本を配り終えるまで赤いままです。',
+    );
+  }
+  if (nothingCompared) {
+    lines.push(
+      '直し方（1 件も突き合わせていない）:',
+      '  ・配布先の standards-map.json を読めていません。GitHub が見えているか、',
+      '    台帳の owner が合っているかを見てください',
+    );
+  }
+  return lines;
+}
+
 /* ── ここから先は外に出ていく ── */
 
-function ghHeaders() {
+export function ghHeaders() {
   const headers = { 'user-agent': 'giga-check-distribution', accept: 'application/vnd.github+json' };
   const token = process.env.GITHUB_TOKEN;
   if (token) headers.authorization = `Bearer ${token}`;
@@ -178,14 +227,14 @@ function ghHeaders() {
 }
 
 /** 見つからなければ null。それ以外の失敗は投げる（黙って素通りさせない）。 */
-async function fetchText(url) {
+export async function fetchText(url) {
   const res = await fetch(url, { headers: { 'user-agent': 'giga-check-distribution' } });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
   return await res.text();
 }
 
-async function listRepos(owner) {
+export async function listRepos(owner) {
   const names = [];
   for (let page = 1; page <= 10; page++) {
     const url = `https://api.github.com/users/${owner}/repos?per_page=100&type=owner&page=${page}`;
@@ -397,17 +446,16 @@ async function main() {
     process.exit(1);
   }
 
+  let missing = [];
+  let gone = [];
   if (skipRepoList) {
     console.log('⚠️  --skip-repo-list が付いています。台帳に載っていないリポジトリは見ていません。');
   } else {
     const remote = await listRepos(ledger.owner);
-    const missing = missingFromLedger(remote, ledger);
-    const gone = goneFromGitHub(remote, ledger);
+    missing = missingFromLedger(remote, ledger);
+    gone = goneFromGitHub(remote, ledger);
     if (missing.length) {
-      fatal.push(
-        `${ledger.owner} に、台帳へ載っていないリポジトリが ${missing.length} 件あります: ${missing.join(', ')}\n` +
-        '  配る先なら targets に、配らないなら excluded に理由つきで足してください。'
-      );
+      fatal.push(`${ledger.owner} に、台帳へ載っていないリポジトリが ${missing.length} 件あります: ${missing.join(', ')}`);
     }
     if (gone.length) {
       fatal.push(`台帳にあるのに GitHub で見つかりません: ${gone.join(', ')}（消したか、名前が変わっています）`);
@@ -438,15 +486,14 @@ async function main() {
 
   // 1本も突き合わせていないのに緑になると、「配布は行き届いている」と読めてしまう。
   // 取り方を間違えて全部空振りしていても同じ出力になるので、ここは落とす。
-  if (compared === 0) fatal.push('突き合わせたファイルが0件でした。配布先の対応表を読めていません。');
+  const nothingCompared = compared === 0;
+  if (nothingCompared) fatal.push('突き合わせたファイルが0件でした。配布先の対応表を読めていません。');
 
   for (const line of fatal) console.error(`❌ ${line}`);
 
   if (stale.length || fatal.length) {
     console.error('');
-    console.error('直し方: 正本を配布先へコピーし直して、各リポジトリで PR を出してください。');
-    console.error('  cp standards/<正本> ../<リポジトリ>/<コピー先>');
-    console.error('この検査は正本を直した時点から、最後の1本を配り終えるまで赤いままです。');
+    for (const line of adviceFor({ missing, gone, stale: stale.length, nothingCompared })) console.error(line);
     process.exit(1);
   }
 
