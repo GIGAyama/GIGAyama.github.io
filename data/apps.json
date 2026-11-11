@@ -1,6 +1,6 @@
 {
  "_comment": "tools/sync-updates.mjs が日付を書き込む。grades（対象学年）・account（アカウント）・storage（記録の置き場所）は手で書く。grades の [] は「児童が使うものではない」、項目そのものが無いものは「まだ決めていない」。",
- "generatedAt": "2026-11-10",
+ "generatedAt": "2026-11-12",
  "items": [
   {
    "repo": "Digital-Newspaper",
@@ -23,7 +23,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-01-23",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -39,7 +39,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-09",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -56,7 +56,7 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-09-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-08-31"
   },
   {
@@ -79,7 +79,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -100,7 +100,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-10-01",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -119,7 +119,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -135,7 +135,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-11-08",
-   "updatedAt": "2026-11-09",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-11-09"
   },
   {
@@ -150,7 +150,7 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-03-05",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -171,7 +171,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2026-03-01",
-   "updatedAt": "2026-10-01",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -185,7 +185,7 @@
     1
    ],
    "publishedAt": "2026-08-10",
-   "updatedAt": "2026-11-08",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-11-08"
   },
   {
@@ -200,7 +200,7 @@
    ],
    "storage": "device",
    "publishedAt": "2026-07-23",
-   "updatedAt": "2026-11-01",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -214,7 +214,7 @@
     1
    ],
    "publishedAt": "2026-03-02",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -240,7 +240,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-16",
-   "updatedAt": "2026-10-01",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -256,7 +256,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-07-24",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -272,7 +272,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-06-12",
-   "updatedAt": "2026-11-01",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -291,7 +291,7 @@
    ],
    "account": "google",
    "publishedAt": "2026-01-29",
-   "updatedAt": "2026-11-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -308,7 +308,7 @@
     6
    ],
    "publishedAt": "2026-02-15",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -330,8 +330,8 @@
     6
    ],
    "publishedAt": "2026-03-12",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-08-30"
+   "updatedAt": "2026-11-11",
+   "changedAt": "2026-11-11"
   },
   {
    "repo": "NotebookSample_Generator",
@@ -349,8 +349,8 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-29",
-   "updatedAt": "2026-09-02",
-   "changedAt": "2026-09-01"
+   "updatedAt": "2026-11-11",
+   "changedAt": "2026-11-11"
   },
   {
    "repo": "online-100square-calculation",
@@ -370,7 +370,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-16",
-   "updatedAt": "2026-11-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -391,7 +391,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-07",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -418,7 +418,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-08",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -439,7 +439,7 @@
    "account": "teacher",
    "storage": "google",
    "publishedAt": "2026-03-07",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -456,7 +456,7 @@
     6
    ],
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -482,7 +482,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-03-11",
-   "updatedAt": "2026-10-20",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -502,7 +502,7 @@
    ],
    "account": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -523,7 +523,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -548,7 +548,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-02-01",
-   "updatedAt": "2026-09-04",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-04"
   },
   {
@@ -572,7 +572,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -593,7 +593,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-11-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -612,7 +612,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-11-08",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-11-08"
   },
   {
@@ -624,7 +624,7 @@
    "hosts": [],
    "grades": [],
    "publishedAt": "2026-02-01",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -640,7 +640,7 @@
     3
    ],
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -660,7 +660,7 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -674,7 +674,7 @@
     1
    ],
    "publishedAt": "2026-06-01",
-   "updatedAt": "2026-09-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-08-30"
   },
   {
@@ -692,7 +692,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2026-07-29",
-   "updatedAt": "2026-09-03",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -711,7 +711,7 @@
    "account": "none",
    "storage": "device",
    "publishedAt": "2025-10-11",
-   "updatedAt": "2026-11-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-08-30"
   },
   {
@@ -732,7 +732,7 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-13",
-   "updatedAt": "2026-09-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-08-30"
   },
   {
@@ -747,8 +747,8 @@
    "grades": [],
    "storage": "device",
    "publishedAt": "2026-08-07",
-   "updatedAt": "2026-11-09",
-   "changedAt": "2026-11-09"
+   "updatedAt": "2026-11-11",
+   "changedAt": "2026-11-11"
   },
   {
    "repo": "app_launcher",
@@ -758,7 +758,7 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-11-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-09-03"
   },
   {
@@ -769,7 +769,7 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-09-02",
+   "updatedAt": "2026-11-11",
    "changedAt": ""
   },
   {
@@ -780,7 +780,7 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-03-25",
-   "updatedAt": "2026-09-02",
+   "updatedAt": "2026-11-11",
    "changedAt": "2026-08-30"
   }
  ]
