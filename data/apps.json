@@ -79,8 +79,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-21",
-   "updatedAt": "2026-11-11",
-   "changedAt": "2026-09-03"
+   "updatedAt": "2026-11-14",
+   "changedAt": "2026-11-14"
   },
   {
    "repo": "Gobblet",
@@ -523,8 +523,8 @@
    "account": "none",
    "storage": "none",
    "publishedAt": "2025-10-10",
-   "updatedAt": "2026-11-11",
-   "changedAt": "2026-09-03"
+   "updatedAt": "2026-11-14",
+   "changedAt": "2026-11-14"
   },
   {
    "repo": "Reading-Books",
@@ -572,8 +572,8 @@
    "account": "google",
    "storage": "google",
    "publishedAt": "2026-02-11",
-   "updatedAt": "2026-11-11",
-   "changedAt": "2026-09-03"
+   "updatedAt": "2026-11-14",
+   "changedAt": "2026-11-14"
   },
   {
    "repo": "Reversi",
@@ -758,8 +758,8 @@
    "category": null,
    "grades": [],
    "publishedAt": "2026-02-24",
-   "updatedAt": "2026-11-11",
-   "changedAt": "2026-09-03"
+   "updatedAt": "2026-11-14",
+   "changedAt": "2026-11-14"
   },
   {
    "repo": "Blackboard_Timer",
