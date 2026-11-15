@@ -224,10 +224,10 @@
    "slug": "kanji-town",
    "category": "kokugo",
    "hosts": [
-    "cdn.jsdelivr.net",
-    "fonts.googleapis.com",
-    "fonts.gstatic.com",
-    "unpkg.com"
+    "0.peerjs.com",
+    "eu-0.turn.peerjs.com",
+    "stun.l.google.com",
+    "us-0.turn.peerjs.com"
    ],
    "grades": [
     1,
