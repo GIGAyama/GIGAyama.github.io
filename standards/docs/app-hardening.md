@@ -200,7 +200,7 @@ grep -rn "__APP_VERSION__" . --include=*.js | head   # 空なら手書き版
 - **登録直後に `registration.waiting && navigator.serviceWorker.controller` を見て、updatefound を取り逃した場合も帯を出す。** `updatefound` はページ 1 回の読み込みにつき 1 回しか飛びません。
   - **壊れ方:** 「あとで」を押す／帯が出る前にタブを閉じると waiting SW が居座り、二度と帯が出ない。教室の 40 台のうち何台かだけ古い、という一番追いにくい状態になる。
 - **`registerType: 'autoUpdate'` を使わない**（`word_basket/vite.config.js:9`、`notebooksample_generator/vite.config.js:11`）。予告なく再読み込みするので、ワードバスケットを 6 人で囲んでいる最中に盤面が消えます。
-- **SW 登録は `load` イベントだけに任せず `document.readyState` も見る**（未対応: gamification/manabi-portal, gobblet, kanji_town, omp-pro, online-publisher-pro/pwa, townmap_mikke）。動的 import で load 後に走るとリスナが二度と発火せず、エラーも出ないまま SW が登録されません。
+- **SW 登録は `load` イベントだけに任せず `document.readyState` も見る**（未対応: gamification/manabi-portal, gobblet, omp-pro, online-publisher-pro/pwa, townmap_mikke。kanji_town は 2026-11-15 に `src/systems/pwa.js` で対応）。動的 import で load 後に走るとリスナが二度と発火せず、エラーも出ないまま SW が登録されません。
 - 正しい形: `/home/user/quoridor/src/pwa.js:27-39`、`/home/user/keisan-card/js/pwa-boot.js:55-68`。
 
 ### 2-3. offline.html / 404.html / manifest
