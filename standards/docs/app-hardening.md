@@ -200,7 +200,7 @@ grep -rn "__APP_VERSION__" . --include=*.js | head   # 空なら手書き版
 - **登録直後に `registration.waiting && navigator.serviceWorker.controller` を見て、updatefound を取り逃した場合も帯を出す。** `updatefound` はページ 1 回の読み込みにつき 1 回しか飛びません。
   - **壊れ方:** 「あとで」を押す／帯が出る前にタブを閉じると waiting SW が居座り、二度と帯が出ない。教室の 40 台のうち何台かだけ古い、という一番追いにくい状態になる。
 - **`registerType: 'autoUpdate'` を使わない**（`word_basket/vite.config.js:9`、`notebooksample_generator/vite.config.js:11`）。予告なく再読み込みするので、ワードバスケットを 6 人で囲んでいる最中に盤面が消えます。
-- **SW 登録は `load` イベントだけに任せず `document.readyState` も見る**（未対応: gamification/manabi-portal, gobblet, kanji_town, omp-pro, online-publisher-pro/pwa, townmap_mikke）。動的 import で load 後に走るとリスナが二度と発火せず、エラーも出ないまま SW が登録されません。
+- **SW 登録は `load` イベントだけに任せず `document.readyState` も見る**（未対応: gamification/manabi-portal, gobblet, omp-pro, online-publisher-pro/pwa, townmap_mikke。kanji_town は 2026-11-15 に `src/systems/pwa.js` で対応）。動的 import で load 後に走るとリスナが二度と発火せず、エラーも出ないまま SW が登録されません。
 - 正しい形: `/home/user/quoridor/src/pwa.js:27-39`、`/home/user/keisan-card/js/pwa-boot.js:55-68`。
 
 ### 2-3. offline.html / 404.html / manifest
@@ -242,8 +242,8 @@ typa は**この数字を理由に、削る仕組みを入れない判断をし�
 - `@babel/standalone` をブラウザで走らせている 5 本（haiku-meeting, linker-clipper, omp-pro, online-publisher-pro, townmap_mikke/App.html）は、ビルド済み JS に置き換える。omp-pro は 7 ホストから読み、`sw.js:33-40` の `RUNTIME_CACHE_HOSTS` に CDN を列挙しています（APP_SHELL に自前 JS が 1 本も無い）。
 - **ふりがなを外部 CDN の形態素解析（kuroshiro / kuromoji）で付けない。** `gamification/manabi-quest/js_core.html:1036-1071` は 6MB の辞書を jsdelivr から取り、タイムアウト 60 秒、catch は `console.warn` だけ。
 - **壊れ方:** 校内フィルタが unpkg / jsdelivr / cdn.tailwindcss.com を塞ぐと、SW がシェルを配ったあとで本体が起動せず真っ白。「オフライン対応済み」に見えて圏外で一切使えない。ふりがなは黙って消え、教員は「今日は動きが変」としか分からない。
-- **フォントも同じ線で考える。** `fonts.googleapis.com` を配信 HTML で読んでいるのは 32 リポジトリ、自己ホストは `reading-books/fonts/zen-maru-gothic/` と `werewolf/scripts/build-fonts.mjs` だけ。`homework_barcordreader/MANUAL.md:239-243` は「見た目が少し変わるだけで、動作には影響しません」と書いていますが、**かな・漢字・書写を教えるアプリでは字形が教材そのもの**です。丸ゴシックが素のゴシックに落ちると kana_master / kanji_town / tsubomi-learning は誤った手本を児童に見せます。字形が教材の一部であるアプリだけは自己ホストか、システムフォントで成立する設計にすること。それ以外は「実行コードではないので外部でよい」と決めて `quality.config.json` に理由を残す。
-- **例外を残す判断は必ず人に確認する。** kanji_town は jsdelivr / unpkg / fonts.googleapis から PeerJS・qrcode・jsQR・本文フォントを取り、そのうえ `no-csp` まで例外化。online-publisher-pro は React/ReactDOM/Babel/Tailwind/diff_match_patch/QRCode.js を CDN から読んで **56/56 合格**と表示します。
+- **フォントも同じ線で考える。** `fonts.googleapis.com` を配信 HTML で読んでいるのは 32 リポジトリ、自己ホストは `reading-books/fonts/zen-maru-gothic/` と `werewolf/scripts/build-fonts.mjs`、それに `kanji_town`（2026-11-15。正本の `standards/fonts/build-fonts.mjs` で教育漢字1026字＋画面の字だけに絞った woff2 を同梱）。`homework_barcordreader/MANUAL.md:239-243` は「見た目が少し変わるだけで、動作には影響しません」と書いていますが、**かな・漢字・書写を教えるアプリでは字形が教材そのもの**です。丸ゴシックが素のゴシックに落ちると kana_master / kanji_town / tsubomi-learning は誤った手本を児童に見せます。字形が教材の一部であるアプリだけは自己ホストか、システムフォントで成立する設計にすること。それ以外は「実行コードではないので外部でよい」と決めて `quality.config.json` に理由を残す。
+- **例外を残す判断は必ず人に確認する。** kanji_town は jsdelivr / unpkg / fonts.googleapis から PeerJS・qrcode・jsQR・本文フォント・書き順データ（KanjiVG）を取り、そのうえ `no-csp` まで例外化していた。例外の理由は「自己ホストすると数十MB増える」だったが、実測すると書き順 0.9MB・書体 1.2MB・PeerJS/QR 0.27MB で、2026-11-15 に全部を同梱し CSP を入れて例外を外した（GIGAyama/KANJI_Town#179）。**例外の理由に書いた数字は、実測で確かめてから残すこと。**online-publisher-pro は React/ReactDOM/Babel/Tailwind/diff_match_patch/QRCode.js を CDN から読んで **56/56 合格**と表示します。
 - **`vendor/` に何かを置いたら、同じ PR で第三者表記に「名前・版・ライセンス・入手元」を書く。** vendor を持つ 6 本のうち表記があるのは kana_master と schoolplan_editor の 2 本だけ。ice_slide-puzzle の sweetalert2 v11.14.5 は devDependencies に無く **Dependabot の射程外**です。
 - 撤去済みの手本: `/home/user/keisan-card/index.html:96-108`（vendor/react、106 行に理由コメント）、`/home/user/online-manuscript-paper-lite/vendor/`（計 228KB を同梱）、`/home/user/reflection_journal/docs/drive-app.js:98-140`（自前の読み表、外部依存ゼロ）。
 
