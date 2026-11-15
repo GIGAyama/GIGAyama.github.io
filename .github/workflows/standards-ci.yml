@@ -71,6 +71,10 @@ jobs:
       # 正本そのものでは一度も走っていなかった（置き場を js/ 決め打ちにしていたため）。
       - name: 学習ログの受け渡し口のテスト
         run: node --test standards/records/records-export.test.mjs
+      # 記録ボックスへの写し。件数だけを目印にしていたため、学習ログが上限（500件）に
+      # 達すると以後1件も写せなくなっていた（2026-11-15。艦隊の全アプリで起きる）。
+      - name: 記録ボックスへの写しのテスト
+        run: node --test standards/records/records-hub-client.test.mjs
       # ポータル自身も同じ標準に従う。正本を配る側が漏らしていては話にならない。
       - name: ポータルに秘密の直書きが無いか
         run: node standards/lib/check-secrets.mjs
