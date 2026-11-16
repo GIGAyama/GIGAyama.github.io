@@ -222,5 +222,21 @@
  "56-offline.webp": {
   "bytes": 85223,
   "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/56-offline.png"
+ },
+ "57-replay.webp": {
+  "bytes": 88509,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/57-replay.png"
+ },
+ "58-kadai-button.webp": {
+  "bytes": 143467,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/58-kadai-button.png"
+ },
+ "59-kadai-link.webp": {
+  "bytes": 189998,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/59-kadai-link.png"
+ },
+ "60-kadai-card.webp": {
+  "bytes": 76964,
+  "url": "https://raw.githubusercontent.com/GIGAyama/Qalc/HEAD/docs/manual/images/60-kadai-card.png"
  }
 }
